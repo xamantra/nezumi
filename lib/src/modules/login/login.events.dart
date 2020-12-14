@@ -1,0 +1,4 @@
+enum LoginEvent {
+  loggedIn,
+  gotoLogin,
+}
