@@ -1,4 +1,5 @@
 export 'aliases.dart';
+export 'anime_api_params.dart';
 export 'app-theme.data.dart';
 export 'config.dart';
 export 'config.sample.dart';

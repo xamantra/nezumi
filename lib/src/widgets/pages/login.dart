@@ -7,7 +7,6 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../modules/login/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
-import 'history.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);

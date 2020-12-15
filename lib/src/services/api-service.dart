@@ -84,11 +84,23 @@ class ApiService extends MomentumService {
     @required String accessToken,
     String nextPage,
     UserAnimeList current,
+    List<String> statusParams = const [],
+    List<String> animeParams = const [],
   }) async {
     try {
       var path = 'https://api.myanimelist.net/v2/users/@me/animelist';
+      var fields = '';
+      if (statusParams.isNotEmpty) {
+        fields = 'list_status{${statusParams.join(",")}}';
+      }
+      if (animeParams.isNotEmpty) {
+        if (statusParams.isNotEmpty) {
+          fields += ',';
+        }
+        fields += '${animeParams.join(",")}';
+      }
       var data = {
-        'fields': 'average_episode_duration, num_episodes',
+        'fields': fields,
         'limit': 1000,
       };
       Response<dynamic> response;
@@ -104,7 +116,13 @@ class ApiService extends MomentumService {
           animeList: merged,
           paging: result?.paging,
         );
-        return getUserAnimeList(accessToken: accessToken, nextPage: n.paging?.next, current: n);
+        return getUserAnimeList(
+          accessToken: accessToken,
+          nextPage: n.paging?.next,
+          current: n,
+          statusParams: statusParams,
+          animeParams: animeParams,
+        );
       } else {
         if (current == null) {
           response = await dio.get(
@@ -121,7 +139,13 @@ class ApiService extends MomentumService {
         }
         var result = response == null ? null : UserAnimeList.fromJson(response.data);
         if (result?.paging?.next != null) {
-          return getUserAnimeList(accessToken: accessToken, nextPage: result.paging?.next, current: result);
+          return getUserAnimeList(
+            accessToken: accessToken,
+            nextPage: result.paging?.next,
+            current: result,
+            statusParams: statusParams,
+            animeParams: animeParams,
+          );
         }
         return current;
       }

@@ -2,6 +2,7 @@ import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
 import '../../services/index.dart';
+import '../../utils/index.dart';
 import '../login/index.dart';
 import '../settings/index.dart';
 import 'index.dart';
@@ -37,7 +38,10 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
     var l = dependOn<LoginController>().getActiveAccount();
     model.update(loadingAnimeList: true);
     var accessToken = l.token.accessToken;
-    var result = await api.getUserAnimeList(accessToken: accessToken);
+    var result = await api.getUserAnimeList(
+      accessToken: accessToken,
+      animeParams: [average_episode_duration, num_episodes],
+    );
     model.update(userAnimeList: result, loadingAnimeList: false);
   }
 
