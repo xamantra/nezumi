@@ -39,9 +39,13 @@ class ApiService extends MomentumService {
     try {
       var response = await dio.get(
         url,
-        options: Options(headers: {
-          'Authorization': 'Bearer $accessToken',
-        }),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+          receiveTimeout: 10000,
+          sendTimeout: 10000,
+        ),
       );
       var result = transformer(response.data);
       return result;
@@ -60,9 +64,13 @@ class ApiService extends MomentumService {
       var response = await dio.get(
         path,
         queryParameters: data,
-        options: Options(headers: {
-          'Authorization': 'Bearer $accessToken',
-        }),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+          receiveTimeout: 10000,
+          sendTimeout: 10000,
+        ),
       );
       var result = MyAnimeListProfile.fromJson(response.data);
       return result;
@@ -102,9 +110,13 @@ class ApiService extends MomentumService {
           response = await dio.get(
             path,
             queryParameters: data,
-            options: Options(headers: {
-              'Authorization': 'Bearer $accessToken',
-            }),
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $accessToken',
+              },
+              receiveTimeout: 10000,
+              sendTimeout: 10000,
+            ),
           );
         }
         var result = response == null ? null : UserAnimeList.fromJson(response.data);
@@ -124,7 +136,11 @@ class ApiService extends MomentumService {
       var path = 'https://myanimelist.net/history/$username/anime';
       var response = await dio.get(
         path,
-        options: Options(responseType: ResponseType.plain),
+        options: Options(
+          responseType: ResponseType.plain,
+          receiveTimeout: 10000,
+          sendTimeout: 10000,
+        ),
       );
       var doc = parse(response.data);
       var elements = doc.querySelectorAll('div.history_content_wrapper > table > tbody > tr');

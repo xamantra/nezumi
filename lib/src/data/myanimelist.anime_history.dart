@@ -36,8 +36,8 @@ class UserAnimeHistory {
   UserAnimeHistory bindDurations(UserAnimeList fromList) {
     var binded = <AnimeHistory>[];
     for (var item in list) {
-      var anime = fromList.animeList.find((x) => x.node.id == item.id);
-      var d = Duration(seconds: anime.node.averageEpisodeDuration);
+      var anime = fromList?.animeList?.find((x) => x.node.id == item.id);
+      var d = Duration(seconds: anime?.node?.averageEpisodeDuration ?? 0);
       var n = item.copyWith(durationMins: d.inMinutes);
       binded.add(n);
     }

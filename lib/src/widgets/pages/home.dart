@@ -30,95 +30,102 @@ class HomePage extends StatelessWidget {
             builder: (context, snapshot) {
               var session = snapshot<MyAnimeListModel>();
               var loading = session.loading;
-              if (loading) return Loader();
               var historyGroup = session.controller.getGroupedHistoryData();
-              return Container(
-                color: AppTheme.of(context).secondaryBackground,
-                height: height,
-                width: width,
-                child: Column(
-                  children: [
-                    SafeArea(child: SizedBox()),
-                    Expanded(
-                      child: SmartRefresher(
-                        enablePullDown: true,
-                        controller: refreshController,
-                        onRefresh: () {
-                          session.controller.loadAnimeHistory();
-                        },
-                        child: ListView.builder(
-                          itemCount: historyGroup.length,
-                          itemBuilder: (_, i) {
-                            return HistoryGroup(historyGroupData: historyGroup[i]);
-                          },
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: sy(40),
-                      width: width,
-                      color: AppTheme.of(context).primaryBackground,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '${session.controller.getMinutesPerEp()} ',
-                                style: TextStyle(
-                                  color: session.controller.requiredMinsMet() ? Colors.green : Colors.red,
-                                  fontSize: sy(9),
-                                  fontWeight: FontWeight.w700,
+              return Column(
+                children: [
+                  Expanded(
+                    child: loading
+                        ? Loader()
+                        : Container(
+                            color: AppTheme.of(context).secondaryBackground,
+                            height: height,
+                            width: width,
+                            child: Column(
+                              children: [
+                                SafeArea(child: SizedBox()),
+                                Expanded(
+                                  child: SmartRefresher(
+                                    enablePullDown: true,
+                                    controller: refreshController,
+                                    onRefresh: () {
+                                      session.controller.loadAnimeHistory();
+                                    },
+                                    child: ListView.builder(
+                                      itemCount: historyGroup.length,
+                                      itemBuilder: (_, i) {
+                                        return HistoryGroup(historyGroupData: historyGroup[i]);
+                                      },
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Minutes per ep'.toUpperCase(),
-                                style: TextStyle(
-                                  color: AppTheme.of(context).text3,
-                                  fontSize: sy(9),
+                                Container(
+                                  height: sy(40),
+                                  width: width,
+                                  color: AppTheme.of(context).primaryBackground,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${session.controller.getMinutesPerEp()} ',
+                                            style: TextStyle(
+                                              color: session.controller.requiredMinsMet() ? Colors.green : Colors.red,
+                                              fontSize: sy(9),
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Minutes per ep'.toUpperCase(),
+                                            style: TextStyle(
+                                              color: AppTheme.of(context).text3,
+                                              fontSize: sy(9),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${session.controller.getEpisodesPerDay()} ',
+                                            style: TextStyle(
+                                              color: session.controller.requiredEpsMet() ? Colors.green : Colors.red,
+                                              fontSize: sy(9),
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Episodes per day'.toUpperCase(),
+                                            style: TextStyle(
+                                              color: AppTheme.of(context).text3,
+                                              fontSize: sy(9),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                '${session.controller.getEpisodesPerDay()} ',
-                                style: TextStyle(
-                                  color: session.controller.requiredEpsMet() ? Colors.green : Colors.red,
-                                  fontSize: sy(9),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              Text(
-                                'Episodes per day'.toUpperCase(),
-                                style: TextStyle(
-                                  color: AppTheme.of(context).text3,
-                                  fontSize: sy(9),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                  ),
+                  SizedButton(
+                    height: sy(32),
+                    width: width,
+                    color: AppTheme.of(context).primaryBackground,
+                    child: Text(
+                      'FETCH ANIME LIST',
+                      style: TextStyle(
+                        color: AppTheme.of(context).primary,
+                        fontSize: sy(9),
                       ),
                     ),
-                    SizedButton(
-                      height: sy(32),
-                      width: width,
-                      color: AppTheme.of(context).primaryBackground,
-                      child: Text(
-                        'FETCH ANIME LIST',
-                        style: TextStyle(
-                          color: AppTheme.of(context).primary,
-                          fontSize: sy(9),
-                        ),
-                      ),
-                      onPressed: () {
-                        session.controller.loadData();
-                      },
-                    ),
-                  ],
-                ),
+                    onPressed: () {
+                      session.controller.loadData();
+                    },
+                  ),
+                ],
               );
             },
           ),
