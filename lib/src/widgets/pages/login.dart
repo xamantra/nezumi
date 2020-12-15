@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:momentum/momentum.dart';
+import 'package:nezumi/src/widgets/pages/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../modules/login/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
-import 'home.dart';
+import 'history.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);
@@ -24,7 +25,7 @@ class _LoginState extends MomentumState<Login> {
       invoke: (event) {
         switch (event) {
           case LoginEvent.loggedIn:
-            Router.goto(context, HomePage);
+            Router.goto(context, Dashboard);
             break;
           case LoginEvent.gotoLogin:
             var codeVerifier = ctrl<LoginController>(context).model.codeVerifier;
