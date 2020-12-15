@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return AppTheme(
       theme: defaultTheme,
       child: MaterialApp(
-        title: 'MAL desu!',
+        title: 'Nezumi',
         theme: ThemeData(
           primaryColor: defaultTheme.primary,
           accentColor: defaultTheme.accent,
