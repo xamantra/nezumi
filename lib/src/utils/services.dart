@@ -1,7 +1,11 @@
+import 'package:momentum/momentum.dart';
+
 import '../services/index.dart';
 import 'index.dart';
 
-final services = [
-  ApiService(),
-  routerService,
-];
+List<MomentumService> services() {
+  return [
+    ApiService(),
+    routerService,
+  ];
+}

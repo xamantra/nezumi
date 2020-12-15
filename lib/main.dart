@@ -12,10 +12,11 @@ void main() {
 Momentum momentum() {
   return Momentum(
     child: MyApp(),
+    appLoader: AppLoader(),
     restartCallback: main,
     key: UniqueKey(),
-    controllers: controllers,
-    services: services,
+    controllers: controllers(),
+    services: services(),
     persistSave: persistSave,
     persistGet: persistGet,
   );
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         title: 'Nezumi',
         theme: ThemeData(
           primaryColor: defaultTheme.primary,
-          accentColor: defaultTheme.accent,
+          accentColor: defaultTheme.primary,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,

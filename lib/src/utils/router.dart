@@ -1,3 +1,5 @@
+import 'package:nezumi/src/widgets/pages/dashboard.dart';
+
 import '../widgets/pages/home.dart';
 import '../widgets/pages/index.dart';
 import 'index.dart';
@@ -5,6 +7,7 @@ import 'index.dart';
 final routerService = createRouter(
   [
     Login(),
+    Dashboard(),
     HomePage(),
   ],
   enablePersistence: true,
