@@ -102,9 +102,9 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
 
   List<HistoryGroupData> getGroupedHistoryData() {
     var historyGroup = <HistoryGroupData>[];
-    var group = model.userAnimeHistory.groupByDay;
-    var lastDay = group.keys.last;
-    group.forEach((day, historyList) {
+    var group = model.userAnimeHistory?.groupByDay;
+    var lastDay = group?.keys?.last;
+    group?.forEach((day, historyList) {
       if (lastDay == day) return;
       historyGroup.add(HistoryGroupData(day: day, historyList: historyList));
     });

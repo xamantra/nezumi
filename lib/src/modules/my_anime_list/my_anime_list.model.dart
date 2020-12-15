@@ -50,8 +50,8 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
     return MyAnimeListModel(
       controller,
-      userAnimeList: UserAnimeList.fromJson(map['userAnimeList']),
-      userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory']),
+      userAnimeList: UserAnimeList.fromJson(map['userAnimeList'] ?? {}),
+      userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory'] ?? {}),
       loadingAnimeList: map['loadingAnimeList'],
       loadingHistory: map['loadingHistory'],
     );
