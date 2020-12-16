@@ -3,4 +3,5 @@ export 'app-theme.dart';
 export 'badge.dart';
 export 'history_item.dart';
 export 'loader.dart';
+export 'ripple.dart';
 export 'sized-button.dart';
