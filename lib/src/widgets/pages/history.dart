@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../modules/my_anime_list/index.dart';
+import '../../utils/index.dart';
 import '../index.dart';
 
 class History extends StatefulWidget {
@@ -16,6 +17,7 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
+  MyAnimeListController malController;
   final RefreshController refreshController = RefreshController(initialRefresh: false);
   TabController tabController;
 
@@ -23,6 +25,8 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController ??= TabController(length: 2, vsync: this);
+    malController = ctrl<MyAnimeListController>(context);
+    malController.initializeAnimeHistory();
   }
 
   @override

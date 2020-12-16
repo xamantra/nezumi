@@ -19,12 +19,25 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
     );
   }
 
-  @override
-  Future<void> bootstrapAsync() async {
-    if (model.userAnimeList != null) {
-      await loadAnimeHistory();
-    } else {
-      await loadData();
+  bool _animeListInitialized = false;
+  void initializeAnimeList() {
+    if (!_animeListInitialized) {
+      _animeListInitialized = true;
+      if (model.fullUserAnimeList?.animeList == null) {
+        loadFullAnimeList();
+      }
+    }
+  }
+
+  bool _animeHistoryInitialized = false;
+  void initializeAnimeHistory() async {
+    if (!_animeHistoryInitialized) {
+      _animeHistoryInitialized = true;
+      if (model.userAnimeList != null) {
+        await loadAnimeHistory();
+      } else {
+        await loadData();
+      }
     }
   }
 
@@ -42,16 +55,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
       animeParams: [average_episode_duration, num_episodes],
     );
     model.update(userAnimeList: result, loadingAnimeList: false);
-  }
-
-  bool _initialized = false;
-  void initializeAnimeList() {
-    if (!_initialized) {
-      _initialized = true;
-      if (model.fullUserAnimeList?.animeList == null) {
-        loadFullAnimeList();
-      }
-    }
   }
 
   Future<void> loadFullAnimeList() async {
