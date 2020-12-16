@@ -17,10 +17,9 @@ class AnimeItemCard extends StatelessWidget {
         return Container(
           width: width,
           margin: EdgeInsets.all(sy(4)),
-          padding: EdgeInsets.all(sy(8)),
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(5),
             boxShadow: [
               BoxShadow(
                 offset: Offset(0, 0.5),
@@ -30,86 +29,94 @@ class AnimeItemCard extends StatelessWidget {
               ),
             ],
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      anime.node.title,
-                      style: TextStyle(
-                        color: AppTheme.of(context).text3,
-                        fontWeight: FontWeight.w600,
-                        fontSize: sy(10),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(height: sy(4)),
-                    Row(
+          child: FlatButton(
+            onPressed: () {},
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: EdgeInsets.zero,
+            child: Container(
+              padding: EdgeInsets.all(sy(8)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          anime.node.mediaType.toUpperCase(),
+                          anime.node.title,
                           style: TextStyle(
                             color: AppTheme.of(context).text3,
-                            fontWeight: FontWeight.w300,
-                            fontSize: sy(7),
+                            fontWeight: FontWeight.w600,
+                            fontSize: sy(10),
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        Dot(color: AppTheme.of(context).text3),
-                        Text(
-                          anime.node.status.toUpperCase(),
-                          style: TextStyle(
-                            color: AppTheme.of(context).text3,
-                            fontWeight: FontWeight.w300,
-                            fontSize: sy(7),
-                          ),
+                        SizedBox(height: sy(4)),
+                        Row(
+                          children: [
+                            Text(
+                              anime.node.mediaType.toUpperCase(),
+                              style: TextStyle(
+                                color: AppTheme.of(context).text3,
+                                fontWeight: FontWeight.w300,
+                                fontSize: sy(7),
+                              ),
+                            ),
+                            Dot(color: AppTheme.of(context).text3),
+                            Text(
+                              anime.node.status.toUpperCase(),
+                              style: TextStyle(
+                                color: AppTheme.of(context).text3,
+                                fontWeight: FontWeight.w300,
+                                fontSize: sy(7),
+                              ),
+                            ),
+                            Dot(color: AppTheme.of(context).text3),
+                            Text(
+                              '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
+                              style: TextStyle(
+                                color: AppTheme.of(context).text3,
+                                fontWeight: FontWeight.w300,
+                                fontSize: sy(7),
+                              ),
+                            ),
+                          ],
                         ),
-                        Dot(color: AppTheme.of(context).text3),
-                        Text(
-                          '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
-                          style: TextStyle(
-                            color: AppTheme.of(context).text3,
-                            fontWeight: FontWeight.w300,
-                            fontSize: sy(7),
-                          ),
+                        SizedBox(height: sy(4)),
+                        Row(
+                          children: [
+                            Badge(
+                              color: Colors.teal,
+                              textColor: Colors.white,
+                              text: anime.season,
+                              fontSize: sy(6),
+                            ),
+                            SizedBox(width: sy(4)),
+                            Badge(
+                              color: Colors.redAccent,
+                              textColor: Colors.white,
+                              text: anime.node.source,
+                              fontSize: sy(6),
+                            ),
+                          ]..addAll(anime.studios.map(
+                              (e) => Row(
+                                children: [
+                                  SizedBox(width: sy(4)),
+                                  Badge(
+                                    color: Colors.purple,
+                                    textColor: Colors.white,
+                                    text: e,
+                                    fontSize: sy(6),
+                                  ),
+                                ],
+                              ),
+                            )),
                         ),
                       ],
                     ),
-                    SizedBox(height: sy(4)),
-                    Row(
-                      children: [
-                        Badge(
-                          color: Colors.teal,
-                          textColor: Colors.white,
-                          text: anime.season,
-                          fontSize: sy(6),
-                        ),
-                        SizedBox(width: sy(4)),
-                        Badge(
-                          color: Colors.redAccent,
-                          textColor: Colors.white,
-                          text: anime.node.source,
-                          fontSize: sy(6),
-                        ),
-                      ]..addAll(anime.studios.map(
-                          (e) => Row(
-                            children: [
-                              SizedBox(width: sy(4)),
-                              Badge(
-                                color: Colors.purple,
-                                textColor: Colors.white,
-                                text: e,
-                                fontSize: sy(6),
-                              ),
-                            ],
-                          ),
-                        )),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
