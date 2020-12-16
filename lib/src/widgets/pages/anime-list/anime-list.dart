@@ -61,6 +61,7 @@ class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateM
                   Expanded(
                     child: TabBarView(
                       controller: tabController,
+                      physics: BouncingScrollPhysics(),
                       children: [
                         AnimeListView(status: 'all'),
                         AnimeListView(status: 'watching'),
