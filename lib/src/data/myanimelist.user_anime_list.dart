@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:basic_utils/basic_utils.dart';
+
 class UserAnimeList {
   UserAnimeList({
     this.animeList,
@@ -52,6 +54,11 @@ class AnimeData {
   final Node node;
   final ListStatus listStatus;
 
+  String get animeStatus {
+    var s = StringUtils.capitalize(node?.status?.replaceAll('_', ' ') ?? '', allWords: true);
+    return s;
+  }
+
   int get durationPerEpisode {
     return (node?.averageEpisodeDuration ?? 0) ~/ 60;
   }
@@ -67,7 +74,13 @@ class AnimeData {
   }
 
   String get season {
-    return '${node.startSeason?.season?.toUpperCase() ?? "?"} ${node.startSeason?.year ?? "?"}';
+    var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
+    return '$s ${node.startSeason?.year ?? "?"}';
+  }
+
+  String get source {
+    var s = StringUtils.capitalize(node?.source?.replaceAll('_', ' ') ?? '', allWords: true);
+    return s;
   }
 
   List<String> get studios {

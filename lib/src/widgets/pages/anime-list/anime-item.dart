@@ -60,7 +60,7 @@ class AnimeItemCard extends StatelessWidget {
                           ),
                           Dot(color: AppTheme.of(context).text3),
                           Text(
-                            anime.node.status.toUpperCase(),
+                            anime.animeStatus,
                             style: TextStyle(
                               color: AppTheme.of(context).text3,
                               fontWeight: FontWeight.w300,
@@ -91,7 +91,7 @@ class AnimeItemCard extends StatelessWidget {
                           Badge(
                             color: Colors.redAccent,
                             textColor: Colors.white,
-                            text: anime.node.source,
+                            text: anime.source,
                             fontSize: sy(6),
                           ),
                         ]..addAll(anime.studios.map(
