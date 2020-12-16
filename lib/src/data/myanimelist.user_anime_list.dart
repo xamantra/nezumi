@@ -13,6 +13,12 @@ class UserAnimeList {
   final List<AnimeData> animeList;
   final Paging paging;
 
+  List<AnimeData> getByStatus(String status) {
+    var result = <AnimeData>[];
+    result = animeList?.where((x) => status == "all" || x?.listStatus?.status == status)?.toList() ?? [];
+    return result;
+  }
+
   UserAnimeList copyWith({
     List<AnimeData> data,
     Paging paging,
@@ -45,6 +51,28 @@ class AnimeData {
 
   final Node node;
   final ListStatus listStatus;
+
+  int get durationPerEpisode {
+    return (node?.averageEpisodeDuration ?? 0) ~/ 60;
+  }
+
+  String get episodeCount {
+    if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) == 0) {
+      return '?';
+    }
+    if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) != 0) {
+      return listStatus?.numEpisodesWatched.toString();
+    }
+    return node.numEpisodes.toString();
+  }
+
+  String get season {
+    return '${node.startSeason?.season?.toUpperCase() ?? "?"} ${node.startSeason?.year ?? "?"}';
+  }
+
+  List<String> get studios {
+    return node?.studios?.map((e) => e.name)?.toList() ?? [];
+  }
 
   AnimeData copyWith({
     Node node,

@@ -86,6 +86,8 @@ class ApiService extends MomentumService {
     UserAnimeList current,
     List<String> statusParams = const [],
     List<String> animeParams = const [],
+    String customFields,
+    int timeout = 10000,
   }) async {
     try {
       var path = 'https://api.myanimelist.net/v2/users/@me/animelist';
@@ -100,7 +102,7 @@ class ApiService extends MomentumService {
         fields += '${animeParams.join(",")}';
       }
       var data = {
-        'fields': fields,
+        'fields': customFields ?? fields,
         'limit': 1000,
       };
       Response<dynamic> response;
@@ -132,8 +134,8 @@ class ApiService extends MomentumService {
               headers: {
                 'Authorization': 'Bearer $accessToken',
               },
-              receiveTimeout: 10000,
-              sendTimeout: 10000,
+              receiveTimeout: timeout,
+              sendTimeout: timeout,
             ),
           );
         }

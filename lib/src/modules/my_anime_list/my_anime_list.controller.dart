@@ -8,7 +8,7 @@ import '../settings/index.dart';
 import 'index.dart';
 
 class MyAnimeListController extends MomentumController<MyAnimeListModel> {
-  ApiService api;
+  ApiService get api => getService<ApiService>();
 
   @override
   MyAnimeListModel init() {
@@ -21,7 +21,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
 
   @override
   Future<void> bootstrapAsync() async {
-    api = getService<ApiService>();
     if (model.userAnimeList != null) {
       await loadAnimeHistory();
     } else {
@@ -43,6 +42,32 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
       animeParams: [average_episode_duration, num_episodes],
     );
     model.update(userAnimeList: result, loadingAnimeList: false);
+  }
+
+  bool _initialized = false;
+  void initializeAnimeList() {
+    if (!_initialized) {
+      _initialized = true;
+      if (model.fullUserAnimeList?.animeList == null) {
+        loadFullAnimeList();
+      }
+    }
+  }
+
+  Future<void> loadFullAnimeList() async {
+    try {
+      var l = dependOn<LoginController>().getActiveAccount();
+      model.update(loadingAnimeList: true);
+      var accessToken = l.token.accessToken;
+      var result = await api.getUserAnimeList(
+        accessToken: accessToken,
+        customFields: allAnimeListParams(),
+        timeout: 360000,
+      );
+      model.update(fullUserAnimeList: result, userAnimeList: result, loadingAnimeList: false);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> loadAnimeHistory() async {

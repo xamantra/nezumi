@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../app-theme.dart';
+import 'anime-list/index.dart';
 import 'index.dart';
 
 class Dashboard extends StatefulWidget {
@@ -40,7 +41,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                     child: TabBarView(
                       controller: tabController,
                       children: [
-                        SizedBox(),
+                        AnimeListPage(),
                         SizedBox(),
                         History(),
                         SizedBox(),
