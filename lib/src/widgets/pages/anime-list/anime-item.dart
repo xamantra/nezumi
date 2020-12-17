@@ -34,6 +34,11 @@ class AnimeItemCard extends StatelessWidget {
             onPressed: () {},
             child: Row(
               children: [
+                SymmetricImage(
+                  url: anime?.node?.mainPicture?.medium ?? '',
+                  size: sy(36),
+                ),
+                SizedBox(width: sy(8)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,34 +84,37 @@ class AnimeItemCard extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: sy(4)),
-                      Row(
-                        children: [
-                          Badge(
-                            color: Colors.teal,
-                            textColor: Colors.white,
-                            text: anime.season,
-                            fontSize: sy(6),
-                          ),
-                          SizedBox(width: sy(4)),
-                          Badge(
-                            color: Colors.redAccent,
-                            textColor: Colors.white,
-                            text: anime.source,
-                            fontSize: sy(6),
-                          ),
-                        ]..addAll(anime.studios.map(
-                            (e) => Row(
-                              children: [
-                                SizedBox(width: sy(4)),
-                                Badge(
-                                  color: Colors.purple,
-                                  textColor: Colors.white,
-                                  text: e,
-                                  fontSize: sy(6),
-                                ),
-                              ],
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Badge(
+                              color: Colors.teal,
+                              textColor: Colors.white,
+                              text: anime.season,
+                              fontSize: sy(6),
                             ),
-                          )),
+                            SizedBox(width: sy(4)),
+                            Badge(
+                              color: Colors.redAccent,
+                              textColor: Colors.white,
+                              text: anime.source,
+                              fontSize: sy(6),
+                            ),
+                          ]..addAll(anime.studios.map(
+                              (e) => Row(
+                                children: [
+                                  SizedBox(width: sy(4)),
+                                  Badge(
+                                    color: Colors.purple,
+                                    textColor: Colors.white,
+                                    text: e,
+                                    fontSize: sy(6),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        ),
                       ),
                     ],
                   ),
