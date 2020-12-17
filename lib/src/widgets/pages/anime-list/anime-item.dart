@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:nezumi/src/utils/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../data/index.dart';
 import '../../index.dart';
+import 'index.dart';
 
 class AnimeItemCard extends StatelessWidget {
   const AnimeItemCard({Key key, @required this.anime}) : super(key: key);
@@ -27,7 +29,9 @@ class AnimeItemCard extends StatelessWidget {
                   size: sy(20),
                   color: Colors.blue,
                 ),
-                onTap: () {},
+                onTap: () {
+                  dialog(context, EditAnimeDialog(anime: anime));
+                },
                 closeOnTap: false,
               ),
             ),

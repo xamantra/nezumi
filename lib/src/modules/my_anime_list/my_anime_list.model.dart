@@ -12,6 +12,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     this.userAnimeHistory,
     this.loadingAnimeList,
     this.loadingHistory,
+    this.updatingListStatus,
   }) : super(controller);
 
   final UserAnimeList fullUserAnimeList;
@@ -19,8 +20,9 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   final UserAnimeHistory userAnimeHistory;
   final bool loadingAnimeList;
   final bool loadingHistory;
+  final bool updatingListStatus;
 
-  bool get loading => loadingAnimeList || loadingHistory;
+  bool get loading => loadingAnimeList || loadingHistory || updatingListStatus;
 
   @override
   void update({
@@ -29,6 +31,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     UserAnimeHistory userAnimeHistory,
     bool loadingAnimeList,
     bool loadingHistory,
+    bool updatingListStatus,
   }) {
     MyAnimeListModel(
       controller,
@@ -37,6 +40,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
       userAnimeHistory: userAnimeHistory ?? this.userAnimeHistory,
       loadingAnimeList: loadingAnimeList ?? this.loadingAnimeList,
       loadingHistory: loadingHistory ?? this.loadingHistory,
+      updatingListStatus: updatingListStatus ?? this.updatingListStatus,
     ).updateMomentum();
   }
 
@@ -47,6 +51,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
       'userAnimeHistory': userAnimeHistory?.toJson(),
       'loadingAnimeList': false,
       'loadingHistory': false,
+      'updatingListStatus': false,
     };
   }
 
@@ -58,8 +63,9 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
       userAnimeList: UserAnimeList.fromJson(map['userAnimeList'] ?? {}),
       fullUserAnimeList: UserAnimeList.fromJson(map['fullUserAnimeList'] ?? {}),
       userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory'] ?? {}),
-      loadingAnimeList: map['loadingAnimeList'],
-      loadingHistory: map['loadingHistory'],
+      loadingAnimeList: false,
+      loadingHistory: false,
+      updatingListStatus: false,
     );
   }
 }

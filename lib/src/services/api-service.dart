@@ -186,4 +186,56 @@ class ApiService extends MomentumService {
       return null;
     }
   }
+
+  Future<AnimeUpdateResponse> updateAnimeStatus({
+    @required String accessToken,
+    @required int animeId,
+    String status,
+    bool is_rewatching,
+    int score,
+    int num_watched_episodes,
+    int priority,
+    int num_times_rewatched,
+    int rewatch_value,
+    List<String> tags,
+    String comments,
+    String start_date,
+    String finish_date,
+  }) async {
+    try {
+      var path = 'https://api.myanimelist.net/v2/anime/$animeId/my_list_status';
+      Map<String, dynamic> data = {};
+
+      /* process parameters */
+      if (status != null) data.putIfAbsent('status', () => status);
+      if (is_rewatching != null) data.putIfAbsent('is_rewatching', () => is_rewatching);
+      if (score != null) data.putIfAbsent('score', () => score);
+      if (num_watched_episodes != null) data.putIfAbsent('num_watched_episodes', () => num_watched_episodes);
+      if (priority != null) data.putIfAbsent('priority', () => priority);
+      if (num_times_rewatched != null) data.putIfAbsent('num_times_rewatched', () => num_times_rewatched);
+      if (tags != null) data.putIfAbsent('tags', () => tags);
+      if (comments != null) data.putIfAbsent('comments', () => comments);
+      if (start_date != null) data.putIfAbsent('start_date', () => start_date);
+      if (finish_date != null) data.putIfAbsent('finish_date', () => finish_date);
+      /* process parameters */
+
+      var response = await dio.put(
+        path,
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+          receiveTimeout: 10000,
+          sendTimeout: 10000,
+          contentType: 'application/x-www-form-urlencoded',
+        ),
+      );
+      var result = AnimeUpdateResponse.fromJson(response.data);
+      return result;
+    } catch (e) {
+      print(['ApiService.updateAnimeStatus', e]);
+      return null;
+    }
+  }
 }

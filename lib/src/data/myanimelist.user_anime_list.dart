@@ -73,6 +73,10 @@ class AnimeData {
     return node.numEpisodes.toString();
   }
 
+  String get realEpisodeCount {
+    return node.numEpisodes == 0 ? '?' : node.numEpisodes?.toString() ?? '?';
+  }
+
   String get season {
     var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
     return '$s ${node.startSeason?.year ?? "?"}';
