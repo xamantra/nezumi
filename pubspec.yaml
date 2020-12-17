@@ -42,6 +42,7 @@ dependencies:
   random_string: 2.1.0
   basic_utils: 2.6.3
   extended_image: 1.5.0
+  flutter_slidable: 0.5.7
 
 dev_dependencies:
   flutter_test:
