@@ -1,5 +1,6 @@
 import 'package:momentum/momentum.dart';
-import 'package:nezumi/src/modules/login/index.dart';
+
+import '../modules/login/index.dart';
 
 mixin AuthMixin<T> on MomentumController<T> {
   String _username;

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
-import 'package:nezumi/src/data/index.dart';
-import 'package:nezumi/src/modules/my_anime_list/index.dart';
-import 'package:nezumi/src/utils/index.dart';
-import 'package:nezumi/src/widgets/index.dart';
 import 'package:relative_scale/relative_scale.dart';
+
+import '../../../data/index.dart';
+import '../../../modules/my_anime_list/index.dart';
+import '../../../utils/index.dart';
+import '../../index.dart';
 
 class EditAnimeDialog extends StatelessWidget {
   const EditAnimeDialog({
