@@ -2,15 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
-import '../../services/index.dart';
+import '../../mixins/index.dart';
 import '../../utils/index.dart';
-import '../login/index.dart';
 import '../settings/index.dart';
 import 'index.dart';
 
-class MyAnimeListController extends MomentumController<MyAnimeListModel> {
-  ApiService get api => getService<ApiService>();
-
+class MyAnimeListController extends MomentumController<MyAnimeListModel> with CoreMixin, AuthMixin {
   /* initializations */
   @override
   MyAnimeListModel init() {
@@ -52,9 +49,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
   }
 
   Future<void> loadAnimeList() async {
-    var l = dependOn<LoginController>().getActiveAccount();
     model.update(loadingAnimeList: true);
-    var accessToken = l.token.accessToken;
     var result = await api.getUserAnimeList(
       accessToken: accessToken,
       animeParams: [average_episode_duration, num_episodes],
@@ -64,9 +59,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
 
   Future<void> loadFullAnimeList() async {
     try {
-      var l = dependOn<LoginController>().getActiveAccount();
       model.update(loadingAnimeList: true);
-      var accessToken = l.token.accessToken;
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
         customFields: allAnimeListParams(),
@@ -79,9 +72,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
   }
 
   Future<void> loadAnimeHistory() async {
-    var l = dependOn<LoginController>().getActiveAccount();
     model.update(loadingHistory: true);
-    var history = await api.getAnimeHistory(username: l.profile.name);
+    var history = await api.getAnimeHistory(username: username);
     history = history?.bindDurations(model.userAnimeList);
     model.update(loadingHistory: false, userAnimeHistory: history);
   }
@@ -101,9 +93,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> {
     String finish_date,
   }) async {
     model.update(updatingListStatus: true);
-    var a = dependOn<LoginController>().getActiveAccount();
     var response = await api.updateAnimeStatus(
-      accessToken: a.token?.accessToken,
+      accessToken: accessToken,
       animeId: animeId,
       num_watched_episodes: num_watched_episodes,
     );
