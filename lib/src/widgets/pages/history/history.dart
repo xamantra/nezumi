@@ -1,13 +1,12 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../modules/my_anime_list/index.dart';
-import '../../utils/index.dart';
-import '../index.dart';
+import '../../../mixins/index.dart';
+import '../../../modules/my_anime_list/index.dart';
+import '../../index.dart';
+import 'index.dart';
 
 class History extends StatefulWidget {
   const History({Key key}) : super(key: key);
@@ -16,8 +15,7 @@ class History extends StatefulWidget {
   _HistoryState createState() => _HistoryState();
 }
 
-class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
-  MyAnimeListController malController;
+class _HistoryState extends State<History> with SingleTickerProviderStateMixin, CoreStateMixin {
   final RefreshController refreshController = RefreshController(initialRefresh: false);
   TabController tabController;
 
@@ -25,8 +23,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController ??= TabController(length: 2, vsync: this);
-    malController = ctrl<MyAnimeListController>(context);
-    malController.initializeAnimeHistory();
+    mal?.controller?.initializeAnimeHistory();
   }
 
   @override
@@ -58,9 +55,8 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
                       MomentumBuilder(
                         controllers: [MyAnimeListController],
                         builder: (context, snapshot) {
-                          var session = snapshot<MyAnimeListModel>();
-                          var loading = session.loading;
-                          var historyGroup = session.controller.getGroupedHistoryData();
+                          var loading = mal.loading;
+                          var historyGroup = mal?.controller?.getGroupedHistoryData();
                           return Column(
                             children: [
                               Expanded(
@@ -78,7 +74,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
                                                 enablePullDown: true,
                                                 controller: refreshController,
                                                 onRefresh: () {
-                                                  session.controller.loadAnimeHistory();
+                                                  mal.controller.loadAnimeHistory();
                                                 },
                                                 child: ListView.builder(
                                                   itemCount: historyGroup.length,
@@ -95,43 +91,20 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
                                               child: Row(
                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        '${session.controller.getMinutesPerEp()} ',
-                                                        style: TextStyle(
-                                                          color: session.controller.requiredMinsMet() ? Colors.green : Colors.red,
-                                                          fontSize: sy(9),
-                                                          fontWeight: FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Minutes per ep'.toUpperCase(),
-                                                        style: TextStyle(
-                                                          color: AppTheme.of(context).text3,
-                                                          fontSize: sy(9),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  StatItem(
+                                                    value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
+                                                    label: 'Hrs/day',
+                                                    valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
                                                   ),
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        '${session.controller.getEpisodesPerDay()} ',
-                                                        style: TextStyle(
-                                                          color: session.controller.requiredEpsMet() ? Colors.green : Colors.red,
-                                                          fontSize: sy(9),
-                                                          fontWeight: FontWeight.w700,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        'Episodes per day'.toUpperCase(),
-                                                        style: TextStyle(
-                                                          color: AppTheme.of(context).text3,
-                                                          fontSize: sy(9),
-                                                        ),
-                                                      ),
-                                                    ],
+                                                  StatItem(
+                                                    value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
+                                                    label: 'Mins/ep',
+                                                    valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
+                                                  ),
+                                                  StatItem(
+                                                    value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
+                                                    label: 'Eps/day',
+                                                    valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
                                                   ),
                                                 ],
                                               ),
@@ -152,7 +125,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin {
                                   ),
                                 ),
                                 onPressed: () {
-                                  session.controller.loadData();
+                                  mal?.controller?.loadData();
                                 },
                               ),
                             ],

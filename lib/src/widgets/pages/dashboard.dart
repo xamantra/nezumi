@@ -3,7 +3,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../app-theme.dart';
 import 'anime-list/index.dart';
-import 'index.dart';
+import 'history/index.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);

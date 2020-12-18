@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../mixins/index.dart';
 import '../../../modules/my_anime_list/index.dart';
 import '../../../utils/index.dart';
 import '../../app-theme.dart';
@@ -13,16 +14,14 @@ class AnimeListPage extends StatefulWidget {
   _AnimeListPageState createState() => _AnimeListPageState();
 }
 
-class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateMixin {
-  MyAnimeListController malController;
+class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateMixin, CoreStateMixin {
   TabController tabController;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(length: 6, vsync: this);
-    malController = ctrl<MyAnimeListController>(context);
-    malController.initializeAnimeList();
+    mal?.controller?.initializeAnimeList();
   }
 
   @override

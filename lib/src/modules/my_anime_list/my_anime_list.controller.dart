@@ -173,6 +173,12 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     return result.toInt();
   }
 
+  double getHoursPerDay() {
+    var totalMinutes = getMinutesPerEp() * getEpisodesPerDay();
+    var result = double.parse((totalMinutes / 60).toStringAsFixed(2));
+    return result;
+  }
+
   bool requiredMinsMet() {
     var requiredMinsPerEp = settings.requiredMinsPerEp;
     var minutesPerEp = getMinutesPerEp();
@@ -184,6 +190,13 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     var requiredEpsPerDay = settings.requiredEpsPerDay;
     var episodesPerDay = getEpisodesPerDay();
     var result = episodesPerDay >= requiredEpsPerDay;
+    return result;
+  }
+
+  bool requiredHoursMet() {
+    var requiredHoursPerDay = settings.requiredHoursPerDay;
+    var hoursPerDay = getHoursPerDay();
+    var result = hoursPerDay >= requiredHoursPerDay;
     return result;
   }
 

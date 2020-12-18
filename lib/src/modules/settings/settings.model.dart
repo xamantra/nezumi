@@ -12,6 +12,8 @@ class SettingsModel extends MomentumModel<SettingsController> {
   final int requiredMinsPerEp;
   final int requiredEpsPerDay;
 
+  double get requiredHoursPerDay => double.parse(((requiredMinsPerEp * requiredEpsPerDay) / 60).toStringAsFixed(2));
+
   @override
   void update({
     int requiredMinsPerEp,

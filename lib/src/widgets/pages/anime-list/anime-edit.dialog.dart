@@ -3,11 +3,11 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../data/index.dart';
+import '../../../mixins/index.dart';
 import '../../../modules/my_anime_list/index.dart';
-import '../../../utils/index.dart';
 import '../../index.dart';
 
-class EditAnimeDialog extends StatelessWidget {
+class EditAnimeDialog extends StatefulWidget {
   const EditAnimeDialog({
     Key key,
     this.anime,
@@ -15,6 +15,11 @@ class EditAnimeDialog extends StatelessWidget {
 
   final AnimeData anime;
 
+  @override
+  _EditAnimeDialogState createState() => _EditAnimeDialogState();
+}
+
+class _EditAnimeDialogState extends State<EditAnimeDialog> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -24,8 +29,7 @@ class EditAnimeDialog extends StatelessWidget {
           return MomentumBuilder(
             controllers: [MyAnimeListController],
             builder: (context, snapshot) {
-              var mal = snapshot<MyAnimeListModel>();
-              var anime = mal.controller.getAnime(this.anime?.node?.id);
+              var anime = mal?.controller?.getAnime(this.widget.anime?.node?.id);
 
               return Container(
                 padding: EdgeInsets.all(sy(8)),
@@ -38,7 +42,7 @@ class EditAnimeDialog extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      anime.node.title,
+                      anime?.node?.title ?? '',
                       style: TextStyle(
                         color: AppTheme.of(context).text3,
                         fontWeight: FontWeight.w600,
@@ -68,11 +72,11 @@ class EditAnimeDialog extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  ctrl<MyAnimeListController>(context).incrementEpisode(anime.node.id);
+                                  mal?.controller?.incrementEpisode(anime?.node?.id);
                                 },
                               ),
                               Text(
-                                anime.listStatus.numEpisodesWatched?.toString(),
+                                anime?.listStatus?.numEpisodesWatched?.toString() ?? "",
                                 style: TextStyle(
                                   color: Colors.blue,
                                   fontWeight: FontWeight.w600,
@@ -88,11 +92,11 @@ class EditAnimeDialog extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  ctrl<MyAnimeListController>(context).decrementEpisode(anime.node.id);
+                                  mal?.controller?.decrementEpisode(anime.node.id);
                                 },
                               ),
                               Text(
-                                ' / ${anime.realEpisodeCount}',
+                                ' / ${anime?.realEpisodeCount ?? ""}',
                                 style: TextStyle(
                                   color: AppTheme.of(context).text3,
                                   fontWeight: FontWeight.w600,
