@@ -4,12 +4,10 @@ import 'package:momentum/momentum.dart';
 import 'package:random_string/random_string.dart';
 
 import '../../data/index.dart';
-import '../../services/api-service.dart';
+import '../../mixins/index.dart';
 import 'index.dart';
 
-class LoginController extends MomentumController<LoginModel> {
-  ApiService api;
-
+class LoginController extends MomentumController<LoginModel> with CoreMixin {
   @override
   LoginModel init() {
     return LoginModel(
@@ -22,7 +20,6 @@ class LoginController extends MomentumController<LoginModel> {
   @override
   void bootstrap() {
     Clipboard.setData(ClipboardData(text: ''));
-    api = getService<ApiService>();
     if (isLoggedIn()) {
       sendEvent(LoginEvent.loggedIn);
       return;

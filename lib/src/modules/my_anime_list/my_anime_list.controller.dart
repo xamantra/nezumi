@@ -4,7 +4,6 @@ import 'package:momentum/momentum.dart';
 import '../../data/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
-import '../settings/index.dart';
 import 'index.dart';
 
 class MyAnimeListController extends MomentumController<MyAnimeListModel> with CoreMixin, AuthMixin {
@@ -175,7 +174,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   bool requiredMinsMet() {
-    var settings = dependOn<SettingsController>().model;
     var requiredMinsPerEp = settings.requiredMinsPerEp;
     var minutesPerEp = getMinutesPerEp();
     var result = minutesPerEp >= requiredMinsPerEp;
@@ -183,7 +181,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   bool requiredEpsMet() {
-    var settings = dependOn<SettingsController>().model;
     var requiredEpsPerDay = settings.requiredEpsPerDay;
     var episodesPerDay = getEpisodesPerDay();
     var result = episodesPerDay >= requiredEpsPerDay;
