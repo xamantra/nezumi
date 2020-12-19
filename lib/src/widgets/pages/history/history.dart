@@ -31,17 +31,26 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Scaffold(
-          backgroundColor: AppTheme.of(context).primaryBackground,
+          backgroundColor: AppTheme.of(context).primary,
+          appBar: Toolbar(
+            height: sy(36),
+            title: 'History',
+            actions: [
+              ToolbarAction(icon: Icons.settings),
+              ToolbarAction(icon: Icons.more_vert),
+            ],
+          ),
           body: SafeArea(
             child: Column(
               children: [
                 Container(
                   height: sy(36),
                   width: width,
+                  color: AppTheme.of(context).primary,
                   child: TabBar(
                     controller: tabController,
                     labelStyle: TextStyle(fontSize: sy(11)),
-                    indicatorColor: AppTheme.of(context).primary,
+                    indicatorColor: Colors.white,
                     tabs: [
                       Tab(text: 'Anime'),
                       Tab(text: 'Manga'),
