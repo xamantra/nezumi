@@ -73,6 +73,10 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   Future<void> loadFullAnimeListByStatus(String status) async {
     try {
       if (status == null) return;
+      if (status == 'all') {
+        loadFullAnimeList();
+        return;
+      }
       var current = List<AnimeData>.from(model.fullUserAnimeList?.animeList ?? []);
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
