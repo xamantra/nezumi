@@ -67,12 +67,12 @@ class _EditAnimeDialogState extends State<EditAnimeDialog> with CoreStateMixin {
                                 height: sy(30),
                                 width: sy(30),
                                 child: Icon(
-                                  Icons.add,
+                                  Icons.remove,
                                   size: sy(18),
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  mal?.controller?.incrementEpisode(anime?.node?.id);
+                                  mal?.controller?.decrementEpisode(anime.node.id);
                                 },
                               ),
                               Text(
@@ -87,12 +87,12 @@ class _EditAnimeDialogState extends State<EditAnimeDialog> with CoreStateMixin {
                                 height: sy(30),
                                 width: sy(30),
                                 child: Icon(
-                                  Icons.remove,
+                                  Icons.add,
                                   size: sy(18),
                                   color: Colors.white,
                                 ),
                                 onPressed: () {
-                                  mal?.controller?.decrementEpisode(anime.node.id);
+                                  mal?.controller?.incrementEpisode(anime?.node?.id);
                                 },
                               ),
                               Text(
