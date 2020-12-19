@@ -3,6 +3,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../mixins/index.dart';
 import '../../app-theme.dart';
+import '../../index.dart';
 import 'index.dart';
 
 class AnimeListPage extends StatefulWidget {
@@ -27,20 +28,28 @@ class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateM
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Scaffold(
-          backgroundColor: AppTheme.of(context).primaryBackground,
+          backgroundColor: AppTheme.of(context).primary,
+          appBar: Toolbar(
+            height: sy(36),
+            title: 'Anime List',
+            actions: [
+              ToolbarAction(icon: Icons.search),
+              ToolbarAction(icon: Icons.filter_list),
+              ToolbarAction(icon: Icons.more_vert),
+            ],
+          ),
           body: SafeArea(
-            child: Container(
-              height: height,
-              width: width,
-              color: AppTheme.of(context).primaryBackground,
-              padding: EdgeInsets.all(sy(6)),
-              child: Column(
-                children: [
-                  TabBar(
+            child: Column(
+              children: [
+                Container(
+                  width: width,
+                  color: AppTheme.of(context).primary,
+                  padding: EdgeInsets.symmetric(horizontal: sy(8)),
+                  child: TabBar(
                     controller: tabController,
                     isScrollable: true,
-                    labelColor: AppTheme.of(context).primary,
-                    indicatorColor: AppTheme.of(context).primary,
+                    labelColor: Colors.white,
+                    indicatorColor: Colors.white,
                     labelStyle: TextStyle(
                       fontSize: sy(9.5),
                       fontWeight: FontWeight.w400,
@@ -55,7 +64,11 @@ class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateM
                       Tab(text: 'Dropped'),
                     ],
                   ),
-                  Expanded(
+                ),
+                Expanded(
+                  child: Container(
+                    color: AppTheme.of(context).primaryBackground,
+                    padding: EdgeInsets.symmetric(horizontal: sy(8)),
                     child: TabBarView(
                       controller: tabController,
                       physics: BouncingScrollPhysics(),
@@ -69,8 +82,8 @@ class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateM
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
