@@ -83,6 +83,7 @@ class ApiService extends MomentumService {
   Future<UserAnimeList> getUserAnimeList({
     @required String accessToken,
     String nextPage,
+    String status,
     UserAnimeList current,
     List<String> statusParams = const [],
     List<String> animeParams = const [],
@@ -105,6 +106,9 @@ class ApiService extends MomentumService {
         'fields': customFields ?? fields,
         'limit': 1000,
       };
+      if (status != null) {
+        data.putIfAbsent('status', () => status);
+      }
       Response<dynamic> response;
       if (nextPage != null && current != null) {
         var result = await httpGet(
@@ -149,7 +153,7 @@ class ApiService extends MomentumService {
             animeParams: animeParams,
           );
         }
-        return current;
+        return current ?? result;
       }
     } catch (e) {
       print(['ApiService.getUserAnimeList', e]);
