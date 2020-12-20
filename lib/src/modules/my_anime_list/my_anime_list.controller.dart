@@ -22,8 +22,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   void initializeAnimeList() {
     if (!_animeListInitialized) {
       _animeListInitialized = true;
-      if (model.fullUserAnimeList?.animeList == null) {
-        loadFullAnimeList();
+      if (model.userAnimeList?.animeList == null) {
+        loadAnimeList();
       }
     }
   }
@@ -48,36 +48,27 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   Future<void> loadAnimeList() async {
-    model.update(loadingAnimeList: true);
-    var result = await api.getUserAnimeList(
-      accessToken: accessToken,
-      animeParams: [average_episode_duration, num_episodes],
-    );
-    model.update(userAnimeList: result, loadingAnimeList: false);
-  }
-
-  Future<void> loadFullAnimeList() async {
     try {
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
-        customFields: allAnimeListParams(),
+        customFields: allAnimeListParams(omit: [synopsis, background]),
         timeout: 360000,
       );
-      model.update(fullUserAnimeList: result, userAnimeList: result, loadingAnimeList: false);
+      model.update(userAnimeList: result, loadingAnimeList: false);
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> loadFullAnimeListByStatus(String status) async {
+  Future<void> loadAnimeListByStatus(String status) async {
     try {
       if (status == null) return;
       if (status == 'all') {
-        loadFullAnimeList();
+        loadAnimeList();
         return;
       }
-      var current = List<AnimeData>.from(model.fullUserAnimeList?.animeList ?? []);
+      var current = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
@@ -97,7 +88,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       }
       current.sort((a, b) => a.node.title.compareTo(b.node.title));
       var userAnimeList = UserAnimeList(paging: result?.paging, animeList: current);
-      model.update(fullUserAnimeList: userAnimeList, userAnimeList: userAnimeList, loadingAnimeList: false);
+      model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
     } catch (e) {
       print(e);
     }
@@ -131,7 +122,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       num_watched_episodes: num_watched_episodes,
     );
     if (response != null) {
-      var currentList = List<AnimeData>.from(model.fullUserAnimeList?.animeList ?? []);
+      var currentList = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
       var selectedAnime = currentList.firstWhere((x) => x.node.id == animeId, orElse: () => null);
       var updated = selectedAnime.copyWith(
         listStatus: ListStatus(
@@ -151,20 +142,20 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       );
       var index = currentList.indexWhere((x) => x.node.id == animeId);
       currentList[index] = updated;
-      var newList = model.fullUserAnimeList.copyWith(data: currentList);
-      model.update(fullUserAnimeList: newList);
+      var newList = model.userAnimeList.copyWith(data: currentList);
+      model.update(userAnimeList: newList);
     }
     model.update(updatingListStatus: false);
   }
 
   void incrementEpisode(int animeId) {
-    var anime = (model.fullUserAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
+    var anime = (model.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
     var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) + 1;
     updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
   }
 
   void decrementEpisode(int animeId) {
-    var anime = (model.fullUserAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
+    var anime = (model.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
     var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) - 1;
     updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
   }
@@ -246,7 +237,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
 
   AnimeData getAnime(int animeId) {
     try {
-      var result = model.fullUserAnimeList?.animeList?.firstWhere((x) => x.node?.id == animeId, orElse: () => null);
+      var result = model.userAnimeList?.animeList?.firstWhere((x) => x.node?.id == animeId, orElse: () => null);
       return result;
     } catch (e) {
       return null;

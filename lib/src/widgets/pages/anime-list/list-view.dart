@@ -30,7 +30,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
         return MomentumBuilder(
           controllers: [MyAnimeListController],
           builder: (context, snapshot) {
-            var list = mal.fullUserAnimeList.getByStatus(widget.status);
+            var list = mal.userAnimeList?.getByStatus(widget.status) ?? [];
 
             if (mal.loading) {
               return Loader();
@@ -39,7 +39,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
             return SmartRefresher(
               controller: refreshController,
               onRefresh: () {
-                mal.controller.loadFullAnimeListByStatus(widget.status);
+                mal.controller.loadAnimeListByStatus(widget.status);
               },
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),

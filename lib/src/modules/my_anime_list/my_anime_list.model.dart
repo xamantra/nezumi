@@ -7,7 +7,6 @@ import 'index.dart';
 class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   MyAnimeListModel(
     MyAnimeListController controller, {
-    this.fullUserAnimeList,
     this.userAnimeList,
     this.userAnimeHistory,
     this.loadingAnimeList,
@@ -15,7 +14,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     this.updatingListStatus,
   }) : super(controller);
 
-  final UserAnimeList fullUserAnimeList;
   final UserAnimeList userAnimeList;
   final UserAnimeHistory userAnimeHistory;
   final bool loadingAnimeList;
@@ -26,7 +24,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
   @override
   void update({
-    UserAnimeList fullUserAnimeList,
     UserAnimeList userAnimeList,
     UserAnimeHistory userAnimeHistory,
     bool loadingAnimeList,
@@ -35,7 +32,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   }) {
     MyAnimeListModel(
       controller,
-      fullUserAnimeList: fullUserAnimeList ?? this.fullUserAnimeList,
       userAnimeList: userAnimeList ?? this.userAnimeList,
       userAnimeHistory: userAnimeHistory ?? this.userAnimeHistory,
       loadingAnimeList: loadingAnimeList ?? this.loadingAnimeList,
@@ -46,7 +42,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
   Map<String, dynamic> toJson() {
     return {
-      'fullUserAnimeList': fullUserAnimeList?.toJson(),
       'userAnimeList': userAnimeList?.toJson(),
       'userAnimeHistory': userAnimeHistory?.toJson(),
       'loadingAnimeList': false,
@@ -61,7 +56,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     return MyAnimeListModel(
       controller,
       userAnimeList: UserAnimeList.fromJson(map['userAnimeList'] ?? {}),
-      fullUserAnimeList: UserAnimeList.fromJson(map['fullUserAnimeList'] ?? {}),
       userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory'] ?? {}),
       loadingAnimeList: false,
       loadingHistory: false,

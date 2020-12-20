@@ -1,6 +1,13 @@
 /// `type` is either "list_status" or "my_list_status"
-String allAnimeListParams({String type = 'list_status'}) {
-  return '$type{${[list_status_status, list_status_score, list_status_num_episodes_watched, list_status_is_rewatching, list_status_updated_at, list_status_comments, list_status_tags, list_status_priority, list_status_num_times_rewatched, list_status_rewatch_value, list_status_start_date, list_status_finish_date].join(",")}},${[synopsis, start_date, end_date, alternative_titles, num_episodes, status, genres, studios, producers, rating, source, mean, rank, popularity, num_list_users, num_scoring_users, created_at, updated_at, media_type, start_season, broadcast, average_episode_duration, background].join(",")}';
+String allAnimeListParams({
+  String type = 'list_status',
+  List<String> omit = const [],
+}) {
+  var status = [list_status_status, list_status_score, list_status_num_episodes_watched, list_status_is_rewatching, list_status_updated_at, list_status_comments, list_status_tags, list_status_priority, list_status_num_times_rewatched, list_status_rewatch_value, list_status_start_date, list_status_finish_date]..removeWhere((x) => omit.any((y) => x == y));
+
+  var props = [synopsis, start_date, end_date, alternative_titles, num_episodes, status, genres, studios, producers, rating, source, mean, rank, popularity, num_list_users, num_scoring_users, created_at, updated_at, media_type, start_season, broadcast, average_episode_duration, background]..removeWhere((x) => omit.any((y) => x == y));
+
+  return '$type{${status.join(",")}},${props.join(",")}';
 }
 
 const list_status_status = 'status';
