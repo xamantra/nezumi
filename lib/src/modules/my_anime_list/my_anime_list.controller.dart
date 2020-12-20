@@ -77,15 +77,17 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         timeout: 360000,
       );
       var newlyLoaded = result?.animeList ?? [];
-      for (var i = 0; i < newlyLoaded.length; i++) {
-        var item = newlyLoaded[i];
-        var index = current.indexWhere((x) => x.node.id == item.node.id);
-        if (index >= 0) {
-          current.replaceRange(index, index + 1, [item]);
-        } else {
-          current.add(item);
-        }
-      }
+      await Future.forEach<AnimeData>(
+        newlyLoaded,
+        (item) async {
+          var index = current.indexWhere((x) => x.node.id == item.node.id);
+          if (index >= 0) {
+            current.replaceRange(index, index + 1, [item]);
+          } else {
+            current.add(item);
+          }
+        },
+      );
       current.sort((a, b) => a.node.title.compareTo(b.node.title));
       var userAnimeList = UserAnimeList(paging: result?.paging, animeList: current);
       model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
