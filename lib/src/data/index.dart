@@ -5,3 +5,4 @@ export 'myanimelist.anime_update_response.dart';
 export 'myanimelist.profile.dart';
 export 'myanimelist.token.dart';
 export 'myanimelist.user_anime_list.dart';
+export 'myanimelist.user_anime_list.extensions.dart';
