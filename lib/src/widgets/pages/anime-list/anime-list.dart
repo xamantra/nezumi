@@ -27,20 +27,26 @@ class _AnimeListPageState extends State<AnimeListPage> with TickerProviderStateM
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
-        return Scaffold(
-          backgroundColor: AppTheme.of(context).primary,
-          appBar: Toolbar(
-            height: sy(36),
-            title: 'Anime List',
-            actions: [
-              ToolbarAction(icon: Icons.search),
-              ToolbarAction(icon: Icons.filter_list),
-              ToolbarAction(icon: Icons.more_vert),
-            ],
-          ),
-          body: SafeArea(
+        return Container(
+          height: height,
+          width: width,
+          color: AppTheme.of(context).primary,
+          child: SafeArea(
             child: Column(
               children: [
+                Toolbar(
+                  height: sy(42),
+                  leadingIcon: Icons.menu,
+                  title: 'Anime List',
+                  actions: [
+                    ToolbarAction(icon: Icons.search),
+                    ToolbarAction(icon: Icons.filter_list),
+                    ToolbarAction(icon: Icons.more_vert),
+                  ],
+                  leadingAction: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                ),
                 Container(
                   width: width,
                   color: AppTheme.of(context).primary,

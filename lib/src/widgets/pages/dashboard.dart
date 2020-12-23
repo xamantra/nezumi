@@ -4,6 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../app-theme.dart';
 import 'anime-list/index.dart';
 import 'history/index.dart';
+import 'index.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -23,10 +24,10 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RelativeBuilder(
-        builder: (context, height, width, sy, sx) {
-          return Container(
+    return RelativeBuilder(
+      builder: (context, height, width, sy, sx) {
+        return Scaffold(
+          body: Container(
             height: height,
             width: width,
             color: AppTheme.of(context).secondaryBackground,
@@ -86,9 +87,10 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
                 /* Tabs */
               ],
             ),
-          );
-        },
-      ),
+          ),
+          drawer: AppDrawer(),
+        );
+      },
     );
   }
 }

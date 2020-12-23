@@ -10,9 +10,13 @@ class Toolbar extends StatelessWidget with PreferredSizeWidget {
     @required this.title,
     this.actionSpacing,
     this.actions = const [],
+    this.leadingIcon,
+    this.leadingAction,
   }) : super(key: key);
 
   final double height;
+  final IconData leadingIcon;
+  final void Function() leadingAction;
   final String title;
   final double actionSpacing;
   final List<Widget> actions;
@@ -23,13 +27,26 @@ class Toolbar extends StatelessWidget with PreferredSizeWidget {
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
           return Container(
-            height: height,
+            height: this.height,
             width: width,
             color: AppTheme.of(context).primary,
             padding: EdgeInsets.only(left: sy(8)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                leadingIcon == null
+                    ? SizedBox()
+                    : SizedButton(
+                        height: sy(34),
+                        width: sy(34),
+                        radius: 100,
+                        child: Icon(
+                          Icons.menu,
+                          size: sy(14),
+                          color: Colors.white,
+                        ),
+                        onPressed: leadingAction ?? () {},
+                      ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(

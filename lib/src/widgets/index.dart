@@ -2,6 +2,7 @@ export 'app-loader.dart';
 export 'app-theme.dart';
 export 'appbar.dart';
 export 'badge.dart';
+export 'custom_icons.dart';
 export 'dot.dart';
 export 'image.dart';
 export 'loader.dart';
