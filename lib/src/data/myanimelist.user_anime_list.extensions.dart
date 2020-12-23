@@ -4,39 +4,67 @@ import 'index.dart';
 
 extension AnimeDataExtensions on AnimeData {
   String get animeStatus {
-    var s = StringUtils.capitalize(node?.status?.replaceAll('_', ' ') ?? '', allWords: true);
-    return s;
+    try {
+      var s = StringUtils.capitalize(node?.status?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
   }
 
   int get durationPerEpisode {
-    return (node?.averageEpisodeDuration ?? 0) ~/ 60;
+    try {
+      return (node?.averageEpisodeDuration ?? 0) ~/ 60;
+    } catch (e) {
+      return 0;
+    }
   }
 
   String get episodeCount {
-    if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) == 0) {
-      return '?';
+    try {
+      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) == 0) {
+        return '?';
+      }
+      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) != 0) {
+        return listStatus?.numEpisodesWatched.toString();
+      }
+      return node.numEpisodes.toString();
+    } catch (e) {
+      return '';
     }
-    if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) != 0) {
-      return listStatus?.numEpisodesWatched.toString();
-    }
-    return node.numEpisodes.toString();
   }
 
   String get realEpisodeCount {
-    return node.numEpisodes == 0 ? '?' : node.numEpisodes?.toString() ?? '?';
+    try {
+      return node.numEpisodes == 0 ? '?' : node.numEpisodes?.toString() ?? '?';
+    } catch (e) {
+      return '';
+    }
   }
 
   String get season {
-    var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
-    return '$s ${node.startSeason?.year ?? "?"}';
+    try {
+      var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
+      return '$s ${node.startSeason?.year ?? "?"}';
+    } catch (e) {
+      return '';
+    }
   }
 
   String get source {
-    var s = StringUtils.capitalize(node?.source?.replaceAll('_', ' ') ?? '', allWords: true);
-    return s;
+    try {
+      var s = StringUtils.capitalize(node?.source?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
   }
 
   List<String> get studios {
-    return node?.studios?.map((e) => e.name)?.toList() ?? [];
+    try {
+      return node?.studios?.map((e) => e.name)?.toList() ?? [];
+    } catch (e) {
+      return [];
+    }
   }
 }

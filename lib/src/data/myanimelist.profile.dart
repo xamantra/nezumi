@@ -56,21 +56,21 @@ class MyAnimeListProfile {
         id: json["id"],
         name: json["name"],
         gender: json["gender"],
-        birthday: DateTime.parse(json["birthday"]),
+        birthday: json["birthday"] == null ? null : DateTime.parse(json["birthday"]),
         location: json["location"],
-        joinedAt: DateTime.parse(json["joined_at"]),
+        joinedAt: json["joined_at"] == null ? null : DateTime.parse(json["joined_at"]),
         picture: json["picture"],
-        animeStatistics: Map.from(json["anime_statistics"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
+        animeStatistics: json["anime_statistics"] == null ? null : Map.from(json["anime_statistics"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "gender": gender,
-        "birthday": "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
+        "birthday": birthday == null ? null : "${birthday.year.toString().padLeft(4, '0')}-${birthday.month.toString().padLeft(2, '0')}-${birthday.day.toString().padLeft(2, '0')}",
         "location": location,
-        "joined_at": joinedAt.toIso8601String(),
+        "joined_at": joinedAt?.toIso8601String(),
         "picture": picture,
-        "anime_statistics": Map.from(animeStatistics).map((k, v) => MapEntry<String, dynamic>(k, v)),
+        "anime_statistics": animeStatistics == null ? null : Map.from(animeStatistics).map((k, v) => MapEntry<String, dynamic>(k, v)),
       };
 }
