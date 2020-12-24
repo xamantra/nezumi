@@ -30,7 +30,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
         return MomentumBuilder(
           controllers: [MyAnimeListController],
           builder: (context, snapshot) {
-            var list = mal.userAnimeList?.getByStatus(widget.status) ?? [];
+            var list = mal.userAnimeList?.getByStatus(widget.status);
 
             if (mal.loading) {
               return Loader();

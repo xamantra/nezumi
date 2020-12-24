@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../mixins/index.dart';
+import '../../../../modules/my_anime_list/index.dart';
 import '../../../index.dart';
 import '../index.dart';
 
@@ -45,29 +47,37 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                     Scaffold.of(context).openDrawer();
                   },
                 ),
-                Container(
-                  width: width,
-                  color: AppTheme.of(context).primary,
-                  padding: EdgeInsets.symmetric(horizontal: sy(8)),
-                  child: TabBar(
-                    controller: tabController,
-                    isScrollable: true,
-                    labelColor: Colors.white,
-                    indicatorColor: Colors.white,
-                    labelStyle: TextStyle(
-                      fontSize: sy(9.5),
-                      fontWeight: FontWeight.w400,
-                    ),
-                    physics: BouncingScrollPhysics(),
-                    tabs: [
-                      Tab(text: 'All'),
-                      Tab(text: 'Watching'),
-                      Tab(text: 'On Hold'),
-                      Tab(text: 'Completed'),
-                      Tab(text: 'Planning'),
-                      Tab(text: 'Dropped'),
-                    ],
-                  ),
+                MomentumBuilder(
+                  controllers: [MyAnimeListController],
+                  builder: (context, snapshot) {
+                    var all = mal.userAnimeList?.getByStatus('all') ?? [];
+                    var watching = mal.userAnimeList?.getByStatus('watching') ?? [];
+                    var on_hold = mal.userAnimeList?.getByStatus('on_hold') ?? [];
+                    var completed = mal.userAnimeList?.getByStatus('completed') ?? [];
+                    var plan_to_watch = mal.userAnimeList?.getByStatus('plan_to_watch') ?? [];
+                    var dropped = mal.userAnimeList?.getByStatus('dropped') ?? [];
+
+                    return Container(
+                      width: width,
+                      color: AppTheme.of(context).primary,
+                      padding: EdgeInsets.symmetric(horizontal: sy(8)),
+                      child: TabBar(
+                        controller: tabController,
+                        isScrollable: true,
+                        labelColor: Colors.white,
+                        indicatorColor: Colors.white,
+                        physics: BouncingScrollPhysics(),
+                        tabs: [
+                          MyListTabItem(label: 'All', count: all.length),
+                          MyListTabItem(label: 'Watching', count: watching.length),
+                          MyListTabItem(label: 'On Hold', count: on_hold.length),
+                          MyListTabItem(label: 'Completed', count: completed.length),
+                          MyListTabItem(label: 'Planning', count: plan_to_watch.length),
+                          MyListTabItem(label: 'Dropped', count: dropped.length),
+                        ],
+                      ),
+                    );
+                  },
                 ),
                 Expanded(
                   child: Container(

@@ -6,6 +6,7 @@ export 'custom_icons.dart';
 export 'dot.dart';
 export 'image.dart';
 export 'loader.dart';
+export 'my-list.tab_item.dart';
 export 'ripple.dart';
 export 'sized-button.dart';
 export 'toolbar.action.dart';

@@ -10,9 +10,13 @@ class UserAnimeList {
   final Paging paging;
 
   List<AnimeData> getByStatus(String status) {
-    var result = <AnimeData>[];
-    result = animeList?.where((x) => status == "all" || x?.listStatus?.status == status)?.toList() ?? [];
-    return result;
+    try {
+      var result = <AnimeData>[];
+      result = animeList?.where((x) => status == "all" || x?.listStatus?.status == status)?.toList() ?? [];
+      return result;
+    } catch (e) {
+      return [];
+    }
   }
 
   UserAnimeList copyWith({
