@@ -55,14 +55,12 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         customFields: allAnimeListParams(omit: [synopsis, background]),
         timeout: 360000,
       );
-      var list = result?.animeList ?? [];
-      list.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
-      var sorted = UserAnimeList(paging: result?.paging, animeList: list);
-      model.update(userAnimeList: sorted, loadingAnimeList: false);
+      model.update(userAnimeList: result, loadingAnimeList: false);
     } catch (e) {
       print(e);
       model.update(loadingAnimeList: false);
     }
+    sortAnimeList();
   }
 
   Future<void> loadAnimeListByStatus(String status) async {
@@ -92,12 +90,12 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
           }
         },
       );
-      current.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
       var userAnimeList = UserAnimeList(paging: result?.paging, animeList: current);
       model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
     } catch (e) {
       print(e);
     }
+    sortAnimeList();
   }
 
   Future<void> loadAnimeHistory() async {
@@ -152,6 +150,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       model.update(userAnimeList: newList);
     }
     model.update(updatingListStatus: false);
+    sortAnimeList();
   }
 
   void incrementEpisode(int animeId) {
@@ -250,4 +249,11 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     }
   }
   /* front-end functions */
+
+  void sortAnimeList() {
+    var list = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
+    list.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
+    var sorted = UserAnimeList(paging: model?.userAnimeList?.paging, animeList: list);
+    model.update(userAnimeList: sorted);
+  }
 }
