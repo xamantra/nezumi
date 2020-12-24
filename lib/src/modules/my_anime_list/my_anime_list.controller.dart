@@ -55,9 +55,13 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         customFields: allAnimeListParams(omit: [synopsis, background]),
         timeout: 360000,
       );
-      model.update(userAnimeList: result, loadingAnimeList: false);
+      var list = result?.animeList ?? [];
+      list.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
+      var sorted = UserAnimeList(paging: result?.paging, animeList: list);
+      model.update(userAnimeList: sorted, loadingAnimeList: false);
     } catch (e) {
       print(e);
+      model.update(loadingAnimeList: false);
     }
   }
 
@@ -88,7 +92,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
           }
         },
       );
-      current.sort((a, b) => a.node.title.compareTo(b.node.title));
+      current.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
       var userAnimeList = UserAnimeList(paging: result?.paging, animeList: current);
       model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
     } catch (e) {
