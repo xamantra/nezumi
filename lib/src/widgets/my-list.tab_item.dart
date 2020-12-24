@@ -19,6 +19,7 @@ class MyListTabItem extends StatelessWidget {
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
           return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 label,

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:momentum/momentum.dart';
 
+import '../modules/anime-filter/index.dart';
 import '../modules/app/index.dart';
 import '../modules/my_anime_list/index.dart';
 import '../modules/settings/index.dart';
@@ -16,12 +17,36 @@ mixin CoreMixin<T> on MomentumController<T> {
     return _api;
   }
 
+  AppController _appCtrl;
+  AppModel get app {
+    if (_appCtrl == null) {
+      _appCtrl = dependOn<AppController>();
+    }
+    return _appCtrl?.model;
+  }
+
   SettingsController _settingsCtrl;
   SettingsModel get settings {
     if (_settingsCtrl == null) {
       _settingsCtrl = dependOn<SettingsController>();
     }
     return _settingsCtrl?.model;
+  }
+
+  MyAnimeListController _malCtrl;
+  MyAnimeListModel get mal {
+    if (_malCtrl == null) {
+      _malCtrl = dependOn<MyAnimeListController>();
+    }
+    return _malCtrl?.model;
+  }
+
+  AnimeFilterController _animeFilterCtrl;
+  AnimeFilterModel get animeFilter {
+    if (_animeFilterCtrl == null) {
+      _animeFilterCtrl = dependOn<AnimeFilterController>();
+    }
+    return _animeFilterCtrl?.model;
   }
 }
 
@@ -56,5 +81,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _malCtrl = ctrl<MyAnimeListController>(context);
     }
     return _malCtrl?.model;
+  }
+
+  AnimeFilterController _animeFilterCtrl;
+  AnimeFilterModel get animeFilter {
+    if (_animeFilterCtrl == null) {
+      _animeFilterCtrl = ctrl<AnimeFilterController>(context);
+    }
+    return _animeFilterCtrl?.model;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:momentum/momentum.dart';
 
+import '../modules/anime-filter/index.dart';
 import '../modules/app/index.dart';
 import '../modules/login/index.dart';
 import '../modules/my_anime_list/index.dart';
@@ -10,6 +11,7 @@ List<MomentumController> controllers() {
     AppController(),
     LoginController(),
     SettingsController(),
+    AnimeFilterController(),
     MyAnimeListController()
       ..config(
         strategy: BootstrapStrategy.lazyFirstBuild,
