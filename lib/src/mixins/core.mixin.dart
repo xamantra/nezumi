@@ -25,6 +25,14 @@ mixin CoreMixin<T> on MomentumController<T> {
 }
 
 mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
+  NavService _nav;
+  NavService get nav {
+    if (_nav == null) {
+      _nav = srv<NavService>(context);
+    }
+    return _nav;
+  }
+
   SettingsController _settingsCtrl;
   SettingsModel get settings {
     if (_settingsCtrl == null) {

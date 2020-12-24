@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nezumi/src/widgets/app-theme.dart';
-import 'package:nezumi/src/widgets/index.dart';
 import 'package:relative_scale/relative_scale.dart';
+
+import '../app-theme.dart';
+import '../index.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key key}) : super(key: key);

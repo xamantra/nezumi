@@ -6,6 +6,7 @@ import 'index.dart';
 List<MomentumService> services() {
   return [
     ApiService(),
+    NavService(),
     routerService(),
   ];
 }
