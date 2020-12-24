@@ -14,7 +14,6 @@ class AnimeItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = AppTheme.of(context).secondaryBackground.withOpacity(0.6);
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         var actions = [
@@ -42,22 +41,12 @@ class AnimeItemCard extends StatelessWidget {
           actionExtentRatio: 0.25,
           child: Container(
             width: width,
-            margin: EdgeInsets.all(sy(4)),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 0.5),
-                  spreadRadius: 1,
-                  blurRadius: 1,
-                  color: Colors.black.withOpacity(0.1),
-                ),
-              ],
-            ),
+            margin: EdgeInsets.symmetric(vertical: sy(4)),
+            color: Colors.transparent,
             child: Ripple(
               padding: sy(8),
               onPressed: () {},
+              radius: 0,
               child: Row(
                 children: [
                   SymmetricImage(

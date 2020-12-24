@@ -20,7 +20,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = TabController(length: 6, vsync: this);
+    tabController = TabController(initialIndex: 1, length: 6, vsync: this);
     mal?.controller?.initializeAnimeList();
   }
 
@@ -82,7 +82,6 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                 Expanded(
                   child: Container(
                     color: AppTheme.of(context).primaryBackground,
-                    padding: EdgeInsets.symmetric(horizontal: sy(8)),
                     child: TabBarView(
                       controller: tabController,
                       physics: BouncingScrollPhysics(),

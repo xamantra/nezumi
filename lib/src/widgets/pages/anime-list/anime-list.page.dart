@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../index.dart';
-import '../history/index.dart';
 import 'tabs/index.dart';
 
 class AnimeListPage extends StatefulWidget {
@@ -42,7 +41,7 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
                     children: [
                       MyListTabPage(),
                       SizedBox(),
-                      History(),
+                      SizedBox(),
                       SizedBox(),
                     ],
                   ),

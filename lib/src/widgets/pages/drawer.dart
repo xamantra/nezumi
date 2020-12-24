@@ -22,7 +22,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
         return Container(
           height: height,
           width: sy(180),
-          color: AppTheme.of(context).secondaryBackground,
+          color: AppTheme.of(context).primaryBackground,
           child: SafeArea(
             child: Column(
               children: [
@@ -30,7 +30,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                   height: sy(42),
                   width: width,
                   padding: EdgeInsets.all(sy(8)),
-                  color: AppTheme.of(context).secondaryBackground,
+                  color: AppTheme.of(context).primaryBackground,
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -47,7 +47,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                 Expanded(
                   child: Container(
                     width: width,
-                    color: AppTheme.of(context).secondaryBackground,
+                    color: AppTheme.of(context).primaryBackground,
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
                       child: Column(
