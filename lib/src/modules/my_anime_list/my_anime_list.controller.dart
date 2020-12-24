@@ -250,6 +250,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
   /* front-end functions */
 
+  // TODO; dynamic sorting (by title, date-update, content length ... DESC/ASC)
   void sortAnimeList() {
     var list = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
     list.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
