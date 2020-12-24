@@ -40,6 +40,12 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                   leadingIcon: Icons.menu,
                   title: 'Anime List',
                   actions: [
+                    ToolbarAction(
+                      icon: Icons.refresh,
+                      onPressed: () {
+                        mal.controller.loadAnimeList();
+                      },
+                    ),
                     // TODO: grid and list view mode switcher
                     ToolbarAction(icon: Icons.view_list),
                   ],
