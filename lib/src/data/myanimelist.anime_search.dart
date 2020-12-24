@@ -2,90 +2,74 @@ import 'dart:convert';
 
 import 'index.dart';
 
-class UserAnimeList {
-  UserAnimeList({
-    this.animeList,
+class AnimeSearch {
+  AnimeSearch({
+    this.data,
     this.paging,
   });
 
-  final List<AnimeData> animeList;
+  final List<AnimeSearchItem> data;
   final Paging paging;
 
-  List<AnimeData> getByStatus(String status) {
-    try {
-      var result = <AnimeData>[];
-      result = animeList?.where((x) => status == "all" || x?.listStatus?.status == status)?.toList() ?? [];
-      return result;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  UserAnimeList copyWith({
-    List<AnimeData> data,
+  AnimeSearch copyWith({
+    List<AnimeSearchItem> data,
     Paging paging,
   }) =>
-      UserAnimeList(
-        animeList: data ?? this.animeList,
+      AnimeSearch(
+        data: data ?? this.data,
         paging: paging ?? this.paging,
       );
 
-  factory UserAnimeList.fromRawJson(String str) => UserAnimeList.fromJson(json.decode(str));
+  factory AnimeSearch.fromRawJson(String str) => AnimeSearch.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  static UserAnimeList fromJson(Map<String, dynamic> json) => UserAnimeList(
-        animeList: json["data"] == null ? null : List<AnimeData>.from(json["data"].map((x) => AnimeData.fromJson(x))),
+  factory AnimeSearch.fromJson(Map<String, dynamic> json) => AnimeSearch(
+        data: json["data"] == null ? null : List<AnimeSearchItem>.from(json["data"].map((x) => AnimeSearchItem.fromJson(x))),
         paging: json["paging"] == null ? null : Paging.fromJson(json["paging"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "data": animeList == null ? null : List<dynamic>.from(animeList.map((x) => x.toJson())),
+        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
         "paging": paging == null ? null : paging.toJson(),
       };
 }
 
-class AnimeData {
-  AnimeData({
+class AnimeSearchItem {
+  AnimeSearchItem({
     this.node,
-    this.listStatus,
   });
 
-  final EntryNode node;
-  final ListStatus listStatus;
+  final SearchNode node;
 
-  AnimeData copyWith({
-    EntryNode node,
-    ListStatus listStatus,
+  AnimeSearchItem copyWith({
+    SearchNode node,
   }) =>
-      AnimeData(
+      AnimeSearchItem(
         node: node ?? this.node,
-        listStatus: listStatus ?? this.listStatus,
       );
 
-  factory AnimeData.fromRawJson(String str) => AnimeData.fromJson(json.decode(str));
+  factory AnimeSearchItem.fromRawJson(String str) => AnimeSearchItem.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory AnimeData.fromJson(Map<String, dynamic> json) => AnimeData(
-        node: json["node"] == null ? null : EntryNode.fromJson(json["node"]),
-        listStatus: json["list_status"] == null ? null : ListStatus.fromJson(json["list_status"]),
+  factory AnimeSearchItem.fromJson(Map<String, dynamic> json) => AnimeSearchItem(
+        node: json["node"] == null ? null : SearchNode.fromJson(json["node"]),
       );
 
   Map<String, dynamic> toJson() => {
         "node": node == null ? null : node.toJson(),
-        "list_status": listStatus == null ? null : listStatus.toJson(),
       };
 }
 
-class EntryNode {
-  EntryNode({
+class SearchNode {
+  SearchNode({
     this.id,
     this.title,
     this.mainPicture,
+    this.myListStatus,
     this.synopsis,
     this.startDate,
-    this.endDate,
     this.alternativeTitles,
     this.numEpisodes,
     this.status,
@@ -102,16 +86,17 @@ class EntryNode {
     this.updatedAt,
     this.mediaType,
     this.startSeason,
-    this.averageEpisodeDuration,
     this.broadcast,
+    this.averageEpisodeDuration,
+    this.endDate,
   });
 
   final int id;
   final String title;
   final MainPicture mainPicture;
+  final ListStatus myListStatus;
   final String synopsis;
   final String startDate;
-  final String endDate;
   final AlternativeTitles alternativeTitles;
   final int numEpisodes;
   final String status;
@@ -128,16 +113,17 @@ class EntryNode {
   final DateTime updatedAt;
   final String mediaType;
   final StartSeason startSeason;
-  final int averageEpisodeDuration;
   final Broadcast broadcast;
+  final int averageEpisodeDuration;
+  final String endDate;
 
-  EntryNode copyWith({
+  SearchNode copyWith({
     int id,
     String title,
     MainPicture mainPicture,
+    ListStatus myListStatus,
     String synopsis,
     String startDate,
-    String endDate,
     AlternativeTitles alternativeTitles,
     int numEpisodes,
     String status,
@@ -154,16 +140,17 @@ class EntryNode {
     DateTime updatedAt,
     String mediaType,
     StartSeason startSeason,
-    int averageEpisodeDuration,
     Broadcast broadcast,
+    int averageEpisodeDuration,
+    String endDate,
   }) =>
-      EntryNode(
+      SearchNode(
         id: id ?? this.id,
         title: title ?? this.title,
         mainPicture: mainPicture ?? this.mainPicture,
+        myListStatus: myListStatus ?? this.myListStatus,
         synopsis: synopsis ?? this.synopsis,
         startDate: startDate ?? this.startDate,
-        endDate: endDate ?? this.endDate,
         alternativeTitles: alternativeTitles ?? this.alternativeTitles,
         numEpisodes: numEpisodes ?? this.numEpisodes,
         status: status ?? this.status,
@@ -180,21 +167,22 @@ class EntryNode {
         updatedAt: updatedAt ?? this.updatedAt,
         mediaType: mediaType ?? this.mediaType,
         startSeason: startSeason ?? this.startSeason,
-        averageEpisodeDuration: averageEpisodeDuration ?? this.averageEpisodeDuration,
         broadcast: broadcast ?? this.broadcast,
+        averageEpisodeDuration: averageEpisodeDuration ?? this.averageEpisodeDuration,
+        endDate: endDate ?? this.endDate,
       );
 
-  factory EntryNode.fromRawJson(String str) => EntryNode.fromJson(json.decode(str));
+  factory SearchNode.fromRawJson(String str) => SearchNode.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory EntryNode.fromJson(Map<String, dynamic> json) => EntryNode(
+  factory SearchNode.fromJson(Map<String, dynamic> json) => SearchNode(
         id: json["id"] == null ? null : json["id"],
         title: json["title"] == null ? null : json["title"],
         mainPicture: json["main_picture"] == null ? null : MainPicture.fromJson(json["main_picture"]),
+        myListStatus: json["my_list_status"] == null ? null : ListStatus.fromJson(json["my_list_status"]),
         synopsis: json["synopsis"] == null ? null : json["synopsis"],
         startDate: json["start_date"] == null ? null : json["start_date"],
-        endDate: json["end_date"] == null ? null : json["end_date"],
         alternativeTitles: json["alternative_titles"] == null ? null : AlternativeTitles.fromJson(json["alternative_titles"]),
         numEpisodes: json["num_episodes"] == null ? null : json["num_episodes"],
         status: json["status"] == null ? null : json["status"],
@@ -211,17 +199,18 @@ class EntryNode {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         mediaType: json["media_type"] == null ? null : json["media_type"],
         startSeason: json["start_season"] == null ? null : StartSeason.fromJson(json["start_season"]),
-        averageEpisodeDuration: json["average_episode_duration"] == null ? null : json["average_episode_duration"],
         broadcast: json["broadcast"] == null ? null : Broadcast.fromJson(json["broadcast"]),
+        averageEpisodeDuration: json["average_episode_duration"] == null ? null : json["average_episode_duration"],
+        endDate: json["end_date"] == null ? null : json["end_date"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id == null ? null : id,
         "title": title == null ? null : title,
         "main_picture": mainPicture == null ? null : mainPicture.toJson(),
+        "my_list_status": myListStatus == null ? null : myListStatus.toJson(),
         "synopsis": synopsis == null ? null : synopsis,
         "start_date": startDate == null ? null : startDate,
-        "end_date": endDate == null ? null : endDate,
         "alternative_titles": alternativeTitles == null ? null : alternativeTitles.toJson(),
         "num_episodes": numEpisodes == null ? null : numEpisodes,
         "status": status == null ? null : status,
@@ -238,7 +227,8 @@ class EntryNode {
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "media_type": mediaType == null ? null : mediaType,
         "start_season": startSeason == null ? null : startSeason.toJson(),
-        "average_episode_duration": averageEpisodeDuration == null ? null : averageEpisodeDuration,
         "broadcast": broadcast == null ? null : broadcast.toJson(),
+        "average_episode_duration": averageEpisodeDuration == null ? null : averageEpisodeDuration,
+        "end_date": endDate == null ? null : endDate,
       };
 }

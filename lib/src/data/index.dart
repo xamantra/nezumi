@@ -1,8 +1,16 @@
 export 'account.dart';
 export 'history_group.dart';
+export 'myanimelist.alt_titles.dart';
 export 'myanimelist.anime_history.dart';
+export 'myanimelist.anime_list_status.dart';
+export 'myanimelist.anime_search.dart';
 export 'myanimelist.anime_update_response.dart';
+export 'myanimelist.broadcast.dart';
+export 'myanimelist.genre.dart';
+export 'myanimelist.main_picture.dart';
+export 'myanimelist.paging.dart';
 export 'myanimelist.profile.dart';
+export 'myanimelist.start_season.dart';
 export 'myanimelist.token.dart';
 export 'myanimelist.user_anime_list.dart';
 export 'myanimelist.user_anime_list.extensions.dart';
