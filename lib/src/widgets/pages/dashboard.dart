@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../mixins/index.dart';
+import '../../modules/app/index.dart';
 import 'index.dart';
 
 class Dashboard extends StatefulWidget {
@@ -24,9 +26,14 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
-        return Scaffold(
-          body: nav.activeWidget,
-          drawer: AppDrawer(),
+        return MomentumBuilder(
+          controllers: [AppController],
+          builder: (context, snapshot) {
+            return Scaffold(
+              body: nav.activeWidget,
+              drawer: AppDrawer(),
+            );
+          },
         );
       },
     );

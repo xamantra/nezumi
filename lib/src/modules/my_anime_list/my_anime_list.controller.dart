@@ -168,7 +168,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     var totalMins = 0;
     var totalEps = 0;
     var group = model.userAnimeHistory.groupByDay;
-    var lastDay = group.keys.last;
+    var lastDay = trycatch(() => group.keys.last);
     group.forEach((key, list) {
       if (key == lastDay) {
         return;
@@ -180,13 +180,13 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     });
 
     var result = totalMins / totalEps;
-    return result.toInt();
+    return trycatch(() => result.toInt(), 0);
   }
 
   int getEpisodesPerDay() {
     var totalEps = 0;
     var group = model.userAnimeHistory.groupByDay;
-    var lastDay = group.keys.last;
+    var lastDay = trycatch(() => group.keys.last);
     var totalDays = group.entries.length - 1;
     group.forEach((key, list) {
       if (key == lastDay) {
@@ -196,7 +196,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     });
 
     var result = totalEps / totalDays;
-    return result.toInt();
+    return trycatch(() => result.toInt(), 0);
   }
 
   double getHoursPerDay() {
@@ -229,7 +229,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   List<HistoryGroupData> getGroupedHistoryData() {
     var historyGroup = <HistoryGroupData>[];
     var group = model.userAnimeHistory?.groupByDay;
-    var lastDay = group?.keys?.last;
+    var lastDay = trycatch(() => group?.keys?.last);
     group?.forEach((day, historyList) {
       if (lastDay == day) return;
       historyGroup.add(HistoryGroupData(day: day, historyList: historyList));

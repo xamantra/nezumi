@@ -9,3 +9,4 @@ export 'history_parser.dart';
 export 'router.dart';
 export 'services.dart';
 export 'state-persistence.dart';
+export 'trycatch.dart';

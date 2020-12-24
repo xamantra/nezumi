@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:momentum/momentum.dart';
 
+import '../modules/app/index.dart';
 import '../modules/my_anime_list/index.dart';
 import '../modules/settings/index.dart';
 import '../services/index.dart';
@@ -31,6 +32,14 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _nav = srv<NavService>(context);
     }
     return _nav;
+  }
+
+  AppController _appCtrl;
+  AppModel get app {
+    if (_appCtrl == null) {
+      _appCtrl = ctrl<AppController>(context);
+    }
+    return _appCtrl?.model;
   }
 
   SettingsController _settingsCtrl;

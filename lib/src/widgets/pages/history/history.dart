@@ -34,125 +34,96 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
           backgroundColor: AppTheme.of(context).primary,
           appBar: Toolbar(
             height: sy(36),
-            title: 'History',
+            leadingIcon: Icons.menu,
+            title: 'Watching History',
             actions: [
               ToolbarAction(icon: Icons.settings),
               ToolbarAction(icon: Icons.more_vert),
             ],
+            leadingAction: () {
+              Scaffold.of(context).openDrawer();
+            },
           ),
           body: SafeArea(
-            child: Column(
-              children: [
-                Container(
-                  height: sy(36),
-                  width: width,
-                  color: AppTheme.of(context).primary,
-                  child: TabBar(
-                    controller: tabController,
-                    labelStyle: TextStyle(fontSize: sy(11)),
-                    indicatorColor: Colors.white,
-                    tabs: [
-                      Tab(text: 'Anime'),
-                      Tab(text: 'Manga'),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    controller: tabController,
-                    children: [
-                      MomentumBuilder(
-                        controllers: [MyAnimeListController],
-                        builder: (context, snapshot) {
-                          var loading = mal.loading;
-                          var historyGroup = mal?.controller?.getGroupedHistoryData();
-                          return Column(
-                            children: [
-                              Expanded(
-                                child: loading
-                                    ? Loader()
-                                    : Container(
-                                        color: AppTheme.of(context).secondaryBackground,
-                                        height: height,
-                                        width: width,
-                                        child: Column(
-                                          children: [
-                                            SafeArea(child: SizedBox()),
-                                            Expanded(
-                                              child: SmartRefresher(
-                                                enablePullDown: true,
-                                                controller: refreshController,
-                                                onRefresh: () {
-                                                  mal.controller.loadAnimeHistory();
-                                                },
-                                                child: ListView.builder(
-                                                  itemCount: historyGroup.length,
-                                                  itemBuilder: (_, i) {
-                                                    return HistoryGroup(historyGroupData: historyGroup[i]);
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              height: sy(40),
-                                              width: width,
-                                              color: AppTheme.of(context).primaryBackground,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: [
-                                                  StatItem(
-                                                    value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
-                                                    label: 'Hrs/day',
-                                                    valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
-                                                  ),
-                                                  StatItem(
-                                                    value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
-                                                    label: 'Mins/ep',
-                                                    valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
-                                                  ),
-                                                  StatItem(
-                                                    value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
-                                                    label: 'Eps/day',
-                                                    valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+            child: MomentumBuilder(
+              controllers: [MyAnimeListController],
+              builder: (context, snapshot) {
+                var loading = mal.loading;
+                var historyGroup = mal?.controller?.getGroupedHistoryData();
+                return Column(
+                  children: [
+                    Expanded(
+                      child: loading
+                          ? Loader()
+                          : Container(
+                              color: AppTheme.of(context).secondaryBackground,
+                              height: height,
+                              width: width,
+                              child: Column(
+                                children: [
+                                  SafeArea(child: SizedBox()),
+                                  Expanded(
+                                    child: SmartRefresher(
+                                      enablePullDown: true,
+                                      controller: refreshController,
+                                      onRefresh: () {
+                                        mal.controller.loadAnimeHistory();
+                                      },
+                                      child: ListView.builder(
+                                        itemCount: historyGroup.length,
+                                        itemBuilder: (_, i) {
+                                          return HistoryGroup(historyGroupData: historyGroup[i]);
+                                        },
                                       ),
-                              ),
-                              SizedButton(
-                                height: sy(32),
-                                width: width,
-                                color: AppTheme.of(context).primaryBackground,
-                                child: Text(
-                                  'FETCH ANIME LIST',
-                                  style: TextStyle(
-                                    color: AppTheme.of(context).primary,
-                                    fontSize: sy(9),
+                                    ),
                                   ),
-                                ),
-                                onPressed: () {
-                                  mal?.controller?.loadData();
-                                },
+                                  Container(
+                                    height: sy(40),
+                                    width: width,
+                                    color: AppTheme.of(context).primaryBackground,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        StatItem(
+                                          value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
+                                          label: 'Hrs/day',
+                                          valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
+                                        ),
+                                        StatItem(
+                                          value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
+                                          label: 'Mins/ep',
+                                          valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
+                                        ),
+                                        StatItem(
+                                          value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
+                                          label: 'Eps/day',
+                                          valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          );
-                        },
-                      ),
-                      Center(
-                        child: Text(
-                          'SOON',
-                          style: TextStyle(
-                            color: AppTheme.of(context).text3,
-                          ),
+                            ),
+                    ),
+                    SizedButton(
+                      height: sy(32),
+                      width: width,
+                      color: AppTheme.of(context).primaryBackground,
+                      child: Text(
+                        'FETCH ANIME LIST',
+                        style: TextStyle(
+                          color: AppTheme.of(context).primary,
+                          fontSize: sy(9),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ],
+                      onPressed: () {
+                        mal?.controller?.loadData();
+                      },
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         );

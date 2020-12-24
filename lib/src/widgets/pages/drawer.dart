@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../mixins/index.dart';
 import '../app-theme.dart';
 import '../index.dart';
+import 'anime-list/index.dart';
+import 'history/index.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   const AppDrawer({Key key}) : super(key: key);
 
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
@@ -46,9 +54,25 @@ class AppDrawer extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DividerSectionHeader(text: 'Anime'),
-                          DrawerItem(icon: CustomIcons.th, text: 'Anime List'),
+                          DrawerItem(
+                            icon: CustomIcons.th,
+                            text: 'Anime List',
+                            onPressed: () {
+                              Navigator.pop(context);
+                              nav.gotoPage(AnimeListPage());
+                              app.triggerRebuild();
+                            },
+                          ),
                           DrawerItem(icon: CustomIcons.award, text: 'Top Anime'),
-                          DrawerItem(icon: CustomIcons.history, text: 'History'),
+                          DrawerItem(
+                            icon: CustomIcons.history,
+                            text: 'History',
+                            onPressed: () {
+                              Navigator.pop(context);
+                              nav.gotoPage(History());
+                              app.triggerRebuild();
+                            },
+                          ),
                           DrawerItem(icon: CustomIcons.award_1, text: 'Achievements'),
                           DrawerItem(icon: CustomIcons.tags, text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
