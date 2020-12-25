@@ -7,6 +7,7 @@ List<MomentumService> services() {
   return [
     ApiService(),
     NavService(),
+    FilterWigdetService(),
     routerService(),
   ];
 }

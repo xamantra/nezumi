@@ -59,6 +59,14 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
     return _nav;
   }
 
+  FilterWigdetService _filterWidgetService;
+  FilterWigdetService get filterWidgetService {
+    if (_filterWidgetService == null) {
+      _filterWidgetService = srv<FilterWigdetService>(context);
+    }
+    return _filterWidgetService;
+  }
+
   AppController _appCtrl;
   AppModel get app {
     if (_appCtrl == null) {

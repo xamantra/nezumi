@@ -5,7 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../../mixins/index.dart';
 import '../../../../modules/anime-filter/index.dart';
 import '../../../index.dart';
-import '../index.dart';
+import 'sub-pages/index.dart';
 
 class AnimeFilterTab extends StatefulWidget {
   const AnimeFilterTab({Key key}) : super(key: key);
@@ -20,7 +20,7 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    tabController = TabController(initialIndex: 0, length: 2, vsync: this);
   }
 
   @override
@@ -59,9 +59,8 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
                         indicatorColor: Colors.white,
                         physics: BouncingScrollPhysics(),
                         tabs: [
-                          MyListTabItem(label: 'Filters', count: 0),
-                          MyListTabItem(label: 'Results', count: 0),
-                          MyListTabItem(label: 'Result Stats', count: 0),
+                          MyListTabItem(label: 'Filters', count: animeFilter.animeFilters.length),
+                          MyListTabItem(label: 'Results', count: animeFilter.results.length),
                         ],
                       ),
                     );
@@ -74,9 +73,8 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
                       controller: tabController,
                       physics: BouncingScrollPhysics(),
                       children: [
-                        SizedBox(), // TODO: filter list page.
-                        AnimeFilterListView(),
-                        SizedBox(), // TODO: result stats page.
+                        AnimeFilterList(), // TODO: filter list page.
+                        AnimeFilterResultView(),
                       ],
                     ),
                   ),
