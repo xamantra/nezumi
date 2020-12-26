@@ -9,6 +9,7 @@ class Badge extends StatelessWidget {
     @required this.text,
     @required this.fontSize,
     this.borderRadius,
+    this.onPressed,
   }) : super(key: key);
 
   final Color color;
@@ -16,22 +17,30 @@ class Badge extends StatelessWidget {
   final String text;
   final double fontSize;
   final double borderRadius;
+  final void Function(String) onPressed;
 
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
-        return Container(
-          padding: EdgeInsets.symmetric(horizontal: sy(4), vertical: sy(2)),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(borderRadius ?? 10),
-          ),
-          child: Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: fontSize,
+        return GestureDetector(
+          onTap: () {
+            if (onPressed != null) {
+              onPressed(text);
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: sy(4), vertical: sy(2)),
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(borderRadius ?? 10),
+            ),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontSize: fontSize,
+              ),
             ),
           ),
         );

@@ -26,7 +26,6 @@ class HorizontalBadgeList extends StatelessWidget {
                 .map<Widget>(
                   (e) => GestureDetector(
                     onTap: () {
-                      // updateFilter(false, e, remove: true);
                       if (itemCallback != null) {
                         itemCallback(e);
                       }

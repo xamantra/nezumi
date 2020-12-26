@@ -26,7 +26,7 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
             var filter = animeFilter.animeGenreFilter;
             return Card(
               color: AppTheme.of(context).secondaryBackground,
-              margin: EdgeInsets.all(sy(8)),
+              margin: EdgeInsets.symmetric(horizontal: sy(8), vertical: sy(4)),
               child: Ripple(
                 child: Container(
                   width: width,

@@ -41,6 +41,21 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
                       Navigator.pop(context);
                     },
                   ),
+                  Ripple(
+                    child: ListTile(
+                      title: Text(
+                        'Watch Date Filter',
+                        style: TextStyle(
+                          color: AppTheme.of(context).text2,
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      filterWidgetService.addFilter(WatchDateFilterWidget());
+                      app.triggerRebuild();
+                      Navigator.pop(context);
+                    },
+                  ),
                 ],
               ),
             ),

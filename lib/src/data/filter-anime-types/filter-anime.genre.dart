@@ -27,7 +27,7 @@ class AnimeGenreFilter extends AnimeFilterBase {
     var checkExclude = excludeGenres.isNotEmpty;
     var animeGenres = anime.node.genres ?? [];
     if (!checkInclude && !checkExclude) {
-      return false;
+      return true;
     }
     if (animeGenres.isEmpty) {
       return false;

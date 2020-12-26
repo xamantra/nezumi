@@ -17,6 +17,7 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
 
       /* filter types */
       animeGenreFilter: AnimeGenreFilter(),
+      animeWatchDateFilter: AnimeWatchDateFilter(),
       /* filter types */
     );
   }
@@ -60,6 +61,10 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
         results.add(anime);
       }
     });
+    if (results.length == source.length) {
+      model.update(results: []);
+      return;
+    }
     results.sort((a, b) => a.node.title.compareTo(b.node.title));
     model.update(results: results);
   }

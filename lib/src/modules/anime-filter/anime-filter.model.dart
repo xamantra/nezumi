@@ -11,6 +11,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
     this.animeFilters,
     this.results,
     this.animeGenreFilter,
+    this.animeWatchDateFilter,
   }) : super(controller);
 
   final List<AnimeFilterBase> animeFilters;
@@ -18,6 +19,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
 
   /* filter types */
   final AnimeGenreFilter animeGenreFilter;
+  final AnimeWatchDateFilter animeWatchDateFilter;
   /* filter types */
 
   @override
@@ -25,12 +27,14 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
     List<AnimeFilterBase> animeFilters,
     List<AnimeData> results,
     AnimeGenreFilter animeGenreFilter,
+    AnimeWatchDateFilter animeWatchDateFilter,
   }) {
     AnimeFilterModel(
       controller,
       animeFilters: animeFilters ?? this.animeFilters,
       results: results ?? this.results,
       animeGenreFilter: animeGenreFilter ?? this.animeGenreFilter,
+      animeWatchDateFilter: animeWatchDateFilter ?? this.animeWatchDateFilter,
     ).updateMomentum();
   }
 }
