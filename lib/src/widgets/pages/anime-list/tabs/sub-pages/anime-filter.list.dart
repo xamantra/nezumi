@@ -26,7 +26,9 @@ class _AnimeFilterListState extends State<AnimeFilterList> with CoreStateMixin {
               builder: (context, snapshot) {
                 return SingleChildScrollView(
                   child: Column(
-                    children: filterWidgetService.filterWidgets,
+                    children: [
+                      SizedBox(height: sy(4)),
+                    ]..addAll(filterWidgetService.filterWidgets),
                   ),
                 );
               },

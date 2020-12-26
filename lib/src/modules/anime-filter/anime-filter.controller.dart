@@ -44,7 +44,7 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     _processFilters();
   }
 
-  void removeFilter<T extends AnimeFilterBase>(T filter) {
+  void removeFilter<T extends AnimeFilterBase>() {
     var animeFilters = List<AnimeFilterBase>.from(model.animeFilters);
     animeFilters.removeWhere((x) => x is T);
     model.update(animeFilters: animeFilters);

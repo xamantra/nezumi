@@ -27,89 +27,112 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
             return Card(
               color: AppTheme.of(context).secondaryBackground,
               margin: EdgeInsets.symmetric(horizontal: sy(8), vertical: sy(4)),
-              child: Ripple(
-                child: Container(
-                  width: width,
-                  padding: EdgeInsets.all(sy(8)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Genre Filter',
-                        style: TextStyle(
-                          color: AppTheme.of(context).text2,
-                          fontSize: sy(10),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Row(
+              child: Stack(
+                children: [
+                  Ripple(
+                    child: Container(
+                      width: width,
+                      padding: EdgeInsets.all(sy(8)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Include: ',
+                            'Genre Filter',
                             style: TextStyle(
-                              fontSize: sy(8),
-                              color: Colors.white.withOpacity(0.5),
+                              color: AppTheme.of(context).text2,
+                              fontSize: sy(10),
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Expanded(
-                            child: HorizontalBadgeList(
-                              items: filter.includeGenresSorted,
-                              color: Colors.green,
-                              itemCallback: (genre) {
-                                updateFilter(true, genre, remove: true);
-                              },
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                'Include: ',
+                                style: TextStyle(
+                                  fontSize: sy(8),
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              Expanded(
+                                child: HorizontalBadgeList(
+                                  items: filter.includeGenresSorted,
+                                  color: Colors.green,
+                                  itemCallback: (genre) {
+                                    updateFilter(true, genre, remove: true);
+                                  },
+                                ),
+                              ),
+                              SizedButton(
+                                height: sy(25),
+                                width: sy(25),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  chooseGenre(filter, true);
+                                },
+                              ),
+                            ],
                           ),
-                          SizedButton(
-                            height: sy(25),
-                            width: sy(25),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              chooseGenre(filter, true);
-                            },
+                          Divider(height: 1, color: Colors.white.withOpacity(0.3)),
+                          Row(
+                            children: [
+                              Text(
+                                'Exclude: ',
+                                style: TextStyle(
+                                  fontSize: sy(8),
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              Expanded(
+                                child: HorizontalBadgeList(
+                                  items: filter.excludeGenresSorted,
+                                  color: Colors.red[800],
+                                  itemCallback: (genre) {
+                                    updateFilter(false, genre, remove: true);
+                                  },
+                                ),
+                              ),
+                              SizedButton(
+                                height: sy(25),
+                                width: sy(25),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  chooseGenre(filter, false);
+                                },
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                      Divider(height: 1, color: Colors.white.withOpacity(0.3)),
-                      Row(
-                        children: [
-                          Text(
-                            'Exclude: ',
-                            style: TextStyle(
-                              fontSize: sy(8),
-                              color: Colors.white.withOpacity(0.5),
-                            ),
-                          ),
-                          Expanded(
-                            child: HorizontalBadgeList(
-                              items: filter.excludeGenresSorted,
-                              color: Colors.red[800],
-                              itemCallback: (genre) {
-                                updateFilter(false, genre, remove: true);
-                              },
-                            ),
-                          ),
-                          SizedButton(
-                            height: sy(25),
-                            width: sy(25),
-                            child: Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              chooseGenre(filter, false);
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: SizedButton(
+                      height: sy(20),
+                      width: sy(20),
+                      radius: 100,
+                      child: Icon(
+                        Icons.close,
+                        size: sy(14),
+                        color: Colors.redAccent,
+                      ),
+                      onPressed: () {
+                        filterWidgetService.removeFilter<GenreFilterWidget>();
+                        animeFilter.controller.removeFilter<AnimeGenreFilter>();
+                        animeFilter.update(animeGenreFilter: AnimeGenreFilter());
+                        app.triggerRebuild();
+                      },
+                    ),
+                  ),
+                ],
               ),
             );
           },

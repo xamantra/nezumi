@@ -41,6 +41,9 @@ class AnimeWatchDateFilter extends AnimeFilterBase {
 
   @override
   bool match(AnimeData animeData) {
+    if (started == null && finished == null) {
+      return true;
+    }
     var startMatched = startDateMatch(animeData);
     var finishMatched = finishDateMatch(animeData);
     var matched = startMatched && finishMatched;

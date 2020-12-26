@@ -9,4 +9,12 @@ class FilterWigdetService extends MomentumService {
     if (alreadyExists) return;
     filterWidgets.add(filterWidget);
   }
+
+  void removeFilter<T extends Widget>() {
+    try {
+      filterWidgets.removeWhere((x) => x is T);
+    } catch (e) {
+      print(e);
+    }
+  }
 }

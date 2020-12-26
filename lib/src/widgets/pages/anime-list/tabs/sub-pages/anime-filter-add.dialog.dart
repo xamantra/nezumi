@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nezumi/src/data/filter-anime-types/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../mixins/index.dart';
@@ -37,6 +38,7 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
                     ),
                     onPressed: () {
                       filterWidgetService.addFilter(GenreFilterWidget());
+                      animeFilter.controller.addFilter(animeFilter.animeGenreFilter);
                       app.triggerRebuild();
                       Navigator.pop(context);
                     },
@@ -52,6 +54,7 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
                     ),
                     onPressed: () {
                       filterWidgetService.addFilter(WatchDateFilterWidget());
+                      animeFilter.controller.addFilter(animeFilter.animeWatchDateFilter);
                       app.triggerRebuild();
                       Navigator.pop(context);
                     },
