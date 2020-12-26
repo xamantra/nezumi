@@ -1,8 +1,8 @@
 import 'package:momentum/momentum.dart';
 
 import '../../absract/index.dart';
+import '../../data/filter-anime-types/index.dart';
 import '../../data/index.dart';
-import '../../widgets/pages/anime-list/filter-types/index.dart';
 import 'index.dart';
 
 class AnimeFilterModel extends MomentumModel<AnimeFilterController> {

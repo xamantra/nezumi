@@ -1,10 +1,10 @@
 import 'package:momentum/momentum.dart';
 
 import '../../absract/index.dart';
+import '../../data/filter-anime-types/index.dart';
 import '../../data/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
-import '../../widgets/pages/anime-list/filter-types/index.dart';
 import 'index.dart';
 
 class AnimeFilterController extends MomentumController<AnimeFilterModel> with CoreMixin {
