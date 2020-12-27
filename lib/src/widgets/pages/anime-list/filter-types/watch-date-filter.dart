@@ -22,7 +22,7 @@ class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with Core
         return MomentumBuilder(
           controllers: [AnimeFilterController],
           builder: (context, snapshot) {
-            var filter = animeFilter.animeWatchDateFilter;
+            var filter = animeFilter.getFilter<AnimeWatchDateFilter>();
             return Card(
               color: AppTheme.of(context).secondaryBackground,
               margin: EdgeInsets.symmetric(horizontal: sy(8), vertical: sy(4)),
@@ -125,7 +125,6 @@ class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with Core
                       onPressed: () {
                         filterWidgetService.removeFilter<WatchDateFilterWidget>();
                         animeFilter.controller.removeFilter<AnimeWatchDateFilter>();
-                        animeFilter.update(animeWatchDateFilter: AnimeWatchDateFilter());
                         app.triggerRebuild();
                       },
                     ),
@@ -141,7 +140,6 @@ class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with Core
 
   void updateFilter(AnimeWatchDateFilter filter, {DateTime start, DateTime finish}) {
     var updated = filter.copyWith(started: start, finished: finish);
-    animeFilter.update(animeWatchDateFilter: updated);
     animeFilter.controller.addFilter(updated);
   }
 }

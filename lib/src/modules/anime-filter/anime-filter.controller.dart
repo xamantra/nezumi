@@ -1,7 +1,6 @@
 import 'package:momentum/momentum.dart';
 
 import '../../absract/index.dart';
-import '../../data/filter-anime-types/index.dart';
 import '../../data/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
@@ -14,11 +13,6 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
       this,
       animeFilters: [],
       results: [],
-
-      /* filter types */
-      animeGenreFilter: AnimeGenreFilter(),
-      animeWatchDateFilter: AnimeWatchDateFilter(),
-      /* filter types */
     );
   }
 

@@ -23,7 +23,7 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
         return MomentumBuilder(
           controllers: [AnimeFilterController],
           builder: (context, snapshot) {
-            var filter = animeFilter.animeGenreFilter;
+            var filter = animeFilter.getFilter<AnimeGenreFilter>();
             return Card(
               color: AppTheme.of(context).secondaryBackground,
               margin: EdgeInsets.symmetric(horizontal: sy(8), vertical: sy(4)),
@@ -127,7 +127,6 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
                       onPressed: () {
                         filterWidgetService.removeFilter<GenreFilterWidget>();
                         animeFilter.controller.removeFilter<AnimeGenreFilter>();
-                        animeFilter.update(animeGenreFilter: AnimeGenreFilter());
                         app.triggerRebuild();
                       },
                     ),
@@ -188,13 +187,12 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
     String genre, {
     bool remove = false,
   }) {
-    var filter = animeFilter.animeGenreFilter;
+    var filter = animeFilter.getFilter<AnimeGenreFilter>();
     if (include) {
       filter = filter.includeGenre(genre, remove: remove);
     } else {
       filter = filter.excludeGenre(genre, remove: remove);
     }
-    animeFilter.update(animeGenreFilter: filter);
     animeFilter.controller.addFilter(filter);
   }
 }
