@@ -59,6 +59,12 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
                       Navigator.pop(context);
                     },
                   ),
+
+                  // TODO: list status filter
+                  // TODO: release season filter
+                  // TODO: release year filter
+                  // TODO: media type filter
+                  // TODO: content length filter
                 ],
               ),
             ),
