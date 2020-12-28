@@ -1,8 +1,8 @@
 import '../../absract/index.dart';
 import '../index.dart';
 
-class AnimeGenreFilter extends AnimeFilterBase {
-  AnimeGenreFilter({
+class AnimeFilterGenreData extends AnimeFilterData {
+  AnimeFilterGenreData({
     this.includeGenres = const [],
     this.excludeGenres = const [],
   });
@@ -44,7 +44,7 @@ class AnimeGenreFilter extends AnimeFilterBase {
     return result;
   }
 
-  AnimeGenreFilter includeGenre(
+  AnimeFilterGenreData includeGenre(
     String genre, {
     bool remove = false,
   }) {
@@ -66,7 +66,7 @@ class AnimeGenreFilter extends AnimeFilterBase {
     );
   }
 
-  AnimeGenreFilter excludeGenre(
+  AnimeFilterGenreData excludeGenre(
     String genre, {
     bool remove = false,
   }) {
@@ -88,11 +88,11 @@ class AnimeGenreFilter extends AnimeFilterBase {
     );
   }
 
-  AnimeGenreFilter copyWith({
+  AnimeFilterGenreData copyWith({
     List<String> includeGenres,
     List<String> excludeGenres,
   }) {
-    return AnimeGenreFilter(
+    return AnimeFilterGenreData(
       includeGenres: includeGenres ?? this.includeGenres,
       excludeGenres: excludeGenres ?? this.excludeGenres,
     );

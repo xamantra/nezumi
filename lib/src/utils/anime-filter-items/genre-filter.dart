@@ -5,13 +5,13 @@ import '../../data/filter-anime-types/index.dart';
 import '../../modules/anime-filter/index.dart';
 import '../../modules/app/index.dart';
 import '../../services/index.dart';
-import '../../widgets/pages/anime-list/filter-types/index.dart';
+import '../../widgets/anime-filter-item-widgets/index.dart';
 import '../index.dart';
 
-class AnimeGenreFilterItem extends AnimeFilterItemBase {
+class AnimeFilterGenreItem extends AnimeFilterItem {
   @override
   Widget build(BuildContext context) {
-    return GenreFilterWidget();
+    return AnimeFilterGenreWidget();
   }
 
   @override
@@ -20,10 +20,10 @@ class AnimeGenreFilterItem extends AnimeFilterItemBase {
     var animeFilter = ctrl<AnimeFilterController>(context).model;
     var app = ctrl<AppController>(context).model;
 
-    var exist = animeFilter.filterExist<AnimeGenreFilter>();
+    var exist = animeFilter.filterExist<AnimeFilterGenreData>();
     if (!exist) {
       filterWidgetService.addFilter(this);
-      animeFilter.controller.addFilter(AnimeGenreFilter());
+      animeFilter.controller.addFilter(AnimeFilterGenreData());
       app.triggerRebuild();
     }
     Navigator.pop(context);
@@ -35,8 +35,8 @@ class AnimeGenreFilterItem extends AnimeFilterItemBase {
     var animeFilterController = ctrl<AnimeFilterController>(context);
     var app = ctrl<AppController>(context);
 
-    filterWidgetService.removeFilter<AnimeGenreFilterItem>();
-    animeFilterController.removeFilter<AnimeGenreFilter>();
+    filterWidgetService.removeFilter<AnimeFilterGenreItem>();
+    animeFilterController.removeFilter<AnimeFilterGenreData>();
     app.rebuild();
   }
 

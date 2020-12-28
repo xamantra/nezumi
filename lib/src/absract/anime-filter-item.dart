@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-abstract class AnimeFilterItemBase {
+abstract class AnimeFilterItem {
   String get title;
 
   Widget build(BuildContext context);

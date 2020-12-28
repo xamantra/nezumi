@@ -5,7 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../../mixins/index.dart';
 import '../../../../modules/anime-filter/index.dart';
 import '../../../index.dart';
-import 'sub-pages/index.dart';
+import 'anime-filter-widgets/index.dart';
 
 class AnimeFilterTab extends StatefulWidget {
   const AnimeFilterTab({Key key}) : super(key: key);
@@ -73,7 +73,7 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
                       controller: tabController,
                       physics: BouncingScrollPhysics(),
                       children: [
-                        AnimeFilterList(), // TODO: filter list page.
+                        AnimeFilterList(),
                         AnimeFilterResultView(),
                       ],
                     ),

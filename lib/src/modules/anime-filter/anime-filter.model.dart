@@ -11,10 +11,10 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
     this.results,
   }) : super(controller);
 
-  final List<AnimeFilterBase> animeFilters;
+  final List<AnimeFilterData> animeFilters;
   final List<AnimeData> results;
 
-  T getFilter<T extends AnimeFilterBase>() {
+  T getFilter<T extends AnimeFilterData>() {
     try {
       var find = animeFilters.firstWhere((x) => x is T, orElse: () => null);
       return find as T;
@@ -23,7 +23,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
     }
   }
 
-  bool filterExist<T extends AnimeFilterBase>() {
+  bool filterExist<T extends AnimeFilterData>() {
     try {
       var exist = animeFilters.any((x) => x is T);
       return exist;
@@ -34,7 +34,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
 
   @override
   void update({
-    List<AnimeFilterBase> animeFilters,
+    List<AnimeFilterData> animeFilters,
     List<AnimeData> results,
   }) {
     AnimeFilterModel(

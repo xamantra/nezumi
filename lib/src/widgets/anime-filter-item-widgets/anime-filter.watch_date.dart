@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../data/filter-anime-types/index.dart';
-import '../../../../mixins/index.dart';
-import '../../../../modules/anime-filter/index.dart';
-import '../../../index.dart';
+import '../../data/filter-anime-types/index.dart';
+import '../../mixins/index.dart';
+import '../../modules/anime-filter/index.dart';
+import '../index.dart';
 
-class WatchDateFilterWidget extends StatefulWidget {
-  WatchDateFilterWidget({Key key}) : super(key: key);
+class AnimeFilterWatchDateWidget extends StatefulWidget {
+  AnimeFilterWatchDateWidget({Key key}) : super(key: key);
 
   @override
-  _WatchDateFilterWidgetState createState() => _WatchDateFilterWidgetState();
+  _AnimeFilterWatchDateWidgetState createState() => _AnimeFilterWatchDateWidgetState();
 }
 
-class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with CoreStateMixin {
+class _AnimeFilterWatchDateWidgetState extends State<AnimeFilterWatchDateWidget> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
@@ -22,7 +22,7 @@ class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with Core
         return MomentumBuilder(
           controllers: [AnimeFilterController],
           builder: (context, snapshot) {
-            var filter = animeFilter.getFilter<AnimeWatchDateFilter>();
+            var filter = animeFilter.getFilter<AnimeFilterWatchDateData>();
             return Row(
               children: [
                 Row(
@@ -89,7 +89,7 @@ class _WatchDateFilterWidgetState extends State<WatchDateFilterWidget> with Core
     );
   }
 
-  void updateFilter(AnimeWatchDateFilter filter, {DateTime start, DateTime finish}) {
+  void updateFilter(AnimeFilterWatchDateData filter, {DateTime start, DateTime finish}) {
     var updated = filter.copyWith(started: start, finished: finish);
     animeFilter.controller.addFilter(updated);
   }

@@ -18,8 +18,8 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
 
   List<AnimeData> get animeListSource => mal.userAnimeList?.animeList ?? [];
 
-  void addFilter<T extends AnimeFilterBase>(T filter) {
-    var animeFilters = List<AnimeFilterBase>.from(model.animeFilters);
+  void addFilter<T extends AnimeFilterData>(T filter) {
+    var animeFilters = List<AnimeFilterData>.from(model.animeFilters);
     var exists = animeFilters.any((x) => x is T);
     if (exists) {
       editFilter(filter);
@@ -30,16 +30,16 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     }
   }
 
-  void editFilter<T extends AnimeFilterBase>(T filter) {
-    var animeFilters = List<AnimeFilterBase>.from(model.animeFilters);
+  void editFilter<T extends AnimeFilterData>(T filter) {
+    var animeFilters = List<AnimeFilterData>.from(model.animeFilters);
     animeFilters.removeWhere((x) => x is T);
     animeFilters.add(filter);
     model.update(animeFilters: animeFilters);
     _processFilters();
   }
 
-  void removeFilter<T extends AnimeFilterBase>() {
-    var animeFilters = List<AnimeFilterBase>.from(model.animeFilters);
+  void removeFilter<T extends AnimeFilterData>() {
+    var animeFilters = List<AnimeFilterData>.from(model.animeFilters);
     animeFilters.removeWhere((x) => x is T);
     model.update(animeFilters: animeFilters);
     _processFilters();

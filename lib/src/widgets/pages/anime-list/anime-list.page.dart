@@ -41,7 +41,7 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
                     children: [
                       MyListTabPage(),
                       SizedBox(), // TODO: anime search page (my list results and MAL results)
-                      AnimeFilterTab(), // TODO: anime filter page (advance filtering...)
+                      AnimeFilterTab(),
                       SizedBox(), // TODO: anime stats page (MAL default stats, by year, by season, by genre)
                     ],
                   ),

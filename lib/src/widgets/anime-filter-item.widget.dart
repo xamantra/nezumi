@@ -10,7 +10,7 @@ class AnimeFilterItemWidget extends StatefulWidget {
     @required this.filterItem,
   }) : super(key: key);
 
-  final AnimeFilterItemBase filterItem;
+  final AnimeFilterItem filterItem;
 
   @override
   _AnimeFilterItemWidgetState createState() => _AnimeFilterItemWidgetState();

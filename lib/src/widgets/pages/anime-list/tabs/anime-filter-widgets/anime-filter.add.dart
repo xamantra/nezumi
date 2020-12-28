@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../mixins/index.dart';
+import '../../../../../utils/anime-filter-items/index.dart';
 import '../../../../index.dart';
 
 class AnimeFilterDialog extends StatefulWidget {
@@ -24,7 +25,7 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: filterWidgetService.filterItemSource
+                children: filterItemSource
                     .map(
                       (e) => Ripple(
                         child: ListTile(
@@ -41,11 +42,6 @@ class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMix
                       ),
                     )
                     .toList(),
-                // TODO: list status filter
-                // TODO: release season filter
-                // TODO: release date filter
-                // TODO: media type filter
-                // TODO: content length filter
               ),
             ),
           );

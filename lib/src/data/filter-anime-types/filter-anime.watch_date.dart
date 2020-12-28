@@ -4,8 +4,8 @@ import '../../absract/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
 
-class AnimeWatchDateFilter extends AnimeFilterBase {
-  AnimeWatchDateFilter({
+class AnimeFilterWatchDateData extends AnimeFilterData {
+  AnimeFilterWatchDateData({
     this.started,
     this.finished,
   });
@@ -29,11 +29,11 @@ class AnimeWatchDateFilter extends AnimeFilterBase {
     }
   }
 
-  AnimeWatchDateFilter copyWith({
+  AnimeFilterWatchDateData copyWith({
     DateTime started,
     DateTime finished,
   }) {
-    return AnimeWatchDateFilter(
+    return AnimeFilterWatchDateData(
       started: started ?? this.started,
       finished: finished ?? this.finished,
     );

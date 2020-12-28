@@ -6,13 +6,13 @@ import '../../data/filter-anime-types/index.dart';
 import '../../modules/anime-filter/index.dart';
 import '../../modules/app/index.dart';
 import '../../services/index.dart';
-import '../../widgets/pages/anime-list/filter-types/index.dart';
+import '../../widgets/anime-filter-item-widgets/index.dart';
 import '../index.dart';
 
-class WatchDateFilterItem extends AnimeFilterItemBase {
+class AnimeFilterWatchDateItem extends AnimeFilterItem {
   @override
   Widget build(BuildContext context) {
-    return WatchDateFilterWidget();
+    return AnimeFilterWatchDateWidget();
   }
 
   @override
@@ -21,10 +21,10 @@ class WatchDateFilterItem extends AnimeFilterItemBase {
     var animeFilter = ctrl<AnimeFilterController>(context).model;
     var app = ctrl<AppController>(context).model;
 
-    var exist = animeFilter.filterExist<AnimeWatchDateFilter>();
+    var exist = animeFilter.filterExist<AnimeFilterWatchDateData>();
     if (!exist) {
       filterWidgetService.addFilter(this);
-      animeFilter.controller.addFilter(AnimeWatchDateFilter());
+      animeFilter.controller.addFilter(AnimeFilterWatchDateData());
       app.triggerRebuild();
     }
     Navigator.pop(context);
@@ -36,8 +36,8 @@ class WatchDateFilterItem extends AnimeFilterItemBase {
     var animeFilterController = ctrl<AnimeFilterController>(context);
     var app = ctrl<AppController>(context);
 
-    filterWidgetService.removeFilter<WatchDateFilterItem>();
-    animeFilterController.removeFilter<AnimeWatchDateFilter>();
+    filterWidgetService.removeFilter<AnimeFilterWatchDateItem>();
+    animeFilterController.removeFilter<AnimeFilterWatchDateData>();
     app.rebuild();
   }
 

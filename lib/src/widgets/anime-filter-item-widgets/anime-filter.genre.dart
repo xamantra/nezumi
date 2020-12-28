@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../data/filter-anime-types/index.dart';
-import '../../../../mixins/index.dart';
-import '../../../../modules/anime-filter/index.dart';
-import '../../../../utils/core.util.dart';
-import '../../../index.dart';
+import '../../data/filter-anime-types/index.dart';
+import '../../mixins/index.dart';
+import '../../modules/anime-filter/index.dart';
+import '../../utils/index.dart';
+import '../index.dart';
 
-class GenreFilterWidget extends StatefulWidget {
-  const GenreFilterWidget({Key key}) : super(key: key);
+class AnimeFilterGenreWidget extends StatefulWidget {
+  const AnimeFilterGenreWidget({Key key}) : super(key: key);
 
   @override
-  _GenreFilterWidgetState createState() => _GenreFilterWidgetState();
+  _AnimeFilterGenreWidgetState createState() => _AnimeFilterGenreWidgetState();
 }
 
-class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMixin {
+class _AnimeFilterGenreWidgetState extends State<AnimeFilterGenreWidget> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
@@ -23,7 +23,7 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
         return MomentumBuilder(
           controllers: [AnimeFilterController],
           builder: (context, snapshot) {
-            var filter = animeFilter.getFilter<AnimeGenreFilter>();
+            var filter = animeFilter.getFilter<AnimeFilterGenreData>();
             return Column(
               children: [
                 Row(
@@ -97,7 +97,7 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
     );
   }
 
-  void chooseGenre(AnimeGenreFilter filter, bool include) {
+  void chooseGenre(AnimeFilterGenreData filter, bool include) {
     var widget = Dialog(
       backgroundColor: AppTheme.of(context).primaryBackground,
       child: RelativeBuilder(
@@ -144,7 +144,7 @@ class _GenreFilterWidgetState extends State<GenreFilterWidget> with CoreStateMix
     String genre, {
     bool remove = false,
   }) {
-    var filter = animeFilter.getFilter<AnimeGenreFilter>();
+    var filter = animeFilter.getFilter<AnimeFilterGenreData>();
     if (include) {
       filter = filter.includeGenre(genre, remove: remove);
     } else {
