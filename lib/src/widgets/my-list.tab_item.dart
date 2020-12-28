@@ -34,7 +34,7 @@ class MyListTabItem extends StatelessWidget {
                       ' ($count)',
                       style: TextStyle(
                         fontSize: sy(8),
-                        color: AppTheme.of(context).text3,
+                        color: AppTheme.of(context).text6,
                       ),
                     ),
             ],
