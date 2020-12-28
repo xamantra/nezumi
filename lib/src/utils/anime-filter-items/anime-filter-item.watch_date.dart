@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../absract/index.dart';
@@ -8,10 +9,10 @@ import '../../services/index.dart';
 import '../../widgets/anime-filter-item-widgets/index.dart';
 import '../index.dart';
 
-class AnimeFilterGenreItem extends AnimeFilterItem {
+class AnimeFilterItemWatchDate extends AnimeFilterItem {
   @override
   Widget build(BuildContext context) {
-    return AnimeFilterGenreWidget();
+    return AnimeFilterWatchDateWidget();
   }
 
   @override
@@ -20,10 +21,10 @@ class AnimeFilterGenreItem extends AnimeFilterItem {
     var animeFilter = ctrl<AnimeFilterController>(context).model;
     var app = ctrl<AppController>(context).model;
 
-    var exist = animeFilter.filterExist<AnimeFilterGenreData>();
+    var exist = animeFilter.filterExist<AnimeFilterWatchDateData>();
     if (!exist) {
       filterWidgetService.addFilter(this);
-      animeFilter.controller.addFilter(AnimeFilterGenreData());
+      animeFilter.controller.addFilter(AnimeFilterWatchDateData());
       app.triggerRebuild();
     }
     Navigator.pop(context);
@@ -35,11 +36,11 @@ class AnimeFilterGenreItem extends AnimeFilterItem {
     var animeFilterController = ctrl<AnimeFilterController>(context);
     var app = ctrl<AppController>(context);
 
-    filterWidgetService.removeFilter<AnimeFilterGenreItem>();
-    animeFilterController.removeFilter<AnimeFilterGenreData>();
+    filterWidgetService.removeFilter<AnimeFilterItemWatchDate>();
+    animeFilterController.removeFilter<AnimeFilterWatchDateData>();
     app.rebuild();
   }
 
   @override
-  String get title => 'Genre Filter';
+  String get title => 'Watch Date Filter';
 }

@@ -2,8 +2,8 @@ import '../../absract/index.dart';
 import 'index.dart';
 
 final List<AnimeFilterItem> filterItemSource = [
-  AnimeFilterGenreItem(),
-  AnimeFilterWatchDateItem(),
+  AnimeFilterItemGenre(),
+  AnimeFilterItemWatchDate(),
   // TODO: list status filter
   // TODO: release season filter
   // TODO: release date filter
