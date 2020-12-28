@@ -32,7 +32,13 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: defaultTheme.primary,
           accentColor: defaultTheme.primary,
+          backgroundColor: defaultTheme.primaryBackground,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          cardColor: defaultTheme.secondaryBackground,
+          cardTheme: CardTheme(
+            color: defaultTheme.secondaryBackground,
+            elevation: 0,
+          ),
         ),
         debugShowCheckedModeBanner: false,
         home: getActivePage(context),

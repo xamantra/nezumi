@@ -28,7 +28,6 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
             return Column(
               children: [
                 Card(
-                  color: AppTheme.of(context).secondaryBackground,
                   margin: EdgeInsets.all(sy(8)),
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: sy(24), vertical: sy(8)),

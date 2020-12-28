@@ -10,7 +10,7 @@ class AppLoader extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: defaultTheme.secondaryBackground,
+        backgroundColor: defaultTheme.primaryBackground,
         body: Center(
           child: SizedBox(
             height: 30,

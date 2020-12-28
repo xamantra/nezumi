@@ -56,7 +56,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                       child: loading
                           ? Loader()
                           : Container(
-                              color: AppTheme.of(context).secondaryBackground,
+                              color: AppTheme.of(context).primaryBackground,
                               height: height,
                               width: width,
                               child: Column(

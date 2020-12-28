@@ -27,7 +27,7 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
         return Container(
           height: height,
           width: width,
-          color: AppTheme.of(context).secondaryBackground,
+          color: AppTheme.of(context).primaryBackground,
           child: Column(
             children: [
               /* Pages Container */
@@ -35,7 +35,7 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
                 child: Container(
                   height: height,
                   width: width,
-                  color: AppTheme.of(context).secondaryBackground,
+                  color: AppTheme.of(context).primaryBackground,
                   child: TabBarView(
                     controller: tabController,
                     children: [
