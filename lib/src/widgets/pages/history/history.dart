@@ -61,7 +61,6 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                               width: width,
                               child: Column(
                                 children: [
-                                  SafeArea(child: SizedBox()),
                                   Expanded(
                                     child: SmartRefresher(
                                       enablePullDown: true,
@@ -80,7 +79,6 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                                   Container(
                                     height: sy(40),
                                     width: width,
-                                    color: AppTheme.of(context).primaryBackground,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
@@ -105,21 +103,6 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                                 ],
                               ),
                             ),
-                    ),
-                    SizedButton(
-                      height: sy(32),
-                      width: width,
-                      color: AppTheme.of(context).primaryBackground,
-                      child: Text(
-                        'FETCH ANIME LIST',
-                        style: TextStyle(
-                          color: AppTheme.of(context).primary,
-                          fontSize: sy(9),
-                        ),
-                      ),
-                      onPressed: () {
-                        mal?.controller?.loadData();
-                      },
                     ),
                   ],
                 );
