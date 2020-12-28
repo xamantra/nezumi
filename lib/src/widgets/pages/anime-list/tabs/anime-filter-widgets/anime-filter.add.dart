@@ -5,14 +5,14 @@ import '../../../../../mixins/index.dart';
 import '../../../../../utils/anime-filter-items/index.dart';
 import '../../../../index.dart';
 
-class AnimeFilterDialog extends StatefulWidget {
-  const AnimeFilterDialog({Key key}) : super(key: key);
+class AnimeFilterAdd extends StatefulWidget {
+  const AnimeFilterAdd({Key key}) : super(key: key);
 
   @override
-  _AnimeFilterDialogState createState() => _AnimeFilterDialogState();
+  _AnimeFilterAddState createState() => _AnimeFilterAddState();
 }
 
-class _AnimeFilterDialogState extends State<AnimeFilterDialog> with CoreStateMixin {
+class _AnimeFilterAddState extends State<AnimeFilterAdd> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return Dialog(

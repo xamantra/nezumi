@@ -50,7 +50,7 @@ class _AnimeFilterListState extends State<AnimeFilterList> with CoreStateMixin {
                     Icons.add,
                   ),
                   onPressed: () {
-                    dialog(context, AnimeFilterDialog());
+                    dialog(context, AnimeFilterAdd());
                   },
                 ),
               ),
