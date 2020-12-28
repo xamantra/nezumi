@@ -23,61 +23,66 @@ class _AnimeFilterWatchDateWidgetState extends State<AnimeFilterWatchDateWidget>
           controllers: [AnimeFilterController],
           builder: (context, snapshot) {
             var filter = animeFilter.getFilter<AnimeFilterWatchDateData>();
-            return Row(
+            return Column(
               children: [
+                SizedBox(height: sy(8)),
                 Row(
                   children: [
-                    Text(
-                      'Watched between ',
-                      style: TextStyle(
-                        fontSize: sy(8),
-                        color: Colors.white.withOpacity(0.5),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          'Watched between ',
+                          style: TextStyle(
+                            fontSize: sy(8),
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                        ),
+                        Badge(
+                          color: AppTheme.of(context).primary,
+                          textColor: Colors.white,
+                          text: filter.startFormatted ?? 'select date',
+                          fontSize: sy(11),
+                          borderRadius: 100,
+                          onPressed: (_) async {
+                            var now = DateTime.now();
+                            var selected = await showDatePicker(
+                              context: context,
+                              initialDate: filter.started ?? now,
+                              firstDate: now.subtract(Duration(days: 100 * 365)),
+                              lastDate: now,
+                            );
+                            updateFilter(filter, start: selected);
+                          },
+                        ),
+                      ],
                     ),
-                    Badge(
-                      color: AppTheme.of(context).primary,
-                      textColor: Colors.white,
-                      text: filter.startFormatted ?? 'select date',
-                      fontSize: sy(11),
-                      borderRadius: 100,
-                      onPressed: (_) async {
-                        var now = DateTime.now();
-                        var selected = await showDatePicker(
-                          context: context,
-                          initialDate: filter.started ?? now,
-                          firstDate: now.subtract(Duration(days: 100 * 365)),
-                          lastDate: now,
-                        );
-                        updateFilter(filter, start: selected);
-                      },
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '  and  ',
-                      style: TextStyle(
-                        fontSize: sy(8),
-                        color: Colors.white.withOpacity(0.5),
-                      ),
-                    ),
-                    Badge(
-                      color: AppTheme.of(context).primary,
-                      textColor: Colors.white,
-                      text: filter.finishFormatted ?? 'select date',
-                      fontSize: sy(11),
-                      borderRadius: 100,
-                      onPressed: (_) async {
-                        var now = DateTime.now();
-                        var selected = await showDatePicker(
-                          context: context,
-                          initialDate: filter.finished ?? now,
-                          firstDate: now.subtract(Duration(days: 100 * 365)),
-                          lastDate: now,
-                        );
-                        updateFilter(filter, finish: selected);
-                      },
+                    Row(
+                      children: [
+                        Text(
+                          '  and  ',
+                          style: TextStyle(
+                            fontSize: sy(8),
+                            color: Colors.white.withOpacity(0.5),
+                          ),
+                        ),
+                        Badge(
+                          color: AppTheme.of(context).primary,
+                          textColor: Colors.white,
+                          text: filter.finishFormatted ?? 'select date',
+                          fontSize: sy(11),
+                          borderRadius: 100,
+                          onPressed: (_) async {
+                            var now = DateTime.now();
+                            var selected = await showDatePicker(
+                              context: context,
+                              initialDate: filter.finished ?? now,
+                              firstDate: now.subtract(Duration(days: 100 * 365)),
+                              lastDate: now,
+                            );
+                            updateFilter(filter, finish: selected);
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
