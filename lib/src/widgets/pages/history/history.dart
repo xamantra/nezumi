@@ -35,7 +35,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
           appBar: Toolbar(
             height: sy(36),
             leadingIcon: Icons.menu,
-            title: 'Watching History',
+            title: 'Watch History',
             actions: [
               ToolbarAction(icon: Icons.settings),
               ToolbarAction(icon: Icons.more_vert),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../../../absract/index.dart';
 import '../../../../../mixins/index.dart';
 import '../../../../../utils/anime-filter-items/index.dart';
 import '../../../../index.dart';
@@ -16,37 +17,64 @@ class _AnimeFilterAddState extends State<AnimeFilterAdd> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: Colors.transparent,
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
+          var filterList = <Widget>[];
+          for (var i = 0; i < filterItemSource.length; i++) {
+            var filter = filterItemSource[i];
+            filterList.add(_FilterItemWidget(item: filter));
+            if (i != (filterItemSource.length - 1)) {
+              filterList.add(Divider(height: 1, color: Colors.white.withOpacity(0.1)));
+            }
+          }
+
           return Container(
             width: width,
-            color: AppTheme.of(context).primaryBackground,
+            decoration: BoxDecoration(
+              color: AppTheme.of(context).primaryBackground,
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
-                children: filterItemSource
-                    .map(
-                      (e) => Ripple(
-                        child: ListTile(
-                          title: Text(
-                            e.title,
-                            style: TextStyle(
-                              color: AppTheme.of(context).text2,
-                            ),
-                          ),
-                        ),
-                        onPressed: () {
-                          e.onAddCallback(context);
-                        },
-                      ),
-                    )
-                    .toList(),
+                children: filterList,
               ),
             ),
           );
         },
       ),
+    );
+  }
+}
+
+class _FilterItemWidget extends StatelessWidget {
+  const _FilterItemWidget({
+    Key key,
+    @required this.item,
+  }) : super(key: key);
+
+  final AnimeFilterItem item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Ripple(
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(
+              item.title,
+              style: TextStyle(
+                color: AppTheme.of(context).text2,
+              ),
+            ),
+          ),
+        ],
+      ),
+      onPressed: () {
+        item.onAddCallback(context);
+      },
     );
   }
 }

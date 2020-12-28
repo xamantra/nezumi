@@ -22,6 +22,7 @@ class _AnimeFilterItemWidgetState extends State<AnimeFilterItemWidget> {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Card(
+          elevation: 0,
           color: AppTheme.of(context).secondaryBackground,
           margin: EdgeInsets.symmetric(horizontal: sy(8), vertical: sy(4)),
           child: Stack(

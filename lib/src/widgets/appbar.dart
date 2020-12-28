@@ -53,7 +53,7 @@ class Toolbar extends StatelessWidget with PreferredSizeWidget {
                     title,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: sy(12),
+                      fontSize: sy(14),
                     ),
                   ),
                 ),
