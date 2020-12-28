@@ -1,16 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 
-class FilterWigdetService extends MomentumService {
-  List<Widget> filterWidgets = [];
+import '../absract/index.dart';
+import '../utils/anime-filter-items/index.dart';
 
-  void addFilter<T extends Widget>(T filterWidget) {
+class FilterWigdetService extends MomentumService {
+  final List<AnimeFilterItemBase> filterItemSource = [
+    AnimeGenreFilterItem(),
+    WatchDateFilterItem(),
+  ];
+  List<AnimeFilterItemBase> filterWidgets = [];
+
+  void addFilter<T extends AnimeFilterItemBase>(T filterWidget) {
     var alreadyExists = filterWidgets.any((x) => x is T);
     if (alreadyExists) return;
     filterWidgets.add(filterWidget);
   }
 
-  void removeFilter<T extends Widget>() {
+  void removeFilter<T extends AnimeFilterItemBase>() {
     try {
       filterWidgets.removeWhere((x) => x is T);
     } catch (e) {
