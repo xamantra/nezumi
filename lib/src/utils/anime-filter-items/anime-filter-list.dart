@@ -4,7 +4,8 @@ import 'index.dart';
 final List<AnimeFilterItem> filterItemSource = [
   AnimeFilterItemGenre(),
   AnimeFilterItemWatchDate(),
-  // TODO: list status filter
+  AnimeFilterItemListStatus(),
+  // TODO: airing status filter
   // TODO: release season filter
   // TODO: release date filter
   // TODO: media type filter

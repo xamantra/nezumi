@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         title: 'Nezumi',
         theme: ThemeData(
           primaryColor: defaultTheme.primary,
-          accentColor: defaultTheme.primary,
+          accentColor: defaultTheme.accent,
           backgroundColor: defaultTheme.primaryBackground,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardColor: defaultTheme.secondaryBackground,

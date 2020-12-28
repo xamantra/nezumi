@@ -15,12 +15,12 @@ class HorizontalBadgeList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      physics: BouncingScrollPhysics(),
-      child: RelativeBuilder(
-        builder: (context, height, width, sy, sx) {
-          return Row(
+    return RelativeBuilder(
+      builder: (context, height, width, sy, sx) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: BouncingScrollPhysics(),
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: items
                 .map<Widget>(
@@ -48,9 +48,9 @@ class HorizontalBadgeList extends StatelessWidget {
                   ),
                 )
                 .toList(),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

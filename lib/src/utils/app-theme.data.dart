@@ -31,7 +31,7 @@ class AppThemeData {
 final defaultTheme = AppThemeData(
   primary: Color(0xff2E51A2),
   secondary: Color(0xffEB6100),
-  accent: Colors.teal,
+  accent: Colors.blueAccent,
   primaryBackground: Color(0xff212121),
   secondaryBackground: Color(0xff282C34),
   text1: Colors.white,

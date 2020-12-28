@@ -4,7 +4,6 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../mixins/index.dart';
 import '../../../../../modules/anime-filter/index.dart';
-import '../../../../index.dart';
 import '../../index.dart';
 
 class AnimeFilterResultView extends StatefulWidget {
