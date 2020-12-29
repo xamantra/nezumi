@@ -18,10 +18,10 @@ abstract class AnimeFilterItem {
     app = ctrl<AppController>(context);
   }
 
-  void add<D extends AnimeFilterData>(D data) {
+  void add<I extends AnimeFilterItem, D extends AnimeFilterData>(D data) {
     var exist = animeFilter.model.filterExist<D>();
     if (!exist) {
-      filterWidgetService.addFilter(this);
+      filterWidgetService.addFilter<I>(this);
       animeFilter.addFilter(data);
       app.rebuild();
     }

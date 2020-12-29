@@ -12,7 +12,7 @@ class AnimeFilterItemGenre extends AnimeFilterItem {
 
   @override
   void onAddCallback(BuildContext context) {
-    add(AnimeFilterGenreData());
+    add<AnimeFilterItemGenre, AnimeFilterGenreData>(AnimeFilterGenreData());
     Navigator.pop(context);
   }
 
