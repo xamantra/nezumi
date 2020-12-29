@@ -1,7 +1,7 @@
 export 'aliases.dart';
 export 'anime-date.util.dart';
 export 'anime_api_params.dart';
-export 'anime_list_status.dart';
+export 'anime_labels.dart';
 export 'app-theme.data.dart';
 export 'config.dart';
 export 'config.sample.dart';

@@ -11,3 +11,12 @@ const allAnimeAiringStatusList = [
   'finished_airing',
   'not_yet_aired',
 ];
+
+const allAnimeMediaTypeList = [
+  'tv',
+  'movie',
+  'ova',
+  'ona',
+  'special',
+  'music',
+];

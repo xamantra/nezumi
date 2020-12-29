@@ -20,7 +20,7 @@ class UserAnimeHistory {
     if (map == null) return null;
 
     return UserAnimeHistory(
-      list: List<AnimeHistory>.from(map['list']?.map((x) => AnimeHistory.fromJson(x))),
+      list: List<AnimeHistory>.from(map['list']?.map((x) => AnimeHistory.fromJson(x)) ?? []),
     );
   }
 

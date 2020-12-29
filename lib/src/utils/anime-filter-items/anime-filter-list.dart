@@ -6,9 +6,9 @@ final List<AnimeFilterItem> filterItemSource = [
   AnimeFilterItemWatchDate(),
   AnimeFilterItemListStatus(),
   AnimeFilterItemAiringStatus(),
+  AnimeFilterItemMediaType(),
   // TODO: release season filter
   // TODO: release date filter
-  // TODO: media type filter
   // TODO: episodes filter
   // TODO: duration filter
 ];
