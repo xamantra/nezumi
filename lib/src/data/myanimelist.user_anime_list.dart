@@ -54,6 +54,10 @@ class AnimeData {
   final EntryNode node;
   final ListStatus listStatus;
 
+  bool seasonMatch(String season) {
+    return node?.seasonMatch(season) ?? false;
+  }
+
   AnimeData copyWith({
     EntryNode node,
     ListStatus listStatus,
@@ -130,6 +134,10 @@ class EntryNode {
   final StartSeason startSeason;
   final int averageEpisodeDuration;
   final Broadcast broadcast;
+
+  bool seasonMatch(String season) {
+    return startSeason?.seasonMatch(season) ?? false;
+  }
 
   EntryNode copyWith({
     int id,

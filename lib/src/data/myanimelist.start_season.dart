@@ -9,6 +9,19 @@ class StartSeason {
   final int year;
   final String season;
 
+  /// - Check if season string matches with format `"$year $season"` or `"$season $year"`.
+  /// - Case not sensitive.
+  /// - *Example:* `"2020 Summer"` or `"Summer 2020"`
+  bool seasonMatch(String season) {
+    if (!seasonValid) return false;
+    var s = season.toLowerCase();
+    return s == '$year $season' || s == '$season $year';
+  }
+
+  bool get seasonValid {
+    return year != null && year > 0 && season != null && season.isNotEmpty;
+  }
+
   StartSeason copyWith({
     int year,
     String season,
