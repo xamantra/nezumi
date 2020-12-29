@@ -1,8 +1,8 @@
 import '../../absract/index.dart';
 import '../index.dart';
 
-class AnimeFilterListStatusData extends AnimeFilterData {
-  AnimeFilterListStatusData({
+class AnimeFilterAiringStatusData extends AnimeFilterData {
+  AnimeFilterAiringStatusData({
     this.isExclude = false,
     this.selectedStatuses = const [],
   });
@@ -16,8 +16,8 @@ class AnimeFilterListStatusData extends AnimeFilterData {
       return true;
     }
 
-    var list_status = animeData?.listStatus?.status;
-    var exist = selectedStatuses.any((x) => x == list_status);
+    var airing_status = animeData?.node?.status;
+    var exist = selectedStatuses.any((x) => x == airing_status);
 
     if (exist) {
       if (isExclude) {
@@ -32,11 +32,11 @@ class AnimeFilterListStatusData extends AnimeFilterData {
     }
   }
 
-  AnimeFilterListStatusData copyWith({
+  AnimeFilterAiringStatusData copyWith({
     bool isExclude,
     List<String> selectedStatuses,
   }) {
-    return AnimeFilterListStatusData(
+    return AnimeFilterAiringStatusData(
       isExclude: isExclude ?? this.isExclude,
       selectedStatuses: selectedStatuses ?? this.selectedStatuses,
     );
