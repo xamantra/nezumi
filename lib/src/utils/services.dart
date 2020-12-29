@@ -8,6 +8,7 @@ List<MomentumService> services() {
     ApiService(),
     NavService(),
     FilterWigdetService(),
+    AnimeFilterListService(),
     routerService(),
   ];
 }

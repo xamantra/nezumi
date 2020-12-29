@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nezumi/src/services/index.dart';
+import 'package:nezumi/src/utils/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../absract/index.dart';
@@ -20,6 +22,7 @@ class _AnimeFilterAddState extends State<AnimeFilterAdd> with CoreStateMixin {
       backgroundColor: Colors.transparent,
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
+          var filterItemSource = srv<AnimeFilterListService>(context).filterItemSource;
           var filterList = <Widget>[];
           for (var i = 0; i < filterItemSource.length; i++) {
             var filter = filterItemSource[i];
