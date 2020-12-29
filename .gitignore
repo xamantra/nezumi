@@ -42,4 +42,5 @@ app.*.map.json
 
 # personal files
 *.ignore.txt
+*.ignore.js
 lib/src/utils/config.dart
