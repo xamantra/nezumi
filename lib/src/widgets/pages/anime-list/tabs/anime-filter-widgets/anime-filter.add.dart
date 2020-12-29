@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nezumi/src/services/index.dart';
-import 'package:nezumi/src/utils/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../absract/index.dart';
 import '../../../../../mixins/index.dart';
-import '../../../../../utils/anime-filter-items/index.dart';
+import '../../../../../services/index.dart';
+import '../../../../../utils/index.dart';
 import '../../../../index.dart';
 
 class AnimeFilterAdd extends StatefulWidget {
