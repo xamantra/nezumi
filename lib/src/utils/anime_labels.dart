@@ -20,3 +20,5 @@ const allAnimeMediaTypeList = [
   'special',
   'music',
 ];
+
+const allAnimeSeasonNames = ['Winter', 'Spring', 'Summer', 'Fall'];

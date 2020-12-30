@@ -12,14 +12,16 @@ class AnimeFilterListService extends MomentumService {
     AnimeFilterItemAiringStatus(),
     AnimeFilterItemMediaType(),
     AnimeFilterItemReleaseDate(),
-    // TODO: release season filter
+    AnimeFilterItemReleaseSeason(),
     // TODO: episodes filter
     // TODO: duration filter
+    // TODO: list tags filter
+    // TODO: comments filter
   ];
 
   void init(BuildContext context) {
     for (var item in filterItemSource) {
-      item.initContext(context);
+      item.init(context);
     }
   }
 }

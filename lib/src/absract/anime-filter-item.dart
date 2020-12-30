@@ -12,7 +12,7 @@ abstract class AnimeFilterItem {
   FilterWigdetService filterWidgetService;
   AnimeFilterController animeFilter;
   AppController app;
-  void initContext(BuildContext context) {
+  void init(BuildContext context) {
     filterWidgetService = srv<FilterWigdetService>(context);
     animeFilter = ctrl<AnimeFilterController>(context);
     app = ctrl<AppController>(context);

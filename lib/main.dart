@@ -7,6 +7,7 @@ import 'src/widgets/index.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  InitializeYearList();
   runApp(momentum());
 }
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
             color: defaultTheme.secondaryBackground,
             elevation: 0,
           ),
+          dialogBackgroundColor: defaultTheme.primaryBackground,
         ),
         debugShowCheckedModeBanner: false,
         home: getActivePage(context),
