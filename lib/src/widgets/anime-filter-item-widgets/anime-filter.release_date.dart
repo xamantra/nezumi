@@ -67,13 +67,7 @@ class _AnimeFilterReleaseDateWidgetState extends State<AnimeFilterReleaseDateWid
                           fontSize: sy(11),
                           borderRadius: 100,
                           onPressed: (_) async {
-                            var now = DateTime.now();
-                            var selected = await showDatePicker(
-                              context: context,
-                              initialDate: filter.finished ?? now,
-                              firstDate: now.subtract(Duration(days: 100 * 365)),
-                              lastDate: now,
-                            );
+                            var selected = await selectDate(context, filter.finished);
                             updateFilter(filter, finish: selected);
                           },
                         ),

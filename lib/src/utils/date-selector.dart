@@ -7,7 +7,7 @@ Future<DateTime> selectDate(BuildContext context, [DateTime initialDate]) async 
   var result = await showDatePicker(
     context: context,
     initialDate: initialDate ?? now,
-    firstDate: now.subtract(Duration(days: 100 * 365)),
+    firstDate: now.subtract(Duration(days: 120 * 365)),
     lastDate: now,
     builder: (context, child) {
       return _ThemedDatePicker(child: child);
