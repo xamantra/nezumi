@@ -27,15 +27,17 @@ class _AnimeFilterListState extends State<AnimeFilterList> with CoreStateMixin {
               controllers: [AppController],
               builder: (context, snapshot) {
                 return SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       SizedBox(height: sy(4)),
                     ]..addAll(
                         filterWidgetService.filterWidgets
-                            .map(
+                            .map<Widget>(
                               (e) => AnimeFilterItemWidget(filterItem: e),
                             )
-                            .toList(),
+                            .toList()
+                              ..add(SizedBox(height: sy(56))),
                       ),
                   ),
                 );

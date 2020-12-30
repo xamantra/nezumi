@@ -5,6 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../data/filter-anime-types/index.dart';
 import '../../mixins/index.dart';
 import '../../modules/anime-filter/index.dart';
+import '../../utils/index.dart';
 import '../index.dart';
 
 class AnimeFilterReleaseDateWidget extends StatefulWidget {
@@ -44,13 +45,7 @@ class _AnimeFilterReleaseDateWidgetState extends State<AnimeFilterReleaseDateWid
                           fontSize: sy(11),
                           borderRadius: 100,
                           onPressed: (_) async {
-                            var now = DateTime.now();
-                            var selected = await showDatePicker(
-                              context: context,
-                              initialDate: filter.started ?? now,
-                              firstDate: now.subtract(Duration(days: 100 * 365)),
-                              lastDate: now,
-                            );
+                            var selected = await selectDate(context, filter.started);
                             updateFilter(filter, start: selected);
                           },
                         ),

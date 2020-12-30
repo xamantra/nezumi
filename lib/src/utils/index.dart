@@ -7,6 +7,7 @@ export 'config.dart';
 export 'config.sample.dart';
 export 'controllers.dart';
 export 'core.util.dart';
+export 'date-selector.dart';
 export 'datetime.util.dart';
 export 'history_parser.dart';
 export 'router.dart';
