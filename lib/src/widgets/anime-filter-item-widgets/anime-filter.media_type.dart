@@ -140,6 +140,7 @@ class _AnimeFilterMediaTypeWidgetState extends State<AnimeFilterMediaTypeWidget>
                       onPressed: () {
                         var newList = List<String>.from(filter.selectedMediaTypes);
                         newList.add(x);
+                        newList = newList.toSet().toList();
                         var updated = filter.copyWith(selectedMediaTypes: newList);
                         updateFilter(updated);
                         Navigator.pop(context);

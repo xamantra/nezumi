@@ -140,6 +140,7 @@ class _AnimeFilterListStatusWidgetState extends State<AnimeFilterListStatusWidge
                       onPressed: () {
                         var newList = List<String>.from(filter.selectedStatuses);
                         newList.add(x);
+                        newList = newList.toSet().toList();
                         var updated = filter.copyWith(selectedStatuses: newList);
                         updateFilter(updated);
                         Navigator.pop(context);
