@@ -17,7 +17,7 @@ class Ripple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: onPressed ?? () {},
+      onPressed: onPressed,
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(

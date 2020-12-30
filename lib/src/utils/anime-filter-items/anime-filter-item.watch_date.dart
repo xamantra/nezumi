@@ -22,5 +22,10 @@ class AnimeFilterItemWatchDate extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterWatchDateData>();
+  }
+
+  @override
   String get title => 'Watch Date Filter';
 }

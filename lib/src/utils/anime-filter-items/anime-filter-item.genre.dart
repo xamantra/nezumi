@@ -22,5 +22,10 @@ class AnimeFilterItemGenre extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterGenreData>();
+  }
+
+  @override
   String get title => 'Genre Filter';
 }

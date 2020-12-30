@@ -59,24 +59,33 @@ class _FilterItemWidget extends StatelessWidget {
 
   final AnimeFilterItem item;
 
+  bool get exist => item.filterExist();
+
   @override
   Widget build(BuildContext context) {
     return Ripple(
       child: Column(
         children: [
-          ListTile(
-            title: Text(
-              item.title,
-              style: TextStyle(
-                color: AppTheme.of(context).text2,
-              ),
-            ),
+          RelativeBuilder(
+            builder: (context, height, width, sy, sx) {
+              return ListTile(
+                title: Text(
+                  item.title,
+                  style: TextStyle(
+                    color: exist ? AppTheme.of(context).text7 : AppTheme.of(context).text2,
+                    fontSize: sy(10),
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
-      onPressed: () {
-        item.onAddCallback(context);
-      },
+      onPressed: exist
+          ? null
+          : () {
+              item.onAddCallback(context);
+            },
     );
   }
 }

@@ -33,7 +33,14 @@ abstract class AnimeFilterItem {
     app.rebuild();
   }
 
+  @protected
+  bool exist<D extends AnimeFilterData>() {
+    var e = animeFilter.model.filterExist<D>();
+    return e;
+  }
+
   Widget build(BuildContext context);
   void onAddCallback(BuildContext context);
   void onRemoveCallback(BuildContext context);
+  bool filterExist();
 }

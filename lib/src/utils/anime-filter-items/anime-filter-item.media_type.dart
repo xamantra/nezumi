@@ -22,5 +22,10 @@ class AnimeFilterItemMediaType extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterMediaTypeData>();
+  }
+
+  @override
   String get title => 'Media Type Filter';
 }

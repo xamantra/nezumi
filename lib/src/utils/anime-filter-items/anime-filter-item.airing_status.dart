@@ -22,5 +22,10 @@ class AnimeFilterItemAiringStatus extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterAiringStatusData>();
+  }
+
+  @override
   String get title => 'Airing Status Filter';
 }

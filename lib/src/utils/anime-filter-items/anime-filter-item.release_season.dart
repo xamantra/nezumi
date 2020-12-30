@@ -22,5 +22,10 @@ class AnimeFilterItemReleaseSeason extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterReleaseSeasonData>();
+  }
+
+  @override
   String get title => 'Release Season Filter';
 }

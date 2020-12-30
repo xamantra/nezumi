@@ -22,5 +22,10 @@ class AnimeFilterItemListStatus extends AnimeFilterItem {
   }
 
   @override
+  bool filterExist() {
+    return exist<AnimeFilterListStatusData>();
+  }
+
+  @override
   String get title => 'List Status Filter';
 }
