@@ -35,7 +35,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: defaultTheme.primary,
           accentColor: defaultTheme.accent,
-          colorScheme: ColorScheme.dark(),
+          colorScheme: ColorScheme.dark(
+            primary: defaultTheme.primary,
+            secondary: defaultTheme.accent,
+            onSecondary: Colors.white,
+          ),
           backgroundColor: defaultTheme.primaryBackground,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardColor: defaultTheme.secondaryBackground,
