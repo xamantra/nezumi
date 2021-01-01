@@ -137,15 +137,16 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                 label: 'Episodes',
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedButton(
-                                      height: sy(30),
-                                      width: sy(30),
+                                      height: sy(24),
+                                      width: sy(24),
                                       radius: 100,
                                       child: Icon(
                                         Icons.remove,
-                                        size: sy(16),
+                                        size: sy(14),
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
@@ -153,7 +154,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       },
                                     ),
                                     SizedBox(
-                                      height: sy(30),
+                                      height: sy(24),
                                       width: sy(30),
                                       child: TextFormField(
                                         maxLines: 1,
@@ -161,12 +162,12 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
+                                          isDense: true,
                                         ),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: AppTheme.of(context).accent,
-                                          fontSize: sy(12),
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: sy(10),
                                         ),
                                         onChanged: (value) {
                                           var episodes = trycatch(() => int.parse(value), null);
@@ -174,21 +175,13 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         },
                                       ),
                                     ),
-                                    // Text(
-                                    //   anime?.listStatus?.numEpisodesWatched?.toString() ?? "",
-                                    //   style: TextStyle(
-                                    //     color: AppTheme.of(context).accent,
-                                    //     fontWeight: FontWeight.w600,
-                                    //     fontSize: sy(12),
-                                    //   ),
-                                    // ),
                                     SizedButton(
-                                      height: sy(30),
-                                      width: sy(30),
+                                      height: sy(24),
+                                      width: sy(24),
                                       radius: 100,
                                       child: Icon(
                                         Icons.add,
-                                        size: sy(16),
+                                        size: sy(14),
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
@@ -199,8 +192,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       ' / ${anime?.realEpisodeCount ?? ""}',
                                       style: TextStyle(
                                         color: AppTheme.of(context).text3,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: sy(12),
+                                        fontSize: sy(10),
                                       ),
                                     ),
                                   ],
@@ -229,12 +221,12 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                 child: Row(
                                   children: [
                                     SizedButton(
-                                      height: sy(30),
-                                      width: sy(30),
+                                      height: sy(24),
+                                      width: sy(24),
                                       radius: 100,
                                       child: Icon(
                                         Icons.remove,
-                                        size: sy(16),
+                                        size: sy(14),
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
@@ -242,7 +234,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       },
                                     ),
                                     SizedBox(
-                                      height: sy(30),
+                                      height: sy(24),
                                       width: sy(20),
                                       child: TextFormField(
                                         maxLines: 1,
@@ -250,12 +242,12 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
+                                          isDense: true,
                                         ),
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: AppTheme.of(context).accent,
-                                          fontSize: sy(12),
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: sy(10),
                                         ),
                                         onChanged: (value) {
                                           controller.editRewatch(value);
@@ -263,12 +255,12 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       ),
                                     ),
                                     SizedButton(
-                                      height: sy(30),
-                                      width: sy(30),
+                                      height: sy(24),
+                                      width: sy(24),
                                       radius: 100,
                                       child: Icon(
                                         Icons.add,
-                                        size: sy(16),
+                                        size: sy(14),
                                         color: Colors.white,
                                       ),
                                       onPressed: () {
