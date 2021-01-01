@@ -80,13 +80,6 @@ class _AnimeEditDateSelectionState extends State<AnimeEditDateSelection> {
                     });
                   },
                 ),
-                Text(
-                  '- ',
-                  style: TextStyle(
-                    color: AppTheme.of(context).text4,
-                    fontSize: sy(10),
-                  ),
-                ),
                 DropdownWidget<int>(
                   value: selectedMonth,
                   hint: '--',
@@ -105,13 +98,6 @@ class _AnimeEditDateSelectionState extends State<AnimeEditDateSelection> {
                       callback();
                     });
                   },
-                ),
-                Text(
-                  '- ',
-                  style: TextStyle(
-                    color: AppTheme.of(context).text4,
-                    fontSize: sy(10),
-                  ),
                 ),
                 DropdownWidget<int>(
                   value: selectedDay,
