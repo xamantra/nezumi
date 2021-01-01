@@ -85,6 +85,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                    SizedBox(height: sy(8)),
                     loading
                         ? Center(
                             child: Padding(
@@ -100,10 +101,12 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                             children: [
                               AnimeEditInfoRow(
                                 label: 'Status',
+                                verticalPadding: sy(4),
                                 child: DropdownWidget<String>(
                                   value: currentInput?.status,
                                   label: (item) => normalizeSlug(item),
                                   items: allAnimeStatusList,
+                                  dense: true,
                                   color: AppTheme.of(context).accent,
                                   onChanged: (newStatus) {
                                     var animeStatus = anime.node.status;
@@ -132,7 +135,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         },
                                       ),
                                     ),
-                              Divider(height: 1, color: AppTheme.of(context).text7),
+                              // Divider(height: 1, color: AppTheme.of(context).text7),
                               AnimeEditInfoRow(
                                 label: 'Episodes',
                                 child: Row(
@@ -198,23 +201,37 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                   ],
                                 ),
                               ),
-                              Divider(height: 1, color: AppTheme.of(context).text7),
-                              AnimeEditDateSelection(
-                                label: 'Start Date',
-                                value: currentInput.startDate,
-                                onChanged: (newStartDate) {
-                                  controller.editStartDate(newStartDate);
-                                },
+                              // Divider(height: 1, color: AppTheme.of(context).text7),
+                              Card(
+                                margin: EdgeInsets.symmetric(vertical: sy(2)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: sy(4)),
+                                  child: Column(
+                                    children: [
+                                      AnimeEditDateSelection(
+                                        label: 'Start Date',
+                                        value: currentInput.startDate,
+                                        dense: true,
+                                        verticalPadding: sy(4),
+                                        onChanged: (newStartDate) {
+                                          controller.editStartDate(newStartDate);
+                                        },
+                                      ),
+                                      AnimeEditDateSelection(
+                                        label: 'Finish Date',
+                                        value: currentInput.finishDate,
+                                        dense: true,
+                                        verticalPadding: sy(4),
+                                        enabled: canEditFinishDate ? true : false,
+                                        onChanged: (newFinishDate) {
+                                          controller.editFinishDate(newFinishDate);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                              AnimeEditDateSelection(
-                                label: 'Finish Date',
-                                value: currentInput.finishDate,
-                                enabled: canEditFinishDate ? true : false,
-                                onChanged: (newFinishDate) {
-                                  controller.editFinishDate(newFinishDate);
-                                },
-                              ),
-                              Divider(height: 1, color: AppTheme.of(context).text7),
+                              // Divider(height: 1, color: AppTheme.of(context).text7),
                               AnimeEditInfoRow(
                                 label: 'Re-watched',
                                 expand: false,
@@ -270,7 +287,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                   ],
                                 ),
                               ),
-                              Divider(height: 1, color: AppTheme.of(context).text7),
+                              // Divider(height: 1, color: AppTheme.of(context).text7),
                               SizedBox(height: sy(8)),
                               SizedButton(
                                 height: sy(36),

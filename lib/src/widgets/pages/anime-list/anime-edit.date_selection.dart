@@ -12,11 +12,15 @@ class AnimeEditDateSelection extends StatefulWidget {
     this.value = '',
     this.onChanged,
     this.enabled = true,
+    this.dense = false,
+    this.verticalPadding = 0,
   }) : super(key: key);
 
   final String label;
   final String value;
   final bool enabled;
+  final bool dense;
+  final double verticalPadding;
 
   /// Date changed callback (`year`, `month`, `day`)
   final void Function(String) onChanged;
@@ -53,69 +57,75 @@ class _AnimeEditDateSelectionState extends State<AnimeEditDateSelection> {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         var months = getMonths();
-        return Row(
-          children: [
-            Text(
-              widget.label,
-              style: TextStyle(
-                fontSize: sy(10),
-                color: AppTheme.of(context).text3,
+        return Padding(
+          padding: EdgeInsets.symmetric(vertical: widget.verticalPadding ?? 0),
+          child: Row(
+            children: [
+              Text(
+                widget.label,
+                style: TextStyle(
+                  fontSize: sy(10),
+                  color: AppTheme.of(context).text3,
+                ),
               ),
-            ),
-            Spacer(),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                DropdownWidget<int>(
-                  value: selectedYear,
-                  hint: '----',
-                  label: (item) => item == 0 ? '----' : item.toString(),
-                  items: [0]..addAll(yearList),
-                  color: AppTheme.of(context).accent,
-                  enabled: widget.enabled,
-                  onChanged: (year) {
-                    setState(() {
-                      selectedYear = year;
-                      callback();
-                    });
-                  },
-                ),
-                DropdownWidget<int>(
-                  value: selectedMonth,
-                  hint: '--',
-                  label: (item) {
-                    return months[item];
-                  },
-                  items: months.keys.toList(),
-                  selectedItemBuilder: (_) {
-                    return months.keys.map<String>((x) => x == 0 ? '--' : x.toString().padLeft(2, '0')).toList();
-                  },
-                  color: AppTheme.of(context).accent,
-                  enabled: widget.enabled,
-                  onChanged: (month) {
-                    setState(() {
-                      selectedMonth = month;
-                      callback();
-                    });
-                  },
-                ),
-                DropdownWidget<int>(
-                  value: selectedDay,
-                  hint: '--',
-                  label: (item) => item == 0 ? '--' : item.toString().padLeft(2, '0'),
-                  items: getDays(),
-                  color: AppTheme.of(context).accent,
-                  enabled: widget.enabled,
-                  onChanged: (day) {
-                    setState(() {
-                      selectedDay = day;
-                      callback();
-                    });
-                  },
-                ),
-              ],
-            ),
-          ],
+              Spacer(),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropdownWidget<int>(
+                    value: selectedYear,
+                    hint: '----',
+                    label: (item) => item == 0 ? '----' : item.toString(),
+                    items: [0]..addAll(yearList),
+                    color: AppTheme.of(context).accent,
+                    enabled: widget.enabled,
+                    dense: widget.dense,
+                    onChanged: (year) {
+                      setState(() {
+                        selectedYear = year;
+                        callback();
+                      });
+                    },
+                  ),
+                  DropdownWidget<int>(
+                    value: selectedMonth,
+                    hint: '--',
+                    label: (item) {
+                      return months[item];
+                    },
+                    items: months.keys.toList(),
+                    selectedItemBuilder: (_) {
+                      return months.keys.map<String>((x) => x == 0 ? '--' : x.toString().padLeft(2, '0')).toList();
+                    },
+                    color: AppTheme.of(context).accent,
+                    enabled: widget.enabled,
+                    dense: widget.dense,
+                    onChanged: (month) {
+                      setState(() {
+                        selectedMonth = month;
+                        callback();
+                      });
+                    },
+                  ),
+                  DropdownWidget<int>(
+                    value: selectedDay,
+                    hint: '--',
+                    label: (item) => item == 0 ? '--' : item.toString().padLeft(2, '0'),
+                    items: getDays(),
+                    color: AppTheme.of(context).accent,
+                    enabled: widget.enabled,
+                    dense: widget.dense,
+                    onChanged: (day) {
+                      setState(() {
+                        selectedDay = day;
+                        callback();
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

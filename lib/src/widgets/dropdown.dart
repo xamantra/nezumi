@@ -14,6 +14,7 @@ class DropdownWidget<T> extends StatelessWidget {
     this.hint,
     this.selectedItemBuilder,
     this.enabled = true,
+    this.dense = false,
   }) : super(key: key);
 
   final T value;
@@ -24,6 +25,7 @@ class DropdownWidget<T> extends StatelessWidget {
   final String hint;
   final List<String> Function(BuildContext) selectedItemBuilder;
   final bool enabled;
+  final bool dense;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,7 @@ class DropdownWidget<T> extends StatelessWidget {
           dropdownColor: AppTheme.of(context).primaryBackground,
           underline: SizedBox(),
           value: value,
+          isDense: dense,
           hint: Center(
             child: Text(
               hint ?? '',
