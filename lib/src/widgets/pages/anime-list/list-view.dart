@@ -12,9 +12,11 @@ class AnimeListView extends StatefulWidget {
   const AnimeListView({
     Key key,
     @required this.status,
+    this.search,
   }) : super(key: key);
 
   final String status;
+  final String search;
 
   @override
   _AnimeListViewState createState() => _AnimeListViewState();
@@ -31,6 +33,9 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
           controllers: [MyAnimeListController],
           builder: (context, snapshot) {
             var list = mal.userAnimeList?.getByStatus(widget.status);
+            if (widget.search != null) {
+              list = list.where((x) => x.searchMatch(widget.search)).toList();
+            }
 
             if (mal.loading) {
               return Loader();

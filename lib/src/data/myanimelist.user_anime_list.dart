@@ -58,6 +58,19 @@ class AnimeData {
     return node?.seasonMatch(season) ?? false;
   }
 
+  bool searchMatch(String query) {
+    if (query == null || query.isEmpty) {
+      return false;
+    }
+    var source = node.title;
+    source += '\n${node.alternativeTitles.en ?? ""}';
+    source += '\n${node.alternativeTitles.ja ?? ""}';
+    (node.alternativeTitles.synonyms ?? []).forEach((title) {
+      source += '\n${title ?? ""}';
+    });
+    return (source ?? '').toLowerCase().contains(query?.toLowerCase() ?? '') ?? false;
+  }
+
   AnimeData copyWith({
     EntryNode node,
     AnimeListStatus listStatus,
