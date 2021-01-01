@@ -23,16 +23,25 @@ class EditAnimeDialog extends StatefulWidget {
 
 class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStateMixin {
   TextEditingController rewatchTextController;
+  TextEditingController episodesTextController;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     var rewatched = animeUpdate.currentInput.numTimesRewatched?.toString();
+    var episodes = animeUpdate.currentInput.numEpisodesWatched?.toString();
     rewatchTextController = TextEditingController(text: rewatched);
+    episodesTextController = TextEditingController(text: episodes);
     animeUpdate.controller.listen<AnimeUpdateRewatchEvent>(
       state: this,
       invoke: (event) {
         rewatchTextController.text = event.value?.toString();
+      },
+    );
+    animeUpdate.controller.listen<AnimeUpdateEpisodesEvent>(
+      state: this,
+      invoke: (event) {
+        episodesTextController.text = event.value?.toString();
       },
     );
   }
@@ -143,14 +152,36 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         animeUpdate?.controller?.decrementEpisode(currentAnimeId);
                                       },
                                     ),
-                                    Text(
-                                      anime?.listStatus?.numEpisodesWatched?.toString() ?? "",
-                                      style: TextStyle(
-                                        color: AppTheme.of(context).accent,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: sy(12),
+                                    SizedBox(
+                                      height: sy(30),
+                                      width: sy(30),
+                                      child: TextFormField(
+                                        maxLines: 1,
+                                        controller: episodesTextController,
+                                        keyboardType: TextInputType.number,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: AppTheme.of(context).accent,
+                                          fontSize: sy(12),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        onChanged: (value) {
+                                          var episodes = trycatch(() => int.parse(value), null);
+                                          controller.editEpisodes(episodes);
+                                        },
                                       ),
                                     ),
+                                    // Text(
+                                    //   anime?.listStatus?.numEpisodesWatched?.toString() ?? "",
+                                    //   style: TextStyle(
+                                    //     color: AppTheme.of(context).accent,
+                                    //     fontWeight: FontWeight.w600,
+                                    //     fontSize: sy(12),
+                                    //   ),
+                                    // ),
                                     SizedButton(
                                       height: sy(30),
                                       width: sy(30),
@@ -216,6 +247,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       child: TextFormField(
                                         maxLines: 1,
                                         controller: rewatchTextController,
+                                        keyboardType: TextInputType.number,
                                         decoration: InputDecoration(
                                           border: InputBorder.none,
                                         ),

@@ -3,3 +3,9 @@ class AnimeUpdateRewatchEvent {
 
   AnimeUpdateRewatchEvent(this.value);
 }
+
+class AnimeUpdateEpisodesEvent {
+  final int value;
+
+  AnimeUpdateEpisodesEvent(this.value);
+}
