@@ -89,28 +89,27 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     if (response != null) {
       var currentList = List<AnimeData>.from(mal.userAnimeList?.animeList ?? []);
       var selectedAnime = currentList.firstWhere((x) => x.node.id == animeId, orElse: () => null);
-      var updated = selectedAnime.copyWith(
-        listStatus: AnimeListStatus(
-          status: response.status,
-          score: response.score,
-          numEpisodesWatched: response.numEpisodesWatched,
-          isRewatching: response.isRewatching,
-          updatedAt: response.updatedAt,
-          comments: response.comments,
-          tags: response.tags,
-          priority: response.priority,
-          numTimesRewatched: response.numTimesRewatched,
-          rewatchValue: response.rewatchValue,
-          startDate: response.startDate,
-          finishDate: response.finishDate,
-        ),
+      var animeListStatus = AnimeListStatus(
+        status: response.status,
+        score: response.score,
+        numEpisodesWatched: response.numEpisodesWatched,
+        isRewatching: response.isRewatching,
+        updatedAt: response.updatedAt,
+        comments: response.comments,
+        tags: response.tags,
+        priority: response.priority,
+        numTimesRewatched: response.numTimesRewatched,
+        rewatchValue: response.rewatchValue,
+        startDate: response.startDate,
+        finishDate: response.finishDate,
       );
+      var updated = selectedAnime.copyWith(listStatus: animeListStatus);
       var index = currentList.indexWhere((x) => x.node.id == animeId);
       currentList[index] = updated;
       var newList = mal.userAnimeList.copyWith(data: currentList);
       var newData = model.animeData.copyFrom(response);
       mal.update(userAnimeList: newList);
-      model.update(animeData: newData);
+      model.update(animeData: newData, currentInput: animeListStatus);
     }
     model.update(loading: false);
     mal.controller.sortAnimeList();
