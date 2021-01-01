@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class ListStatus {
-  ListStatus({
+class AnimeListStatus {
+  AnimeListStatus({
     this.status,
     this.score,
     this.numEpisodesWatched,
@@ -29,7 +29,7 @@ class ListStatus {
   final String startDate;
   final String finishDate;
 
-  ListStatus copyWith({
+  AnimeListStatus copyWith({
     String status,
     int score,
     int numEpisodesWatched,
@@ -43,7 +43,7 @@ class ListStatus {
     String startDate,
     String finishDate,
   }) =>
-      ListStatus(
+      AnimeListStatus(
         status: status ?? this.status,
         score: score ?? this.score,
         numEpisodesWatched: numEpisodesWatched ?? this.numEpisodesWatched,
@@ -58,11 +58,11 @@ class ListStatus {
         finishDate: finishDate ?? this.finishDate,
       );
 
-  factory ListStatus.fromRawJson(String str) => ListStatus.fromJson(json.decode(str));
+  factory AnimeListStatus.fromRawJson(String str) => AnimeListStatus.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory ListStatus.fromJson(Map<String, dynamic> json) => ListStatus(
+  factory AnimeListStatus.fromJson(Map<String, dynamic> json) => AnimeListStatus(
         status: json["status"] == null ? null : json["status"],
         score: json["score"] == null ? null : json["score"],
         numEpisodesWatched: json["num_episodes_watched"] == null ? null : json["num_episodes_watched"],

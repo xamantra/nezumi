@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:momentum/momentum.dart';
 
 import '../modules/anime-filter/index.dart';
+import '../modules/anime-update/index.dart';
 import '../modules/app/index.dart';
 import '../modules/my_anime_list/index.dart';
 import '../modules/settings/index.dart';
@@ -97,5 +98,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _animeFilterCtrl = ctrl<AnimeFilterController>(context);
     }
     return _animeFilterCtrl?.model;
+  }
+
+  AnimeUpdateController _animeUpdateCtrl;
+  AnimeUpdateModel get animeUpdate {
+    if (_animeUpdateCtrl == null) {
+      _animeUpdateCtrl = ctrl<AnimeUpdateController>(context);
+    }
+    return _animeUpdateCtrl?.model;
   }
 }

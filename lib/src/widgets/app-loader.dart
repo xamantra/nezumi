@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:relative_scale/relative_scale.dart';
 
 import '../utils/index.dart';
+import 'index.dart';
 
 class AppLoader extends StatelessWidget {
   const AppLoader({Key key}) : super(key: key);
@@ -11,11 +13,30 @@ class AppLoader extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         backgroundColor: defaultTheme.primaryBackground,
-        body: Center(
-          child: SizedBox(
-            height: 30,
-            width: 30,
-          ),
+        body: RelativeBuilder(
+          builder: (context, height, width, sy, sx) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SymmetricImage(
+                    url: 'assets/images/icon.png',
+                    asset: true,
+                    size: sy(72),
+                  ),
+                  SizedBox(height: sy(6)),
+                  SizedBox(
+                    height: sy(2),
+                    width: sy(70),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.transparent,
+                      valueColor: AlwaysStoppedAnimation(Colors.blueAccent),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );

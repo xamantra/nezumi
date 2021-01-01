@@ -50,33 +50,46 @@ class _LoginState extends MomentumState<Login> {
                 var login = snapshot<LoginModel>();
                 var loading = login.loading;
 
-                if (loading) {
-                  return Center(
-                    child: SizedBox(
-                      height: sy(20),
-                      width: sy(20),
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(AppTheme.of(context).primary),
+                return Stack(
+                  children: [
+                    Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SymmetricImage(
+                            url: 'assets/images/icon.png',
+                            asset: true,
+                            size: sy(72),
+                          ),
+                          SizedBox(height: !loading ? 0 : sy(6)),
+                          !loading
+                              ? SizedBox()
+                              : SizedBox(
+                                  height: sy(2),
+                                  width: sy(70),
+                                  child: LinearProgressIndicator(),
+                                ),
+                        ],
                       ),
                     ),
-                  );
-                }
-
-                return Center(
-                  child: SizedButton(
-                    height: sy(30),
-                    width: width - sy(30),
-                    color: AppTheme.of(context).primary,
-                    child: Text(
-                      'LOGIN NOW',
-                      style: TextStyle(
-                        color: Colors.white,
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedButton(
+                        height: sy(46),
+                        width: width,
+                        onPressed: () {
+                          login.controller.tryLogin();
+                        },
+                        child: Text(
+                          'LOGIN',
+                          style: TextStyle(
+                            color: AppTheme.of(context).accent,
+                            fontSize: sy(10),
+                          ),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      login.controller.tryLogin();
-                    },
-                  ),
+                    )
+                  ],
                 );
               },
             ),

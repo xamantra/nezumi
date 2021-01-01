@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
@@ -105,65 +104,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     model.update(loadingHistory: false, userAnimeHistory: history);
   }
 
-  Future<void> updateAnimeStatus({
-    @required int animeId,
-    String status,
-    bool is_rewatching,
-    int score,
-    int num_watched_episodes,
-    int priority,
-    int num_times_rewatched,
-    int rewatch_value,
-    List<String> tags,
-    String comments,
-    String start_date,
-    String finish_date,
-  }) async {
-    model.update(updatingListStatus: true);
-    var response = await api.updateAnimeStatus(
-      accessToken: accessToken,
-      animeId: animeId,
-      num_watched_episodes: num_watched_episodes,
-    );
-    if (response != null) {
-      var currentList = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
-      var selectedAnime = currentList.firstWhere((x) => x.node.id == animeId, orElse: () => null);
-      var updated = selectedAnime.copyWith(
-        listStatus: ListStatus(
-          status: response.status,
-          score: response.score,
-          numEpisodesWatched: response.numEpisodesWatched,
-          isRewatching: response.isRewatching,
-          updatedAt: response.updatedAt,
-          comments: response.comments,
-          tags: response.tags,
-          priority: response.priority,
-          numTimesRewatched: response.numTimesRewatched,
-          rewatchValue: response.rewatchValue,
-          startDate: response.startDate,
-          finishDate: response.finishDate,
-        ),
-      );
-      var index = currentList.indexWhere((x) => x.node.id == animeId);
-      currentList[index] = updated;
-      var newList = model.userAnimeList.copyWith(data: currentList);
-      model.update(userAnimeList: newList);
-    }
-    model.update(updatingListStatus: false);
-    sortAnimeList();
-  }
-
-  void incrementEpisode(int animeId) {
-    var anime = (model.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
-    var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) + 1;
-    updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
-  }
-
-  void decrementEpisode(int animeId) {
-    var anime = (model.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
-    var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) - 1;
-    updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
-  }
   /* backend functions */
 
   /* front-end functions */

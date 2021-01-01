@@ -94,7 +94,7 @@ class SearchNode {
   final int id;
   final String title;
   final MainPicture mainPicture;
-  final ListStatus myListStatus;
+  final AnimeListStatus myListStatus;
   final String synopsis;
   final String startDate;
   final AlternativeTitles alternativeTitles;
@@ -121,7 +121,7 @@ class SearchNode {
     int id,
     String title,
     MainPicture mainPicture,
-    ListStatus myListStatus,
+    AnimeListStatus myListStatus,
     String synopsis,
     String startDate,
     AlternativeTitles alternativeTitles,
@@ -180,7 +180,7 @@ class SearchNode {
         id: json["id"] == null ? null : json["id"],
         title: json["title"] == null ? null : json["title"],
         mainPicture: json["main_picture"] == null ? null : MainPicture.fromJson(json["main_picture"]),
-        myListStatus: json["my_list_status"] == null ? null : ListStatus.fromJson(json["my_list_status"]),
+        myListStatus: json["my_list_status"] == null ? null : AnimeListStatus.fromJson(json["my_list_status"]),
         synopsis: json["synopsis"] == null ? null : json["synopsis"],
         startDate: json["start_date"] == null ? null : json["start_date"],
         alternativeTitles: json["alternative_titles"] == null ? null : AlternativeTitles.fromJson(json["alternative_titles"]),

@@ -5,6 +5,7 @@ import 'package:random_string/random_string.dart';
 
 import '../../data/index.dart';
 import '../../mixins/index.dart';
+import '../../utils/index.dart';
 import 'index.dart';
 
 class LoginController extends MomentumController<LoginModel> with CoreMixin {
@@ -24,6 +25,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
       sendEvent(LoginEvent.loggedIn);
       return;
     }
+    tryLogin();
   }
 
   void generateCodeVerifier() {
@@ -38,7 +40,21 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
     } else {
       generateCodeVerifier();
       sendEvent(LoginEvent.gotoLogin);
+      if (_loginCheckStarted) {
+        return;
+      }
+      checkLogin();
+      _loginCheckStarted = true;
     }
+  }
+
+  bool _loginCheckStarted = false;
+  void checkLogin() async {
+    var code = await getLoginCode();
+    if (code != null) {
+      login(loginCode: code);
+    }
+    setTimeout(checkLogin, 3000);
   }
 
   Future<String> getLoginCode() async {

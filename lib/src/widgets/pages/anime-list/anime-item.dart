@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../data/index.dart';
+import '../../../modules/anime-update/index.dart';
 import '../../../utils/index.dart';
 import '../../index.dart';
 import 'index.dart';
@@ -29,6 +30,7 @@ class AnimeItemCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onTap: () {
+                  ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
                   dialog(context, EditAnimeDialog(anime: anime));
                 },
                 closeOnTap: false,

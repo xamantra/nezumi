@@ -52,7 +52,7 @@ class AnimeData {
   });
 
   final EntryNode node;
-  final ListStatus listStatus;
+  final AnimeListStatus listStatus;
 
   bool seasonMatch(String season) {
     return node?.seasonMatch(season) ?? false;
@@ -60,12 +60,31 @@ class AnimeData {
 
   AnimeData copyWith({
     EntryNode node,
-    ListStatus listStatus,
+    AnimeListStatus listStatus,
   }) =>
       AnimeData(
         node: node ?? this.node,
         listStatus: listStatus ?? this.listStatus,
       );
+
+  AnimeData copyFrom(AnimeUpdateResponse response) {
+    return copyWith(
+      listStatus: AnimeListStatus(
+        status: response.status,
+        score: response.score,
+        numEpisodesWatched: response.numEpisodesWatched,
+        isRewatching: response.isRewatching,
+        updatedAt: response.updatedAt,
+        comments: response.comments,
+        tags: response.tags,
+        priority: response.priority,
+        numTimesRewatched: response.numTimesRewatched,
+        rewatchValue: response.rewatchValue,
+        startDate: response.startDate,
+        finishDate: response.finishDate,
+      ),
+    );
+  }
 
   factory AnimeData.fromRawJson(String str) => AnimeData.fromJson(json.decode(str));
 
@@ -73,7 +92,7 @@ class AnimeData {
 
   factory AnimeData.fromJson(Map<String, dynamic> json) => AnimeData(
         node: json["node"] == null ? null : EntryNode.fromJson(json["node"]),
-        listStatus: json["list_status"] == null ? null : ListStatus.fromJson(json["list_status"]),
+        listStatus: json["list_status"] == null ? null : AnimeListStatus.fromJson(json["list_status"]),
       );
 
   Map<String, dynamic> toJson() => {
