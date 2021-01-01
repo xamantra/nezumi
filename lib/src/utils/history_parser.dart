@@ -74,27 +74,55 @@ DateTime parseFuzzyTime(String from) {
     var ago = int.parse(agoStr);
     result = now.subtract(Duration(hours: ago));
   } else {
-    // MMM d, H:mm a
-    var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
-    var day = time.split(', ');
-    var isPM = day[1].contains(' PM');
-    var _time = day[1].replaceAll(' AM', '').replaceAll(' PM', '');
-    var hm = _time.split(':');
-    var hour = int.parse(hm[0]);
-    if (isPM) {
-      if (hour != 12) {
-        hour += 12;
+    try {
+      // MMM d, H:mm a
+      var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
+      var day = time.split(', ');
+      var isPM = day[1].contains(' PM');
+      var _time = day[1].replaceAll(' AM', '').replaceAll(' PM', '');
+      var hm = _time.split(':');
+      var hour = int.parse(hm[0]);
+      if (isPM) {
+        if (hour != 12) {
+          hour += 12;
+        }
+      } else {
+        if (hour == 12) {
+          hour = 0;
+        }
       }
-    } else {
-      if (hour == 12) {
-        hour = 0;
+
+      var _t = [hour, hm[1]].join(':');
+      var _d = '${day[0]}, $_t';
+      var t = '${now.year} $_d';
+      result = DateFormat('y MMM d, H:mm').parse(t);
+      result = result.add(Duration(hours: 16));
+    } catch (e) {
+      // MMM d, y H:mm a
+      var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
+      var day = time.split(', ');
+      var year = day[1].split(' ')[0];
+      day[1] = day[1].replaceAll(year, '').trim();
+      var isPM = day[1].contains(' PM');
+      var _time = day[1].replaceAll(' AM', '').replaceAll(' PM', '');
+      var hm = _time.split(':');
+      var hour = int.parse(hm[0]);
+      if (isPM) {
+        if (hour != 12) {
+          hour += 12;
+        }
+      } else {
+        if (hour == 12) {
+          hour = 0;
+        }
       }
+
+      var _t = [hour, hm[1]].join(':');
+      var _d = '${day[0]}, $_t';
+      var t = '$year $_d';
+      result = DateFormat('y MMM d, H:mm').parse(t);
+      result = result.add(Duration(hours: 16));
     }
-    var _t = [hour, hm[1]].join(':');
-    var _d = '${day[0]}, $_t';
-    var t = '${now.year} $_d';
-    result = DateFormat('y MMM d, H:mm').parse(t);
-    result = result.add(Duration(hours: 16));
   }
   return result;
 }

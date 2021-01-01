@@ -73,13 +73,17 @@ class AnimeHistory {
   factory AnimeHistory.fromJson(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return AnimeHistory(
-      id: map['id'],
-      title: map['title'],
-      episode: map['episode'],
-      timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),
-      durationMins: map['durationMins'],
-    );
+    try {
+      return AnimeHistory(
+        id: map['id'],
+        title: map['title'],
+        episode: map['episode'],
+        timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp']),
+        durationMins: map['durationMins'],
+      );
+    } catch (e) {
+      return null;
+    }
   }
 
   AnimeHistory copyWith({

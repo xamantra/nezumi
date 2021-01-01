@@ -162,6 +162,7 @@ class ApiService extends MomentumService {
   }
 
   Future<UserAnimeHistory> getAnimeHistory({@required String username}) async {
+    List<AnimeHistory> data = [];
     try {
       var path = 'https://myanimelist.net/history/$username/anime';
       var response = await dio.get(
@@ -174,14 +175,17 @@ class ApiService extends MomentumService {
       );
       var doc = parse(response.data);
       var elements = doc.querySelectorAll('div.history_content_wrapper > table > tbody > tr');
-      List<AnimeHistory> data = [];
       for (var element in elements) {
-        var header = element.querySelector('.normal_header');
-        if (header == null) {
-          var result = parseAnimeHistory(element);
-          if (result != null) {
-            data.add(result);
+        try {
+          var header = element.querySelector('.normal_header');
+          if (header == null) {
+            var result = parseAnimeHistory(element);
+            if (result != null) {
+              data.add(result);
+            }
           }
+        } catch (e, trace) {
+          print([e, trace]);
         }
       }
       return UserAnimeHistory(list: data);
