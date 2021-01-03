@@ -99,7 +99,7 @@ DateTime parseFuzzyTime(String from) {
       result = result.add(Duration(hours: 16));
     } catch (e) {
       // MMM d, y H:mm a
-      var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
+      // var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
       var day = time.split(', ');
       var year = day[1].split(' ')[0];
       day[1] = day[1].replaceAll(year, '').trim();

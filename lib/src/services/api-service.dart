@@ -128,6 +128,7 @@ class ApiService extends MomentumService {
           current: n,
           statusParams: statusParams,
           animeParams: animeParams,
+          timeout: timeout,
         );
       } else {
         if (current == null) {
@@ -151,6 +152,7 @@ class ApiService extends MomentumService {
             current: result,
             statusParams: statusParams,
             animeParams: animeParams,
+            timeout: timeout,
           );
         }
         return current ?? result;
