@@ -1,7 +1,7 @@
 import 'package:momentum/momentum.dart';
 
 import '../services/index.dart';
-import 'index.dart';
+import '../utils/index.dart';
 
 List<MomentumService> services() {
   return [
