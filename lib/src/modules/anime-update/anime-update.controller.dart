@@ -115,19 +115,21 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     mal.controller.sortAnimeList();
   }
 
-  void incrementEpisode(int animeId) {
+  void incrementEpisode(int animeId) async {
     var anime = (mal.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
     var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) + 1;
-    updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
+    await updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
+    sendEvent(AnimeUpdateEpisodesEvent(episode));
   }
 
-  void decrementEpisode(int animeId) {
+  void decrementEpisode(int animeId) async {
     var anime = (mal.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
     var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) - 1;
     if (episode < 0) {
       episode = 0;
     }
-    updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
+    await updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
+    sendEvent(AnimeUpdateEpisodesEvent(episode));
   }
 
   void incrementRewatch(int animeId) {
