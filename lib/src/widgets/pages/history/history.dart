@@ -5,6 +5,8 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../mixins/index.dart';
 import '../../../modules/my_anime_list/index.dart';
+import '../../../modules/settings/index.dart';
+import '../../../utils/index.dart';
 import '../../index.dart';
 import 'index.dart';
 
@@ -37,8 +39,12 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
             leadingIcon: Icons.menu,
             title: 'Watch History',
             actions: [
-              ToolbarAction(icon: Icons.settings),
-              ToolbarAction(icon: Icons.more_vert),
+              ToolbarAction(
+                icon: Icons.settings,
+                onPressed: () {
+                  dialog(context, HistoryAnimeSettings());
+                },
+              ),
             ],
             leadingAction: () {
               Scaffold.of(context).openDrawer();
@@ -68,10 +74,15 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                                       onRefresh: () {
                                         mal.controller.loadAnimeHistory();
                                       },
-                                      child: ListView.builder(
-                                        itemCount: historyGroup.length,
-                                        itemBuilder: (_, i) {
-                                          return HistoryGroup(historyGroupData: historyGroup[i]);
+                                      child: MomentumBuilder(
+                                        controllers: [SettingsController],
+                                        builder: (context, snapshot) {
+                                          return ListView.builder(
+                                            itemCount: historyGroup.length,
+                                            itemBuilder: (_, i) {
+                                              return HistoryGroup(historyGroupData: historyGroup[i]);
+                                            },
+                                          );
                                         },
                                       ),
                                     ),

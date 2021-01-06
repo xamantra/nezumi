@@ -25,4 +25,21 @@ class SettingsModel extends MomentumModel<SettingsController> {
       requiredEpsPerDay: requiredEpsPerDay ?? this.requiredEpsPerDay,
     ).updateMomentum();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'requiredMinsPerEp': requiredMinsPerEp,
+      'requiredEpsPerDay': requiredEpsPerDay,
+    };
+  }
+
+  SettingsModel fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+
+    return SettingsModel(
+      controller,
+      requiredMinsPerEp: json['requiredMinsPerEp'],
+      requiredEpsPerDay: json['requiredEpsPerDay'],
+    );
+  }
 }

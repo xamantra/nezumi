@@ -7,6 +7,7 @@ export 'badge.dart';
 export 'custom_icons.dart';
 export 'dot.dart';
 export 'dropdown.dart';
+export 'edit-field.info_row.dart';
 export 'image.dart';
 export 'loader.dart';
 export 'my-list.tab_item.dart';

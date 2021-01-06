@@ -99,7 +99,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                           )
                         : Column(
                             children: [
-                              AnimeEditInfoRow(
+                              EditFieldInfoRow(
                                 label: 'Status',
                                 verticalPadding: sy(4),
                                 child: DropdownWidget<String>(
@@ -124,7 +124,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                               ),
                               !canEditRewatching
                                   ? SizedBox()
-                                  : AnimeEditInfoRow(
+                                  : EditFieldInfoRow(
                                       label: 'Rewatching',
                                       child: Checkbox(
                                         value: currentInput.isRewatching,
@@ -136,7 +136,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       ),
                                     ),
                               // Divider(height: 1, color: AppTheme.of(context).text7),
-                              AnimeEditInfoRow(
+                              EditFieldInfoRow(
                                 label: 'Episodes',
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +232,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                 ),
                               ),
                               // Divider(height: 1, color: AppTheme.of(context).text7),
-                              AnimeEditInfoRow(
+                              EditFieldInfoRow(
                                 label: 'Re-watched',
                                 expand: false,
                                 child: Row(
