@@ -74,7 +74,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
     model.update(loadingProfile: true);
     var accounts = List<Account>.from(model.accounts);
     var token = await api.getToken(code: loginCode, codeVerifier: model.codeVerifier);
-    var profile = await api.getProfile(accessToken: token.accessToken);
+    var profile = await api.getProfile(accessToken: token?.accessToken);
     var account = Account(token: token, profile: profile);
     accounts.add(account);
     model.update(loadingProfile: false, accounts: accounts, activeAccountUsername: profile.name);
