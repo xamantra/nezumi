@@ -82,7 +82,14 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
       accessToken: accessToken,
       animeId: animeId,
       status: status,
+      score: score,
+      is_rewatching: is_rewatching,
       num_watched_episodes: num_watched_episodes,
+      priority: priority,
+      num_times_rewatched: num_times_rewatched,
+      rewatch_value: rewatch_value,
+      tags: tags,
+      comments: comments,
       start_date: start_date,
       finish_date: finish_date,
     );
@@ -153,6 +160,8 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
 
     var currentStatus = listStatus.status;
     var newStatus = input.status;
+    var isRewatching = listStatus.isRewatching;
+    var newIsRewatching = input.isRewatching;
     var currentEpisodes = listStatus.numEpisodesWatched;
     var newEpisodes = input.numEpisodesWatched;
     var currentStartDate = listStatus.startDate;
@@ -164,6 +173,7 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
 
     var animeId = model.animeData.node.id;
     var status = currentStatus == newStatus ? null : newStatus;
+    var is_rewatching = isRewatching == newIsRewatching ? null : newIsRewatching;
     var num_watched_episodes = currentEpisodes == newEpisodes ? null : newEpisodes;
     var start_date = currentStartDate == newStartDate ? null : newStartDate;
     var finish_date = currentFinishDate == newFinishDate ? null : newFinishDate;
@@ -172,6 +182,7 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     await updateAnimeStatus(
       animeId: animeId,
       status: status,
+      is_rewatching: is_rewatching,
       num_watched_episodes: num_watched_episodes,
       num_times_rewatched: num_times_rewatched,
       start_date: start_date,
