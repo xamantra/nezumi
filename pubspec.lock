@@ -278,9 +278,11 @@ packages:
   momentum:
     dependency: "direct main"
     description:
-      name: momentum
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "dev-1.3.3"
+      resolved-ref: "915a90cb64ec6175e3a3c65879056d186599f1ec"
+      url: "https://github.com/xamantra/momentum.git"
+    source: git
     version: "1.3.2"
   path:
     dependency: transitive

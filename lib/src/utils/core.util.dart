@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 Future<T> dialog<T>(BuildContext context, Widget dialog) async {
   try {

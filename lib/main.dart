@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           dialogBackgroundColor: defaultTheme.primaryBackground,
         ),
         debugShowCheckedModeBanner: false,
-        home: getActivePage(context),
+        home: MomentumRouter.getActivePage(context),
       ),
     );
   }

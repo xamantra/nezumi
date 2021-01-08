@@ -9,6 +9,9 @@ List<MomentumService> services() {
     NavService(),
     FilterWigdetService(),
     AnimeFilterListService(),
-    routerService(),
+    MomentumRouter(
+      [Login(), Dashboard()],
+      enablePersistence: true,
+    ),
   ];
 }

@@ -11,7 +11,6 @@ export 'date-selector.dart';
 export 'datetime.util.dart';
 export 'history_parser.dart';
 export 'month_list.dart';
-export 'router.dart';
 export 'set_timeout.dart';
 export 'slug-normalizer.dart';
 export 'toast.dart';

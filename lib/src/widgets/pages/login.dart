@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart' hide Router;
+import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
@@ -24,7 +24,7 @@ class _LoginState extends MomentumState<Login> {
       invoke: (event) {
         switch (event) {
           case LoginEvent.loggedIn:
-            Router.goto(context, Dashboard);
+            MomentumRouter.goto(context, Dashboard);
             break;
           case LoginEvent.gotoLogin:
             var codeVerifier = ctrl<LoginController>(context).model.codeVerifier;
