@@ -22,6 +22,11 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
   bool get loading => loadingAnimeList || loadingHistory || updatingListStatus;
 
+  bool inMyList(int animeId) {
+    var result = (userAnimeList?.animeList ?? []).any((x) => x?.node?.id == animeId);
+    return result;
+  }
+
   @override
   void update({
     UserAnimeList userAnimeList,

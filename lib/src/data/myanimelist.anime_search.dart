@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:basic_utils/basic_utils.dart';
+
 import 'index.dart';
 
 class AnimeSearch {
@@ -9,11 +11,11 @@ class AnimeSearch {
   });
 
   final List<AnimeSearchItem> data;
-  final Paging paging;
+  final AnimeSearchPaging paging;
 
   AnimeSearch copyWith({
     List<AnimeSearchItem> data,
-    Paging paging,
+    AnimeSearchPaging paging,
   }) =>
       AnimeSearch(
         data: data ?? this.data,
@@ -24,9 +26,9 @@ class AnimeSearch {
 
   String toRawJson() => json.encode(toJson());
 
-  factory AnimeSearch.fromJson(Map<String, dynamic> json) => AnimeSearch(
+  static AnimeSearch fromJson(Map<String, dynamic> json) => AnimeSearch(
         data: json["data"] == null ? null : List<AnimeSearchItem>.from(json["data"].map((x) => AnimeSearchItem.fromJson(x))),
-        paging: json["paging"] == null ? null : Paging.fromJson(json["paging"]),
+        paging: json["paging"] == null ? null : AnimeSearchPaging.fromJson(json["paging"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +43,73 @@ class AnimeSearchItem {
   });
 
   final SearchNode node;
+
+  AnimeListStatus get listStatus => node.myListStatus;
+
+  String get animeStatus {
+    try {
+      var s = StringUtils.capitalize(node?.status?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  int get durationPerEpisode {
+    try {
+      return (node?.averageEpisodeDuration ?? 0) ~/ 60;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  String get episodeCount {
+    try {
+      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) == 0) {
+        return '?';
+      }
+      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) != 0) {
+        return listStatus?.numEpisodesWatched.toString();
+      }
+      return node.numEpisodes.toString();
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get realEpisodeCount {
+    try {
+      return node.numEpisodes == 0 ? '?' : node.numEpisodes?.toString() ?? '?';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get season {
+    try {
+      var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
+      return '$s ${node.startSeason?.year ?? "?"}';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get source {
+    try {
+      var s = StringUtils.capitalize(node?.source?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  List<String> get studios {
+    try {
+      return node?.studios?.map((e) => e.name)?.toList() ?? [];
+    } catch (e) {
+      return [];
+    }
+  }
 
   AnimeSearchItem copyWith({
     SearchNode node,

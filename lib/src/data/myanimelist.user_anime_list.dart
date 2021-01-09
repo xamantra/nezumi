@@ -9,7 +9,7 @@ class UserAnimeList {
   });
 
   final List<AnimeData> animeList;
-  final Paging paging;
+  final AnimeSearchPaging paging;
 
   List<AnimeData> getByStatus(String status) {
     try {
@@ -23,7 +23,7 @@ class UserAnimeList {
 
   UserAnimeList copyWith({
     List<AnimeData> data,
-    Paging paging,
+    AnimeSearchPaging paging,
   }) =>
       UserAnimeList(
         animeList: data ?? this.animeList,
@@ -36,7 +36,7 @@ class UserAnimeList {
 
   static UserAnimeList fromJson(Map<String, dynamic> json) => UserAnimeList(
         animeList: json["data"] == null ? null : List<AnimeData>.from(json["data"].map((x) => AnimeData.fromJson(x))),
-        paging: json["paging"] == null ? null : Paging.fromJson(json["paging"]),
+        paging: json["paging"] == null ? null : AnimeSearchPaging.fromJson(json["paging"]),
       );
 
   Map<String, dynamic> toJson() => {

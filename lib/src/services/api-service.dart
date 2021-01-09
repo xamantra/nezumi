@@ -33,6 +33,7 @@ class ApiService extends MomentumService {
 
   Future<T> httpGet<T>(
     String url, {
+    int timeout = 10000,
     @required String accessToken,
     @required T Function(Map<String, dynamic>) transformer,
   }) async {
@@ -43,8 +44,8 @@ class ApiService extends MomentumService {
           headers: {
             'Authorization': 'Bearer $accessToken',
           },
-          receiveTimeout: 10000,
-          sendTimeout: 10000,
+          receiveTimeout: timeout ?? 10000,
+          sendTimeout: timeout ?? 10000,
         ),
       );
       var result = transformer(response.data);
@@ -113,6 +114,7 @@ class ApiService extends MomentumService {
       if (nextPage != null && current != null) {
         var result = await httpGet(
           nextPage,
+          timeout: timeout,
           accessToken: accessToken,
           transformer: UserAnimeList.fromJson,
         );
@@ -245,6 +247,49 @@ class ApiService extends MomentumService {
       return result;
     } catch (e) {
       print(['ApiService.updateAnimeStatus', e]);
+      return null;
+    }
+  }
+
+  Future<AnimeSearch> animeSearch({
+    @required String accessToken,
+    String query,
+    String nextPage,
+    String fields,
+    int timeout = 10000,
+  }) async {
+    try {
+      var path = 'https://api.myanimelist.net/v2/anime';
+      var data = {
+        'q': query,
+        'fields': fields,
+        'limit': 50, // TODO: dynamic limit, app settings etc...
+        'offset': 0,
+      };
+      if (nextPage != null) {
+        var result = await httpGet(
+          nextPage,
+          timeout: timeout,
+          accessToken: accessToken,
+          transformer: AnimeSearch.fromJson,
+        );
+        return result;
+      } else {
+        var response = await dio.get(
+          path,
+          queryParameters: data,
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+            receiveTimeout: timeout,
+            sendTimeout: timeout,
+          ),
+        );
+        return AnimeSearch.fromJson(response.data);
+      }
+    } catch (e) {
+      print(['ApiService.animeSearch', e]);
       return null;
     }
   }

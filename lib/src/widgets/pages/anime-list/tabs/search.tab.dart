@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../mixins/index.dart';
 import '../../../../components/anime-search/index.dart';
+import '../../../../mixins/index.dart';
 import '../../../index.dart';
 import '../index.dart';
 
@@ -73,7 +73,10 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                             textAlign: TextAlign.center,
                             maxLines: 1,
                             onChanged: (query) {
-                              animeSearch.update(query: query);
+                              animeSearch.controller.search(query);
+                            },
+                            onFieldSubmitted: (query) {
+                              animeSearch.controller.submitMALSearch();
                             },
                           ),
                         ),
@@ -92,7 +95,8 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                           onPressed: () {
                             searchInputController.clear();
                             searchInputController.clearComposing();
-                            animeSearch.update(query: '');
+                            animeSearch.controller.search('');
+                            animeSearch.controller.submitMALSearch();
                           },
                         ),
                       ),
@@ -102,10 +106,8 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                 MomentumBuilder(
                   controllers: [AnimeSearchController],
                   builder: (context, snapshot) {
-                    var list = mal.userAnimeList?.getByStatus('all');
-                    if (animeSearch.query != null) {
-                      list = list.where((x) => x.searchMatch(animeSearch.query)).toList();
-                    }
+                    var list = animeSearch?.listResults ?? [];
+                    var malResults = animeSearch?.results ?? [];
 
                     return Container(
                       width: width,
@@ -118,7 +120,7 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                         physics: BouncingScrollPhysics(),
                         tabs: [
                           MyListTabItem(label: 'My List Results', count: list.length),
-                          MyListTabItem(label: 'MAL Results', count: 0),
+                          MyListTabItem(label: 'MAL Results', count: malResults.length),
                         ],
                       ),
                     );
@@ -134,8 +136,8 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                           controller: tabController,
                           physics: BouncingScrollPhysics(),
                           children: [
-                            AnimeListView(status: 'all', search: animeSearch.query),
-                            SizedBox(),
+                            AnimeSearchListView(isMyListResults: true),
+                            AnimeSearchListView(isMyListResults: false),
                           ],
                         );
                       },

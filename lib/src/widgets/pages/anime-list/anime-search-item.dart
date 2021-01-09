@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../components/anime-update/index.dart';
 import '../../../data/index.dart';
-import '../../../utils/index.dart';
 import '../../index.dart';
-import 'index.dart';
 
-class AnimeItemCard extends StatelessWidget {
-  const AnimeItemCard({Key key, @required this.anime}) : super(key: key);
+class AnimeSearchItemCard extends StatelessWidget {
+  const AnimeSearchItemCard({Key key, @required this.anime}) : super(key: key);
 
-  final AnimeData anime;
+  final AnimeSearchItem anime;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +27,9 @@ class AnimeItemCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onTap: () {
-                  ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
-                  dialog(context, EditAnimeDialog(anime: anime));
+                  // TODO: add anime mode.
+                  // ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
+                  // dialog(context, EditAnimeDialog(anime: anime));
                 },
                 closeOnTap: false,
               ),
@@ -61,7 +59,7 @@ class AnimeItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          anime.node.title,
+                          anime.node?.title,
                           style: TextStyle(
                             color: AppTheme.of(context).text3,
                             fontWeight: FontWeight.w600,
@@ -73,7 +71,7 @@ class AnimeItemCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              anime.node.mediaType.toUpperCase(),
+                              anime?.node?.mediaType?.toUpperCase(),
                               style: TextStyle(
                                 color: AppTheme.of(context).text3,
                                 fontWeight: FontWeight.w300,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../../mixins/index.dart';
 import '../../../../../components/app/index.dart';
+import '../../../../../mixins/index.dart';
 import '../../../../../utils/index.dart';
 import '../../../../index.dart';
 import 'index.dart';

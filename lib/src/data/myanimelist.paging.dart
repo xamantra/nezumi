@@ -1,28 +1,43 @@
 import 'dart:convert';
 
-class Paging {
-  Paging({
+class AnimeSearchPaging {
+  AnimeSearchPaging({
+    this.prev,
     this.next,
   });
 
+  final String prev;
   final String next;
 
-  Paging copyWith({
+  AnimeSearchPaging copyWith({
+    String prev,
     String next,
   }) =>
-      Paging(
+      AnimeSearchPaging(
+        prev: prev ?? this.prev,
         next: next ?? this.next,
       );
 
-  factory Paging.fromRawJson(String str) => Paging.fromJson(json.decode(str));
+  factory AnimeSearchPaging.fromRawJson(String str) => AnimeSearchPaging.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Paging.fromJson(Map<String, dynamic> json) => Paging(
-        next: json["next"] == null ? null : json["next"],
-      );
+  factory AnimeSearchPaging.fromJson(Map<String, dynamic> json) {
+    String prev;
+    if (json['prev'] != null) {
+      prev = json['prev'];
+    }
+    if (json['previous'] != null) {
+      prev = json['previous'];
+    }
+    return AnimeSearchPaging(
+      prev: prev,
+      next: json["next"] == null ? null : json["next"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
+        "prev": prev == null ? null : prev,
         "next": next == null ? null : next,
       };
 }
