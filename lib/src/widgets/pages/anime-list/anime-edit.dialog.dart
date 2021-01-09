@@ -213,6 +213,8 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         value: currentInput.startDate,
                                         dense: true,
                                         verticalPadding: sy(4),
+                                        showTodaySetter: true,
+                                        showClear: true,
                                         onChanged: (newStartDate) {
                                           controller.editStartDate(newStartDate);
                                         },
@@ -222,6 +224,8 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                         value: currentInput.finishDate,
                                         dense: true,
                                         verticalPadding: sy(4),
+                                        showTodaySetter: true,
+                                        showClear: true,
                                         enabled: canEditFinishDate ? true : false,
                                         onChanged: (newFinishDate) {
                                           controller.editFinishDate(newFinishDate);
