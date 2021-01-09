@@ -3,7 +3,7 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../mixins/index.dart';
-import '../../../../modules/my_anime_list/index.dart';
+import '../../../../components/my_anime_list/index.dart';
 import '../../../index.dart';
 import '../index.dart';
 

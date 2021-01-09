@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
-import '../modules/anime-filter/index.dart';
-import '../modules/app/index.dart';
+import '../components/anime-filter/index.dart';
+import '../components/app/index.dart';
 import '../services/index.dart';
 import '../utils/index.dart';
 import 'index.dart';

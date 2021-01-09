@@ -3,7 +3,7 @@ import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../modules/login/index.dart';
+import '../../components/login/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
 import 'index.dart';

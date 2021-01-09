@@ -3,7 +3,7 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../mixins/index.dart';
-import '../../../modules/settings/index.dart';
+import '../../../components/settings/index.dart';
 import '../../../utils/index.dart';
 import '../../app-theme.dart';
 import '../../index.dart';

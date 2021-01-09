@@ -4,7 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../data/filter-anime-types/index.dart';
 import '../../mixins/index.dart';
-import '../../modules/anime-filter/index.dart';
+import '../../components/anime-filter/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
 
