@@ -21,6 +21,7 @@ class AnimeFilterStatItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
+      scale: 0.85,
       builder: (context, height, width, sy, sx) {
         return Container(
           padding: EdgeInsets.all(sy(8)),
