@@ -41,7 +41,7 @@ class _TopAnimePageState extends State<TopAnimePage> with CoreStateMixin, Single
                     controller: tabController,
                     children: [
                       MalAnimeRankingPage(),
-                      SizedBox(),
+                      YearlyAnimeRankingPage(),
                     ],
                   ),
                 ),

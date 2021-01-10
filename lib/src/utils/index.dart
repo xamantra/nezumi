@@ -8,6 +8,7 @@ export 'config.dart';
 export 'config.sample.dart';
 export 'core.util.dart';
 export 'date-selector.dart';
+export 'date-utils.dart';
 export 'datetime.util.dart';
 export 'history_parser.dart';
 export 'month_list.dart';

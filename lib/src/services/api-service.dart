@@ -336,4 +336,37 @@ class ApiService extends MomentumService {
       return null;
     }
   }
+
+  Future<AnimeListGlobal> animeSeason({
+    @required String accessToken,
+    @required int year,
+    @required String season,
+    String fields,
+    int timeout = 10000,
+  }) async {
+    try {
+      var path = 'https://api.myanimelist.net/v2/anime/season/$year/$season';
+      var data = {
+        'fields': fields,
+        'limit': 500, // TODO: dynamic limit, app settings etc...
+        'offset': 0,
+      };
+
+      var response = await dio.get(
+        path,
+        queryParameters: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+          receiveTimeout: timeout,
+          sendTimeout: timeout,
+        ),
+      );
+      return AnimeListGlobal.fromJson(response.data);
+    } catch (e) {
+      print(['ApiService.animeSeason', e]);
+      return null;
+    }
+  }
 }

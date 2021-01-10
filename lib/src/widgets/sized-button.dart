@@ -11,6 +11,7 @@ class SizedButton extends StatelessWidget {
     this.materialTapTargetSize,
     this.padding,
     this.color,
+    this.enabled = true,
   })  : assert(height != null),
         assert(width != null),
         super(key: key);
@@ -23,6 +24,7 @@ class SizedButton extends StatelessWidget {
   final MaterialTapTargetSize materialTapTargetSize;
   final EdgeInsetsGeometry padding;
   final Color color;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class SizedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius ?? 0),
       ),
       child: FlatButton(
-        onPressed: onPressed ?? () {},
+        onPressed: !enabled ? null : onPressed ?? () {},
         color: color ?? Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)),
         materialTapTargetSize: materialTapTargetSize ?? MaterialTapTargetSize.shrinkWrap,

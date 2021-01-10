@@ -24,6 +24,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.loadingTopSpecials,
     this.loadingTopPopularity,
     this.loadingTopFavorites,
+    this.selectedYear,
+    this.selectedYearRankings,
+    this.loadingYearlyRankings,
   }) : super(controller);
 
   final AnimeListGlobal topAll;
@@ -45,6 +48,11 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   final bool loadingTopSpecials;
   final bool loadingTopPopularity;
   final bool loadingTopFavorites;
+
+  // yearly rankings
+  final int selectedYear;
+  final AnimeListGlobal selectedYearRankings;
+  final bool loadingYearlyRankings;
 
   bool isLoading(int index) {
     switch (index) {
@@ -116,6 +124,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopSpecials,
     bool loadingTopPopularity,
     bool loadingTopFavorites,
+    int selectedYear,
+    AnimeListGlobal selectedYearRankings,
+    bool loadingYearlyRankings,
   }) {
     AnimeTopModel(
       controller,
@@ -137,6 +148,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       loadingTopSpecials: loadingTopSpecials ?? this.loadingTopSpecials,
       loadingTopPopularity: loadingTopPopularity ?? this.loadingTopPopularity,
       loadingTopFavorites: loadingTopFavorites ?? this.loadingTopFavorites,
+      selectedYear: selectedYear ?? this.selectedYear,
+      selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
+      loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
     ).updateMomentum();
   }
 }
