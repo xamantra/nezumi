@@ -1,9 +1,9 @@
 export 'account.dart';
 export 'history_group.dart';
 export 'myanimelist.alt_titles.dart';
+export 'myanimelist.anime_data.dart';
 export 'myanimelist.anime_history.dart';
 export 'myanimelist.anime_list_status.dart';
-export 'myanimelist.anime_search.dart';
 export 'myanimelist.anime_update_response.dart';
 export 'myanimelist.broadcast.dart';
 export 'myanimelist.genre.dart';

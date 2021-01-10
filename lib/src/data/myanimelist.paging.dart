@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class AnimeSearchPaging {
-  AnimeSearchPaging({
+class MalPaging {
+  MalPaging({
     this.prev,
     this.next,
   });
@@ -9,20 +9,20 @@ class AnimeSearchPaging {
   final String prev;
   final String next;
 
-  AnimeSearchPaging copyWith({
+  MalPaging copyWith({
     String prev,
     String next,
   }) =>
-      AnimeSearchPaging(
+      MalPaging(
         prev: prev ?? this.prev,
         next: next ?? this.next,
       );
 
-  factory AnimeSearchPaging.fromRawJson(String str) => AnimeSearchPaging.fromJson(json.decode(str));
+  factory MalPaging.fromRawJson(String str) => MalPaging.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory AnimeSearchPaging.fromJson(Map<String, dynamic> json) {
+  factory MalPaging.fromJson(Map<String, dynamic> json) {
     String prev;
     if (json['prev'] != null) {
       prev = json['prev'];
@@ -30,7 +30,7 @@ class AnimeSearchPaging {
     if (json['previous'] != null) {
       prev = json['previous'];
     }
-    return AnimeSearchPaging(
+    return MalPaging(
       prev: prev,
       next: json["next"] == null ? null : json["next"],
     );

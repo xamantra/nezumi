@@ -6,6 +6,7 @@ import '../app-theme.dart';
 import '../index.dart';
 import 'anime-list/index.dart';
 import 'history/index.dart';
+import 'top-anime/index.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key key}) : super(key: key);
@@ -63,7 +64,15 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                               app.triggerRebuild();
                             },
                           ),
-                          DrawerItem(icon: CustomIcons.award, text: 'Top Anime'),
+                          DrawerItem(
+                            icon: CustomIcons.award,
+                            text: 'Top Anime',
+                            onPressed: () {
+                              Navigator.pop(context);
+                              nav.gotoPage(TopAnimePage());
+                              app.triggerRebuild();
+                            },
+                          ),
                           DrawerItem(
                             icon: CustomIcons.history,
                             text: 'History',

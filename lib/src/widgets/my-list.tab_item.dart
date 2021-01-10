@@ -7,7 +7,7 @@ class MyListTabItem extends StatelessWidget {
   const MyListTabItem({
     Key key,
     @required this.label,
-    @required this.count,
+    this.count,
   }) : super(key: key);
 
   final String label;
@@ -28,7 +28,7 @@ class MyListTabItem extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              count == 0
+              (count ?? 0) == 0
                   ? SizedBox()
                   : Text(
                       ' ($count)',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nezumi/src/widgets/app-theme.dart';
 import 'package:relative_scale/relative_scale.dart';
+
+import '../../../../app-theme.dart';
 
 class AnimeFilterStatItem extends StatelessWidget {
   const AnimeFilterStatItem({

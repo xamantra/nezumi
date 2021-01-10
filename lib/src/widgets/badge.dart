@@ -29,17 +29,20 @@ class Badge extends StatelessWidget {
               onPressed(text);
             }
           },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: sy(4), vertical: sy(2)),
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(borderRadius ?? 10),
-            ),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: textColor,
-                fontSize: fontSize,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: sy(4), vertical: sy(2)),
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: BorderRadius.circular(borderRadius ?? 10),
+              ),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: fontSize,
+                ),
               ),
             ),
           ),

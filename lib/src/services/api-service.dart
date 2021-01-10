@@ -251,7 +251,7 @@ class ApiService extends MomentumService {
     }
   }
 
-  Future<AnimeSearch> animeSearch({
+  Future<AnimeListGlobal> animeSearch({
     @required String accessToken,
     String query,
     String nextPage,
@@ -271,7 +271,7 @@ class ApiService extends MomentumService {
           nextPage,
           timeout: timeout,
           accessToken: accessToken,
-          transformer: AnimeSearch.fromJson,
+          transformer: AnimeListGlobal.fromJson,
         );
         return result;
       } else {
@@ -286,10 +286,53 @@ class ApiService extends MomentumService {
             sendTimeout: timeout,
           ),
         );
-        return AnimeSearch.fromJson(response.data);
+        return AnimeListGlobal.fromJson(response.data);
       }
     } catch (e) {
       print(['ApiService.animeSearch', e]);
+      return null;
+    }
+  }
+
+  Future<AnimeListGlobal> animeTop({
+    @required String accessToken,
+    String type = 'all',
+    String nextPage,
+    String fields,
+    int timeout = 10000,
+  }) async {
+    try {
+      var path = 'https://api.myanimelist.net/v2/anime/ranking';
+      var data = {
+        'ranking_type': type ?? 'all',
+        'fields': fields,
+        'limit': 500, // TODO: dynamic limit, app settings etc...
+        'offset': 0,
+      };
+      if (nextPage != null) {
+        var result = await httpGet(
+          nextPage,
+          timeout: timeout,
+          accessToken: accessToken,
+          transformer: AnimeListGlobal.fromJson,
+        );
+        return result;
+      } else {
+        var response = await dio.get(
+          path,
+          queryParameters: data,
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+            receiveTimeout: timeout,
+            sendTimeout: timeout,
+          ),
+        );
+        return AnimeListGlobal.fromJson(response.data);
+      }
+    } catch (e) {
+      print(['ApiService.animeTop', e]);
       return null;
     }
   }

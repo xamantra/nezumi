@@ -52,7 +52,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeSearchItemCard(anime: anime);
+                  return AnimeGlobalItemCard(anime: anime);
                 },
               );
             }

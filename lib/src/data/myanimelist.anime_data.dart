@@ -4,31 +4,31 @@ import 'package:basic_utils/basic_utils.dart';
 
 import 'index.dart';
 
-class AnimeSearch {
-  AnimeSearch({
+class AnimeListGlobal {
+  AnimeListGlobal({
     this.data,
     this.paging,
   });
 
-  final List<AnimeSearchItem> data;
-  final AnimeSearchPaging paging;
+  final List<AnimeDataItem> data;
+  final MalPaging paging;
 
-  AnimeSearch copyWith({
-    List<AnimeSearchItem> data,
-    AnimeSearchPaging paging,
+  AnimeListGlobal copyWith({
+    List<AnimeDataItem> data,
+    MalPaging paging,
   }) =>
-      AnimeSearch(
+      AnimeListGlobal(
         data: data ?? this.data,
         paging: paging ?? this.paging,
       );
 
-  factory AnimeSearch.fromRawJson(String str) => AnimeSearch.fromJson(json.decode(str));
+  factory AnimeListGlobal.fromRawJson(String str) => AnimeListGlobal.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  static AnimeSearch fromJson(Map<String, dynamic> json) => AnimeSearch(
-        data: json["data"] == null ? null : List<AnimeSearchItem>.from(json["data"].map((x) => AnimeSearchItem.fromJson(x))),
-        paging: json["paging"] == null ? null : AnimeSearchPaging.fromJson(json["paging"]),
+  static AnimeListGlobal fromJson(Map<String, dynamic> json) => AnimeListGlobal(
+        data: json["data"] == null ? null : List<AnimeDataItem>.from(json["data"].map((x) => AnimeDataItem.fromJson(x))),
+        paging: json["paging"] == null ? null : MalPaging.fromJson(json["paging"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -37,8 +37,8 @@ class AnimeSearch {
       };
 }
 
-class AnimeSearchItem {
-  AnimeSearchItem({
+class AnimeDataItem {
+  AnimeDataItem({
     this.node,
   });
 
@@ -111,18 +111,18 @@ class AnimeSearchItem {
     }
   }
 
-  AnimeSearchItem copyWith({
+  AnimeDataItem copyWith({
     SearchNode node,
   }) =>
-      AnimeSearchItem(
+      AnimeDataItem(
         node: node ?? this.node,
       );
 
-  factory AnimeSearchItem.fromRawJson(String str) => AnimeSearchItem.fromJson(json.decode(str));
+  factory AnimeDataItem.fromRawJson(String str) => AnimeDataItem.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory AnimeSearchItem.fromJson(Map<String, dynamic> json) => AnimeSearchItem(
+  factory AnimeDataItem.fromJson(Map<String, dynamic> json) => AnimeDataItem(
         node: json["node"] == null ? null : SearchNode.fromJson(json["node"]),
       );
 

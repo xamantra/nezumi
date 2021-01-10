@@ -5,10 +5,19 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../data/index.dart';
 import '../../index.dart';
 
-class AnimeSearchItemCard extends StatelessWidget {
-  const AnimeSearchItemCard({Key key, @required this.anime}) : super(key: key);
+class AnimeGlobalItemCard extends StatelessWidget {
+  const AnimeGlobalItemCard({
+    Key key,
+    @required this.anime,
+    this.editMode = true,
+    this.leadBuilder,
+    this.trailBuilder,
+  }) : super(key: key);
 
-  final AnimeSearchItem anime;
+  final AnimeDataItem anime;
+  final bool editMode;
+  final Widget Function(BuildContext context, AnimeDataItem anime) leadBuilder;
+  final Widget Function(BuildContext context, AnimeDataItem anime) trailBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,7 @@ class AnimeSearchItemCard extends StatelessWidget {
               child: IconSlideAction(
                 color: Colors.transparent,
                 iconWidget: Icon(
-                  Icons.edit,
+                  editMode ? Icons.edit : Icons.add,
                   size: sy(20),
                   color: Colors.blue,
                 ),
@@ -48,7 +57,9 @@ class AnimeSearchItemCard extends StatelessWidget {
               onPressed: () {},
               radius: 0,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  leadBuilder != null ? leadBuilder(context, anime) : SizedBox(),
                   SymmetricImage(
                     url: anime?.node?.mainPicture?.medium ?? '',
                     size: sy(36),
@@ -73,25 +84,25 @@ class AnimeSearchItemCard extends StatelessWidget {
                             Text(
                               anime?.node?.mediaType?.toUpperCase(),
                               style: TextStyle(
-                                color: AppTheme.of(context).text3,
+                                color: AppTheme.of(context).text4,
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
                             ),
-                            Dot(color: AppTheme.of(context).text3),
+                            Dot(color: AppTheme.of(context).text5),
                             Text(
                               anime.animeStatus,
                               style: TextStyle(
-                                color: AppTheme.of(context).text3,
+                                color: AppTheme.of(context).text4,
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
                             ),
-                            Dot(color: AppTheme.of(context).text3),
+                            Dot(color: AppTheme.of(context).text5),
                             Text(
                               '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
                               style: TextStyle(
-                                color: AppTheme.of(context).text3,
+                                color: AppTheme.of(context).text4,
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
@@ -103,28 +114,34 @@ class AnimeSearchItemCard extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Badge(
-                                color: Colors.teal,
-                                textColor: Colors.white,
-                                text: anime.season,
-                                fontSize: sy(6),
+                              Text(
+                                anime.season,
+                                style: TextStyle(
+                                  color: AppTheme.of(context).text4,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: sy(7),
+                                ),
                               ),
-                              SizedBox(width: sy(4)),
-                              Badge(
-                                color: Colors.redAccent,
-                                textColor: Colors.white,
-                                text: anime.source,
-                                fontSize: sy(6),
+                              Dot(color: AppTheme.of(context).text5),
+                              Text(
+                                anime.source,
+                                style: TextStyle(
+                                  color: AppTheme.of(context).text4,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: sy(7),
+                                ),
                               ),
                             ]..addAll(anime.studios.map(
                                 (e) => Row(
                                   children: [
-                                    SizedBox(width: sy(4)),
-                                    Badge(
-                                      color: Colors.purple,
-                                      textColor: Colors.white,
-                                      text: e,
-                                      fontSize: sy(6),
+                                    Dot(color: AppTheme.of(context).text5),
+                                    Text(
+                                      e,
+                                      style: TextStyle(
+                                        color: AppTheme.of(context).text4,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: sy(7),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -134,6 +151,7 @@ class AnimeSearchItemCard extends StatelessWidget {
                       ],
                     ),
                   ),
+                  trailBuilder != null ? trailBuilder(context, anime) : SizedBox(),
                 ],
               ),
             ),
