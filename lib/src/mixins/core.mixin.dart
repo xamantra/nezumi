@@ -14,7 +14,7 @@ mixin CoreMixin<T> on MomentumController<T> {
   ApiService _api;
   ApiService get api {
     if (_api == null) {
-      _api = getService<ApiService>();
+      _api = service<ApiService>();
     }
     return _api;
   }
@@ -22,7 +22,7 @@ mixin CoreMixin<T> on MomentumController<T> {
   AppController _appCtrl;
   AppModel get app {
     if (_appCtrl == null) {
-      _appCtrl = dependOn<AppController>();
+      _appCtrl = controller<AppController>();
     }
     return _appCtrl?.model;
   }
@@ -30,7 +30,7 @@ mixin CoreMixin<T> on MomentumController<T> {
   SettingsController _settingsCtrl;
   SettingsModel get settings {
     if (_settingsCtrl == null) {
-      _settingsCtrl = dependOn<SettingsController>();
+      _settingsCtrl = controller<SettingsController>();
     }
     return _settingsCtrl?.model;
   }
@@ -38,7 +38,7 @@ mixin CoreMixin<T> on MomentumController<T> {
   MyAnimeListController _malCtrl;
   MyAnimeListModel get mal {
     if (_malCtrl == null) {
-      _malCtrl = dependOn<MyAnimeListController>();
+      _malCtrl = controller<MyAnimeListController>();
     }
     return _malCtrl?.model;
   }
@@ -46,7 +46,7 @@ mixin CoreMixin<T> on MomentumController<T> {
   AnimeFilterController _animeFilterCtrl;
   AnimeFilterModel get animeFilter {
     if (_animeFilterCtrl == null) {
-      _animeFilterCtrl = dependOn<AnimeFilterController>();
+      _animeFilterCtrl = controller<AnimeFilterController>();
     }
     return _animeFilterCtrl?.model;
   }
