@@ -73,7 +73,8 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                               app.triggerRebuild();
                             },
                           ),
-                          DrawerItem(icon: CustomIcons.award_1, text: 'Achievements'),
+                          DrawerItem(icon: Icons.account_tree, text: 'Seasonals'),
+                          DrawerItem(icon: Icons.error, text: 'List Errors'),
                           DrawerItem(icon: CustomIcons.tags, text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
                           DividerSectionHeader(text: 'Manga'),
