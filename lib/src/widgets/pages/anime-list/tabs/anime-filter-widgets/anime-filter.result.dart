@@ -5,6 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../../../components/anime-filter/index.dart';
 import '../../../../../mixins/index.dart';
 import '../../index.dart';
+import 'index.dart';
 
 class AnimeFilterResultView extends StatefulWidget {
   const AnimeFilterResultView({Key key}) : super(key: key);
@@ -26,115 +27,52 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
 
             return Column(
               children: [
-                Card(
-                  margin: EdgeInsets.all(sy(8)),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: sy(24), vertical: sy(8)),
-                    child: Column(
+                Container(
+                  width: width,
+                  padding: EdgeInsets.all(sy(8)),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '$entryCount',
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' entries',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.4),
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${animeFilter.controller.resultTotalDays()}',
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' days',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.4),
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        AnimeFilterStatItem(
+                          title: 'Results',
+                          icon: Icons.sort,
+                          value: '$entryCount',
+                          label: 'entries',
+                          color: Colors.deepPurple,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${animeFilter.controller.resultEpisodesPerEntry()}',
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' eps/entry',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.4),
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    '${animeFilter.controller.minutesPerEpisode()}',
-                                    style: TextStyle(
-                                      color: Colors.blueAccent,
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' mins/episode',
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.4),
-                                      fontSize: sy(12),
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                        SizedBox(width: sy(8)),
+                        AnimeFilterStatItem(
+                          title: 'Length',
+                          icon: Icons.calendar_today,
+                          value: '${animeFilter.controller.resultTotalDays()}',
+                          label: 'days',
+                          color: Colors.pink,
+                        ),
+                        SizedBox(width: sy(8)),
+                        AnimeFilterStatItem(
+                          title: 'Average',
+                          icon: Icons.timeline,
+                          value: '${animeFilter.controller.resultEpisodesPerEntry()}',
+                          label: 'episodes/entry',
+                          color: Colors.redAccent,
+                        ),
+                        SizedBox(width: sy(8)),
+                        AnimeFilterStatItem(
+                          title: 'Duration',
+                          icon: Icons.timer_sharp,
+                          value: '${animeFilter.controller.minutesPerEpisode()}',
+                          label: 'minutes/episode',
+                          color: Colors.purple,
+                        ),
+                        SizedBox(width: sy(8)),
+                        AnimeFilterStatItem(
+                          title: 'Episodes',
+                          icon: Icons.filter_1,
+                          value: '${animeFilter.controller.resultTotalEpisodes()}',
+                          label: 'total episodes',
+                          color: Colors.indigo,
                         ),
                       ],
                     ),
