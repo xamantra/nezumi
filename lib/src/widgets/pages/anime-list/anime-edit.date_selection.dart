@@ -150,11 +150,14 @@ class _AnimeEditDateSelectionState extends State<AnimeEditDateSelection> {
                             ),
                           ),
                           onPressed: () {
-                            setState(() {
-                              selectedYear = 0;
-                              selectedMonth = 0;
-                              selectedDay = 0;
-                            });
+                            if (widget.enabled) {
+                              setState(() {
+                                selectedYear = 0;
+                                selectedMonth = 0;
+                                selectedDay = 0;
+                                callback();
+                              });
+                            }
                           },
                         ),
                   !widget.showTodaySetter
@@ -171,12 +174,15 @@ class _AnimeEditDateSelectionState extends State<AnimeEditDateSelection> {
                             ),
                           ),
                           onPressed: () {
-                            var now = DateTime.now();
-                            setState(() {
-                              selectedYear = now.year;
-                              selectedMonth = now.month;
-                              selectedDay = now.day;
-                            });
+                            if (widget.enabled) {
+                              var now = DateTime.now();
+                              setState(() {
+                                selectedYear = now.year;
+                                selectedMonth = now.month;
+                                selectedDay = now.day;
+                                callback();
+                              });
+                            }
                           },
                         ),
                 ],
