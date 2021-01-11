@@ -188,11 +188,13 @@ class SearchNode {
   final String endDate;
 
   int get totalDuration {
-    if (numEpisodes == null || numEpisodes == 0) {
-      return averageEpisodeDuration ~/ 60;
+    var eps = numEpisodes ?? 0;
+    var avgD = averageEpisodeDuration ?? 0;
+    if (eps == 0) {
+      eps = 1;
     }
-    if (averageEpisodeDuration == null || averageEpisodeDuration == 0) {
-      return 0;
+    if (avgD == 0) {
+      avgD = 1;
     }
     return (numEpisodes * averageEpisodeDuration) ~/ 60;
   }

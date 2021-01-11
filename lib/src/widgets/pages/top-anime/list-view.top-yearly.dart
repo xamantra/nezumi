@@ -37,9 +37,14 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
             }
 
             var list = animeTop?.selectedYearRankings?.data ?? [];
+            var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
+            var selectedAnimeId = -1;
+            if (onlyOneSelectd) {
+              selectedAnimeId = animeTop.selectedAnimeIDs.first;
+            }
             return Column(
               children: [
-                animeTop.fullscreen
+                animeTop.fullscreen || animeTop.selectionMode
                     ? SizedBox()
                     : Container(
                         padding: EdgeInsets.all(sy(6)),
@@ -64,6 +69,76 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                           ],
                         ),
                       ),
+                !animeTop.selectionMode
+                    ? SizedBox()
+                    : Container(
+                        padding: EdgeInsets.all(sy(6)),
+                        child: Row(
+                          children: [
+                            Text(
+                              '${animeTop.selectedAnimeIDs.length} ',
+                              style: TextStyle(
+                                color: AppTheme.of(context).accent,
+                                fontSize: sy(12),
+                              ),
+                            ),
+                            Text(
+                              'selected',
+                              style: TextStyle(
+                                color: AppTheme.of(context).text4,
+                                fontSize: sy(12),
+                              ),
+                            ),
+                            Spacer(),
+                            !onlyOneSelectd
+                                ? SizedBox()
+                                : SizedButton(
+                                    height: sy(24),
+                                    width: sy(60),
+                                    radius: 5,
+                                    child: Text(
+                                      'Select Above',
+                                      style: TextStyle(
+                                        color: AppTheme.of(context).accent,
+                                        fontSize: sy(10),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      animeTop.controller.selectAllAboveIndex(selectedAnimeId);
+                                    },
+                                  ),
+                            SizedBox(width: sy(onlyOneSelectd ? 4 : 0)),
+                            SizedButton(
+                              height: sy(24),
+                              width: sy(65),
+                              radius: 5,
+                              child: Text(
+                                'Exclude Selected',
+                                style: TextStyle(
+                                  color: AppTheme.of(context).accent,
+                                  fontSize: sy(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                animeTop.controller.moveSelectionToExcluded();
+                              },
+                            ),
+                            Spacer(),
+                            SizedButton(
+                              height: sy(24),
+                              width: sy(24),
+                              radius: 100,
+                              child: Icon(
+                                Icons.close,
+                                size: sy(14),
+                              ),
+                              onPressed: () {
+                                animeTop.controller.clearSelection();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                 Expanded(
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
@@ -71,10 +146,12 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                     itemBuilder: (context, index) {
                       var anime = list[index];
                       var inMyList = mal.inMyList(anime?.node?.id);
+                      var selected = animeTop.isAnimeSelected(anime.node.id);
                       return AnimeGlobalItemCard(
                         anime: anime,
                         compactMode: compactMode,
                         editMode: inMyList,
+                        selected: selected,
                         leadBuilder: widget.leadBuilder != null
                             ? (context, anime) {
                                 return widget.leadBuilder(context, index, anime);
@@ -85,6 +162,22 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                                 return widget.trailBuilder(context, index, anime);
                               }
                             : null,
+                        onPressed: (anime) {
+                          if (animeTop.selectionMode) {
+                            if (selected) {
+                              animeTop.controller.unselectAnime(anime.node.id);
+                            } else {
+                              animeTop.controller.selectAnime(anime.node.id);
+                            }
+                          }
+                        },
+                        onLongPress: (anime) {
+                          if (selected) {
+                            animeTop.controller.unselectAnime(anime.node.id);
+                          } else {
+                            animeTop.controller.selectAnime(anime.node.id);
+                          }
+                        },
                       );
                     },
                   ),

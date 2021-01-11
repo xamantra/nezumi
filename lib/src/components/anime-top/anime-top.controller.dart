@@ -26,6 +26,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       yearlyRankingOrderBy: OrderBy.descending,
       yearlyRankingSortBy: AnimeSortBy.score,
       fullscreen: false,
+      selectionMode: false,
+      excludedAnimeIDs: [],
+      selectedAnimeIDs: [],
     );
   }
 
@@ -45,7 +48,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
   void validateAndSortYearlyRankings() {
     var year = model.selectedYear;
-    var original = List<AnimeDataItem>.from(model.selectedYearRankings?.data ?? []);
+    var original = List<AnimeDataItem>.from(model.selectedYearRankingsAll?.data ?? []);
     var filtered = original.where((x) {
       var d = parseDate(x.node.startDate);
       var matchedYear = d?.year == year;
@@ -80,7 +83,15 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    var result = AnimeListGlobal(data: noDuplicates);
+    var filterExcluded = <AnimeDataItem>[];
+    for (var item in noDuplicates) {
+      var e = model.isAnimeExcluded(item.node.id);
+      if (!e) {
+        filterExcluded.add(item);
+      }
+    }
+
+    var result = AnimeListGlobal(data: filterExcluded);
     model.update(selectedYearRankings: result);
   }
 
@@ -159,6 +170,19 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     return result.toStringAsFixed(3);
   }
 
+  List<AnimeDataItem> getExcludedList() {
+    var result = <AnimeDataItem>[];
+    var source = List<AnimeDataItem>.from(model.selectedYearRankingsAll?.data ?? []);
+    var excludedList = List<int>.from(model.excludedAnimeIDs);
+    for (var item in source) {
+      var e = excludedList.any((x) => x == item.node.id);
+      if (e) {
+        result.add(item);
+      }
+    }
+    return result;
+  }
+
   void toggleOrderBy() {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
@@ -183,6 +207,89 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       SystemChrome.setEnabledSystemUIOverlays([]);
     } else {
       SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    }
+  }
+
+  void enableSelectionMode() {
+    model.update(selectionMode: true);
+  }
+
+  void disableSelectionMode() {
+    model.update(selectionMode: false);
+  }
+
+  void addToExcludedAnime(int id) {
+    var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
+    excludedAnimeIDs.add(id);
+    excludedAnimeIDs = excludedAnimeIDs.toSet().toList();
+    model.update(excludedAnimeIDs: excludedAnimeIDs);
+  }
+
+  void removeFromExcludedAnime(int id) {
+    var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
+    excludedAnimeIDs.removeWhere((x) => x == id);
+    model.update(excludedAnimeIDs: excludedAnimeIDs);
+  }
+
+  void clearExcluded() {
+    var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
+    excludedAnimeIDs.clear();
+    model.update(excludedAnimeIDs: excludedAnimeIDs);
+  }
+
+  void selectAnime(int id) {
+    var selectedAnimeIDs = List<int>.from(model.selectedAnimeIDs);
+    selectedAnimeIDs.add(id);
+    selectedAnimeIDs = selectedAnimeIDs.toSet().toList();
+    model.update(selectedAnimeIDs: selectedAnimeIDs, selectionMode: true);
+  }
+
+  void unselectAnime(int id) {
+    var selectedAnimeIDs = List<int>.from(model.selectedAnimeIDs);
+    selectedAnimeIDs.removeWhere((x) => x == id);
+    model.update(selectedAnimeIDs: selectedAnimeIDs);
+  }
+
+  void clearSelection() {
+    var selectedAnimeIDs = List<int>.from(model.selectedAnimeIDs);
+    selectedAnimeIDs.clear();
+    model.update(selectedAnimeIDs: selectedAnimeIDs, selectionMode: false);
+  }
+
+  void moveSelectionToExcluded() {
+    var selectedAnimeIDs = List<int>.from(model.selectedAnimeIDs);
+    var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
+
+    excludedAnimeIDs.addAll(selectedAnimeIDs);
+    model.update(excludedAnimeIDs: excludedAnimeIDs);
+    clearSelection();
+    validateAndSortYearlyRankings();
+  }
+
+  void moveSelectionToIncluded() {
+    var selectedAnimeIDs = List<int>.from(model.selectedAnimeIDs);
+    var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
+
+    for (var id in selectedAnimeIDs) {
+      var e = excludedAnimeIDs.any((x) => x == id);
+      if (e) {
+        excludedAnimeIDs.removeWhere((x) => x == id);
+      }
+    }
+
+    model.update(excludedAnimeIDs: excludedAnimeIDs);
+    clearSelection();
+    validateAndSortYearlyRankings();
+  }
+
+  void selectAllAboveIndex(int selectedAnimeId) {
+    var source = List<AnimeDataItem>.from(model.selectedYearRankings?.data ?? []);
+    var index = source.indexWhere((x) => x.node.id == selectedAnimeId);
+
+    for (var i = 0; i < source.length; i++) {
+      if (i < index) {
+        selectAnime(source[i].node.id);
+      }
     }
   }
 
@@ -341,7 +448,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     combined.addAll(fall?.data ?? []);
 
     var result = AnimeListGlobal(data: combined);
-    model.update(loadingYearlyRankings: false, selectedYearRankings: result);
+    model.update(loadingYearlyRankings: false, selectedYearRankings: result, selectedYearRankingsAll: result);
     validateAndSortYearlyRankings();
   }
 }

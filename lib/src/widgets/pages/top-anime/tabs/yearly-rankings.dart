@@ -3,8 +3,10 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-top/index.dart';
+import '../../../../data/index.dart';
 import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
+import '../../../../utils/index.dart';
 import '../../../builders/index.dart';
 import '../../../index.dart';
 import '../index.dart';
@@ -41,7 +43,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                     return SizedBox();
                   }
                   return Toolbar(
-                    height: sy(42),
+                    height: sy(33),
                     leadingIcon: Icons.menu,
                     title: 'Top Anime',
                     actions: [
@@ -128,8 +130,21 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                               },
                             ),
                             ToolbarAction(
+                              icon: Icons.remove_red_eye,
+                              tooltip: 'View excluded',
+                              onPressed: () {
+                                push(
+                                  context,
+                                  AnimeTopListExlcudedView(
+                                    leadBuilder: buildAnimeGlobalItemIndexNumber,
+                                    trailBuilder: _buildTrailWidget,
+                                  ),
+                                );
+                              },
+                            ),
+                            ToolbarAction(
                               icon: animeTop.fullscreen ? Icons.fullscreen_exit_sharp : Icons.fullscreen_sharp,
-                              tooltip: 'Fullscreen Mode',
+                              tooltip: 'Toggle fullscreen',
                               onPressed: () {
                                 animeTop.controller.toggleFullscreen();
                               },
@@ -149,25 +164,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                     builder: (context, snapshot) {
                       return AnimeTopYearlyView(
                         leadBuilder: buildAnimeGlobalItemIndexNumber,
-                        trailBuilder: (context, index, anime) {
-                          switch (animeTop.yearlyRankingSortBy) {
-                            case AnimeSortBy.title:
-                              break;
-                            case AnimeSortBy.score:
-                              return buildAnimeGlobalItemScore(context, index, anime);
-                              break;
-                            case AnimeSortBy.member:
-                              return buildAnimeGlobalItemPopularity(context, index, anime);
-                              break;
-                            case AnimeSortBy.scoringMember:
-                              return buildAnimeGlobalItemScoringUsers(context, index, anime);
-                              break;
-                            case AnimeSortBy.totalDuraton:
-                              return buildAnimeGlobalItemTotalDuration(context, index, anime);
-                              break;
-                          }
-                          return SizedBox();
-                        },
+                        trailBuilder: _buildTrailWidget,
                       );
                     },
                   ),
@@ -178,5 +175,25 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
         );
       },
     );
+  }
+
+  Widget _buildTrailWidget(BuildContext context, int index, AnimeDataItem anime) {
+    switch (animeTop.yearlyRankingSortBy) {
+      case AnimeSortBy.title:
+        break;
+      case AnimeSortBy.score:
+        return buildAnimeGlobalItemScore(context, index, anime);
+        break;
+      case AnimeSortBy.member:
+        return buildAnimeGlobalItemPopularity(context, index, anime);
+        break;
+      case AnimeSortBy.scoringMember:
+        return buildAnimeGlobalItemScoringUsers(context, index, anime);
+        break;
+      case AnimeSortBy.totalDuraton:
+        return buildAnimeGlobalItemTotalDuration(context, index, anime);
+        break;
+    }
+    return SizedBox();
   }
 }

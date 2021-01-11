@@ -8,3 +8,8 @@ Future<T> dialog<T>(BuildContext context, Widget dialog) async {
     return null;
   }
 }
+
+Future<T> push<T>(BuildContext context, Widget page) async {
+  var result = await Navigator.push<T>(context, MaterialPageRoute(builder: (_) => page));
+  return result;
+}

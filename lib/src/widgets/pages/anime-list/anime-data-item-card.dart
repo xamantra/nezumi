@@ -10,16 +10,22 @@ class AnimeGlobalItemCard extends StatelessWidget {
     Key key,
     @required this.anime,
     this.compactMode = false,
+    this.selected = false,
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
+    this.onPressed,
+    this.onLongPress,
   }) : super(key: key);
 
   final AnimeDataItem anime;
   final bool compactMode;
+  final bool selected;
   final bool editMode;
   final Widget Function(BuildContext context, AnimeDataItem anime) leadBuilder;
   final Widget Function(BuildContext context, AnimeDataItem anime) trailBuilder;
+  final void Function(AnimeDataItem anime) onPressed;
+  final void Function(AnimeDataItem anime) onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +59,19 @@ class AnimeGlobalItemCard extends StatelessWidget {
           child: Container(
             width: width,
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
-            color: Colors.transparent,
+            color: selected ? AppTheme.of(context).text7 : Colors.transparent,
             child: Ripple(
               padding: sy(compactMode ? 5 : 8),
-              onPressed: () {},
+              onPressed: () {
+                if (onPressed != null) {
+                  onPressed(anime);
+                }
+              },
+              onLongPress: () {
+                if (onLongPress != null) {
+                  onLongPress(anime);
+                }
+              },
               radius: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

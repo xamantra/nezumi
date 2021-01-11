@@ -27,10 +27,14 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.loadingTopFavorites,
     this.selectedYear,
     this.selectedYearRankings,
+    this.selectedYearRankingsAll,
     this.loadingYearlyRankings,
     this.yearlyRankingOrderBy,
     this.yearlyRankingSortBy,
     this.fullscreen,
+    this.selectionMode,
+    this.excludedAnimeIDs,
+    this.selectedAnimeIDs,
   }) : super(controller);
 
   final AnimeListGlobal topAll;
@@ -56,12 +60,24 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   // yearly rankings
   final int selectedYear;
   final AnimeListGlobal selectedYearRankings;
+  final AnimeListGlobal selectedYearRankingsAll;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
   final AnimeSortBy yearlyRankingSortBy;
 
+  // filters
+  final List<int> excludedAnimeIDs;
+  bool isAnimeExcluded(int id) {
+    return excludedAnimeIDs.any((x) => x == id);
+  }
+
   // user interface
   final bool fullscreen;
+  final bool selectionMode;
+  final List<int> selectedAnimeIDs;
+  bool isAnimeSelected(int id) {
+    return selectedAnimeIDs.any((x) => x == id);
+  }
 
   bool isLoading(int index) {
     switch (index) {
@@ -135,10 +151,14 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopFavorites,
     int selectedYear,
     AnimeListGlobal selectedYearRankings,
+    AnimeListGlobal selectedYearRankingsAll,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
     AnimeSortBy yearlyRankingSortBy,
     bool fullscreen,
+    bool selectionMode,
+    List<int> excludedAnimeIDs,
+    List<int> selectedAnimeIDs,
   }) {
     AnimeTopModel(
       controller,
@@ -162,10 +182,14 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       loadingTopFavorites: loadingTopFavorites ?? this.loadingTopFavorites,
       selectedYear: selectedYear ?? this.selectedYear,
       selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
+      selectedYearRankingsAll: selectedYearRankingsAll ?? this.selectedYearRankingsAll,
       loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
       yearlyRankingOrderBy: yearlyRankingOrderBy ?? this.yearlyRankingOrderBy,
       yearlyRankingSortBy: yearlyRankingSortBy ?? this.yearlyRankingSortBy,
       fullscreen: fullscreen ?? this.fullscreen,
+      selectionMode: selectionMode ?? this.selectionMode,
+      excludedAnimeIDs: excludedAnimeIDs ?? this.excludedAnimeIDs,
+      selectedAnimeIDs: selectedAnimeIDs ?? this.selectedAnimeIDs,
     ).updateMomentum();
   }
 }
