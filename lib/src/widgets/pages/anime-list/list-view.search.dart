@@ -25,6 +25,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
 
   @override
   Widget build(BuildContext context) {
+    var compactMode = appSettings.compactMode;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -37,7 +38,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeItemCard(anime: anime);
+                  return AnimeItemCard(anime: anime, compactMode: compactMode);
                 },
               );
             } else {
@@ -52,7 +53,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeGlobalItemCard(anime: anime);
+                  return AnimeGlobalItemCard(anime: anime, compactMode: compactMode);
                 },
               );
             }

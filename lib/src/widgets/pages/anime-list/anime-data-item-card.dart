@@ -9,12 +9,14 @@ class AnimeGlobalItemCard extends StatelessWidget {
   const AnimeGlobalItemCard({
     Key key,
     @required this.anime,
+    this.compactMode = false,
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
   }) : super(key: key);
 
   final AnimeDataItem anime;
+  final bool compactMode;
   final bool editMode;
   final Widget Function(BuildContext context, AnimeDataItem anime) leadBuilder;
   final Widget Function(BuildContext context, AnimeDataItem anime) trailBuilder;
@@ -50,10 +52,10 @@ class AnimeGlobalItemCard extends StatelessWidget {
           actionExtentRatio: 0.25,
           child: Container(
             width: width,
-            margin: EdgeInsets.symmetric(vertical: sy(4)),
+            margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
             color: Colors.transparent,
             child: Ripple(
-              padding: sy(8),
+              padding: sy(compactMode ? 5 : 8),
               onPressed: () {},
               radius: 0,
               child: Row(
@@ -62,11 +64,12 @@ class AnimeGlobalItemCard extends StatelessWidget {
                   leadBuilder != null ? leadBuilder(context, anime) : SizedBox(),
                   SymmetricImage(
                     url: anime?.node?.mainPicture?.medium ?? '',
-                    size: sy(36),
+                    size: sy(compactMode ? 26 : 36),
                   ),
                   SizedBox(width: sy(8)),
                   Expanded(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -109,45 +112,47 @@ class AnimeGlobalItemCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: sy(4)),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Text(
-                                anime.season,
-                                style: TextStyle(
-                                  color: AppTheme.of(context).text4,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: sy(7),
-                                ),
-                              ),
-                              Dot(color: AppTheme.of(context).text5),
-                              Text(
-                                anime.source,
-                                style: TextStyle(
-                                  color: AppTheme.of(context).text4,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: sy(7),
-                                ),
-                              ),
-                            ]..addAll(anime.studios.map(
-                                (e) => Row(
+                        compactMode ? SizedBox() : SizedBox(height: sy(4)),
+                        compactMode
+                            ? SizedBox()
+                            : SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
                                   children: [
-                                    Dot(color: AppTheme.of(context).text5),
                                     Text(
-                                      e,
+                                      anime.season,
                                       style: TextStyle(
                                         color: AppTheme.of(context).text4,
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
                                     ),
-                                  ],
+                                    Dot(color: AppTheme.of(context).text5),
+                                    Text(
+                                      anime.source,
+                                      style: TextStyle(
+                                        color: AppTheme.of(context).text4,
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: sy(7),
+                                      ),
+                                    ),
+                                  ]..addAll(anime.studios.map(
+                                      (e) => Row(
+                                        children: [
+                                          Dot(color: AppTheme.of(context).text5),
+                                          Text(
+                                            e,
+                                            style: TextStyle(
+                                              color: AppTheme.of(context).text4,
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: sy(7),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )),
                                 ),
-                              )),
-                          ),
-                        ),
+                              ),
                       ],
                     ),
                   ),

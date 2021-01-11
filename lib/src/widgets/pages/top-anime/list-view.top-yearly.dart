@@ -26,6 +26,7 @@ class AnimeTopYearlyView extends StatefulWidget {
 class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
+    var compactMode = appSettings.compactMode;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -72,6 +73,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                       var inMyList = mal.inMyList(anime?.node?.id);
                       return AnimeGlobalItemCard(
                         anime: anime,
+                        compactMode: compactMode,
                         editMode: inMyList,
                         leadBuilder: widget.leadBuilder != null
                             ? (context, anime) {

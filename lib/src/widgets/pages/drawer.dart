@@ -6,6 +6,7 @@ import '../app-theme.dart';
 import '../index.dart';
 import 'anime-list/index.dart';
 import 'history/index.dart';
+import 'settings/index.dart';
 import 'top-anime/index.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -95,7 +96,15 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
                           DividerSectionHeader(text: 'More'),
                           DrawerItem(icon: CustomIcons.user_outline, text: 'My Profile'),
-                          DrawerItem(icon: CustomIcons.wrench, text: 'Settings'),
+                          DrawerItem(
+                            icon: CustomIcons.wrench,
+                            text: 'Settings',
+                            onPressed: () {
+                              Navigator.pop(context);
+                              nav.gotoPage(AppSettingsPage());
+                              app.triggerRebuild();
+                            },
+                          ),
                         ],
                       ),
                     ),

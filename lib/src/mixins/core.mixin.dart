@@ -5,6 +5,7 @@ import '../components/anime-filter/index.dart';
 import '../components/anime-search/index.dart';
 import '../components/anime-top/index.dart';
 import '../components/anime-update/index.dart';
+import '../components/app-settings/index.dart';
 import '../components/app/index.dart';
 import '../components/my_anime_list/index.dart';
 import '../components/settings/index.dart';
@@ -124,5 +125,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _animeTopCtrl = ctrl<AnimeTopController>(context);
     }
     return _animeTopCtrl?.model;
+  }
+
+  AppSettingsController _appSettingsCtrl;
+  AppSettingsModel get appSettings {
+    if (_appSettingsCtrl == null) {
+      _appSettingsCtrl = ctrl<AppSettingsController>(context);
+    }
+    return _appSettingsCtrl?.model;
   }
 }

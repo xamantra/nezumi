@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 
-import 'src/.mconfig/index.dart';
+import 'src/_mconfig/index.dart';
 import 'src/services/index.dart';
 import 'src/utils/index.dart';
 import 'src/widgets/index.dart';
