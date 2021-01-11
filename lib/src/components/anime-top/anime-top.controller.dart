@@ -1,6 +1,8 @@
+import 'package:flutter/services.dart';
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
+import '../../data/types/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
 import 'index.dart';
@@ -21,6 +23,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       loadingTopFavorites: false,
       selectedYear: DateTime.now().year,
       loadingYearlyRankings: false,
+      yearlyRankingOrderBy: OrderBy.descending,
+      yearlyRankingSortBy: AnimeSortBy.score,
+      fullscreen: false,
     );
   }
 
@@ -47,7 +52,26 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       var hasScore = (x?.node?.mean ?? 0) > 0;
       return matchedYear && hasScore;
     }).toList();
+
     filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
+    switch (model.yearlyRankingSortBy) {
+      case AnimeSortBy.title:
+        filtered.sort(compareTitle);
+        break;
+      case AnimeSortBy.score:
+        filtered.sort(compareMean);
+        break;
+      case AnimeSortBy.member:
+        filtered.sort(compareMember);
+        break;
+      case AnimeSortBy.scoringMember:
+        filtered.sort(compareScoringMember);
+        break;
+      case AnimeSortBy.totalDuraton:
+        filtered.sort(compareTotalDuration);
+        break;
+    }
+
     var noDuplicates = <AnimeDataItem>[];
     for (var item in filtered) {
       var exists = noDuplicates.any((x) => x.node.id == item.node.id);
@@ -55,8 +79,69 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         noDuplicates.add(item);
       }
     }
+
     var result = AnimeListGlobal(data: noDuplicates);
     model.update(selectedYearRankings: result);
+  }
+
+  int compareTitle(AnimeDataItem a, AnimeDataItem b) {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        return a.node.title.compareTo(b.node.title);
+        break;
+      case OrderBy.descending:
+        return b.node.title.compareTo(a.node.title);
+        break;
+    }
+    return 0;
+  }
+
+  int compareMean(AnimeDataItem a, AnimeDataItem b) {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        return a.node.mean.compareTo(b.node.mean);
+        break;
+      case OrderBy.descending:
+        return b.node.mean.compareTo(a.node.mean);
+        break;
+    }
+    return 0;
+  }
+
+  int compareScoringMember(AnimeDataItem a, AnimeDataItem b) {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        return (a.node.numScoringUsers ?? 0).compareTo(b.node.numScoringUsers ?? 0);
+        break;
+      case OrderBy.descending:
+        return (b.node.numScoringUsers ?? 0).compareTo(a.node.numScoringUsers ?? 0);
+        break;
+    }
+    return 0;
+  }
+
+  int compareMember(AnimeDataItem a, AnimeDataItem b) {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        return (a.node.numListUsers ?? 0).compareTo(b.node.numListUsers ?? 0);
+        break;
+      case OrderBy.descending:
+        return (b.node.numListUsers ?? 0).compareTo(a.node.numListUsers ?? 0);
+        break;
+    }
+    return 0;
+  }
+
+  int compareTotalDuration(AnimeDataItem a, AnimeDataItem b) {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        return a.totalDuration.compareTo(b.totalDuration);
+        break;
+      case OrderBy.descending:
+        return b.totalDuration.compareTo(a.totalDuration);
+        break;
+    }
+    return 0;
   }
 
   String getEntryCount() {
@@ -74,19 +159,32 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     return result.toStringAsFixed(3);
   }
 
-  // String getTop100MeanScore() {
-  //   var list = model.selectedYearRankings?.data ?? [];
-  //   if (list.length > 100) {
-  //     var source = list.getRange(0, 100).toList();
-  //     var totalScore = 0.0;
-  //     for (var anime in source) {
-  //       totalScore += anime.node.mean;
-  //     }
-  //     var result = totalScore / source.length;
-  //     return result.toStringAsFixed(3);
-  //   }
-  //   return getMeanScore();
-  // }
+  void toggleOrderBy() {
+    switch (model.yearlyRankingOrderBy) {
+      case OrderBy.ascending:
+        model.update(yearlyRankingOrderBy: OrderBy.descending);
+        break;
+      case OrderBy.descending:
+        model.update(yearlyRankingOrderBy: OrderBy.ascending);
+        break;
+    }
+
+    validateAndSortYearlyRankings();
+  }
+
+  void changeSortBy(AnimeSortBy sortBy) {
+    model.update(yearlyRankingSortBy: sortBy);
+    validateAndSortYearlyRankings();
+  }
+
+  void toggleFullscreen() {
+    model.update(fullscreen: !model.fullscreen);
+    if (model.fullscreen) {
+      SystemChrome.setEnabledSystemUIOverlays([]);
+    } else {
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    }
+  }
 
   Future<void> loadTopAll() async {
     if (model.loadingTopAll) return;

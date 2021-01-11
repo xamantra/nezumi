@@ -38,29 +38,31 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
             var list = animeTop?.selectedYearRankings?.data ?? [];
             return Column(
               children: [
-                Container(
-                  padding: EdgeInsets.all(sy(6)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      AnimeFilterStatItem(
-                        title: 'Quantity',
-                        icon: Icons.sort,
-                        value: animeTop.controller.getEntryCount(),
-                        label: 'entries',
-                        color: Colors.deepPurple,
+                animeTop.fullscreen
+                    ? SizedBox()
+                    : Container(
+                        padding: EdgeInsets.all(sy(6)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AnimeFilterStatItem(
+                              title: 'Quantity',
+                              icon: Icons.sort,
+                              value: animeTop.controller.getEntryCount(),
+                              label: 'entries',
+                              color: Colors.deepPurple,
+                            ),
+                            SizedBox(width: sy(8)),
+                            AnimeFilterStatItem(
+                              title: 'Average',
+                              icon: Icons.timeline,
+                              value: animeTop.controller.getMeanScore(),
+                              label: 'out of 10',
+                              color: Colors.pink,
+                            ),
+                          ],
+                        ),
                       ),
-                      SizedBox(width: sy(8)),
-                      AnimeFilterStatItem(
-                        title: 'Average',
-                        icon: Icons.timeline,
-                        value: animeTop.controller.getMeanScore(),
-                        label: 'out of 10',
-                        color: Colors.pink,
-                      ),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),

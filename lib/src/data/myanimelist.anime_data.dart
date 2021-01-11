@@ -45,6 +45,7 @@ class AnimeDataItem {
   final SearchNode node;
 
   AnimeListStatus get listStatus => node.myListStatus;
+  int get totalDuration => node.totalDuration;
 
   String get animeStatus {
     try {
@@ -185,6 +186,16 @@ class SearchNode {
   final Broadcast broadcast;
   final int averageEpisodeDuration;
   final String endDate;
+
+  int get totalDuration {
+    if (numEpisodes == null || numEpisodes == 0) {
+      return averageEpisodeDuration ~/ 60;
+    }
+    if (averageEpisodeDuration == null || averageEpisodeDuration == 0) {
+      return 0;
+    }
+    return (numEpisodes * averageEpisodeDuration) ~/ 60;
+  }
 
   SearchNode copyWith({
     int id,

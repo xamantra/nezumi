@@ -1,6 +1,7 @@
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
+import '../../data/types/index.dart';
 import 'index.dart';
 
 class AnimeTopModel extends MomentumModel<AnimeTopController> {
@@ -27,6 +28,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.selectedYear,
     this.selectedYearRankings,
     this.loadingYearlyRankings,
+    this.yearlyRankingOrderBy,
+    this.yearlyRankingSortBy,
+    this.fullscreen,
   }) : super(controller);
 
   final AnimeListGlobal topAll;
@@ -53,6 +57,11 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   final int selectedYear;
   final AnimeListGlobal selectedYearRankings;
   final bool loadingYearlyRankings;
+  final OrderBy yearlyRankingOrderBy;
+  final AnimeSortBy yearlyRankingSortBy;
+
+  // user interface
+  final bool fullscreen;
 
   bool isLoading(int index) {
     switch (index) {
@@ -127,6 +136,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     int selectedYear,
     AnimeListGlobal selectedYearRankings,
     bool loadingYearlyRankings,
+    OrderBy yearlyRankingOrderBy,
+    AnimeSortBy yearlyRankingSortBy,
+    bool fullscreen,
   }) {
     AnimeTopModel(
       controller,
@@ -151,6 +163,9 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       selectedYear: selectedYear ?? this.selectedYear,
       selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
       loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
+      yearlyRankingOrderBy: yearlyRankingOrderBy ?? this.yearlyRankingOrderBy,
+      yearlyRankingSortBy: yearlyRankingSortBy ?? this.yearlyRankingSortBy,
+      fullscreen: fullscreen ?? this.fullscreen,
     ).updateMomentum();
   }
 }

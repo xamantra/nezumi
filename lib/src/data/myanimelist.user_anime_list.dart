@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import '../absract/index.dart';
 import 'index.dart';
 
 class UserAnimeList {

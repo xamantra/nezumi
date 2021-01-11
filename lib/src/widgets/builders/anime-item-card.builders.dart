@@ -58,6 +58,41 @@ Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeData
   );
 }
 
+Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDataItem anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      final display = createDisplay(length: 99);
+      return Container(
+        height: sy(32),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: display((anime?.node?.numScoringUsers ?? 0)),
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeDataItem anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      return Container(
+        height: sy(32),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: anime.totalDuration.toString(),
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
 Widget buildAnimeGlobalItemFavorites(BuildContext context, int index, AnimeDataItem anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
