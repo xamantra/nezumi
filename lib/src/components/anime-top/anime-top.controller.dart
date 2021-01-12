@@ -210,10 +210,18 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         break;
     }
 
-    var sortedExcludedIDs = result.map<int>((x) => x.node.id).toList();
+    var noDuplicates = <AnimeDataItem>[];
+    for (var item in result) {
+      var exists = noDuplicates.any((x) => x.node.id == item.node.id);
+      if (!exists) {
+        noDuplicates.add(item);
+      }
+    }
+
+    var sortedExcludedIDs = noDuplicates.map<int>((x) => x.node.id).toList();
     model.update(excludedAnimeIDs: sortedExcludedIDs);
 
-    return result;
+    return noDuplicates;
   }
 
   void toggleOrderBy() {
@@ -296,6 +304,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var excludedAnimeIDs = List<int>.from(model.excludedAnimeIDs);
 
     excludedAnimeIDs.addAll(selectedAnimeIDs);
+    excludedAnimeIDs = excludedAnimeIDs.toSet().toList();
     model.update(excludedAnimeIDs: excludedAnimeIDs);
     clearSelection();
     validateAndSortYearlyRankings();
@@ -312,6 +321,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
+    excludedAnimeIDs = excludedAnimeIDs.toSet().toList();
     model.update(excludedAnimeIDs: excludedAnimeIDs);
     clearSelection();
     validateAndSortYearlyRankings();
