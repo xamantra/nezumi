@@ -51,7 +51,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                         return SizedBox();
                       }
                       return Toolbar(
-                        height: sy(33),
+                        height: sy(42),
                         leadingIcon: Icons.menu,
                         title: 'Top Anime',
                         actions: [
@@ -97,7 +97,6 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                           return Container(
                             color: animeTop.fullscreen ? Colors.transparent : AppTheme.of(context).primary,
                             padding: EdgeInsets.symmetric(horizontal: sy(6)),
-                            height: animeTop.fullscreen ? sy(32) : sy(42),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
