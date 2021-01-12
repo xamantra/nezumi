@@ -63,14 +63,17 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                     controllers: [AnimeTopController],
                     builder: (context, snapshot) {
                       IconData orderByIcon;
+                      IconData sortByIcon;
                       String orderBy;
                       switch (animeTop.yearlyRankingOrderBy) {
                         case OrderBy.ascending:
                           orderByIcon = Icons.arrow_upward;
+                          sortByIcon = CustomIcons.sort_amount_up;
                           orderBy = 'Ascending';
                           break;
                         case OrderBy.descending:
                           orderByIcon = Icons.arrow_downward;
+                          sortByIcon = CustomIcons.sort_amount_down;
                           orderBy = 'Descending';
                           break;
                       }
@@ -124,6 +127,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                                 ),
                                 YearlyAnimeRankingSortMenu(
                                   value: animeTop.yearlyRankingSortBy,
+                                  orderByIcon: sortByIcon,
                                   onChanged: (sortBy) {
                                     animeTop.controller.changeSortBy(sortBy);
                                   },

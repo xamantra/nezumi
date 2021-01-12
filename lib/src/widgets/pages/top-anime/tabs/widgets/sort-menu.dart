@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nezumi/src/widgets/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../data/types/index.dart';
@@ -7,10 +8,12 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
   const YearlyAnimeRankingSortMenu({
     Key key,
     @required this.value,
+    @required this.orderByIcon,
     @required this.onChanged,
   }) : super(key: key);
 
   final AnimeSortBy value;
+  final IconData orderByIcon;
   final void Function(AnimeSortBy) onChanged;
 
   @override
@@ -22,9 +25,9 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: sy(8)),
             child: Icon(
-              Icons.sort_sharp,
+              orderByIcon,
               color: Colors.white,
-              size: sy(14),
+              size: sy(11),
             ),
           ),
           initialValue: value,

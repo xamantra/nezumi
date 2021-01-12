@@ -202,10 +202,14 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         break;
     }
 
+    var sortedExcludedIDs = result.map<int>((x) => x.node.id).toList();
+    model.update(excludedAnimeIDs: sortedExcludedIDs);
+
     return result;
   }
 
   void toggleOrderBy() {
+    clearSelection();
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
         model.update(yearlyRankingOrderBy: OrderBy.descending);
@@ -219,6 +223,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void changeSortBy(AnimeSortBy sortBy) {
+    clearSelection();
     model.update(yearlyRankingSortBy: sortBy);
     validateAndSortYearlyRankings();
   }
