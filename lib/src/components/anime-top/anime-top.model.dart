@@ -59,8 +59,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   // yearly rankings
   final int selectedYear;
-  final AnimeListGlobal selectedYearRankings;
-  final AnimeListGlobal selectedYearRankingsAll;
+  final List<AnimeDataItem> selectedYearRankings;
+  final List<AnimeDataItem> selectedYearRankingsAll;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
   final AnimeSortBy yearlyRankingSortBy;
@@ -150,8 +150,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopPopularity,
     bool loadingTopFavorites,
     int selectedYear,
-    AnimeListGlobal selectedYearRankings,
-    AnimeListGlobal selectedYearRankingsAll,
+    List<AnimeDataItem> selectedYearRankings,
+    List<AnimeDataItem> selectedYearRankingsAll,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
     AnimeSortBy yearlyRankingSortBy,

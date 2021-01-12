@@ -43,6 +43,7 @@ class Badge extends StatelessWidget {
                   color: textColor,
                   fontSize: fontSize,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),

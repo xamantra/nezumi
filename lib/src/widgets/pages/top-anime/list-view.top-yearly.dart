@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-top/index.dart';
@@ -8,6 +9,7 @@ import '../../../mixins/index.dart';
 import '../../index.dart';
 import '../anime-list/index.dart';
 import '../anime-list/tabs/anime-filter-widgets/index.dart';
+import 'index.dart';
 
 class AnimeTopYearlyView extends StatefulWidget {
   AnimeTopYearlyView({
@@ -24,6 +26,8 @@ class AnimeTopYearlyView extends StatefulWidget {
 }
 
 class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateMixin {
+  RefreshController controller = RefreshController();
+
   @override
   Widget build(BuildContext context) {
     var compactMode = appSettings.compactMode;
@@ -35,13 +39,13 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
             if (animeTop.loadingYearlyRankings) {
               return Loader();
             }
-
-            var list = animeTop?.selectedYearRankings?.data ?? [];
+            var list = animeTop?.selectedYearRankings ?? [];
             var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
             var selectedAnimeId = -1;
             if (onlyOneSelectd) {
               selectedAnimeId = animeTop.selectedAnimeIDs.first;
             }
+
             return Column(
               children: [
                 animeTop.fullscreen || animeTop.selectionMode
@@ -69,117 +73,67 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                           ],
                         ),
                       ),
-                !animeTop.selectionMode
-                    ? SizedBox()
-                    : Container(
-                        padding: EdgeInsets.all(sy(6)),
-                        child: Row(
-                          children: [
-                            Text(
-                              '${animeTop.selectedAnimeIDs.length} ',
-                              style: TextStyle(
-                                color: AppTheme.of(context).accent,
-                                fontSize: sy(12),
-                              ),
-                            ),
-                            Text(
-                              'selected',
-                              style: TextStyle(
-                                color: AppTheme.of(context).text4,
-                                fontSize: sy(12),
-                              ),
-                            ),
-                            Spacer(),
-                            !onlyOneSelectd
-                                ? SizedBox()
-                                : SizedButton(
-                                    height: sy(24),
-                                    width: sy(60),
-                                    radius: 5,
-                                    child: Text(
-                                      'Select Above',
-                                      style: TextStyle(
-                                        color: AppTheme.of(context).accent,
-                                        fontSize: sy(10),
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      animeTop.controller.selectAllAboveIndex(selectedAnimeId);
-                                    },
-                                  ),
-                            SizedBox(width: sy(onlyOneSelectd ? 4 : 0)),
-                            SizedButton(
-                              height: sy(24),
-                              width: sy(65),
-                              radius: 5,
-                              child: Text(
-                                'Exclude Selected',
-                                style: TextStyle(
-                                  color: AppTheme.of(context).accent,
-                                  fontSize: sy(10),
-                                ),
-                              ),
-                              onPressed: () {
-                                animeTop.controller.moveSelectionToExcluded();
-                              },
-                            ),
-                            Spacer(),
-                            SizedButton(
-                              height: sy(24),
-                              width: sy(24),
-                              radius: 100,
-                              child: Icon(
-                                Icons.close,
-                                size: sy(14),
-                              ),
-                              onPressed: () {
-                                animeTop.controller.clearSelection();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                SelectionToolWidget(
+                  actionIcon: CustomIcons.eye_slash,
+                  actionSize: sy(10),
+                  actionTooltip: 'Exclude all selected',
+                  onActionCallback: () {
+                    animeTop.controller.moveSelectionToExcluded();
+                  },
+                  onSelectAbove: () {
+                    animeTop.controller.selectAllAboveIndex(selectedAnimeId);
+                  },
+                  onSelectBelow: () {
+                    animeTop.controller.selectAllBelowIndex(selectedAnimeId);
+                  },
+                ),
                 Expanded(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      var anime = list[index];
-                      var inMyList = mal.inMyList(anime?.node?.id);
-                      var selected = animeTop.isAnimeSelected(anime.node.id);
-                      return AnimeGlobalItemCard(
-                        anime: anime,
-                        compactMode: compactMode,
-                        editMode: inMyList,
-                        selected: selected,
-                        leadBuilder: widget.leadBuilder != null
-                            ? (context, anime) {
-                                return widget.leadBuilder(context, index, anime);
+                  child: SmartRefresher(
+                    controller: controller,
+                    onRefresh: () {
+                      animeTop.controller.loadYearRankings();
+                    },
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        var inMyList = mal.inMyList(anime?.node?.id);
+                        var selected = animeTop.isAnimeSelected(anime.node.id);
+                        return AnimeGlobalItemCard(
+                          anime: anime,
+                          compactMode: compactMode,
+                          editMode: inMyList,
+                          selected: selected,
+                          leadBuilder: widget.leadBuilder != null
+                              ? (context, anime) {
+                                  return widget.leadBuilder(context, index, anime);
+                                }
+                              : null,
+                          trailBuilder: widget.trailBuilder != null
+                              ? (context, anime) {
+                                  return widget.trailBuilder(context, index, anime);
+                                }
+                              : null,
+                          onPressed: (anime) {
+                            if (animeTop.selectionMode) {
+                              if (selected) {
+                                animeTop.controller.unselectAnime(anime.node.id);
+                              } else {
+                                animeTop.controller.selectAnime(anime.node.id);
                               }
-                            : null,
-                        trailBuilder: widget.trailBuilder != null
-                            ? (context, anime) {
-                                return widget.trailBuilder(context, index, anime);
-                              }
-                            : null,
-                        onPressed: (anime) {
-                          if (animeTop.selectionMode) {
+                            }
+                          },
+                          onLongPress: (anime) {
                             if (selected) {
                               animeTop.controller.unselectAnime(anime.node.id);
                             } else {
                               animeTop.controller.selectAnime(anime.node.id);
                             }
-                          }
-                        },
-                        onLongPress: (anime) {
-                          if (selected) {
-                            animeTop.controller.unselectAnime(anime.node.id);
-                          } else {
-                            animeTop.controller.selectAnime(anime.node.id);
-                          }
-                        },
-                      );
-                    },
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
               ],

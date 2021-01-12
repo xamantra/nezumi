@@ -6,9 +6,12 @@ import '../../../components/anime-top/index.dart';
 import '../../../components/app-settings/index.dart';
 import '../../../components/my_anime_list/index.dart';
 import '../../../data/index.dart';
+import '../../../data/types/index.dart';
 import '../../../utils/index.dart';
 import '../../index.dart';
 import '../anime-list/index.dart';
+import 'index.dart';
+import 'tabs/widgets/index.dart';
 
 class AnimeTopListExlcudedView extends StatelessWidget {
   const AnimeTopListExlcudedView({
@@ -25,6 +28,7 @@ class AnimeTopListExlcudedView extends StatelessWidget {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Scaffold(
+          backgroundColor: AppTheme.of(context).primaryBackground,
           body: MomentumBuilder(
             controllers: [AnimeTopController],
             builder: (context, snapshot) {
@@ -35,111 +39,121 @@ class AnimeTopListExlcudedView extends StatelessWidget {
               var compactMode = settings.compactMode;
               var list = animeTop.controller.getExcludedList();
 
-              return SafeArea(
-                child: Column(
-                  children: [
-                    Toolbar(
-                      height: sy(33),
-                      title: 'Excluded Entries',
-                      actions: [],
-                    ),
-                    !animeTop.selectionMode
-                        ? SizedBox()
-                        : Container(
-                            padding: EdgeInsets.all(sy(6)),
-                            child: Row(
-                              children: [
-                                Text(
-                                  '${animeTop.selectedAnimeIDs.length} ',
-                                  style: TextStyle(
-                                    color: AppTheme.of(context).accent,
-                                    fontSize: sy(12),
-                                  ),
-                                ),
-                                Text(
-                                  'selected',
-                                  style: TextStyle(
-                                    color: AppTheme.of(context).text4,
-                                    fontSize: sy(12),
-                                  ),
-                                ),
-                                Spacer(),
-                                SizedButton(
-                                  height: sy(24),
-                                  width: sy(100),
-                                  radius: 5,
-                                  child: Text(
-                                    'Include Selected',
-                                    style: TextStyle(
-                                      color: AppTheme.of(context).accent,
-                                      fontSize: sy(12),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    animeTop.controller.moveSelectionToIncluded();
-                                  },
-                                ),
-                                Spacer(),
-                                SizedButton(
-                                  height: sy(24),
-                                  width: sy(24),
-                                  radius: 100,
-                                  child: Icon(
-                                    Icons.close,
-                                    size: sy(14),
-                                  ),
-                                  onPressed: () {
-                                    animeTop.controller.clearSelection();
-                                  },
-                                ),
-                              ],
+              var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
+              var selectedAnimeId = -1;
+              if (onlyOneSelectd) {
+                selectedAnimeId = animeTop.selectedAnimeIDs.first;
+              }
+
+              IconData orderByIcon;
+              String orderBy;
+              switch (animeTop.yearlyRankingOrderBy) {
+                case OrderBy.ascending:
+                  orderByIcon = Icons.arrow_upward;
+                  orderBy = 'Ascending';
+                  break;
+                case OrderBy.descending:
+                  orderByIcon = Icons.arrow_downward;
+                  orderBy = 'Descending';
+                  break;
+              }
+
+              return Stack(
+                children: [
+                  Container(
+                    height: height,
+                    width: width,
+                    color: AppTheme.of(context).primary,
+                  ),
+                  SafeArea(
+                    child: Container(
+                      color: AppTheme.of(context).primaryBackground,
+                      child: Column(
+                        children: [
+                          Toolbar(
+                            height: sy(33),
+                            title: 'Excluded Entries',
+                            actions: [
+                              ToolbarAction(
+                                icon: orderByIcon,
+                                tooltip: orderBy,
+                                onPressed: () {
+                                  animeTop.controller.toggleOrderBy();
+                                },
+                              ),
+                              YearlyAnimeRankingSortMenu(
+                                value: animeTop.yearlyRankingSortBy,
+                                onChanged: (sortBy) {
+                                  animeTop.controller.changeSortBy(sortBy);
+                                },
+                              ),
+                            ],
+                          ),
+                          SelectionToolWidget(
+                            actionIcon: Icons.remove_red_eye,
+                            actionSize: sy(12),
+                            actionTooltip: 'Include all selected',
+                            onActionCallback: () {
+                              animeTop.controller.moveSelectionToIncluded();
+                            },
+                            onSelectAbove: () {
+                              animeTop.controller.selectAllAboveExcludedIndex(selectedAnimeId);
+                            },
+                            onSelectBelow: () {
+                              animeTop.controller.selectAllBelowExcludedIndex(selectedAnimeId);
+                            },
+                          ),
+                          Expanded(
+                            child: Container(
+                              color: AppTheme.of(context).primaryBackground,
+                              child: ListView.builder(
+                                physics: BouncingScrollPhysics(),
+                                itemCount: list.length,
+                                itemBuilder: (context, index) {
+                                  var anime = list[index];
+                                  var inMyList = mal.inMyList(anime?.node?.id);
+                                  var selected = animeTop.isAnimeSelected(anime.node.id);
+                                  return AnimeGlobalItemCard(
+                                    anime: anime,
+                                    compactMode: compactMode,
+                                    editMode: inMyList,
+                                    selected: selected,
+                                    leadBuilder: leadBuilder != null
+                                        ? (context, anime) {
+                                            return leadBuilder(context, index, anime);
+                                          }
+                                        : null,
+                                    trailBuilder: trailBuilder != null
+                                        ? (context, anime) {
+                                            return trailBuilder(context, index, anime);
+                                          }
+                                        : null,
+                                    onPressed: (anime) {
+                                      if (animeTop.selectionMode) {
+                                        if (selected) {
+                                          animeTop.controller.unselectAnime(anime.node.id);
+                                        } else {
+                                          animeTop.controller.selectAnime(anime.node.id);
+                                        }
+                                      }
+                                    },
+                                    onLongPress: (anime) {
+                                      if (selected) {
+                                        animeTop.controller.unselectAnime(anime.node.id);
+                                      } else {
+                                        animeTop.controller.selectAnime(anime.node.id);
+                                      }
+                                    },
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        itemCount: list.length,
-                        itemBuilder: (context, index) {
-                          var anime = list[index];
-                          var inMyList = mal.inMyList(anime?.node?.id);
-                          var selected = animeTop.isAnimeSelected(anime.node.id);
-                          return AnimeGlobalItemCard(
-                            anime: anime,
-                            compactMode: compactMode,
-                            editMode: inMyList,
-                            selected: selected,
-                            leadBuilder: leadBuilder != null
-                                ? (context, anime) {
-                                    return leadBuilder(context, index, anime);
-                                  }
-                                : null,
-                            trailBuilder: trailBuilder != null
-                                ? (context, anime) {
-                                    return trailBuilder(context, index, anime);
-                                  }
-                                : null,
-                            onPressed: (anime) {
-                              if (animeTop.selectionMode) {
-                                if (selected) {
-                                  animeTop.controller.unselectAnime(anime.node.id);
-                                } else {
-                                  animeTop.controller.selectAnime(anime.node.id);
-                                }
-                              }
-                            },
-                            onLongPress: (anime) {
-                              if (selected) {
-                                animeTop.controller.unselectAnime(anime.node.id);
-                              } else {
-                                animeTop.controller.selectAnime(anime.node.id);
-                              }
-                            },
-                          );
-                        },
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
           ),

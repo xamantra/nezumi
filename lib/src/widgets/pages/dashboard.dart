@@ -4,6 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../components/app/index.dart';
 import '../../mixins/index.dart';
+import '../app-theme.dart';
 import 'index.dart';
 
 class Dashboard extends StatefulWidget {
@@ -30,6 +31,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
           controllers: [AppController],
           builder: (context, snapshot) {
             return Scaffold(
+              backgroundColor: AppTheme.of(context).primary,
               body: nav.activeWidget,
               drawer: AppDrawer(),
             );
