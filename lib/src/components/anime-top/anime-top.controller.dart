@@ -39,6 +39,11 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     );
   }
 
+  void changeYear(int year) {
+    model.update(selectedYear: year);
+    loadYearRankings();
+  }
+
   void prevYear() {
     var selected = model.selectedYear;
     model.update(selectedYear: selected - 1);
@@ -108,10 +113,13 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
     var filterHentaiAndKids = <AnimeDataItem>[];
     for (var item in filterExcluded) {
-      var hentai = item.node.genres.any((x) => x.name?.toLowerCase() == 'hentai');
-      var kids = item.node.genres.any((x) => x.name?.toLowerCase() == 'kids');
-      if (!hentai && !kids) {
-        filterHentaiAndKids.add(item);
+      var genres = item?.node?.genres ?? [];
+      if (genres.isNotEmpty) {
+        var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
+        var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
+        if (!hentai && !kids) {
+          filterHentaiAndKids.add(item);
+        }
       }
     }
 
@@ -197,7 +205,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     if (list.isEmpty) return '0.0';
     var totalScore = 0.0;
     for (var anime in list) {
-      totalScore += anime.node.mean;
+      totalScore += anime?.node?.mean ?? 0;
     }
     var result = totalScore / list.length;
     return result.toStringAsFixed(3);
@@ -214,27 +222,43 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    result.sort((a, b) => b.node.mean.compareTo(a.node.mean));
+    var year = model.selectedYear;
+    var filtered = result.where((x) {
+      var d = parseDate(x.node.startDate);
+      var matchedYear = d?.year == year;
+      var hasScore = (x?.node?.mean ?? 0) > 0;
+      if (!matchedYear && d != null) {
+        var startOfTheYear = DateTime(year, 1, 1);
+        var diff = startOfTheYear.difference(d).abs();
+        if (diff.inDays <= 30) {
+          return hasScore;
+        }
+      }
+      return matchedYear && hasScore;
+      // return hasScore;
+    }).toList();
+
+    filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
     switch (model.yearlyRankingSortBy) {
       case AnimeSortBy.title:
-        result.sort(compareTitle);
+        filtered.sort(compareTitle);
         break;
       case AnimeSortBy.score:
-        result.sort(compareMean);
+        filtered.sort(compareMean);
         break;
       case AnimeSortBy.member:
-        result.sort(compareMember);
+        filtered.sort(compareMember);
         break;
       case AnimeSortBy.scoringMember:
-        result.sort(compareScoringMember);
+        filtered.sort(compareScoringMember);
         break;
       case AnimeSortBy.totalDuraton:
-        result.sort(compareTotalDuration);
+        filtered.sort(compareTotalDuration);
         break;
     }
 
     var noDuplicates = <AnimeDataItem>[];
-    for (var item in result) {
+    for (var item in filtered) {
       var exists = noDuplicates.any((x) => x.node.id == item.node.id);
       if (!exists) {
         noDuplicates.add(item);

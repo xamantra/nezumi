@@ -112,11 +112,28 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                                     animeTop.controller.prevYear();
                                   },
                                 ),
-                                Text(
-                                  '${animeTop.selectedYear}',
-                                  style: TextStyle(
-                                    fontSize: sy(11),
-                                    fontWeight: FontWeight.w600,
+                                GestureDetector(
+                                  onTap: () async {
+                                    var picker = Dialog(
+                                      // ignore: deprecated_member_use
+                                      child: YearPicker(
+                                        selectedDate: DateTime(animeTop.selectedYear, 1, 1),
+                                        firstDate: DateTime.now().subtract(Duration(days: 365 * 120)),
+                                        lastDate: DateTime.now(),
+                                        onChanged: (value) {
+                                          animeTop.controller.changeYear(value.year);
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    );
+                                    dialog(context, picker);
+                                  },
+                                  child: Text(
+                                    '${animeTop.selectedYear}',
+                                    style: TextStyle(
+                                      fontSize: sy(11),
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                                 SizedButton(
