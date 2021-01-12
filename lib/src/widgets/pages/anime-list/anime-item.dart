@@ -55,7 +55,7 @@ class AnimeItemCard extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
             color: Colors.transparent,
             child: Ripple(
-              padding: sy(compactMode ? 5 : 8),
+              padding: sy(compactMode ? 6 : 8),
               onPressed: () {},
               radius: 0,
               child: Row(

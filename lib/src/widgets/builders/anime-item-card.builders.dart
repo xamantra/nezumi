@@ -28,7 +28,7 @@ Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDataItem 
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
-        height: sy(32),
+        height: sy(28),
         child: Badge(
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
@@ -45,7 +45,7 @@ Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeData
     builder: (context, height, width, sy, sx) {
       final display = createDisplay(length: 99);
       return Container(
-        height: sy(32),
+        height: sy(28),
         padding: EdgeInsets.only(left: sy(2)),
         child: Badge(
           color: AppTheme.of(context).primary,
@@ -63,7 +63,7 @@ Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDa
     builder: (context, height, width, sy, sx) {
       final display = createDisplay(length: 99);
       return Container(
-        height: sy(32),
+        height: sy(28),
         padding: EdgeInsets.only(left: sy(2)),
         child: Badge(
           color: AppTheme.of(context).primary,
@@ -80,7 +80,7 @@ Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeD
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
-        height: sy(32),
+        height: sy(28),
         padding: EdgeInsets.only(left: sy(2)),
         child: Badge(
           color: AppTheme.of(context).primary,
