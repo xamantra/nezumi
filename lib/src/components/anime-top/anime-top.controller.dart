@@ -222,8 +222,43 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
+    result.sort((a, b) => b.node.mean.compareTo(a.node.mean));
+    switch (model.yearlyRankingSortBy) {
+      case AnimeSortBy.title:
+        result.sort(compareTitle);
+        break;
+      case AnimeSortBy.score:
+        result.sort(compareMean);
+        break;
+      case AnimeSortBy.member:
+        result.sort(compareMember);
+        break;
+      case AnimeSortBy.scoringMember:
+        result.sort(compareScoringMember);
+        break;
+      case AnimeSortBy.totalDuraton:
+        result.sort(compareTotalDuration);
+        break;
+    }
+
+    var noDuplicates = <AnimeDataItem>[];
+    for (var item in result) {
+      var exists = noDuplicates.any((x) => x.node.id == item.node.id);
+      if (!exists) {
+        noDuplicates.add(item);
+      }
+    }
+
+    var noDuplicatesExcluded = <int>[];
+    for (var item in excludedList) {
+      var exists = noDuplicatesExcluded.any((x) => x == item);
+      if (!exists) {
+        noDuplicatesExcluded.add(item);
+      }
+    }
+
     var year = model.selectedYear;
-    var filtered = result.where((x) {
+    var filtered = noDuplicates.where((x) {
       var d = parseDate(x.node.startDate);
       var matchedYear = d?.year == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
@@ -238,37 +273,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       // return hasScore;
     }).toList();
 
-    filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
-    switch (model.yearlyRankingSortBy) {
-      case AnimeSortBy.title:
-        filtered.sort(compareTitle);
-        break;
-      case AnimeSortBy.score:
-        filtered.sort(compareMean);
-        break;
-      case AnimeSortBy.member:
-        filtered.sort(compareMember);
-        break;
-      case AnimeSortBy.scoringMember:
-        filtered.sort(compareScoringMember);
-        break;
-      case AnimeSortBy.totalDuraton:
-        filtered.sort(compareTotalDuration);
-        break;
-    }
+    model.update(excludedAnimeIDs: noDuplicatesExcluded);
 
-    var noDuplicates = <AnimeDataItem>[];
-    for (var item in filtered) {
-      var exists = noDuplicates.any((x) => x.node.id == item.node.id);
-      if (!exists) {
-        noDuplicates.add(item);
-      }
-    }
-
-    var sortedExcludedIDs = noDuplicates.map<int>((x) => x.node.id).toList();
-    model.update(excludedAnimeIDs: sortedExcludedIDs);
-
-    return noDuplicates;
+    return filtered;
   }
 
   void toggleOrderBy() {

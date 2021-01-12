@@ -114,6 +114,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                                 ),
                                 GestureDetector(
                                   onTap: () async {
+                                    if (animeTop.loadingYearlyRankings) return;
                                     var picker = Dialog(
                                       // ignore: deprecated_member_use
                                       child: YearPicker(
