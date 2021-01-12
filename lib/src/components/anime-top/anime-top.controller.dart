@@ -60,7 +60,15 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       var d = parseDate(x.node.startDate);
       var matchedYear = d?.year == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
+      if (!matchedYear && d != null) {
+        var startOfTheYear = DateTime(year, 1, 1);
+        var diff = startOfTheYear.difference(d).abs();
+        if (diff.inDays <= 30) {
+          return hasScore;
+        }
+      }
       return matchedYear && hasScore;
+      // return hasScore;
     }).toList();
 
     filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
@@ -82,40 +90,41 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         break;
     }
 
-    var noDuplicates = <AnimeDataItem>[];
+    var filterDuplicates = <AnimeDataItem>[];
     for (var item in filtered) {
-      var exists = noDuplicates.any((x) => x.node.id == item.node.id);
+      var exists = filterDuplicates.any((x) => x.node.id == item.node.id);
       if (!exists) {
-        noDuplicates.add(item);
+        filterDuplicates.add(item);
       }
     }
 
     var filterExcluded = <AnimeDataItem>[];
-    for (var item in noDuplicates) {
+    for (var item in filterDuplicates) {
       var e = model.isAnimeExcluded(item.node.id);
       if (!e) {
         filterExcluded.add(item);
       }
     }
 
-    var noHentai = <AnimeDataItem>[];
+    var filterHentaiAndKids = <AnimeDataItem>[];
     for (var item in filterExcluded) {
       var hentai = item.node.genres.any((x) => x.name?.toLowerCase() == 'hentai');
-      if (!hentai) {
-        noHentai.add(item);
+      var kids = item.node.genres.any((x) => x.name?.toLowerCase() == 'kids');
+      if (!hentai && !kids) {
+        filterHentaiAndKids.add(item);
       }
     }
 
-    var onlyTypes = <AnimeDataItem>[];
-    for (var item in noHentai) {
+    var filterMediaTypes = <AnimeDataItem>[];
+    for (var item in filterHentaiAndKids) {
       var key = item.node.mediaType?.toUpperCase() ?? '-';
       var matched = model.showOnlyAnimeTypes[key];
       if (key != '-' && matched) {
-        onlyTypes.add(item);
+        filterMediaTypes.add(item);
       }
     }
 
-    model.update(selectedYearRankings: onlyTypes);
+    model.update(selectedYearRankings: filterMediaTypes);
   }
 
   int compareTitle(AnimeDataItem a, AnimeDataItem b) {
