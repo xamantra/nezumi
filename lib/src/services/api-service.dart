@@ -106,6 +106,7 @@ class ApiService extends MomentumService {
       var data = {
         'fields': customFields ?? fields,
         'limit': 1000,
+        'nsfw': true,
       };
       if (status != null) {
         data.putIfAbsent('status', () => status);
@@ -265,6 +266,7 @@ class ApiService extends MomentumService {
         'fields': fields,
         'limit': 50, // TODO: dynamic limit, app settings etc...
         'offset': 0,
+        'nsfw': true,
       };
       if (nextPage != null) {
         var result = await httpGet(
@@ -308,6 +310,7 @@ class ApiService extends MomentumService {
         'fields': fields,
         'limit': 500, // TODO: dynamic limit, app settings etc...
         'offset': 0,
+        'nsfw': true,
       };
       if (nextPage != null) {
         var result = await httpGet(
@@ -350,6 +353,7 @@ class ApiService extends MomentumService {
         'fields': fields,
         'limit': 500, // TODO: dynamic limit, app settings etc...
         'offset': 0,
+        'nsfw': true,
       };
 
       var response = await dio.get(
