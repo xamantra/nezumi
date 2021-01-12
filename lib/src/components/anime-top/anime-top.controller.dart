@@ -93,7 +93,15 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    model.update(selectedYearRankings: filterExcluded);
+    var noHentai = <AnimeDataItem>[];
+    for (var item in filterExcluded) {
+      var hentai = item.node.genres.any((x) => x.name?.toLowerCase() == 'hentai');
+      if (!hentai) {
+        noHentai.add(item);
+      }
+    }
+
+    model.update(selectedYearRankings: noHentai);
   }
 
   int compareTitle(AnimeDataItem a, AnimeDataItem b) {

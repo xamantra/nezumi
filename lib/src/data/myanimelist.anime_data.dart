@@ -191,12 +191,15 @@ class SearchNode {
     var eps = numEpisodes ?? 0;
     var avgD = averageEpisodeDuration ?? 0;
     if (eps == 0) {
-      eps = 1;
+      eps = myListStatus?.numEpisodesWatched ?? 0;
+      if (eps == 0) {
+        eps = 1;
+      }
     }
     if (avgD == 0) {
       avgD = 1;
     }
-    return (numEpisodes * averageEpisodeDuration) ~/ 60;
+    return (eps * avgD) ~/ 60;
   }
 
   SearchNode copyWith({
