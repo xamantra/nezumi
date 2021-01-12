@@ -52,71 +52,62 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
           ),
           body: SafeArea(
             child: MomentumBuilder(
-              controllers: [MyAnimeListController],
+              controllers: [MyAnimeListController, SettingsController],
               builder: (context, snapshot) {
                 var loading = mal.loading;
                 var historyGroup = mal?.controller?.getGroupedHistoryData();
-                return Column(
-                  children: [
-                    Expanded(
-                      child: loading
-                          ? Loader()
-                          : Container(
-                              color: AppTheme.of(context).primaryBackground,
-                              height: height,
+                return loading
+                    ? Loader()
+                    : Container(
+                        color: AppTheme.of(context).primaryBackground,
+                        height: height,
+                        width: width,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: SmartRefresher(
+                                physics: BouncingScrollPhysics(),
+                                enablePullDown: true,
+                                controller: refreshController,
+                                onRefresh: () {
+                                  mal.controller.loadAnimeHistory();
+                                },
+                                child: ListView.builder(
+                                  physics: BouncingScrollPhysics(),
+                                  itemCount: historyGroup.length,
+                                  itemBuilder: (_, i) {
+                                    return HistoryGroup(historyGroupData: historyGroup[i]);
+                                  },
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: sy(40),
                               width: width,
-                              child: Column(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  Expanded(
-                                    child: SmartRefresher(
-                                      enablePullDown: true,
-                                      controller: refreshController,
-                                      onRefresh: () {
-                                        mal.controller.loadAnimeHistory();
-                                      },
-                                      child: MomentumBuilder(
-                                        controllers: [SettingsController],
-                                        builder: (context, snapshot) {
-                                          return ListView.builder(
-                                            itemCount: historyGroup.length,
-                                            itemBuilder: (_, i) {
-                                              return HistoryGroup(historyGroupData: historyGroup[i]);
-                                            },
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                  StatItem(
+                                    value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
+                                    label: 'Hrs/day',
+                                    valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
                                   ),
-                                  Container(
-                                    height: sy(40),
-                                    width: width,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        StatItem(
-                                          value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
-                                          label: 'Hrs/day',
-                                          valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
-                                        ),
-                                        StatItem(
-                                          value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
-                                          label: 'Mins/ep',
-                                          valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
-                                        ),
-                                        StatItem(
-                                          value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
-                                          label: 'Eps/day',
-                                          valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
-                                        ),
-                                      ],
-                                    ),
+                                  StatItem(
+                                    value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
+                                    label: 'Mins/ep',
+                                    valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
+                                  ),
+                                  StatItem(
+                                    value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
+                                    label: 'Eps/day',
+                                    valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
                                   ),
                                 ],
                               ),
                             ),
-                    ),
-                  ],
-                );
+                          ],
+                        ),
+                      );
               },
             ),
           ),

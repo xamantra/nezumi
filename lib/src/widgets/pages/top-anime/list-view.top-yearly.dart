@@ -89,6 +89,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                 ),
                 Expanded(
                   child: SmartRefresher(
+                    physics: BouncingScrollPhysics(),
                     controller: controller,
                     onRefresh: () {
                       animeTop.controller.loadYearRankings();

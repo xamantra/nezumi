@@ -38,6 +38,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
             }
 
             return SmartRefresher(
+              physics: BouncingScrollPhysics(),
               controller: refreshController,
               onRefresh: () {
                 mal.controller.loadAnimeListByStatus(widget.status);
