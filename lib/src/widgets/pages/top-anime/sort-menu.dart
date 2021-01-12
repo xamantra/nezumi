@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nezumi/src/widgets/index.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../../data/types/index.dart';
+import '../../../data/types/index.dart';
 
 class YearlyAnimeRankingSortMenu extends StatelessWidget {
   const YearlyAnimeRankingSortMenu({

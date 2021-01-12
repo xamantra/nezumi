@@ -10,7 +10,6 @@ import '../../../../utils/index.dart';
 import '../../../builders/index.dart';
 import '../../../index.dart';
 import '../index.dart';
-import 'widgets/index.dart';
 
 class YearlyAnimeRankingPage extends StatefulWidget {
   const YearlyAnimeRankingPage({Key key}) : super(key: key);
@@ -53,6 +52,19 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                         height: sy(33),
                         leadingIcon: Icons.menu,
                         title: 'Top Anime',
+                        actions: [
+                          SizedButton(
+                            height: sy(32),
+                            width: sy(32),
+                            radius: 100,
+                            child: Icon(
+                              Icons.more_vert,
+                            ),
+                            onPressed: () {
+                              dialog(context, YearlyRankingAnimeTypesDialog());
+                            },
+                          ),
+                        ],
                         leadingAction: () {
                           Scaffold.of(context).openDrawer();
                         },

@@ -10,6 +10,10 @@ import 'index.dart';
 class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixin, CoreMixin {
   @override
   AnimeTopModel init() {
+    Map<String, bool> showOnlyAnimeTypes = {};
+    for (var item in allAnimeMediaTypeList) {
+      showOnlyAnimeTypes.putIfAbsent(item.toUpperCase(), () => true);
+    }
     return AnimeTopModel(
       this,
       loadingTopAll: false,
@@ -31,6 +35,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       selectedYearRankingsAll: [],
       excludedAnimeIDs: [],
       selectedAnimeIDs: [],
+      showOnlyAnimeTypes: showOnlyAnimeTypes,
     );
   }
 
@@ -101,7 +106,16 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    model.update(selectedYearRankings: noHentai);
+    var onlyTypes = <AnimeDataItem>[];
+    for (var item in noHentai) {
+      var key = item.node.mediaType?.toUpperCase() ?? '-';
+      var matched = model.showOnlyAnimeTypes[key];
+      if (key != '-' && matched) {
+        onlyTypes.add(item);
+      }
+    }
+
+    model.update(selectedYearRankings: onlyTypes);
   }
 
   int compareTitle(AnimeDataItem a, AnimeDataItem b) {
@@ -369,6 +383,14 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         selectAnime(source[i]);
       }
     }
+  }
+
+  toggleCheckAnimeTypeFilter(String typeKey) {
+    var map = Map<String, bool>.from(model.showOnlyAnimeTypes);
+    var currentState = map[typeKey];
+    map[typeKey] = !currentState;
+    model.update(showOnlyAnimeTypes: map);
+    validateAndSortYearlyRankings();
   }
 
   Future<void> loadTopAll() async {

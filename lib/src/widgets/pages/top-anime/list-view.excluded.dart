@@ -11,7 +11,6 @@ import '../../../utils/index.dart';
 import '../../index.dart';
 import '../anime-list/index.dart';
 import 'index.dart';
-import 'tabs/widgets/index.dart';
 
 class AnimeTopListExlcudedView extends StatelessWidget {
   const AnimeTopListExlcudedView({

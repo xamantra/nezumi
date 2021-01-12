@@ -35,10 +35,6 @@ class _SelectionToolWidgetState extends State<SelectionToolWidget> with CoreStat
         return MomentumBuilder(
           builder: (context, snapshot) {
             var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
-            var selectedAnimeId = -1;
-            if (onlyOneSelectd) {
-              selectedAnimeId = animeTop.selectedAnimeIDs.first;
-            }
 
             return !animeTop.selectionMode
                 ? SizedBox()
