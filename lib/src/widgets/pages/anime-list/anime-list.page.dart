@@ -82,23 +82,23 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
                       ),
                       tabs: [
                         TabItemBottom(
-                          active: tabController.index == 0,
+                          active: currentTab == 0,
                           icon: CustomIcons.th,
                           iconSize: sy(10),
                           label: 'My List',
                         ),
                         TabItemBottom(
-                          active: tabController.index == 1,
+                          active: currentTab == 1,
                           icon: Icons.search,
                           label: 'Search',
                         ),
                         TabItemBottom(
-                          active: tabController.index == 2,
+                          active: currentTab == 2,
                           icon: Icons.filter_list,
                           label: 'Filter',
                         ),
                         TabItemBottom(
-                          active: tabController.index == 3,
+                          active: currentTab == 3,
                           icon: Icons.trending_up,
                           label: 'Stats',
                         ),

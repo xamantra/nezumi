@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../../components/app/index.dart';
 import '../../../../components/my_anime_list/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../index.dart';
@@ -17,10 +18,19 @@ class MyListTabPage extends StatefulWidget {
 class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateMixin, CoreStateMixin {
   TabController tabController;
 
+  int currentTab;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(initialIndex: 1, length: 6, vsync: this);
+    currentTab = tabController.index;
+    tabController.addListener(() {
+      if (currentTab != tabController.index) {
+        currentTab = tabController.index;
+        app.triggerRebuild();
+      }
+    });
     mal?.controller?.initializeAnimeList();
   }
 
@@ -54,7 +64,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                   },
                 ),
                 MomentumBuilder(
-                  controllers: [MyAnimeListController],
+                  controllers: [MyAnimeListController, AppController],
                   builder: (context, snapshot) {
                     var all = mal.userAnimeList?.getByStatus('all') ?? [];
                     var watching = mal.userAnimeList?.getByStatus('watching') ?? [];
@@ -64,22 +74,24 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                     var dropped = mal.userAnimeList?.getByStatus('dropped') ?? [];
 
                     return Container(
+                      height: sy(30),
                       width: width,
                       color: AppTheme.of(context).primary,
-                      padding: EdgeInsets.symmetric(horizontal: sy(8)),
                       child: TabBar(
                         controller: tabController,
                         isScrollable: true,
                         labelColor: Colors.white,
-                        indicatorColor: Colors.white,
+                        labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
+                        indicatorPadding: EdgeInsets.zero,
+                        indicatorColor: Colors.transparent,
                         physics: BouncingScrollPhysics(),
                         tabs: [
-                          MyListTabItem(label: 'All', count: all.length),
-                          MyListTabItem(label: 'Watching', count: watching.length),
-                          MyListTabItem(label: 'On Hold', count: on_hold.length),
-                          MyListTabItem(label: 'Completed', count: completed.length),
-                          MyListTabItem(label: 'Planning', count: plan_to_watch.length),
-                          MyListTabItem(label: 'Dropped', count: dropped.length),
+                          MyListTabItem(label: 'All', active: currentTab == 0, count: all.length),
+                          MyListTabItem(label: 'Watching', active: currentTab == 1, count: watching.length),
+                          MyListTabItem(label: 'On Hold', active: currentTab == 2, count: on_hold.length),
+                          MyListTabItem(label: 'Completed', active: currentTab == 3, count: completed.length),
+                          MyListTabItem(label: 'Planning', active: currentTab == 4, count: plan_to_watch.length),
+                          MyListTabItem(label: 'Dropped', active: currentTab == 5, count: dropped.length),
                         ],
                       ),
                     );
