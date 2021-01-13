@@ -56,7 +56,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             AnimeFilterStatItem(
-                              title: 'Quantity',
+                              title: 'Filtered',
                               icon: Icons.sort,
                               value: animeTop.controller.getEntryCount(),
                               label: 'entries',
@@ -67,8 +67,16 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                               title: 'Average',
                               icon: Icons.timeline,
                               value: animeTop.controller.getMeanScore(),
-                              label: 'out of 10',
+                              label: 'filtered entries',
                               color: Colors.pink,
+                            ),
+                            SizedBox(width: sy(8)),
+                            AnimeFilterStatItem(
+                              title: 'Votes',
+                              icon: Icons.people,
+                              value: animeTop.controller.getVotesPerEntry(),
+                              label: 'per entry',
+                              color: Colors.teal,
                             ),
                           ],
                         ),

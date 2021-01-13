@@ -230,6 +230,40 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     return result.toStringAsFixed(3);
   }
 
+  String getVotesPerEntry() {
+    var year = model.selectedYear;
+    var list = getAllEntriesYear(year);
+    if (list.isEmpty) return '0.0';
+    var totalVotes = 0;
+    for (var anime in list) {
+      totalVotes += anime?.node?.numScoringUsers ?? 0;
+    }
+    var result = totalVotes / list.length;
+    return '${result.toInt()}';
+  }
+
+  List<AnimeDataItem> getAllEntriesYear(int year) {
+    var result = <AnimeDataItem>[];
+    var list = model.getAllEntriesYear(year);
+    var filtered = list.where((x) {
+      var seasonYear = x?.node?.startSeason?.year ?? -1;
+      var matchedYear = seasonYear == year;
+      var hasScore = (x?.node?.mean ?? 0) > 0;
+      return matchedYear && hasScore;
+    }).toList();
+    for (var item in filtered) {
+      var genres = item?.node?.genres ?? [];
+      if (genres.isNotEmpty) {
+        var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
+        var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
+        if (!hentai && !kids) {
+          result.add(item);
+        }
+      }
+    }
+    return result;
+  }
+
   List<AnimeDataItem> getCurrentYearRankList() {
     var year = model.selectedYear;
     var source = model.getRankingByYear(year);
@@ -245,7 +279,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   List<AnimeDataItem> getExcludedList() {
     var year = model.selectedYear;
     var result = <AnimeDataItem>[];
-    var source = model.getRankingByYear(year);
+    var source = model.getAllEntriesYear(year);
     var excludedList = List<int>.from(model.excludedAnimeIDs);
     for (var item in source) {
       var e = excludedList.any((x) => x == item.node.id);
@@ -289,7 +323,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    var filtered = source.where((x) {
+    var filtered = noDuplicates.where((x) {
       var seasonYear = x?.node?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;

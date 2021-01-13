@@ -106,6 +106,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Text(
@@ -115,6 +116,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Text(
@@ -124,6 +126,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
@@ -141,6 +144,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     Dot(color: AppTheme.of(context).text5),
                                     Text(
@@ -150,6 +154,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ]..addAll(anime.studios.map(
                                       (e) => Row(
@@ -162,6 +167,7 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                               fontWeight: FontWeight.w300,
                                               fontSize: sy(7),
                                             ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),
