@@ -62,18 +62,10 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var year = model.selectedYear;
     var original = List<AnimeDataItem>.from(model.selectedYearRankingsAll ?? []);
     var filtered = original.where((x) {
-      var d = parseDate(x.node.startDate);
-      var matchedYear = d?.year == year;
+      var seasonYear = x?.node?.startSeason?.year ?? -1;
+      var matchedYear = seasonYear == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
-      if (!matchedYear && d != null) {
-        var startOfTheYear = DateTime(year, 1, 1);
-        var diff = startOfTheYear.difference(d).abs();
-        if (diff.inDays <= 30) {
-          return hasScore;
-        }
-      }
       return matchedYear && hasScore;
-      // return hasScore;
     }).toList();
 
     filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
@@ -211,6 +203,18 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     return result.toStringAsFixed(3);
   }
 
+  List<AnimeDataItem> getCurrentYearRankList() {
+    var source = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
+    var year = model.selectedYear;
+    var filtered = source.where((x) {
+      var seasonYear = x?.node?.startSeason?.year ?? -1;
+      var matchedYear = seasonYear == year;
+      var hasScore = (x?.node?.mean ?? 0) > 0;
+      return matchedYear && hasScore;
+    }).toList();
+    return filtered;
+  }
+
   List<AnimeDataItem> getExcludedList() {
     var result = <AnimeDataItem>[];
     var source = List<AnimeDataItem>.from(model.selectedYearRankingsAll ?? []);
@@ -258,21 +262,12 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
 
     var year = model.selectedYear;
-    var filtered = noDuplicates.where((x) {
-      var d = parseDate(x.node.startDate);
-      var matchedYear = d?.year == year;
+    var filtered = source.where((x) {
+      var seasonYear = x?.node?.startSeason?.year ?? -1;
+      var matchedYear = seasonYear == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
-      if (!matchedYear && d != null) {
-        var startOfTheYear = DateTime(year, 1, 1);
-        var diff = startOfTheYear.difference(d).abs();
-        if (diff.inDays <= 30) {
-          return hasScore;
-        }
-      }
       return matchedYear && hasScore;
-      // return hasScore;
     }).toList();
-
     model.update(excludedAnimeIDs: noDuplicatesExcluded);
 
     return filtered;

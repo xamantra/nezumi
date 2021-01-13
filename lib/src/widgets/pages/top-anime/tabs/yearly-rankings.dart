@@ -25,7 +25,7 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(length: 9, vsync: this);
-    if (animeTop.selectedYearRankings.isEmpty) {
+    if (animeTop.controller.getCurrentYearRankList().isEmpty) {
       animeTop.controller.loadYearRankings();
     }
   }

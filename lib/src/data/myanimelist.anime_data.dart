@@ -26,10 +26,16 @@ class AnimeListGlobal {
 
   String toRawJson() => json.encode(toJson());
 
-  static AnimeListGlobal fromJson(Map<String, dynamic> json) => AnimeListGlobal(
+  static AnimeListGlobal fromJson(Map<String, dynamic> json) {
+    try {
+      return AnimeListGlobal(
         data: json["data"] == null ? null : List<AnimeDataItem>.from(json["data"].map((x) => AnimeDataItem.fromJson(x))),
         paging: json["paging"] == null ? null : MalPaging.fromJson(json["paging"]),
       );
+    } catch (e) {
+      return null;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),

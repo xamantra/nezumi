@@ -26,3 +26,12 @@ String getAnimeSortByLabel(AnimeSortBy sortBy) {
   }
   return '';
 }
+
+String animeSortBy_toJson(AnimeSortBy sortBy) {
+  return sortBy.toString();
+}
+
+AnimeSortBy animeSortBy_fromJson(String raw) {
+  var find = AnimeSortBy.values.firstWhere((x) => x.toString() == raw, orElse: () => null);
+  return find;
+}

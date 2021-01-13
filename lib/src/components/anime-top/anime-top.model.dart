@@ -196,4 +196,75 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       showOnlyAnimeTypes: showOnlyAnimeTypes ?? this.showOnlyAnimeTypes,
     ).updateMomentum();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'topAll': topAll?.toJson(),
+      'topAiring': topAiring?.toJson(),
+      'topUpcoming': topUpcoming?.toJson(),
+      'topTV': topTV?.toJson(),
+      'topMovies': topMovies?.toJson(),
+      'topOVA': topOVA?.toJson(),
+      'topSpecials': topSpecials?.toJson(),
+      'topPopularity': topPopularity?.toJson(),
+      'topFavorites': topFavorites?.toJson(),
+      'loadingTopAll': false,
+      'loadingTopAiring': false,
+      'loadingTopUpcoming': false,
+      'loadingTopTV': false,
+      'loadingTopMovies': false,
+      'loadingTopOVA': false,
+      'loadingTopSpecials': false,
+      'loadingTopPopularity': false,
+      'loadingTopFavorites': false,
+      'selectedYear': selectedYear,
+      'selectedYearRankings': selectedYearRankings?.map((x) => x?.toJson())?.toList(),
+      'selectedYearRankingsAll': selectedYearRankingsAll?.map((x) => x?.toJson())?.toList(),
+      'loadingYearlyRankings': false,
+      'yearlyRankingOrderBy': orderBy_toJson(yearlyRankingOrderBy),
+      'yearlyRankingSortBy': animeSortBy_toJson(yearlyRankingSortBy),
+      'showOnlyAnimeTypes': showOnlyAnimeTypes,
+      'excludedAnimeIDs': excludedAnimeIDs,
+      'fullscreen': fullscreen,
+      'selectionMode': selectionMode,
+      'selectedAnimeIDs': selectedAnimeIDs,
+    };
+  }
+
+  AnimeTopModel fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+
+    return AnimeTopModel(
+      controller,
+      topAll: AnimeListGlobal.fromJson(json['topAll']),
+      topAiring: AnimeListGlobal.fromJson(json['topAiring']),
+      topUpcoming: AnimeListGlobal.fromJson(json['topUpcoming']),
+      topTV: AnimeListGlobal.fromJson(json['topTV']),
+      topMovies: AnimeListGlobal.fromJson(json['topMovies']),
+      topOVA: AnimeListGlobal.fromJson(json['topOVA']),
+      topSpecials: AnimeListGlobal.fromJson(json['topSpecials']),
+      topPopularity: AnimeListGlobal.fromJson(json['topPopularity']),
+      topFavorites: AnimeListGlobal.fromJson(json['topFavorites']),
+      loadingTopAll: json['loadingTopAll'],
+      loadingTopAiring: json['loadingTopAiring'],
+      loadingTopUpcoming: json['loadingTopUpcoming'],
+      loadingTopTV: json['loadingTopTV'],
+      loadingTopMovies: json['loadingTopMovies'],
+      loadingTopOVA: json['loadingTopOVA'],
+      loadingTopSpecials: json['loadingTopSpecials'],
+      loadingTopPopularity: json['loadingTopPopularity'],
+      loadingTopFavorites: json['loadingTopFavorites'],
+      selectedYear: json['selectedYear'],
+      selectedYearRankings: List<AnimeDataItem>.from(json['selectedYearRankings']?.map((x) => AnimeDataItem.fromJson(x))),
+      selectedYearRankingsAll: List<AnimeDataItem>.from(json['selectedYearRankingsAll']?.map((x) => AnimeDataItem.fromJson(x))),
+      loadingYearlyRankings: json['loadingYearlyRankings'],
+      yearlyRankingOrderBy: orderBy_fromJson(json['yearlyRankingOrderBy']),
+      yearlyRankingSortBy: animeSortBy_fromJson(json['yearlyRankingSortBy']),
+      showOnlyAnimeTypes: Map<String, bool>.from(json['showOnlyAnimeTypes']),
+      excludedAnimeIDs: List<int>.from(json['excludedAnimeIDs']),
+      fullscreen: json['fullscreen'],
+      selectionMode: json['selectionMode'],
+      selectedAnimeIDs: List<int>.from(json['selectedAnimeIDs']),
+    );
+  }
 }

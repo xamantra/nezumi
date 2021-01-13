@@ -39,7 +39,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
             if (animeTop.loadingYearlyRankings) {
               return Loader();
             }
-            var list = animeTop?.selectedYearRankings ?? [];
+            var list = animeTop?.controller?.getCurrentYearRankList() ?? [];
             var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
             var selectedAnimeId = -1;
             if (onlyOneSelectd) {
