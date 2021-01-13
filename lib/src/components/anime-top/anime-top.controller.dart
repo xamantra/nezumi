@@ -31,8 +31,8 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       yearlyRankingSortBy: AnimeSortBy.score,
       fullscreen: false,
       selectionMode: false,
+      filteredYearlyRankings: [],
       selectedYearRankings: [],
-      selectedYearRankingsAll: [],
       excludedAnimeIDs: [],
       selectedAnimeIDs: [],
       showOnlyAnimeTypes: showOnlyAnimeTypes,
@@ -60,7 +60,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
   void validateAndSortYearlyRankings() {
     var year = model.selectedYear;
-    var original = List<AnimeDataItem>.from(model.selectedYearRankingsAll ?? []);
+    var original = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
     var filtered = original.where((x) {
       var seasonYear = x?.node?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
@@ -124,7 +124,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    model.update(selectedYearRankings: filterMediaTypes);
+    model.update(filteredYearlyRankings: filterMediaTypes);
   }
 
   int compareTitle(AnimeDataItem a, AnimeDataItem b) {
@@ -188,12 +188,12 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   String getEntryCount() {
-    var list = model.selectedYearRankings ?? [];
+    var list = model.filteredYearlyRankings ?? [];
     return list.length.toString();
   }
 
   String getMeanScore() {
-    var list = model.selectedYearRankings ?? [];
+    var list = model.filteredYearlyRankings ?? [];
     if (list.isEmpty) return '0.0';
     var totalScore = 0.0;
     for (var anime in list) {
@@ -204,7 +204,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   List<AnimeDataItem> getCurrentYearRankList() {
-    var source = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
+    var source = List<AnimeDataItem>.from(model.filteredYearlyRankings ?? []);
     var year = model.selectedYear;
     var filtered = source.where((x) {
       var seasonYear = x?.node?.startSeason?.year ?? -1;
@@ -217,7 +217,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
   List<AnimeDataItem> getExcludedList() {
     var result = <AnimeDataItem>[];
-    var source = List<AnimeDataItem>.from(model.selectedYearRankingsAll ?? []);
+    var source = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
     var excludedList = List<int>.from(model.excludedAnimeIDs);
     for (var item in source) {
       var e = excludedList.any((x) => x == item.node.id);
@@ -377,7 +377,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void selectAllAboveIndex(int selectedAnimeId) {
-    var source = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
+    var source = List<AnimeDataItem>.from(model.filteredYearlyRankings ?? []);
     var index = source.indexWhere((x) => x.node.id == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
@@ -388,7 +388,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void selectAllBelowIndex(int selectedAnimeId) {
-    var source = List<AnimeDataItem>.from(model.selectedYearRankings ?? []);
+    var source = List<AnimeDataItem>.from(model.filteredYearlyRankings ?? []);
     var index = source.indexWhere((x) => x.node.id == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
@@ -585,8 +585,8 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var result = AnimeListGlobal(data: combined);
     model.update(
       loadingYearlyRankings: false,
+      filteredYearlyRankings: result.data,
       selectedYearRankings: result.data,
-      selectedYearRankingsAll: result.data,
     );
     validateAndSortYearlyRankings();
   }

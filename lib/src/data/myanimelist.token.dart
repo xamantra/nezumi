@@ -36,12 +36,18 @@ class MyAnimeListToken {
 
   String toRawJson() => json.encode(toJson());
 
-  factory MyAnimeListToken.fromJson(Map<String, dynamic> json) => MyAnimeListToken(
+  factory MyAnimeListToken.fromJson(Map<String, dynamic> json) {
+    try {
+      return MyAnimeListToken(
         tokenType: json["token_type"],
         expiresIn: json["expires_in"],
         accessToken: json["access_token"],
         refreshToken: json["refresh_token"],
       );
+    } catch (e) {
+      return null;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "token_type": tokenType,

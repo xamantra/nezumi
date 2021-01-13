@@ -26,8 +26,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.loadingTopPopularity,
     this.loadingTopFavorites,
     this.selectedYear,
+    this.filteredYearlyRankings,
     this.selectedYearRankings,
-    this.selectedYearRankingsAll,
     this.loadingYearlyRankings,
     this.yearlyRankingOrderBy,
     this.yearlyRankingSortBy,
@@ -60,8 +60,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   // yearly rankings
   final int selectedYear;
+  final List<AnimeDataItem> filteredYearlyRankings;
   final List<AnimeDataItem> selectedYearRankings;
-  final List<AnimeDataItem> selectedYearRankingsAll;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
   final AnimeSortBy yearlyRankingSortBy;
@@ -152,8 +152,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopPopularity,
     bool loadingTopFavorites,
     int selectedYear,
+    List<AnimeDataItem> filteredYearlyRankings,
     List<AnimeDataItem> selectedYearRankings,
-    List<AnimeDataItem> selectedYearRankingsAll,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
     AnimeSortBy yearlyRankingSortBy,
@@ -184,8 +184,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       loadingTopPopularity: loadingTopPopularity ?? this.loadingTopPopularity,
       loadingTopFavorites: loadingTopFavorites ?? this.loadingTopFavorites,
       selectedYear: selectedYear ?? this.selectedYear,
+      filteredYearlyRankings: filteredYearlyRankings ?? this.filteredYearlyRankings,
       selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
-      selectedYearRankingsAll: selectedYearRankingsAll ?? this.selectedYearRankingsAll,
       loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
       yearlyRankingOrderBy: yearlyRankingOrderBy ?? this.yearlyRankingOrderBy,
       yearlyRankingSortBy: yearlyRankingSortBy ?? this.yearlyRankingSortBy,
@@ -218,8 +218,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       'loadingTopPopularity': false,
       'loadingTopFavorites': false,
       'selectedYear': selectedYear,
+      'filteredYearlyRankings': filteredYearlyRankings?.map((x) => x?.toJson())?.toList(),
       'selectedYearRankings': selectedYearRankings?.map((x) => x?.toJson())?.toList(),
-      'selectedYearRankingsAll': selectedYearRankingsAll?.map((x) => x?.toJson())?.toList(),
       'loadingYearlyRankings': false,
       'yearlyRankingOrderBy': orderBy_toJson(yearlyRankingOrderBy),
       'yearlyRankingSortBy': animeSortBy_toJson(yearlyRankingSortBy),
@@ -255,8 +255,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       loadingTopPopularity: json['loadingTopPopularity'],
       loadingTopFavorites: json['loadingTopFavorites'],
       selectedYear: json['selectedYear'],
+      filteredYearlyRankings: List<AnimeDataItem>.from(json['filteredYearlyRankings']?.map((x) => AnimeDataItem.fromJson(x))),
       selectedYearRankings: List<AnimeDataItem>.from(json['selectedYearRankings']?.map((x) => AnimeDataItem.fromJson(x))),
-      selectedYearRankingsAll: List<AnimeDataItem>.from(json['selectedYearRankingsAll']?.map((x) => AnimeDataItem.fromJson(x))),
       loadingYearlyRankings: json['loadingYearlyRankings'],
       yearlyRankingOrderBy: orderBy_fromJson(json['yearlyRankingOrderBy']),
       yearlyRankingSortBy: animeSortBy_fromJson(json['yearlyRankingSortBy']),

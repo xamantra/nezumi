@@ -52,7 +52,9 @@ class MyAnimeListProfile {
 
   String toRawJson() => json.encode(toJson());
 
-  factory MyAnimeListProfile.fromJson(Map<String, dynamic> json) => MyAnimeListProfile(
+  factory MyAnimeListProfile.fromJson(Map<String, dynamic> json) {
+    try {
+      return MyAnimeListProfile(
         id: json["id"],
         name: json["name"],
         gender: json["gender"],
@@ -62,6 +64,10 @@ class MyAnimeListProfile {
         picture: json["picture"],
         animeStatistics: json["anime_statistics"] == null ? null : Map.from(json["anime_statistics"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
       );
+    } catch (e) {
+      return null;
+    }
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
