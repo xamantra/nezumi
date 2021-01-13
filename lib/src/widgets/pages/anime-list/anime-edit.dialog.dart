@@ -28,8 +28,8 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    var rewatched = animeUpdate.currentInput.numTimesRewatched?.toString();
-    var episodes = animeUpdate.currentInput.numEpisodesWatched?.toString();
+    var rewatched = animeUpdate.currentInput?.numTimesRewatched?.toString();
+    var episodes = animeUpdate.currentInput?.numEpisodesWatched?.toString();
     rewatchTextController = TextEditingController(text: rewatched);
     episodesTextController = TextEditingController(text: episodes);
     animeUpdate.controller.listen<AnimeUpdateRewatchEvent>(
@@ -58,8 +58,8 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
               var controller = animeUpdate.controller;
               var anime = animeUpdate.animeData;
               var currentInput = animeUpdate.currentInput;
-              var status = currentInput.status;
-              var currentAnimeId = animeUpdate.animeData.node.id;
+              var status = currentInput?.status;
+              var currentAnimeId = animeUpdate.animeData?.node?.id;
               var loading = animeUpdate.loading;
               var canEditFinishDate = status == 'completed' || status == 'dropped';
               var canEditRewatching = status == 'completed';
@@ -76,7 +76,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      anime.node.title,
+                      anime?.node?.title ?? '',
                       style: TextStyle(
                         color: AppTheme.of(context).text3,
                         fontWeight: FontWeight.w600,
@@ -103,7 +103,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                 label: 'Status',
                                 verticalPadding: sy(4),
                                 child: DropdownWidget<String>(
-                                  value: currentInput?.status,
+                                  value: currentInput?.status ?? 'completed',
                                   label: (item) => normalizeSlug(item),
                                   items: allAnimeStatusList,
                                   dense: true,
@@ -127,7 +127,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                   : EditFieldInfoRow(
                                       label: 'Rewatching',
                                       child: Checkbox(
-                                        value: currentInput.isRewatching,
+                                        value: currentInput?.isRewatching ?? false,
                                         activeColor: AppTheme.of(context).accent,
                                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                         onChanged: (isRewatching) {
@@ -210,7 +210,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                     children: [
                                       AnimeEditDateSelection(
                                         label: 'Start Date',
-                                        value: currentInput.startDate,
+                                        value: currentInput?.startDate ?? '2000-01-01',
                                         dense: true,
                                         verticalPadding: sy(4),
                                         showTodaySetter: true,
@@ -221,7 +221,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       ),
                                       AnimeEditDateSelection(
                                         label: 'Finish Date',
-                                        value: currentInput.finishDate,
+                                        value: currentInput?.finishDate ?? '2000-01-01',
                                         dense: true,
                                         verticalPadding: sy(4),
                                         showTodaySetter: true,

@@ -373,4 +373,33 @@ class ApiService extends MomentumService {
       return null;
     }
   }
+
+  Future<AnimeDetails> getAnimeDetails(
+    int id, {
+    @required String accessToken,
+    @required String fields,
+    int timeout = 10000,
+  }) async {
+    try {
+      var path = 'https://api.myanimelist.net/v2/anime/$id';
+      var data = {
+        'fields': fields,
+      };
+      var response = await dio.get(
+        path,
+        queryParameters: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $accessToken',
+          },
+          receiveTimeout: timeout,
+          sendTimeout: timeout,
+        ),
+      );
+      return AnimeDetails.fromJson(response.data);
+    } catch (e) {
+      print(['ApiService.getAnimeDetails', e]);
+      return null;
+    }
+  }
 }

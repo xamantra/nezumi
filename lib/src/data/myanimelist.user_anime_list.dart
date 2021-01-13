@@ -140,11 +140,12 @@ class EntryNode {
     this.startSeason,
     this.averageEpisodeDuration,
     this.broadcast,
+    this.nsfw,
   });
 
   final int id;
   final String title;
-  final MainPicture mainPicture;
+  final MalPicture mainPicture;
   final String synopsis;
   final String startDate;
   final String endDate;
@@ -166,6 +167,7 @@ class EntryNode {
   final StartSeason startSeason;
   final int averageEpisodeDuration;
   final Broadcast broadcast;
+  final String nsfw;
 
   bool seasonMatch(String season) {
     return startSeason?.seasonMatch(season) ?? false;
@@ -174,7 +176,7 @@ class EntryNode {
   EntryNode copyWith({
     int id,
     String title,
-    MainPicture mainPicture,
+    MalPicture mainPicture,
     String synopsis,
     String startDate,
     String endDate,
@@ -196,6 +198,7 @@ class EntryNode {
     StartSeason startSeason,
     int averageEpisodeDuration,
     Broadcast broadcast,
+    String nsfw,
   }) =>
       EntryNode(
         id: id ?? this.id,
@@ -222,6 +225,7 @@ class EntryNode {
         startSeason: startSeason ?? this.startSeason,
         averageEpisodeDuration: averageEpisodeDuration ?? this.averageEpisodeDuration,
         broadcast: broadcast ?? this.broadcast,
+        nsfw: nsfw ?? this.nsfw,
       );
 
   factory EntryNode.fromRawJson(String str) => EntryNode.fromJson(json.decode(str));
@@ -231,7 +235,7 @@ class EntryNode {
   factory EntryNode.fromJson(Map<String, dynamic> json) => EntryNode(
         id: json["id"] == null ? null : json["id"],
         title: json["title"] == null ? null : json["title"],
-        mainPicture: json["main_picture"] == null ? null : MainPicture.fromJson(json["main_picture"]),
+        mainPicture: json["main_picture"] == null ? null : MalPicture.fromJson(json["main_picture"]),
         synopsis: json["synopsis"] == null ? null : json["synopsis"],
         startDate: json["start_date"] == null ? null : json["start_date"],
         endDate: json["end_date"] == null ? null : json["end_date"],
@@ -253,6 +257,7 @@ class EntryNode {
         startSeason: json["start_season"] == null ? null : StartSeason.fromJson(json["start_season"]),
         averageEpisodeDuration: json["average_episode_duration"] == null ? null : json["average_episode_duration"],
         broadcast: json["broadcast"] == null ? null : Broadcast.fromJson(json["broadcast"]),
+        nsfw: json["nsfw"] == null ? null : json["nsfw"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -280,5 +285,6 @@ class EntryNode {
         "start_season": startSeason == null ? null : startSeason.toJson(),
         "average_episode_duration": averageEpisodeDuration == null ? null : averageEpisodeDuration,
         "broadcast": broadcast == null ? null : broadcast.toJson(),
+        "nsfw": nsfw == null ? null : nsfw,
       };
 }

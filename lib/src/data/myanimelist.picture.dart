@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-class MainPicture {
-  MainPicture({
+class MalPicture {
+  MalPicture({
     this.medium,
     this.large,
   });
@@ -9,20 +9,20 @@ class MainPicture {
   final String medium;
   final String large;
 
-  MainPicture copyWith({
+  MalPicture copyWith({
     String medium,
     String large,
   }) =>
-      MainPicture(
+      MalPicture(
         medium: medium ?? this.medium,
         large: large ?? this.large,
       );
 
-  factory MainPicture.fromRawJson(String str) => MainPicture.fromJson(json.decode(str));
+  factory MalPicture.fromRawJson(String str) => MalPicture.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory MainPicture.fromJson(Map<String, dynamic> json) => MainPicture(
+  factory MalPicture.fromJson(Map<String, dynamic> json) => MalPicture(
         medium: json["medium"] == null ? null : json["medium"],
         large: json["large"] == null ? null : json["large"],
       );

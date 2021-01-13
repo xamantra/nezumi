@@ -2,10 +2,15 @@
 String allAnimeListParams({
   String type = 'list_status',
   List<String> omit = const [],
+  bool list_status_only = false,
 }) {
   var status = [list_status_status, list_status_score, list_status_num_episodes_watched, list_status_is_rewatching, list_status_updated_at, list_status_comments, list_status_tags, list_status_priority, list_status_num_times_rewatched, list_status_rewatch_value, list_status_start_date, list_status_finish_date]..removeWhere((x) => omit.any((y) => x == y));
 
-  var props = [synopsis, start_date, end_date, alternative_titles, num_episodes, status, genres, studios, producers, rating, source, mean, rank, popularity, num_list_users, num_scoring_users, created_at, updated_at, media_type, start_season, broadcast, average_episode_duration, background]..removeWhere((x) => omit.any((y) => x == y));
+  if (list_status_only) {
+    return '$type{${status.join(",")}}';
+  }
+
+  var props = [synopsis, start_date, end_date, alternative_titles, num_episodes, status, genres, studios, producers, rating, source, mean, rank, popularity, num_list_users, num_scoring_users, created_at, updated_at, media_type, start_season, broadcast, average_episode_duration, background, nsfw, pictures, related_anime, related_manga, recommendations, statistics]..removeWhere((x) => omit.any((y) => x == y));
 
   return '$type{${status.join(",")}},${props.join(",")}';
 }
@@ -46,3 +51,11 @@ const start_season = 'start_season';
 const broadcast = 'broadcast';
 const average_episode_duration = 'average_episode_duration';
 const background = 'background';
+
+// anime details
+const nsfw = 'nsfw';
+const pictures = 'pictures';
+const related_anime = 'related_anime';
+const related_manga = 'related_manga';
+const recommendations = 'recommendations';
+const statistics = 'statistics';

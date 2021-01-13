@@ -15,12 +15,32 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     );
   }
 
-  void setCurrentAnime(AnimeData anime) {
+  void setCurrentAnime(AnimeData anime) async {
+    model.update(animeData: anime, loading: true);
+    var details = await api.getAnimeDetails(
+      anime.node.id,
+      accessToken: accessToken,
+      fields: allAnimeListParams(
+        type: 'my_list_status',
+        list_status_only: true,
+      ),
+    );
+    var status = details.myListStatus;
     model.update(
-      animeData: anime,
-      currentInput: anime.listStatus,
+      currentInput: status,
       loading: false,
     );
+
+    sendEvent(AnimeUpdateRewatchEvent(status.numTimesRewatched));
+    sendEvent(AnimeUpdateEpisodesEvent(status.numEpisodesWatched));
+
+    var currentList = List<AnimeData>.from(mal.userAnimeList?.animeList ?? []);
+    var updated = anime.copyWith(listStatus: status);
+    var index = currentList.indexWhere((x) => x.node.id == anime.node.id);
+    currentList[index] = updated;
+    var newList = mal.userAnimeList.copyWith(data: currentList);
+    mal.update(userAnimeList: newList);
+    mal.controller.sortAnimeList();
   }
 
   void editInput(AnimeListStatus newValue) {
