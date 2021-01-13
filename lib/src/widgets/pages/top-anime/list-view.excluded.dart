@@ -9,7 +9,7 @@ import '../../../data/index.dart';
 import '../../../data/types/index.dart';
 import '../../../utils/index.dart';
 import '../../index.dart';
-import '../anime-list/index.dart';
+import '../../items/index.dart';
 import 'index.dart';
 
 class AnimeTopListExlcudedView extends StatelessWidget {

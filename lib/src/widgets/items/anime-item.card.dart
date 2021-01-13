@@ -2,30 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../data/index.dart';
-import '../../index.dart';
+import '../../components/anime-update/index.dart';
+import '../../data/index.dart';
+import '../../utils/index.dart';
+import '../index.dart';
+import '../pages/anime-list/index.dart';
 
-class AnimeGlobalItemCard extends StatelessWidget {
-  const AnimeGlobalItemCard({
+class AnimeItemCard extends StatelessWidget {
+  const AnimeItemCard({
     Key key,
     @required this.anime,
     this.compactMode = false,
-    this.selected = false,
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
-    this.onPressed,
-    this.onLongPress,
   }) : super(key: key);
 
-  final AnimeDataItem anime;
+  final AnimeData anime;
   final bool compactMode;
-  final bool selected;
   final bool editMode;
-  final Widget Function(BuildContext context, AnimeDataItem anime) leadBuilder;
-  final Widget Function(BuildContext context, AnimeDataItem anime) trailBuilder;
-  final void Function(AnimeDataItem anime) onPressed;
-  final void Function(AnimeDataItem anime) onLongPress;
+  final Widget Function(BuildContext context, AnimeData anime) leadBuilder;
+  final Widget Function(BuildContext context, AnimeData anime) trailBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +41,8 @@ class AnimeGlobalItemCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onTap: () {
-                  // TODO: add anime mode.
-                  // ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
-                  // dialog(context, EditAnimeDialog(anime: anime));
+                  ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
+                  dialog(context, EditAnimeDialog(anime: anime));
                 },
                 closeOnTap: false,
               ),
@@ -59,19 +55,10 @@ class AnimeGlobalItemCard extends StatelessWidget {
           child: Container(
             width: width,
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
-            color: selected ? AppTheme.of(context).text7 : Colors.transparent,
+            color: Colors.transparent,
             child: Ripple(
               padding: sy(compactMode ? 6 : 8),
-              onPressed: () {
-                if (onPressed != null) {
-                  onPressed(anime);
-                }
-              },
-              onLongPress: () {
-                if (onLongPress != null) {
-                  onLongPress(anime);
-                }
-              },
+              onPressed: () {},
               radius: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +93,6 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Text(
@@ -116,7 +102,6 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Flexible(
@@ -146,7 +131,6 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     Dot(color: AppTheme.of(context).text5),
                                     Text(
@@ -156,7 +140,6 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ]..addAll(anime.studios.map(
                                       (e) => Row(
@@ -169,7 +152,6 @@ class AnimeGlobalItemCard extends StatelessWidget {
                                               fontWeight: FontWeight.w300,
                                               fontSize: sy(7),
                                             ),
-                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),

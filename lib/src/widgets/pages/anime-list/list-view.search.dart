@@ -6,7 +6,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/anime-search/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
-import 'index.dart';
+import '../../items/index.dart';
 
 class AnimeSearchListView extends StatefulWidget {
   const AnimeSearchListView({
@@ -38,7 +38,12 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeItemCard(anime: anime, compactMode: compactMode);
+                  var inMyList = mal.inMyList(anime?.node?.id);
+                  return AnimeItemCard(
+                    anime: anime,
+                    compactMode: compactMode,
+                    editMode: inMyList,
+                  );
                 },
               );
             } else {
@@ -53,7 +58,12 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeGlobalItemCard(anime: anime, compactMode: compactMode);
+                  var inMyList = mal.inMyList(anime?.node?.id);
+                  return AnimeGlobalItemCard(
+                    anime: anime,
+                    compactMode: compactMode,
+                    editMode: inMyList,
+                  );
                 },
               );
             }

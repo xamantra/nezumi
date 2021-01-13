@@ -7,7 +7,7 @@ import '../../../components/anime-top/index.dart';
 import '../../../data/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
-import '../anime-list/index.dart';
+import '../../items/index.dart';
 import '../anime-list/tabs/anime-filter-widgets/index.dart';
 import 'index.dart';
 

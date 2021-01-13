@@ -2,25 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../components/anime-update/index.dart';
-import '../../../data/index.dart';
-import '../../../utils/index.dart';
-import '../../index.dart';
-import 'index.dart';
+import '../../data/index.dart';
+import '../index.dart';
 
-class AnimeItemCard extends StatelessWidget {
-  const AnimeItemCard({
+class AnimeGlobalItemCard extends StatelessWidget {
+  const AnimeGlobalItemCard({
     Key key,
     @required this.anime,
     this.compactMode = false,
+    this.selected = false,
+    this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
+    this.onPressed,
+    this.onLongPress,
   }) : super(key: key);
 
-  final AnimeData anime;
+  final AnimeDataItem anime;
   final bool compactMode;
-  final Widget Function(BuildContext context, AnimeData anime) leadBuilder;
-  final Widget Function(BuildContext context, AnimeData anime) trailBuilder;
+  final bool selected;
+  final bool editMode;
+  final Widget Function(BuildContext context, AnimeDataItem anime) leadBuilder;
+  final Widget Function(BuildContext context, AnimeDataItem anime) trailBuilder;
+  final void Function(AnimeDataItem anime) onPressed;
+  final void Function(AnimeDataItem anime) onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +39,14 @@ class AnimeItemCard extends StatelessWidget {
               child: IconSlideAction(
                 color: Colors.transparent,
                 iconWidget: Icon(
-                  Icons.edit,
+                  editMode ? Icons.edit : Icons.add,
                   size: sy(20),
                   color: Colors.blue,
                 ),
                 onTap: () {
-                  ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
-                  dialog(context, EditAnimeDialog(anime: anime));
+                  // TODO: add anime mode.
+                  // ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
+                  // dialog(context, EditAnimeDialog(anime: anime));
                 },
                 closeOnTap: false,
               ),
@@ -53,10 +59,19 @@ class AnimeItemCard extends StatelessWidget {
           child: Container(
             width: width,
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
-            color: Colors.transparent,
+            color: selected ? AppTheme.of(context).text7 : Colors.transparent,
             child: Ripple(
               padding: sy(compactMode ? 6 : 8),
-              onPressed: () {},
+              onPressed: () {
+                if (onPressed != null) {
+                  onPressed(anime);
+                }
+              },
+              onLongPress: () {
+                if (onLongPress != null) {
+                  onLongPress(anime);
+                }
+              },
               radius: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,6 +106,7 @@ class AnimeItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Text(
@@ -100,6 +116,7 @@ class AnimeItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Flexible(
@@ -129,6 +146,7 @@ class AnimeItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     Dot(color: AppTheme.of(context).text5),
                                     Text(
@@ -138,6 +156,7 @@ class AnimeItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ]..addAll(anime.studios.map(
                                       (e) => Row(
@@ -150,6 +169,7 @@ class AnimeItemCard extends StatelessWidget {
                                               fontWeight: FontWeight.w300,
                                               fontSize: sy(7),
                                             ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),

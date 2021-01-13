@@ -6,7 +6,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/my_anime_list/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
-import 'index.dart';
+import '../../items/index.dart';
 
 class AnimeListView extends StatefulWidget {
   const AnimeListView({
