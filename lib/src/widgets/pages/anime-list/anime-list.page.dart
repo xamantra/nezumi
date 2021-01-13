@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../components/app/index.dart';
+import '../../../mixins/index.dart';
 import '../../index.dart';
+import '../../items/index.dart';
 import 'tabs/index.dart';
 
 class AnimeListPage extends StatefulWidget {
@@ -11,13 +15,22 @@ class AnimeListPage extends StatefulWidget {
   _AnimeListPageState createState() => _AnimeListPageState();
 }
 
-class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProviderStateMixin {
+class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProviderStateMixin, CoreStateMixin {
   TabController tabController;
+
+  int currentTab;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(length: 4, vsync: this);
+    currentTab = tabController.index;
+    tabController.addListener(() {
+      if (currentTab != tabController.index) {
+        currentTab = tabController.index;
+        app.triggerRebuild();
+      }
+    });
   }
 
   @override
@@ -50,36 +63,49 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
               /* Pages Container */
 
               /* Tabs */
-              Container(
-                height: sy(42),
-                width: width,
-                color: AppTheme.of(context).primaryBackground,
-                child: TabBar(
-                  controller: tabController,
-                  labelStyle: TextStyle(
-                    fontSize: sy(8),
-                  ),
-                  indicatorWeight: 3,
-                  indicatorColor: AppTheme.of(context).primary,
-                  tabs: [
-                    Tab(
-                      text: 'My List',
-                      icon: Icon(CustomIcons.th, size: sy(9)),
+              MomentumBuilder(
+                controllers: [AppController],
+                builder: (context, snapshot) {
+                  return Container(
+                    height: sy(32),
+                    width: width,
+                    color: AppTheme.of(context).primaryBackground,
+                    child: TabBar(
+                      controller: tabController,
+                      labelStyle: TextStyle(
+                        fontSize: sy(8),
+                      ),
+                      indicatorWeight: 0,
+                      indicatorColor: AppTheme.of(context).primary,
+                      indicator: BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                      tabs: [
+                        TabItemBottom(
+                          active: tabController.index == 0,
+                          icon: CustomIcons.th,
+                          iconSize: sy(10),
+                          label: 'My List',
+                        ),
+                        TabItemBottom(
+                          active: tabController.index == 1,
+                          icon: Icons.search,
+                          label: 'Search',
+                        ),
+                        TabItemBottom(
+                          active: tabController.index == 2,
+                          icon: Icons.filter_list,
+                          label: 'Filter',
+                        ),
+                        TabItemBottom(
+                          active: tabController.index == 3,
+                          icon: Icons.trending_up,
+                          label: 'Stats',
+                        ),
+                      ],
                     ),
-                    Tab(
-                      text: 'Search',
-                      icon: Icon(Icons.search, size: sy(13)),
-                    ),
-                    Tab(
-                      text: 'Filter',
-                      icon: Icon(Icons.filter_list, size: sy(13)),
-                    ),
-                    Tab(
-                      text: 'Stats',
-                      icon: Icon(Icons.trending_up, size: sy(13)),
-                    ),
-                  ],
-                ),
+                  );
+                },
               ),
               /* Tabs */
             ],
