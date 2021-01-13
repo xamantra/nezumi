@@ -99,6 +99,39 @@ class AnimeData {
     );
   }
 
+  static AnimeData copyFromDetails(AnimeDetails details) {
+    return AnimeData(
+      node: EntryNode(
+        id: details.id,
+        title: details.title,
+        mainPicture: details.mainPicture,
+        synopsis: details.synopsis,
+        startDate: details.startDate,
+        endDate: details.endDate,
+        alternativeTitles: details.alternativeTitles,
+        numEpisodes: details.numEpisodes,
+        status: details.status,
+        genres: details.genres,
+        studios: details.studios,
+        rating: details.rating,
+        source: details.source,
+        mean: details.mean,
+        rank: details.rank,
+        popularity: details.popularity,
+        numListUsers: details.numListUsers,
+        numScoringUsers: details.numScoringUsers,
+        createdAt: details.createdAt,
+        updatedAt: details.updatedAt,
+        mediaType: details.mediaType,
+        startSeason: details.startSeason,
+        averageEpisodeDuration: details.averageEpisodeDuration,
+        broadcast: details.broadcast,
+        nsfw: details.nsfw,
+      ),
+      listStatus: details.myListStatus,
+    );
+  }
+
   factory AnimeData.fromRawJson(String str) => AnimeData.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());

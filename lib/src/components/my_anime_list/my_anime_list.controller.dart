@@ -51,7 +51,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
-        customFields: allAnimeListParams(omit: [synopsis, background]),
+        customFields: allAnimeListParams(omit: omitList1),
         timeout: 360000,
       );
       model.update(userAnimeList: result, loadingAnimeList: false);
@@ -74,7 +74,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
         status: status,
-        customFields: allAnimeListParams(omit: [synopsis, background]),
+        customFields: allAnimeListParams(omit: omitList1),
         timeout: 360000,
       );
       var newlyLoaded = result?.animeList ?? [];

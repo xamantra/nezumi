@@ -59,3 +59,15 @@ const related_anime = 'related_anime';
 const related_manga = 'related_manga';
 const recommendations = 'recommendations';
 const statistics = 'statistics';
+
+// omit list
+const omitList1 = [
+  synopsis,
+  alternative_titles,
+  background,
+  pictures,
+  related_anime,
+  related_manga,
+  recommendations,
+  statistics,
+];

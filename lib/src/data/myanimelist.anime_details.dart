@@ -71,6 +71,14 @@ class AnimeDetails {
   final List<Genre> studios;
   final AnimeDetailStatistics statistics;
 
+  String get realEpisodeCount {
+    try {
+      return numEpisodes == 0 ? '?' : numEpisodes?.toString() ?? '?';
+    } catch (e) {
+      return '';
+    }
+  }
+
   AnimeDetails copyWith({
     int id,
     String title,

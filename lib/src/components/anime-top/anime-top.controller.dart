@@ -498,7 +498,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'all',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopAll: false, topAll: result);
   }
@@ -510,7 +510,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'airing',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopAiring: false, topAiring: result);
   }
@@ -522,7 +522,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'upcoming',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopUpcoming: false, topUpcoming: result);
   }
@@ -534,7 +534,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'tv',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopTV: false, topTV: result);
   }
@@ -546,7 +546,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'movie',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopMovies: false, topMovies: result);
   }
@@ -558,7 +558,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'ova',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopOVA: false, topOVA: result);
   }
@@ -570,7 +570,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'special',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopSpecials: false, topSpecials: result);
   }
@@ -582,7 +582,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'bypopularity',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopPopularity: false, topPopularity: result);
   }
@@ -594,7 +594,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: 'favorite',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     model.update(loadingTopFavorites: false, topFavorites: result);
   }
@@ -608,7 +608,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       timeout: 30000,
       year: year,
       season: 'winter',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year winter": ${winter?.data?.length ?? 0} entries');
 
@@ -617,7 +617,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       timeout: 30000,
       year: year,
       season: 'spring',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year spring": ${spring?.data?.length ?? 0} entries');
 
@@ -626,7 +626,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       timeout: 30000,
       year: year,
       season: 'summer',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year summer": ${summer?.data?.length ?? 0} entries');
 
@@ -635,7 +635,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       timeout: 30000,
       year: year,
       season: 'fall',
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year fall": ${fall?.data?.length ?? 0} entries');
 

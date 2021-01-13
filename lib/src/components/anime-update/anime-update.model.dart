@@ -6,24 +6,32 @@ import 'index.dart';
 class AnimeUpdateModel extends MomentumModel<AnimeUpdateController> {
   AnimeUpdateModel(
     AnimeUpdateController controller, {
-    this.animeData,
+    this.id,
+    this.title,
+    this.animeDetails,
     this.currentInput,
     this.loading,
   }) : super(controller);
 
-  final AnimeData animeData;
+  final int id;
+  final String title;
+  final AnimeDetails animeDetails;
   final AnimeListStatus currentInput;
   final bool loading;
 
   @override
   void update({
-    AnimeData animeData,
+    int id,
+    String title,
+    AnimeDetails animeDetails,
     AnimeListStatus currentInput,
     bool loading,
   }) {
     AnimeUpdateModel(
       controller,
-      animeData: animeData ?? this.animeData,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      animeDetails: animeDetails ?? this.animeDetails,
       currentInput: currentInput ?? this.currentInput,
       loading: loading ?? this.loading,
     ).updateMomentum();

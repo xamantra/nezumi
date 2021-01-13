@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../components/anime-update/index.dart';
 import '../../data/index.dart';
+import '../../utils/index.dart';
 import '../index.dart';
+import '../pages/anime-list/index.dart';
 
 class AnimeGlobalItemCard extends StatelessWidget {
   const AnimeGlobalItemCard({
@@ -44,9 +47,11 @@ class AnimeGlobalItemCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onTap: () {
-                  // TODO: add anime mode.
-                  // ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
-                  // dialog(context, EditAnimeDialog(anime: anime));
+                  ctrl<AnimeUpdateController>(context).setCurrentAnime(
+                    id: anime.node.id,
+                    title: anime.node.title,
+                  );
+                  dialog(context, EditAnimeDialog());
                 },
                 closeOnTap: false,
               ),

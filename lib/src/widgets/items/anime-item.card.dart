@@ -41,8 +41,11 @@ class AnimeItemCard extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 onTap: () {
-                  ctrl<AnimeUpdateController>(context).setCurrentAnime(anime);
-                  dialog(context, EditAnimeDialog(anime: anime));
+                  ctrl<AnimeUpdateController>(context).setCurrentAnime(
+                    id: anime.node.id,
+                    title: anime.node.title,
+                  );
+                  dialog(context, EditAnimeDialog());
                 },
                 closeOnTap: false,
               ),

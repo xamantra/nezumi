@@ -3,25 +3,19 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-update/index.dart';
-import '../../../data/index.dart';
 import '../../../mixins/index.dart';
 import '../../../utils/index.dart';
 import '../../index.dart';
 import 'index.dart';
 
 class EditAnimeDialog extends StatefulWidget {
-  const EditAnimeDialog({
-    Key key,
-    this.anime,
-  }) : super(key: key);
-
-  final AnimeData anime;
+  const EditAnimeDialog({Key key}) : super(key: key);
 
   @override
-  _EditAnimeDialogState createState() => _EditAnimeDialogState();
+  _EditAnimeGlobalDialogState createState() => _EditAnimeGlobalDialogState();
 }
 
-class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStateMixin {
+class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with CoreStateMixin {
   TextEditingController rewatchTextController;
   TextEditingController episodesTextController;
 
@@ -56,10 +50,10 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
             controllers: [AnimeUpdateController],
             builder: (context, snapshot) {
               var controller = animeUpdate.controller;
-              var anime = animeUpdate.animeData;
+              var anime = animeUpdate.animeDetails;
               var currentInput = animeUpdate.currentInput;
               var status = currentInput?.status;
-              var currentAnimeId = animeUpdate.animeData?.node?.id;
+              var currentAnimeId = animeUpdate.animeDetails?.id;
               var loading = animeUpdate.loading;
               var canEditFinishDate = status == 'completed' || status == 'dropped';
               var canEditRewatching = status == 'completed';
@@ -76,7 +70,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      anime?.node?.title ?? '',
+                      animeUpdate?.title ?? '',
                       style: TextStyle(
                         color: AppTheme.of(context).text3,
                         fontWeight: FontWeight.w600,
@@ -109,7 +103,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                   dense: true,
                                   color: AppTheme.of(context).accent,
                                   onChanged: (newStatus) {
-                                    var animeStatus = anime.node.status;
+                                    var animeStatus = anime.status;
                                     if (newStatus == 'completed' && animeStatus == 'currently_airing') {
                                       showToast(
                                         'Cannot set as completed a currently airing show.',
@@ -210,7 +204,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                     children: [
                                       AnimeEditDateSelection(
                                         label: 'Start Date',
-                                        value: currentInput?.startDate ?? '2000-01-01',
+                                        value: currentInput?.startDate,
                                         dense: true,
                                         verticalPadding: sy(4),
                                         showTodaySetter: true,
@@ -221,7 +215,7 @@ class _EditAnimeDialogState extends MomentumState<EditAnimeDialog> with CoreStat
                                       ),
                                       AnimeEditDateSelection(
                                         label: 'Finish Date',
-                                        value: currentInput?.finishDate ?? '2000-01-01',
+                                        value: currentInput?.finishDate,
                                         dense: true,
                                         verticalPadding: sy(4),
                                         showTodaySetter: true,

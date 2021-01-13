@@ -47,7 +47,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     var result = await api.animeSearch(
       accessToken: accessToken,
       query: model.query,
-      fields: allAnimeListParams(type: 'my_list_status', omit: [synopsis, background]),
+      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
 
     var results = result?.data ?? [];
