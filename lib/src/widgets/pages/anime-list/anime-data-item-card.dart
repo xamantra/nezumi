@@ -119,14 +119,16 @@ class AnimeGlobalItemCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
-                            Text(
-                              '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
-                              style: TextStyle(
-                                color: AppTheme.of(context).text4,
-                                fontWeight: FontWeight.w300,
-                                fontSize: sy(7),
+                            Flexible(
+                              child: Text(
+                                '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
+                                style: TextStyle(
+                                  color: AppTheme.of(context).text4,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: sy(7),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
