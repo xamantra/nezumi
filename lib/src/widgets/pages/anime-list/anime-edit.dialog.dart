@@ -55,6 +55,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
               var status = currentInput?.status;
               var currentAnimeId = animeUpdate.animeDetails?.id;
               var loading = animeUpdate.loading;
+              var canEditStartDate = status != 'plan_to_watch';
               var canEditFinishDate = status == 'completed' || status == 'dropped';
               var canEditRewatching = status == 'completed';
 
@@ -209,6 +210,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                         verticalPadding: sy(4),
                                         showTodaySetter: true,
                                         showClear: true,
+                                        enabled: canEditStartDate ? true : false,
                                         onChanged: (newStartDate) {
                                           controller.editStartDate(newStartDate);
                                         },
