@@ -27,7 +27,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.loadingTopFavorites,
     this.selectedYear,
     // this.filteredYearlyRankings,
-    this.selectedYearRankings,
+    // this.selectedYearRankings,
     this.yearlyRankingsCache,
     this.loadingYearlyRankings,
     this.yearlyRankingOrderBy,
@@ -62,7 +62,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   // yearly rankings
   final int selectedYear;
   // final List<AnimeDataItem> filteredYearlyRankings;
-  final List<AnimeDataItem> selectedYearRankings;
+  // final List<AnimeDataItem> selectedYearRankings;
   final List<YearlyAnimeRankingsCache> yearlyRankingsCache;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
@@ -70,6 +70,12 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   List<AnimeDataItem> getRankingByYear(int year) {
     var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
     var result = List<AnimeDataItem>.from(find?.rankings ?? []);
+    return result;
+  }
+
+  List<AnimeDataItem> getAllEntriesYear(int year) {
+    var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
+    var result = List<AnimeDataItem>.from(find?.allYearEntries ?? []);
     return result;
   }
 
@@ -160,7 +166,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopFavorites,
     int selectedYear,
     // List<AnimeDataItem> filteredYearlyRankings,
-    List<AnimeDataItem> selectedYearRankings,
+    // List<AnimeDataItem> selectedYearRankings,
     List<YearlyAnimeRankingsCache> yearlyRankingsCache,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
@@ -193,7 +199,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       loadingTopFavorites: loadingTopFavorites ?? this.loadingTopFavorites,
       selectedYear: selectedYear ?? this.selectedYear,
       // filteredYearlyRankings: filteredYearlyRankings ?? this.filteredYearlyRankings,
-      selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
+      // selectedYearRankings: selectedYearRankings ?? this.selectedYearRankings,
       yearlyRankingsCache: yearlyRankingsCache ?? this.yearlyRankingsCache,
       loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
       yearlyRankingOrderBy: yearlyRankingOrderBy ?? this.yearlyRankingOrderBy,
