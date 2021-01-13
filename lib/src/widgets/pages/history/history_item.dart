@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:relative_scale/relative_scale.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../data/index.dart';
 import '../../../mixins/index.dart';
@@ -18,10 +19,15 @@ class HistoryItem extends StatefulWidget {
 class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
-    var requiredMinsPerEp = settings.requiredMinsPerEp;
-    var reqMet = widget.history.durationMins >= requiredMinsPerEp;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
+        String ago;
+        var diff = DateTime.now().difference(widget.history.timestamp).abs();
+        if (diff.inHours <= 18) {
+          ago = timeago.format(widget.history.timestamp);
+        } else {
+          ago = DateFormat('MMM dd, H:mm a').format(widget.history.timestamp);
+        }
         return Column(
           children: [
             FlatButton(
@@ -32,7 +38,7 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
                 title: Text(
                   widget.history.title,
                   style: TextStyle(
-                    color: !reqMet ? Colors.red.withOpacity(0.6) : AppTheme.of(context).text3,
+                    color: AppTheme.of(context).text3,
                     fontWeight: FontWeight.w400,
                     fontSize: sy(8),
                   ),
@@ -42,16 +48,16 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
                     Text(
                       'Episode ${widget.history.episode}',
                       style: TextStyle(
-                        color: !reqMet ? Colors.red.withOpacity(0.6) : AppTheme.of(context).text3,
+                        color: AppTheme.of(context).text3,
                         fontWeight: FontWeight.w300,
                         fontSize: sy(7),
                       ),
                     ),
                     Dot(color: AppTheme.of(context).text3),
                     Text(
-                      DateFormat('MMM dd, H:mm a').format(widget.history.timestamp),
+                      ago,
                       style: TextStyle(
-                        color: !reqMet ? Colors.red.withOpacity(0.6) : AppTheme.of(context).text3,
+                        color: AppTheme.of(context).text3,
                         fontWeight: FontWeight.w300,
                         fontSize: sy(7),
                       ),
@@ -61,7 +67,7 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
                 trailing: Text(
                   '${widget.history.durationMins} mins.',
                   style: TextStyle(
-                    color: !reqMet ? Colors.red.withOpacity(0.6) : AppTheme.of(context).text3,
+                    color: AppTheme.of(context).text3,
                     fontWeight: FontWeight.w400,
                     fontSize: sy(8),
                     fontStyle: FontStyle.italic,

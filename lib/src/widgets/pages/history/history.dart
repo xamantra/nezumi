@@ -56,6 +56,7 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
               builder: (context, snapshot) {
                 var loading = mal.loading;
                 var historyGroup = mal?.controller?.getGroupedHistoryData();
+                var requiredHoursMet = (mal?.controller?.requiredHoursMet() ?? false);
                 return loading
                     ? Loader()
                     : Container(
@@ -87,20 +88,31 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: [
-                                  StatItem(
-                                    value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
-                                    label: 'Hrs/day',
-                                    valueColor: (mal?.controller?.requiredHoursMet() ?? false) ? Colors.green : Colors.red,
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        !requiredHoursMet ? Icons.error_outline : Icons.check_circle,
+                                        size: sy(10),
+                                        color: !requiredHoursMet ? Colors.red : Colors.green,
+                                      ),
+                                      SizedBox(width: sy(2)),
+                                      StatItem(
+                                        value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
+                                        label: 'Hrs/day',
+                                        valueColor: requiredHoursMet ? Colors.green : Colors.red,
+                                      ),
+                                    ],
                                   ),
                                   StatItem(
                                     value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
                                     label: 'Mins/ep',
-                                    valueColor: (mal?.controller?.requiredMinsMet() ?? false) ? Colors.green : Colors.red,
+                                    valueColor: AppTheme.of(context).accent,
                                   ),
                                   StatItem(
                                     value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
                                     label: 'Eps/day',
-                                    valueColor: (mal?.controller?.requiredEpsMet() ?? false) ? Colors.green : Colors.red,
+                                    valueColor: AppTheme.of(context).accent,
                                   ),
                                 ],
                               ),

@@ -48,6 +48,7 @@ dependencies:
   date_util: 0.1.4
   fluttertoast: 7.1.6
   number_display: 2.3.0
+  timeago: 2.0.29
 
 dev_dependencies:
   flutter_test:
