@@ -63,9 +63,9 @@ class AnimeData {
       return false;
     }
     var source = node.title;
-    source += '\n${node.alternativeTitles.en ?? ""}';
-    source += '\n${node.alternativeTitles.ja ?? ""}';
-    (node.alternativeTitles.synonyms ?? []).forEach((title) {
+    source += '\n${node.alternativeTitles?.en ?? ""}';
+    source += '\n${node.alternativeTitles?.ja ?? ""}';
+    (node.alternativeTitles?.synonyms ?? []).forEach((title) {
       source += '\n${title ?? ""}';
     });
     return (source ?? '').toLowerCase().contains(query?.toLowerCase() ?? '') ?? false;

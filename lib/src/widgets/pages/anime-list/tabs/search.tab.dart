@@ -3,6 +3,7 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-search/index.dart';
+import '../../../../components/app/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../index.dart';
 import '../index.dart';
@@ -18,10 +19,19 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
   TabController tabController;
   TextEditingController searchInputController;
 
+  int currentTab;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    currentTab = tabController.index;
+    tabController.addListener(() {
+      if (currentTab != tabController.index) {
+        currentTab = tabController.index;
+        app.triggerRebuild();
+      }
+    });
     mal?.controller?.initializeAnimeList();
     searchInputController = TextEditingController(text: animeSearch.query);
   }
@@ -42,85 +52,78 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                   height: sy(42),
                   leadingIcon: Icons.menu,
                   title: 'Anime Search',
+                  titleWidget: Center(
+                    child: SizedBox(
+                      width: width,
+                      child: TextFormField(
+                        controller: searchInputController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: underlineInputBorder,
+                          enabledBorder: underlineInputBorder,
+                          focusedBorder: underlineInputBorder,
+                          hintText: 'Type here to search...',
+                        ),
+                        style: TextStyle(
+                          color: AppTheme.of(context).text1,
+                          fontSize: sy(13),
+                        ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        onChanged: (query) {
+                          animeSearch.controller.search(query);
+                        },
+                        onFieldSubmitted: (query) {
+                          animeSearch.controller.submitMALSearch();
+                        },
+                      ),
+                    ),
+                  ),
                   actions: [
-                    // TODO: grid and list view mode switcher
-                    ToolbarAction(icon: Icons.view_list),
+                    ToolbarAction(
+                      icon: Icons.close,
+                      onPressed: () {
+                        searchInputController.clear();
+                        searchInputController.clearComposing();
+                        animeSearch.controller.search('');
+                        animeSearch.controller.submitMALSearch();
+                      },
+                    ),
+                    ToolbarAction(icon: Icons.view_list), // TODO: grid and list view mode switcher
                   ],
                   leadingAction: () {
                     Scaffold.of(context).openDrawer();
                   },
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: sy(8)),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: SizedBox(
-                          width: sy(150),
-                          child: TextFormField(
-                            controller: searchInputController,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              border: underlineInputBorder,
-                              enabledBorder: underlineInputBorder,
-                              focusedBorder: underlineInputBorder,
-                              hintText: 'Type here to search...',
-                            ),
-                            style: TextStyle(
-                              color: AppTheme.of(context).text1,
-                              fontSize: sy(13),
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            onChanged: (query) {
-                              animeSearch.controller.search(query);
-                            },
-                            onFieldSubmitted: (query) {
-                              animeSearch.controller.submitMALSearch();
-                            },
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: SizedButton(
-                          height: sy(24),
-                          width: sy(24),
-                          radius: 100,
-                          child: Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: sy(14),
-                          ),
-                          onPressed: () {
-                            searchInputController.clear();
-                            searchInputController.clearComposing();
-                            animeSearch.controller.search('');
-                            animeSearch.controller.submitMALSearch();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 MomentumBuilder(
-                  controllers: [AnimeSearchController],
+                  controllers: [AnimeSearchController, AppController],
                   builder: (context, snapshot) {
                     var list = animeSearch?.listResults ?? [];
                     var malResults = animeSearch?.results ?? [];
 
                     return Container(
+                      height: sy(30),
                       width: width,
                       color: AppTheme.of(context).primary,
                       padding: EdgeInsets.symmetric(horizontal: sy(8)),
                       child: TabBar(
                         controller: tabController,
                         labelColor: Colors.white,
-                        indicatorColor: Colors.white,
+                        labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
+                        indicatorPadding: EdgeInsets.zero,
+                        indicatorColor: Colors.transparent,
                         physics: BouncingScrollPhysics(),
                         tabs: [
-                          MyListTabItem(label: 'My List Results', count: list.length),
-                          MyListTabItem(label: 'MAL Results', count: malResults.length),
+                          MyListTabItem(
+                            label: 'My List Results',
+                            count: list.length,
+                            active: currentTab == 0,
+                          ),
+                          MyListTabItem(
+                            label: 'MAL Results',
+                            count: malResults.length,
+                            active: currentTab == 1,
+                          ),
                         ],
                       ),
                     );

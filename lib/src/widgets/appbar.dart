@@ -12,12 +12,14 @@ class Toolbar extends StatelessWidget with PreferredSizeWidget {
     this.actions = const [],
     this.leadingIcon,
     this.leadingAction,
+    this.titleWidget,
   }) : super(key: key);
 
   final double height;
   final IconData leadingIcon;
   final void Function() leadingAction;
   final String title;
+  final Widget titleWidget;
   final double actionSpacing;
   final List<Widget> actions;
 
@@ -47,17 +49,19 @@ class Toolbar extends StatelessWidget with PreferredSizeWidget {
                         ),
                         onPressed: leadingAction ?? () {},
                       ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: sy(14),
-                    ),
-                  ),
-                ),
-                Spacer(),
+                titleWidget != null
+                    ? Expanded(child: titleWidget)
+                    : Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: sy(14),
+                          ),
+                        ),
+                      ),
+                titleWidget != null ? SizedBox() : Spacer(),
               ]..addAll((actions ?? [])
                   .map<Widget>(
                     (e) => Padding(
