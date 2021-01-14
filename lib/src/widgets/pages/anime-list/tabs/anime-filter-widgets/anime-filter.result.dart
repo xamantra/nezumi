@@ -17,6 +17,7 @@ class AnimeFilterResultView extends StatefulWidget {
 class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
+    var compactMode = appSettings.compactMode;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -84,7 +85,10 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                     itemCount: list.length,
                     itemBuilder: (context, index) {
                       var anime = list[index];
-                      return AnimeItemCard(anime: anime);
+                      return AnimeItemCard(
+                        anime: anime,
+                        compactMode: compactMode,
+                      );
                     },
                   ),
                 ),

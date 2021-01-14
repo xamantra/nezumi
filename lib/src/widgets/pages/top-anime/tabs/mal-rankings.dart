@@ -3,6 +3,7 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-top/index.dart';
+import '../../../../components/app/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../builders/index.dart';
 import '../../../index.dart';
@@ -18,10 +19,19 @@ class MalAnimeRankingPage extends StatefulWidget {
 class _MalAnimeRankingPageState extends State<MalAnimeRankingPage> with CoreStateMixin, SingleTickerProviderStateMixin {
   TabController tabController;
 
+  int currentTab;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(length: 9, vsync: this);
+    currentTab = tabController.index;
+    tabController.addListener(() {
+      if (currentTab != tabController.index) {
+        currentTab = tabController.index;
+        app.triggerRebuild();
+      }
+    });
   }
 
   @override
@@ -55,25 +65,33 @@ class _MalAnimeRankingPageState extends State<MalAnimeRankingPage> with CoreStat
                     },
                   ),
                   Container(
+                    height: sy(30),
                     color: AppTheme.of(context).primary,
                     padding: EdgeInsets.symmetric(horizontal: sy(6)),
-                    child: TabBar(
-                      controller: tabController,
-                      isScrollable: true,
-                      labelColor: Colors.white,
-                      indicatorColor: Colors.white,
-                      physics: BouncingScrollPhysics(),
-                      tabs: [
-                        MyListTabItem(label: 'All'),
-                        MyListTabItem(label: 'Airing'),
-                        MyListTabItem(label: 'Upcoming'),
-                        MyListTabItem(label: 'TV Series'),
-                        MyListTabItem(label: 'Movies'),
-                        MyListTabItem(label: 'OVAs'),
-                        MyListTabItem(label: 'Specials'),
-                        MyListTabItem(label: 'Popularity'),
-                        MyListTabItem(label: 'Favorited'),
-                      ],
+                    child: MomentumBuilder(
+                      controllers: [AppController],
+                      builder: (context, snapshot) {
+                        return TabBar(
+                          controller: tabController,
+                          isScrollable: true,
+                          physics: BouncingScrollPhysics(),
+                          labelColor: Colors.white,
+                          labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
+                          indicatorPadding: EdgeInsets.zero,
+                          indicatorColor: Colors.transparent,
+                          tabs: [
+                            MyListTabItem(label: 'All', active: currentTab == 0),
+                            MyListTabItem(label: 'Airing', active: currentTab == 1),
+                            MyListTabItem(label: 'Upcoming', active: currentTab == 2),
+                            MyListTabItem(label: 'TV Series', active: currentTab == 3),
+                            MyListTabItem(label: 'Movies', active: currentTab == 4),
+                            MyListTabItem(label: 'OVAs', active: currentTab == 5),
+                            MyListTabItem(label: 'Specials', active: currentTab == 6),
+                            MyListTabItem(label: 'Popularity', active: currentTab == 7),
+                            MyListTabItem(label: 'Favorited', active: currentTab == 8),
+                          ],
+                        );
+                      },
                     ),
                   ),
                   Expanded(

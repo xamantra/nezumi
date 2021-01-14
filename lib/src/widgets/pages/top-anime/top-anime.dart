@@ -3,8 +3,10 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-top/index.dart';
+import '../../../components/app/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
+import '../../items/index.dart';
 import 'tabs/index.dart';
 
 class TopAnimePage extends StatefulWidget {
@@ -17,10 +19,19 @@ class TopAnimePage extends StatefulWidget {
 class _TopAnimePageState extends State<TopAnimePage> with CoreStateMixin, SingleTickerProviderStateMixin {
   TabController tabController;
 
+  int currentTab;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     tabController = TabController(length: 2, vsync: this);
+    currentTab = tabController.index;
+    tabController.addListener(() {
+      if (currentTab != tabController.index) {
+        currentTab = tabController.index;
+        app.triggerRebuild();
+      }
+    });
   }
 
   @override
@@ -59,13 +70,13 @@ class _TopAnimePageState extends State<TopAnimePage> with CoreStateMixin, Single
 
                 /* Tabs */
                 MomentumBuilder(
-                  controllers: [AnimeTopController],
+                  controllers: [AnimeTopController, AppController],
                   builder: (context, snapshot) {
                     if (animeTop.fullscreen) {
                       return SizedBox();
                     }
                     return Container(
-                      height: sy(42),
+                      height: sy(32),
                       width: width,
                       color: AppTheme.of(context).primaryBackground,
                       child: TabBar(
@@ -74,15 +85,22 @@ class _TopAnimePageState extends State<TopAnimePage> with CoreStateMixin, Single
                           fontSize: sy(8),
                         ),
                         indicatorWeight: 3,
-                        indicatorColor: AppTheme.of(context).primary,
+                        labelColor: Colors.white,
+                        labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
+                        indicatorPadding: EdgeInsets.zero,
+                        indicatorColor: Colors.transparent,
+                        physics: BouncingScrollPhysics(),
                         tabs: [
-                          Tab(
-                            text: 'MAL Rankings',
-                            icon: Icon(CustomIcons.award, size: sy(13)),
+                          TabItemBottom(
+                            active: currentTab == 0,
+                            icon: CustomIcons.award,
+                            iconSize: sy(12),
+                            label: 'MAL Rankings',
                           ),
-                          Tab(
-                            text: 'Yearly Rankings',
-                            icon: Icon(Icons.calendar_today_sharp, size: sy(13)),
+                          TabItemBottom(
+                            active: currentTab == 1,
+                            icon: Icons.calendar_today_sharp,
+                            label: 'Yearly Rankings',
                           ),
                         ],
                       ),

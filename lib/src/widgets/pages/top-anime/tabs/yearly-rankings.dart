@@ -116,6 +116,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                         scale: animeTop.fullscreen ? 0.8 : 1,
                         builder: (context, height, width, sy, sx) {
                           return Container(
+                            height: sy(30),
                             color: animeTop.fullscreen ? Colors.transparent : AppTheme.of(context).primary,
                             padding: EdgeInsets.symmetric(horizontal: sy(6)),
                             child: Row(
@@ -128,6 +129,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   enabled: !animeTop.loadingYearlyRankings,
                                   child: Icon(
                                     Icons.chevron_left,
+                                    size: sy(16),
                                   ),
                                   onPressed: () {
                                     animeTop.controller.prevYear();
@@ -165,6 +167,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   enabled: !animeTop.loadingYearlyRankings,
                                   child: Icon(
                                     Icons.chevron_right,
+                                    size: sy(16),
                                   ),
                                   onPressed: () {
                                     animeTop.controller.nextYear();
@@ -172,6 +175,8 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                 ),
                                 ToolbarAction(
                                   icon: orderByIcon,
+                                  size: sy(32),
+                                  iconSize: sy(13),
                                   tooltip: orderBy,
                                   onPressed: () {
                                     animeTop.controller.toggleOrderBy();
@@ -179,6 +184,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                 ),
                                 YearlyAnimeRankingSortMenu(
                                   value: animeTop.yearlyRankingSortBy,
+                                  iconSize: sy(10),
                                   orderByIcon: sortByIcon,
                                   onChanged: (sortBy) {
                                     animeTop.controller.changeSortBy(sortBy);
@@ -186,6 +192,8 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                 ),
                                 ToolbarAction(
                                   icon: Icons.remove_red_eye,
+                                  size: sy(32),
+                                  iconSize: sy(13),
                                   tooltip: 'View excluded',
                                   onPressed: () {
                                     push(
@@ -199,6 +207,8 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                 ),
                                 ToolbarAction(
                                   icon: animeTop.fullscreen ? Icons.fullscreen_exit_sharp : Icons.fullscreen_sharp,
+                                  size: sy(32),
+                                  iconSize: sy(13),
                                   tooltip: 'Toggle fullscreen',
                                   onPressed: () {
                                     animeTop.controller.toggleFullscreen();

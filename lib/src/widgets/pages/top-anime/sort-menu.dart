@@ -9,10 +9,12 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
     @required this.value,
     @required this.orderByIcon,
     @required this.onChanged,
+    this.iconSize,
   }) : super(key: key);
 
   final AnimeSortBy value;
   final IconData orderByIcon;
+  final double iconSize;
   final void Function(AnimeSortBy) onChanged;
 
   @override
@@ -26,7 +28,7 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
             child: Icon(
               orderByIcon,
               color: Colors.white,
-              size: sy(11),
+              size: iconSize ?? sy(11),
             ),
           ),
           initialValue: value,
