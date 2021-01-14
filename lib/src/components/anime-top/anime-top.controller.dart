@@ -462,7 +462,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void selectAllAboveExcludedIndex(int selectedAnimeId) {
-    var source = List<int>.from(model.excludedAnimeIDs ?? []);
+    var source = getExcludedList().map<int>((x) => x.node.id).toList();
     var index = source.indexWhere((x) => x == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
@@ -473,7 +473,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void selectAllBelowExcludedIndex(int selectedAnimeId) {
-    var source = List<int>.from(model.excludedAnimeIDs ?? []);
+    var source = getExcludedList().map<int>((x) => x.node.id).toList();
     var index = source.indexWhere((x) => x == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
