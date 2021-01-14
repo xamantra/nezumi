@@ -7,6 +7,7 @@ import '../components/anime-top/index.dart';
 import '../components/anime-update/index.dart';
 import '../components/app-settings/index.dart';
 import '../components/app/index.dart';
+import '../components/export-list/index.dart';
 import '../components/my_anime_list/index.dart';
 import '../components/settings/index.dart';
 import '../services/index.dart';
@@ -133,5 +134,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _appSettingsCtrl = ctrl<AppSettingsController>(context);
     }
     return _appSettingsCtrl?.model;
+  }
+
+  ExportListController _exportListCtrl;
+  ExportListModel get exportList {
+    if (_exportListCtrl == null) {
+      _exportListCtrl = ctrl<ExportListController>(context);
+    }
+    return _exportListCtrl?.model;
   }
 }

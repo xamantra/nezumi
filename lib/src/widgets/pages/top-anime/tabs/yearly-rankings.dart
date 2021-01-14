@@ -3,6 +3,7 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-top/index.dart';
+import '../../../../components/export-list/index.dart';
 import '../../../../data/index.dart';
 import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
@@ -18,7 +19,7 @@ class YearlyAnimeRankingPage extends StatefulWidget {
   _YearlyAnimeRankingPageState createState() => _YearlyAnimeRankingPageState();
 }
 
-class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with CoreStateMixin, SingleTickerProviderStateMixin {
+class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage> with CoreStateMixin, SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
@@ -28,6 +29,17 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
     if (animeTop.controller.getCurrentYearRankList().isEmpty) {
       animeTop.controller.loadYearRankings();
     }
+
+    exportList.controller.listen<ExportListEvent>(
+      state: this,
+      invoke: (event) {
+        showToast(
+          event.message,
+          color: Colors.green,
+          fontSize: 14,
+        );
+      },
+    );
   }
 
   @override
@@ -55,13 +67,22 @@ class _YearlyAnimeRankingPageState extends State<YearlyAnimeRankingPage> with Co
                         leadingIcon: Icons.menu,
                         title: 'Top Anime',
                         actions: [
-                          SizedButton(
-                            height: sy(32),
-                            width: sy(32),
-                            radius: 100,
-                            child: Icon(
-                              Icons.more_vert,
-                            ),
+                          // hidden feature
+                          // ToolbarAction(
+                          //   icon: Icons.import_export_outlined,
+                          //   onPressed: () {
+                          //     var list = animeTop.getRankingByYear(animeTop.selectedYear);
+                          //     var items = list
+                          //         .map<ExportAnimeItem>(
+                          //           (item) => ExportAnimeItem.fromAnimeDataItem(item),
+                          //         )
+                          //         .toList();
+                          //     var fields = [ExportAnimeField.title, ExportAnimeField.mean];
+                          //     exportList.controller.exportRedditTable(fields: fields, items: items);
+                          //   },
+                          // ),
+                          ToolbarAction(
+                            icon: Icons.more_vert,
                             onPressed: () {
                               dialog(context, YearlyRankingAnimeTypesDialog());
                             },
