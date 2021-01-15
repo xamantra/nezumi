@@ -8,7 +8,7 @@ class SettingsController extends MomentumController<SettingsModel> {
     return SettingsModel(
       this,
       requiredMinsPerEp: 23,
-      requiredEpsPerDay: 15,
+      requiredEpsPerDay: 4,
     );
   }
 }
