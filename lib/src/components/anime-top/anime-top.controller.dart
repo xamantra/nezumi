@@ -81,6 +81,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       var seasonYear = x?.node?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
+      // TODO: show anime in the rankings if it's not yet aired (for popularity sorting).
       return matchedYear && hasScore;
     }).toList();
 

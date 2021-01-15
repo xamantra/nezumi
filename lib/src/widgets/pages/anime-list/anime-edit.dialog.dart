@@ -104,6 +104,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                   dense: true,
                                   color: AppTheme.of(context).accent,
                                   onChanged: (newStatus) {
+                                    // TODO: set num watched episodes to maximum when setting status to completed.
                                     var animeStatus = anime.status;
                                     if (newStatus == 'completed' && animeStatus == 'currently_airing') {
                                       showToast(
@@ -295,7 +296,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                 color: AppTheme.of(context).accent,
                                 radius: 5,
                                 child: Text(
-                                  "SAVE",
+                                  "SAVE", // TODO: set label to "ADD TO LIST" if the anime is not yet on the user's list.
                                   style: TextStyle(
                                     color: AppTheme.of(context).text1,
                                     fontSize: sy(11),

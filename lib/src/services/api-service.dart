@@ -264,7 +264,7 @@ class ApiService extends MomentumService {
       var data = {
         'q': query,
         'fields': fields,
-        'limit': 50, // TODO: dynamic limit, app settings etc...
+        'limit': 50,
         'offset': 0,
         'nsfw': true,
       };
@@ -308,7 +308,7 @@ class ApiService extends MomentumService {
       var data = {
         'ranking_type': type ?? 'all',
         'fields': fields,
-        'limit': 500, // TODO: dynamic limit, app settings etc...
+        'limit': 100,
         'offset': 0,
         'nsfw': true,
       };
@@ -351,7 +351,7 @@ class ApiService extends MomentumService {
       var path = 'https://api.myanimelist.net/v2/anime/season/$year/$season';
       var data = {
         'fields': fields,
-        'limit': 500, // TODO: dynamic limit, app settings etc...
+        'limit': 500, // every season usually have 150 to 300 entries.
         'offset': 0,
         'nsfw': true,
       };

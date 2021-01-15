@@ -18,7 +18,6 @@ class AnimeFilterList extends StatefulWidget {
 class _AnimeFilterListState extends State<AnimeFilterList> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
-    // TODO: do check if user's anime list have already loaded before enabling filter functions.
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Stack(

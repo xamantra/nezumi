@@ -25,8 +25,6 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
   /// Search results from user's list only.
   final List<AnimeData> listResults;
 
-  // TODO: search result pagination
-
   @override
   void update({
     String query,

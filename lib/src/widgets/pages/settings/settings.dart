@@ -16,6 +16,7 @@ class AppSettingsPage extends StatefulWidget {
 class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
+    // TODO: add "Anime List Item Fields" setting that allows user to select which anime fields they want to get displayed in all anime listing page (media-type, airing-status, list-status, episodes, etc...)
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -39,6 +40,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                   color: AppTheme.of(context).primaryBackground,
                   child: Column(
                     children: [
+                      // TODO: extract widget as "SettingItem" with appropriate parameters.
                       Ripple(
                         onPressed: () {
                           appSettings.controller.changeCompactModeState(!appSettings.compactMode);

@@ -52,6 +52,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 return Loader();
               }
 
+              // TODO: paginate search results
               var list = animeSearch.results ?? [];
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
