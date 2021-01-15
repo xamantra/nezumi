@@ -74,16 +74,38 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
   }
 
-  void validateAndSortYearlyRankings() {
-    var year = model.selectedYear;
-    var original = model.getAllEntriesYear(year);
+  List<AnimeDataItem> filterAnimeList(int year, List<AnimeDataItem> source) {
+    var original = List<AnimeDataItem>.from(source);
     var filtered = original.where((x) {
       var seasonYear = x?.node?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
       var hasScore = (x?.node?.mean ?? 0) > 0;
-      // TODO: show anime in the rankings if it's not yet aired (for popularity sorting).
+      if (!hasScore) {
+        var not_yet_aired = x.node.status == 'not_yet_aired';
+        if (not_yet_aired) {
+          return matchedYear;
+        }
+      }
       return matchedYear && hasScore;
     }).toList();
+    var noHentaiAndKids = <AnimeDataItem>[];
+    for (var item in filtered) {
+      var genres = item?.node?.genres ?? [];
+      if (genres.isNotEmpty) {
+        var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
+        var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
+        if (!hentai && !kids) {
+          noHentaiAndKids.add(item);
+        }
+      }
+    }
+    return noHentaiAndKids;
+  }
+
+  void validateAndSortYearlyRankings() {
+    var year = model.selectedYear;
+    var original = model.getAllEntriesYear(year);
+    var filtered = filterAnimeList(year, original);
 
     filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
     switch (model.yearlyRankingSortBy) {
@@ -120,20 +142,8 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    var filterHentaiAndKids = <AnimeDataItem>[];
-    for (var item in filterExcluded) {
-      var genres = item?.node?.genres ?? [];
-      if (genres.isNotEmpty) {
-        var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
-        var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
-        if (!hentai && !kids) {
-          filterHentaiAndKids.add(item);
-        }
-      }
-    }
-
     var filterMediaTypes = <AnimeDataItem>[];
-    for (var item in filterHentaiAndKids) {
+    for (var item in filterExcluded) {
       var key = item.node.mediaType?.toUpperCase() ?? '-';
       var matched = model.showOnlyAnimeTypes[key];
       if (key != '-' && matched) {
@@ -224,10 +234,15 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var list = model.getRankingByYear(year);
     if (list.isEmpty) return '0.0';
     var totalScore = 0.0;
+    var scoredEntries = 0;
     for (var anime in list) {
-      totalScore += anime?.node?.mean ?? 0;
+      var mean = anime?.node?.mean ?? 0;
+      if (mean != 0) {
+        totalScore += mean;
+        scoredEntries += 1;
+      }
     }
-    var result = totalScore / list.length;
+    var result = totalScore / scoredEntries;
     return result.toStringAsFixed(3);
   }
 
@@ -236,51 +251,35 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var list = getAllEntriesYear(year);
     if (list.isEmpty) return '0.0';
     var totalVotes = 0;
+    var scoredEntries = 0;
     for (var anime in list) {
-      totalVotes += anime?.node?.numScoringUsers ?? 0;
+      var mean = anime?.node?.mean ?? 0;
+      if (mean != 0) {
+        totalVotes += anime?.node?.numScoringUsers ?? 0;
+        scoredEntries += 1;
+      }
     }
-    var result = totalVotes / list.length;
+    var result = totalVotes / scoredEntries;
     return '${result.toInt()}';
   }
 
   List<AnimeDataItem> getAllEntriesYear(int year) {
-    var result = <AnimeDataItem>[];
     var list = model.getAllEntriesYear(year);
-    var filtered = list.where((x) {
-      var seasonYear = x?.node?.startSeason?.year ?? -1;
-      var matchedYear = seasonYear == year;
-      var hasScore = (x?.node?.mean ?? 0) > 0;
-      return matchedYear && hasScore;
-    }).toList();
-    for (var item in filtered) {
-      var genres = item?.node?.genres ?? [];
-      if (genres.isNotEmpty) {
-        var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
-        var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
-        if (!hentai && !kids) {
-          result.add(item);
-        }
-      }
-    }
-    return result;
+    var filtered = filterAnimeList(year, list);
+    return filtered;
   }
 
   List<AnimeDataItem> getCurrentYearRankList() {
     var year = model.selectedYear;
     var source = model.getRankingByYear(year);
-    var filtered = source.where((x) {
-      var seasonYear = x?.node?.startSeason?.year ?? -1;
-      var matchedYear = seasonYear == year;
-      var hasScore = (x?.node?.mean ?? 0) > 0;
-      return matchedYear && hasScore;
-    }).toList();
+    var filtered = filterAnimeList(year, source);
     return filtered;
   }
 
   List<AnimeDataItem> getExcludedList() {
     var year = model.selectedYear;
     var result = <AnimeDataItem>[];
-    var source = model.getAllEntriesYear(year);
+    var source = getAllEntriesYear(year);
     var excludedList = List<int>.from(model.excludedAnimeIDs);
     for (var item in source) {
       var e = excludedList.any((x) => x == item.node.id);
@@ -324,12 +323,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
-    var filtered = noDuplicates.where((x) {
-      var seasonYear = x?.node?.startSeason?.year ?? -1;
-      var matchedYear = seasonYear == year;
-      var hasScore = (x?.node?.mean ?? 0) > 0;
-      return matchedYear && hasScore;
-    }).toList();
+    var filtered = filterAnimeList(year, noDuplicates);
     model.update(excludedAnimeIDs: noDuplicatesExcluded);
 
     return filtered;
