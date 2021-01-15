@@ -4,5 +4,5 @@ import '../data/index.dart';
 
 @immutable
 abstract class AnimeFilterData {
-  bool match(AnimeData animeData);
+  bool match(AnimeDetails animeData);
 }

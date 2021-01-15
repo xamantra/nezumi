@@ -23,34 +23,34 @@ class ExportAnimeItem {
     this.totalDuration,
   });
 
-  factory ExportAnimeItem.fromAnimeData(AnimeData data) {
-    var episodes = data?.node?.numEpisodes ?? 0;
-    var duration = data?.node?.averageEpisodeDuration ?? 0;
+  factory ExportAnimeItem.fromAnimeData(AnimeDetails data) {
+    var episodes = data?.numEpisodes ?? 0;
+    var duration = data?.averageEpisodeDuration ?? 0;
     duration = duration ~/ 60; // convert from seconds to minutes.
     var totalDuration = episodes * duration;
     return ExportAnimeItem(
-      id: data?.node?.id,
-      title: data?.node?.title ?? '',
-      mean: data?.node?.mean ?? 0,
-      userVotes: data?.node?.numScoringUsers ?? 0,
-      popularity: data?.node?.numListUsers ?? 0,
+      id: data?.id,
+      title: data?.title ?? '',
+      mean: data?.mean ?? 0,
+      userVotes: data?.numScoringUsers ?? 0,
+      popularity: data?.numListUsers ?? 0,
       episodes: episodes,
       duration: duration,
       totalDuration: totalDuration,
     );
   }
 
-  factory ExportAnimeItem.fromAnimeDataItem(AnimeDataItem data) {
-    var episodes = data?.node?.numEpisodes ?? 0;
-    var duration = data?.node?.averageEpisodeDuration ?? 0;
+  factory ExportAnimeItem.fromAnimeDataItem(AnimeDetails data) {
+    var episodes = data?.numEpisodes ?? 0;
+    var duration = data?.averageEpisodeDuration ?? 0;
     duration = duration ~/ 60; // convert from seconds to minutes.
     var totalDuration = episodes * duration;
     return ExportAnimeItem(
-      id: data?.node?.id,
-      title: data?.node?.title ?? '',
-      mean: data?.node?.mean ?? 0,
-      userVotes: data?.node?.numScoringUsers ?? 0,
-      popularity: data?.node?.numListUsers ?? 0,
+      id: data?.id,
+      title: data?.title ?? '',
+      mean: data?.mean ?? 0,
+      userVotes: data?.numScoringUsers ?? 0,
+      popularity: data?.numListUsers ?? 0,
       episodes: episodes,
       duration: duration,
       totalDuration: totalDuration,

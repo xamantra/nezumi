@@ -74,23 +74,23 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
   }
 
-  List<AnimeDataItem> filterAnimeList(int year, List<AnimeDataItem> source) {
-    var original = List<AnimeDataItem>.from(source);
+  List<AnimeDetails> filterAnimeList(int year, List<AnimeDetails> source) {
+    var original = List<AnimeDetails>.from(source);
     var filtered = original.where((x) {
-      var seasonYear = x?.node?.startSeason?.year ?? -1;
+      var seasonYear = x?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
-      var hasScore = (x?.node?.mean ?? 0) > 0;
+      var hasScore = (x?.mean ?? 0) > 0;
       if (!hasScore) {
-        var not_yet_aired = x.node.status == 'not_yet_aired';
+        var not_yet_aired = x.status == 'not_yet_aired';
         if (not_yet_aired) {
           return matchedYear;
         }
       }
       return matchedYear && hasScore;
     }).toList();
-    var noHentaiAndKids = <AnimeDataItem>[];
+    var noHentaiAndKids = <AnimeDetails>[];
     for (var item in filtered) {
-      var genres = item?.node?.genres ?? [];
+      var genres = item?.genres ?? [];
       if (genres.isNotEmpty) {
         var hentai = genres.any((x) => x.name?.toLowerCase() == 'hentai');
         var kids = genres.any((x) => x.name?.toLowerCase() == 'kids');
@@ -107,7 +107,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var original = model.getAllEntriesYear(year);
     var filtered = filterAnimeList(year, original);
 
-    filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
+    filtered.sort((a, b) => b.mean.compareTo(a.mean));
     switch (model.yearlyRankingSortBy) {
       case TopAnimeSortBy.title:
         filtered.sort(compareTitle);
@@ -126,25 +126,25 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         break;
     }
 
-    var filterDuplicates = <AnimeDataItem>[];
+    var filterDuplicates = <AnimeDetails>[];
     for (var item in filtered) {
-      var exists = filterDuplicates.any((x) => x.node.id == item.node.id);
+      var exists = filterDuplicates.any((x) => x.id == item.id);
       if (!exists) {
         filterDuplicates.add(item);
       }
     }
 
-    var filterExcluded = <AnimeDataItem>[];
+    var filterExcluded = <AnimeDetails>[];
     for (var item in filterDuplicates) {
-      var e = model.isAnimeExcluded(item.node.id);
+      var e = model.isAnimeExcluded(item.id);
       if (!e) {
         filterExcluded.add(item);
       }
     }
 
-    var filterMediaTypes = <AnimeDataItem>[];
+    var filterMediaTypes = <AnimeDetails>[];
     for (var item in filterExcluded) {
-      var key = item.node.mediaType?.toUpperCase() ?? '-';
+      var key = item.mediaType?.toUpperCase() ?? '-';
       var matched = model.showOnlyAnimeTypes[key];
       if (key != '-' && matched) {
         filterMediaTypes.add(item);
@@ -163,55 +163,55 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     model.update(yearlyRankingsCache: yearlyRankingsCache);
   }
 
-  int compareTitle(AnimeDataItem a, AnimeDataItem b) {
+  int compareTitle(AnimeDetails a, AnimeDetails b) {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
-        return a.node.title.compareTo(b.node.title);
+        return a.title.compareTo(b.title);
         break;
       case OrderBy.descending:
-        return b.node.title.compareTo(a.node.title);
+        return b.title.compareTo(a.title);
         break;
     }
     return 0;
   }
 
-  int compareMean(AnimeDataItem a, AnimeDataItem b) {
+  int compareMean(AnimeDetails a, AnimeDetails b) {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
-        return a.node.mean.compareTo(b.node.mean);
+        return a.mean.compareTo(b.mean);
         break;
       case OrderBy.descending:
-        return b.node.mean.compareTo(a.node.mean);
+        return b.mean.compareTo(a.mean);
         break;
     }
     return 0;
   }
 
-  int compareScoringMember(AnimeDataItem a, AnimeDataItem b) {
+  int compareScoringMember(AnimeDetails a, AnimeDetails b) {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
-        return (a.node.numScoringUsers ?? 0).compareTo(b.node.numScoringUsers ?? 0);
+        return (a.numScoringUsers ?? 0).compareTo(b.numScoringUsers ?? 0);
         break;
       case OrderBy.descending:
-        return (b.node.numScoringUsers ?? 0).compareTo(a.node.numScoringUsers ?? 0);
+        return (b.numScoringUsers ?? 0).compareTo(a.numScoringUsers ?? 0);
         break;
     }
     return 0;
   }
 
-  int compareMember(AnimeDataItem a, AnimeDataItem b) {
+  int compareMember(AnimeDetails a, AnimeDetails b) {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
-        return (a.node.numListUsers ?? 0).compareTo(b.node.numListUsers ?? 0);
+        return (a.numListUsers ?? 0).compareTo(b.numListUsers ?? 0);
         break;
       case OrderBy.descending:
-        return (b.node.numListUsers ?? 0).compareTo(a.node.numListUsers ?? 0);
+        return (b.numListUsers ?? 0).compareTo(a.numListUsers ?? 0);
         break;
     }
     return 0;
   }
 
-  int compareTotalDuration(AnimeDataItem a, AnimeDataItem b) {
+  int compareTotalDuration(AnimeDetails a, AnimeDetails b) {
     switch (model.yearlyRankingOrderBy) {
       case OrderBy.ascending:
         return a.totalDuration.compareTo(b.totalDuration);
@@ -236,7 +236,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var totalScore = 0.0;
     var scoredEntries = 0;
     for (var anime in list) {
-      var mean = anime?.node?.mean ?? 0;
+      var mean = anime?.mean ?? 0;
       if (mean != 0) {
         totalScore += mean;
         scoredEntries += 1;
@@ -253,9 +253,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var totalVotes = 0;
     var scoredEntries = 0;
     for (var anime in list) {
-      var mean = anime?.node?.mean ?? 0;
+      var mean = anime?.mean ?? 0;
       if (mean != 0) {
-        totalVotes += anime?.node?.numScoringUsers ?? 0;
+        totalVotes += anime?.numScoringUsers ?? 0;
         scoredEntries += 1;
       }
     }
@@ -263,32 +263,32 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     return '${result.toInt()}';
   }
 
-  List<AnimeDataItem> getAllEntriesYear(int year) {
+  List<AnimeDetails> getAllEntriesYear(int year) {
     var list = model.getAllEntriesYear(year);
     var filtered = filterAnimeList(year, list);
     return filtered;
   }
 
-  List<AnimeDataItem> getCurrentYearRankList() {
+  List<AnimeDetails> getCurrentYearRankList() {
     var year = model.selectedYear;
     var source = model.getRankingByYear(year);
     var filtered = filterAnimeList(year, source);
     return filtered;
   }
 
-  List<AnimeDataItem> getExcludedList() {
+  List<AnimeDetails> getExcludedList() {
     var year = model.selectedYear;
-    var result = <AnimeDataItem>[];
+    var result = <AnimeDetails>[];
     var source = getAllEntriesYear(year);
     var excludedList = List<int>.from(model.excludedAnimeIDs);
     for (var item in source) {
-      var e = excludedList.any((x) => x == item.node.id);
+      var e = excludedList.any((x) => x == item.id);
       if (e) {
         result.add(item);
       }
     }
 
-    result.sort((a, b) => b.node.mean.compareTo(a.node.mean));
+    result.sort((a, b) => b.mean.compareTo(a.mean));
     switch (model.yearlyRankingSortBy) {
       case TopAnimeSortBy.title:
         result.sort(compareTitle);
@@ -307,9 +307,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
         break;
     }
 
-    var noDuplicates = <AnimeDataItem>[];
+    var noDuplicates = <AnimeDetails>[];
     for (var item in result) {
-      var exists = noDuplicates.any((x) => x.node.id == item.node.id);
+      var exists = noDuplicates.any((x) => x.id == item.id);
       if (!exists) {
         noDuplicates.add(item);
       }
@@ -435,11 +435,11 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   void selectAllAboveIndex(int selectedAnimeId) {
     var year = model.selectedYear;
     var source = model.getRankingByYear(year);
-    var index = source.indexWhere((x) => x.node.id == selectedAnimeId);
+    var index = source.indexWhere((x) => x.id == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
       if (i < index) {
-        selectAnime(source[i].node.id);
+        selectAnime(source[i].id);
       }
     }
   }
@@ -447,17 +447,17 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   void selectAllBelowIndex(int selectedAnimeId) {
     var year = model.selectedYear;
     var source = model.getRankingByYear(year);
-    var index = source.indexWhere((x) => x.node.id == selectedAnimeId);
+    var index = source.indexWhere((x) => x.id == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
       if (i > index) {
-        selectAnime(source[i].node.id);
+        selectAnime(source[i].id);
       }
     }
   }
 
   void selectAllAboveExcludedIndex(int selectedAnimeId) {
-    var source = getExcludedList().map<int>((x) => x.node.id).toList();
+    var source = getExcludedList().map<int>((x) => x.id).toList();
     var index = source.indexWhere((x) => x == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
@@ -468,7 +468,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
   }
 
   void selectAllBelowExcludedIndex(int selectedAnimeId) {
-    var source = getExcludedList().map<int>((x) => x.node.id).toList();
+    var source = getExcludedList().map<int>((x) => x.id).toList();
     var index = source.indexWhere((x) => x == selectedAnimeId);
 
     for (var i = 0; i < source.length; i++) {
@@ -605,7 +605,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       season: 'winter',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    print('"$year winter": ${winter?.data?.length ?? 0} entries');
+    print('"$year winter": ${winter?.list?.length ?? 0} entries');
 
     var spring = await api.animeSeason(
       accessToken: accessToken,
@@ -614,7 +614,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       season: 'spring',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    print('"$year spring": ${spring?.data?.length ?? 0} entries');
+    print('"$year spring": ${spring?.list?.length ?? 0} entries');
 
     var summer = await api.animeSeason(
       accessToken: accessToken,
@@ -623,7 +623,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       season: 'summer',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    print('"$year summer": ${summer?.data?.length ?? 0} entries');
+    print('"$year summer": ${summer?.list?.length ?? 0} entries');
 
     var fall = await api.animeSeason(
       accessToken: accessToken,
@@ -632,21 +632,19 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       season: 'fall',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    print('"$year fall": ${fall?.data?.length ?? 0} entries');
+    print('"$year fall": ${fall?.list?.length ?? 0} entries');
 
-    var combined = <AnimeDataItem>[];
-    combined.addAll(winter?.data ?? []);
-    combined.addAll(spring?.data ?? []);
-    combined.addAll(summer?.data ?? []);
-    combined.addAll(fall?.data ?? []);
-
-    var result = AnimeListGlobal(data: combined);
+    var combined = <AnimeDetails>[];
+    combined.addAll(winter?.list ?? []);
+    combined.addAll(spring?.list ?? []);
+    combined.addAll(summer?.list ?? []);
+    combined.addAll(fall?.list ?? []);
 
     var yearlyRankingsCache = List<YearlyAnimeRankingsCache>.from(model.yearlyRankingsCache);
     var cache = YearlyAnimeRankingsCache(
       year: year,
-      allYearEntries: result?.data ?? [],
-      rankings: result?.data ?? [],
+      allYearEntries: combined,
+      rankings: combined,
     );
     yearlyRankingsCache.removeWhere((x) => x.year == year);
     yearlyRankingsCache.add(cache);

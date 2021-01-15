@@ -13,7 +13,7 @@ class AnimeFilterReleaseSeasonData extends AnimeFilterData {
   final List<String> selectedSeasons;
 
   @override
-  bool match(AnimeData animeData) {
+  bool match(AnimeDetails animeData) {
     if (selectedSeasons.isEmpty) {
       return true;
     }

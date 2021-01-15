@@ -17,22 +17,22 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
   final String query;
 
   /// Search results from myanimelist excluding entries that are already in the user's list.
-  final List<AnimeDataItem> results;
+  final List<AnimeDetails> results;
   final String prevPage;
   final String nextPage;
   final bool loadingResult;
 
   /// Search results from user's list only.
-  final List<AnimeData> listResults;
+  final List<AnimeDetails> listResults;
 
   @override
   void update({
     String query,
-    List<AnimeDataItem> results,
+    List<AnimeDetails> results,
     String prevPage,
     String nextPage,
     bool loadingResult,
-    List<AnimeData> listResults,
+    List<AnimeDetails> listResults,
   }) {
     AnimeSearchModel(
       controller,

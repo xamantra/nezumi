@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'package:basic_utils/basic_utils.dart';
 
 import 'index.dart';
 
@@ -71,14 +71,6 @@ class AnimeDetails {
   final List<Genre> studios;
   final AnimeDetailStatistics statistics;
 
-  String get realEpisodeCount {
-    try {
-      return numEpisodes == 0 ? '?' : numEpisodes?.toString() ?? '?';
-    } catch (e) {
-      return '';
-    }
-  }
-
   AnimeDetails copyWith({
     int id,
     String title,
@@ -147,10 +139,6 @@ class AnimeDetails {
         studios: studios ?? this.studios,
         statistics: statistics ?? this.statistics,
       );
-
-  factory AnimeDetails.fromRawJson(String str) => AnimeDetails.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
 
   factory AnimeDetails.fromJson(Map<String, dynamic> json) => AnimeDetails(
         id: json["id"] == null ? null : json["id"],
@@ -221,4 +209,187 @@ class AnimeDetails {
         "studios": studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
         "statistics": statistics == null ? null : statistics.toJson(),
       };
+
+  /* Parsers and Converters */
+  factory AnimeDetails.fromAnimeDataItem(AnimeDataItem animeDataItem) {
+    var from = animeDataItem.node;
+    return AnimeDetails(
+      id: from.id,
+      title: from.title,
+      mainPicture: from.mainPicture,
+      alternativeTitles: from.alternativeTitles,
+      startDate: from.startDate,
+      endDate: from.endDate,
+      synopsis: from.synopsis,
+      mean: from.mean,
+      rank: from.rank,
+      popularity: from.popularity,
+      numListUsers: from.numListUsers,
+      numScoringUsers: from.numScoringUsers,
+      nsfw: from.nsfw,
+      createdAt: from.createdAt,
+      updatedAt: from.updatedAt,
+      mediaType: from.mediaType,
+      status: from.status,
+      genres: from.genres,
+      myListStatus: from.myListStatus,
+      numEpisodes: from.numEpisodes,
+      startSeason: from.startSeason,
+      broadcast: from.broadcast,
+      source: from.source,
+      averageEpisodeDuration: from.averageEpisodeDuration,
+      rating: from.rating,
+      pictures: [],
+      background: null,
+      relatedAnime: [],
+      relatedManga: [],
+      recommendations: [],
+      studios: from.studios,
+      statistics: null,
+    );
+  }
+
+  factory AnimeDetails.fromAnimeData(AnimeData animeData) {
+    var from = animeData.node;
+    return AnimeDetails(
+      id: from.id,
+      title: from.title,
+      mainPicture: from.mainPicture,
+      alternativeTitles: from.alternativeTitles,
+      startDate: from.startDate,
+      endDate: from.endDate,
+      synopsis: from.synopsis,
+      mean: from.mean,
+      rank: from.rank,
+      popularity: from.popularity,
+      numListUsers: from.numListUsers,
+      numScoringUsers: from.numScoringUsers,
+      nsfw: from.nsfw,
+      createdAt: from.createdAt,
+      updatedAt: from.updatedAt,
+      mediaType: from.mediaType,
+      status: from.status,
+      genres: from.genres,
+      myListStatus: animeData.listStatus,
+      numEpisodes: from.numEpisodes,
+      startSeason: from.startSeason,
+      broadcast: from.broadcast,
+      source: from.source,
+      averageEpisodeDuration: from.averageEpisodeDuration,
+      rating: from.rating,
+      pictures: [],
+      background: null,
+      relatedAnime: [],
+      relatedManga: [],
+      recommendations: [],
+      studios: from.studios,
+      statistics: null,
+    );
+  }
+  /* Parsers and Converters */
+
+  /* Getters */
+  String get animeStatus {
+    try {
+      var s = StringUtils.capitalize(status?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  int get durationPerEpisode {
+    try {
+      return (averageEpisodeDuration ?? 0) ~/ 60;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  String get episodeCount {
+    try {
+      if (numEpisodes == 0 && (myListStatus?.numEpisodesWatched ?? 0) == 0) {
+        return '?';
+      }
+      if (numEpisodes == 0 && (myListStatus?.numEpisodesWatched ?? 0) != 0) {
+        return myListStatus?.numEpisodesWatched.toString();
+      }
+      return numEpisodes.toString();
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get realEpisodeCount {
+    try {
+      return numEpisodes == 0 ? '?' : numEpisodes?.toString() ?? '?';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get season {
+    try {
+      var s = StringUtils.capitalize(startSeason?.season ?? "?");
+      return '$s ${startSeason?.year ?? "?"}';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  String get sourceFormatted {
+    try {
+      var s = StringUtils.capitalize(source?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
+  }
+
+  List<String> get studiosFormatted {
+    try {
+      return studios?.map((e) => e.name)?.toList() ?? [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  int get totalDuration {
+    var eps = numEpisodes ?? 0;
+    var avgD = averageEpisodeDuration ?? 0;
+    if (eps == 0) {
+      eps = myListStatus?.numEpisodesWatched ?? 0;
+      if (eps == 0) {
+        eps = 1;
+      }
+    }
+    if (avgD == 0) {
+      avgD = 1;
+    }
+    return (eps * avgD) ~/ 60;
+  }
+  /* Getters */
+
+  /* Logic */
+
+  /// - Check if season string matches with format `"$year $season"` or `"$season $year"`.
+  /// - Case not sensitive.
+  /// - *Example:* `"2020 Summer"` or `"Summer 2020"`
+  bool seasonMatch(String season) {
+    return startSeason?.seasonMatch(season) ?? false;
+  }
+
+  bool searchMatch(String query) {
+    if (query == null || query.isEmpty) {
+      return false;
+    }
+    var source = title;
+    source += '\n${alternativeTitles?.en ?? ""}';
+    source += '\n${alternativeTitles?.ja ?? ""}';
+    (alternativeTitles?.synonyms ?? []).forEach((title) {
+      source += '\n${title ?? ""}';
+    });
+    return (source ?? '').toLowerCase().contains(query?.toLowerCase() ?? '') ?? false;
+  }
+  /* Logic */
 }

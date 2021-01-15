@@ -25,7 +25,7 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
       accessToken: accessToken,
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    var status = details.myListStatus;
+    var status = details?.myListStatus;
     var inMyList = true;
     if (details != null && status == null) {
       // not in my list
@@ -52,20 +52,20 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     sendEvent(AnimeUpdateRewatchEvent(status.numTimesRewatched));
     sendEvent(AnimeUpdateEpisodesEvent(status.numEpisodesWatched));
     if (inMyList) {
-      var currentList = List<AnimeData>.from(mal.userAnimeList?.animeList ?? []);
-      var anime = currentList.firstWhere((x) => x.node.id == id, orElse: () => null);
+      var currentList = List<AnimeDetails>.from(mal.userAnimeList?.list ?? []);
+      var anime = currentList.firstWhere((x) => x.id == id, orElse: () => null);
       if (anime == null) {
         // newly added entry
-        anime = AnimeData.copyFromDetails(details);
+        anime = details;
       }
-      var updated = anime.copyWith(listStatus: status);
-      var index = currentList.indexWhere((x) => x.node.id == anime.node.id);
+      var updated = anime.copyWith(myListStatus: status);
+      var index = currentList.indexWhere((x) => x.id == anime.id);
       if (index < 0) {
         currentList.add(updated);
       } else {
         currentList[index] = updated;
       }
-      var newList = mal.userAnimeList.copyWith(data: currentList);
+      var newList = mal.userAnimeList.copyWith(list: currentList);
       mal.update(userAnimeList: newList);
       mal.controller.sortAnimeList();
     }
@@ -142,11 +142,11 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
       finish_date: finish_date,
     );
     if (response != null) {
-      var currentList = List<AnimeData>.from(mal.userAnimeList?.animeList ?? []);
-      var selectedAnime = currentList.firstWhere((x) => x.node.id == animeId, orElse: () => null);
+      var currentList = List<AnimeDetails>.from(mal.userAnimeList?.list ?? []);
+      var selectedAnime = currentList.firstWhere((x) => x.id == animeId, orElse: () => null);
       if (selectedAnime == null) {
         // newly added entry
-        selectedAnime = AnimeData.copyFromDetails(model.animeDetails);
+        selectedAnime = model.animeDetails;
       }
       var animeListStatus = AnimeListStatus(
         status: response.status,
@@ -162,14 +162,14 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
         startDate: response.startDate,
         finishDate: response.finishDate,
       );
-      var updated = selectedAnime.copyWith(listStatus: animeListStatus);
-      var index = currentList.indexWhere((x) => x.node.id == animeId);
+      var updated = selectedAnime.copyWith(myListStatus: animeListStatus);
+      var index = currentList.indexWhere((x) => x.id == animeId);
       if (index < 0) {
         currentList.add(updated);
       } else {
         currentList[index] = updated;
       }
-      var newList = mal.userAnimeList.copyWith(data: currentList);
+      var newList = mal.userAnimeList.copyWith(list: currentList);
       mal.update(userAnimeList: newList);
       model.update(currentInput: animeListStatus);
     }
@@ -178,15 +178,15 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
   }
 
   void incrementEpisode(int animeId) async {
-    var anime = (mal.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
-    var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) + 1;
+    var anime = (mal.userAnimeList?.list ?? []).firstWhere((x) => x.id == animeId, orElse: () => null);
+    var episode = (anime?.myListStatus?.numEpisodesWatched ?? 0) + 1;
     await updateAnimeStatus(animeId: animeId, num_watched_episodes: episode);
     sendEvent(AnimeUpdateEpisodesEvent(episode));
   }
 
   void decrementEpisode(int animeId) async {
-    var anime = (mal.userAnimeList?.animeList ?? []).firstWhere((x) => x.node.id == animeId, orElse: () => null);
-    var episode = (anime?.listStatus?.numEpisodesWatched ?? 0) - 1;
+    var anime = (mal.userAnimeList?.list ?? []).firstWhere((x) => x.id == animeId, orElse: () => null);
+    var episode = (anime?.myListStatus?.numEpisodesWatched ?? 0) - 1;
     if (episode < 0) {
       episode = 0;
     }
@@ -210,22 +210,22 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
   }
 
   void saveEdit() async {
-    var listStatus = model.animeDetails.myListStatus;
+    var myListStatus = model.animeDetails.myListStatus;
     var input = model.currentInput;
 
     var adding = !mal.inMyList(model.id);
 
-    var currentStatus = listStatus.status;
+    var currentStatus = myListStatus.status;
     var newStatus = input.status;
-    var isRewatching = listStatus.isRewatching;
+    var isRewatching = myListStatus.isRewatching;
     var newIsRewatching = input.isRewatching;
-    var currentEpisodes = listStatus.numEpisodesWatched;
+    var currentEpisodes = myListStatus.numEpisodesWatched;
     var newEpisodes = input.numEpisodesWatched;
-    var currentStartDate = listStatus.startDate;
+    var currentStartDate = myListStatus.startDate;
     var newStartDate = input.startDate;
-    var currentFinishDate = listStatus.finishDate;
+    var currentFinishDate = myListStatus.finishDate;
     var newFinishDate = input.finishDate;
-    var currentNumTimesRewatched = listStatus.numTimesRewatched;
+    var currentNumTimesRewatched = myListStatus.numTimesRewatched;
     var newNumTimesRewatched = input.numTimesRewatched;
 
     var animeId = model.animeDetails.id;

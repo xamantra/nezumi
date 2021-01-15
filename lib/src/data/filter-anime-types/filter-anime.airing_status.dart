@@ -11,12 +11,12 @@ class AnimeFilterAiringStatusData extends AnimeFilterData {
   final List<String> selectedStatuses;
 
   @override
-  bool match(AnimeData animeData) {
+  bool match(AnimeDetails animeData) {
     if (selectedStatuses.isEmpty) {
       return true;
     }
 
-    var airing_status = animeData?.node?.status;
+    var airing_status = animeData?.status;
     var exist = selectedStatuses.any((x) => x == airing_status);
 
     if (exist) {

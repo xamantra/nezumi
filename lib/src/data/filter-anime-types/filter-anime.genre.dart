@@ -21,11 +21,11 @@ class AnimeFilterGenreData extends AnimeFilterData {
   }
 
   @override
-  bool match(AnimeData anime) {
+  bool match(AnimeDetails anime) {
     var result = false;
     var checkInclude = includeGenres.isNotEmpty;
     var checkExclude = excludeGenres.isNotEmpty;
-    var animeGenres = anime.node.genres ?? [];
+    var animeGenres = anime.genres ?? [];
     if (!checkInclude && !checkExclude) {
       return true;
     }

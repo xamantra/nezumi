@@ -244,7 +244,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
     );
   }
 
-  Widget _buildTrailWidget(BuildContext context, int index, AnimeDataItem anime) {
+  Widget _buildTrailWidget(BuildContext context, int index, AnimeDetails anime) {
     switch (animeTop.yearlyRankingSortBy) {
       case TopAnimeSortBy.title:
         break;

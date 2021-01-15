@@ -1,24 +1,22 @@
 import 'dart:convert';
 
-import 'package:basic_utils/basic_utils.dart';
-
 import 'index.dart';
 
 class AnimeListGlobal {
   AnimeListGlobal({
-    this.data,
+    this.list,
     this.paging,
   });
 
-  final List<AnimeDataItem> data;
+  final List<AnimeDetails> list;
   final MalPaging paging;
 
   AnimeListGlobal copyWith({
-    List<AnimeDataItem> data,
+    List<AnimeDetails> list,
     MalPaging paging,
   }) =>
       AnimeListGlobal(
-        data: data ?? this.data,
+        list: list ?? this.list,
         paging: paging ?? this.paging,
       );
 
@@ -28,8 +26,9 @@ class AnimeListGlobal {
 
   static AnimeListGlobal fromJson(Map<String, dynamic> json) {
     try {
+      List<AnimeDataItem> data = json["data"] == null ? null : List<AnimeDataItem>.from(json["data"].map((x) => AnimeDataItem.fromJson(x)));
       return AnimeListGlobal(
-        data: json["data"] == null ? null : List<AnimeDataItem>.from(json["data"].map((x) => AnimeDataItem.fromJson(x))),
+        list: (data ?? []).map<AnimeDetails>((x) => AnimeDetails.fromAnimeDataItem(x)).toList(),
         paging: json["paging"] == null ? null : MalPaging.fromJson(json["paging"]),
       );
     } catch (e) {
@@ -37,10 +36,13 @@ class AnimeListGlobal {
     }
   }
 
-  Map<String, dynamic> toJson() => {
-        "data": data == null ? null : List<dynamic>.from(data.map((x) => x.toJson())),
-        "paging": paging == null ? null : paging.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    var originalFormat = list.map<AnimeDataItem>((x) => AnimeDataItem.fromAnimeDetails(x)).toList();
+    return {
+      "data": list == null ? null : List<dynamic>.from(originalFormat.map((x) => x.toJson())),
+      "paging": paging == null ? null : paging.toJson(),
+    };
+  }
 }
 
 class AnimeDataItem {
@@ -49,74 +51,6 @@ class AnimeDataItem {
   });
 
   final SearchNode node;
-
-  AnimeListStatus get listStatus => node.myListStatus;
-  int get totalDuration => node.totalDuration;
-
-  String get animeStatus {
-    try {
-      var s = StringUtils.capitalize(node?.status?.replaceAll('_', ' ') ?? '', allWords: true);
-      return s;
-    } catch (e) {
-      return '';
-    }
-  }
-
-  int get durationPerEpisode {
-    try {
-      return (node?.averageEpisodeDuration ?? 0) ~/ 60;
-    } catch (e) {
-      return 0;
-    }
-  }
-
-  String get episodeCount {
-    try {
-      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) == 0) {
-        return '?';
-      }
-      if (node.numEpisodes == 0 && (listStatus?.numEpisodesWatched ?? 0) != 0) {
-        return listStatus?.numEpisodesWatched.toString();
-      }
-      return node.numEpisodes.toString();
-    } catch (e) {
-      return '';
-    }
-  }
-
-  String get realEpisodeCount {
-    try {
-      return node.numEpisodes == 0 ? '?' : node.numEpisodes?.toString() ?? '?';
-    } catch (e) {
-      return '';
-    }
-  }
-
-  String get season {
-    try {
-      var s = StringUtils.capitalize(node.startSeason?.season ?? "?");
-      return '$s ${node.startSeason?.year ?? "?"}';
-    } catch (e) {
-      return '';
-    }
-  }
-
-  String get source {
-    try {
-      var s = StringUtils.capitalize(node?.source?.replaceAll('_', ' ') ?? '', allWords: true);
-      return s;
-    } catch (e) {
-      return '';
-    }
-  }
-
-  List<String> get studios {
-    try {
-      return node?.studios?.map((e) => e.name)?.toList() ?? [];
-    } catch (e) {
-      return [];
-    }
-  }
 
   AnimeDataItem copyWith({
     SearchNode node,
@@ -136,6 +70,40 @@ class AnimeDataItem {
   Map<String, dynamic> toJson() => {
         "node": node == null ? null : node.toJson(),
       };
+
+  factory AnimeDataItem.fromAnimeDetails(AnimeDetails animeDetails) {
+    var from = animeDetails;
+    return AnimeDataItem(
+      node: SearchNode(
+        id: from.id,
+        title: from.title,
+        mainPicture: from.mainPicture,
+        alternativeTitles: from.alternativeTitles,
+        startDate: from.startDate,
+        endDate: from.endDate,
+        synopsis: from.synopsis,
+        mean: from.mean,
+        rank: from.rank,
+        popularity: from.popularity,
+        numListUsers: from.numListUsers,
+        numScoringUsers: from.numScoringUsers,
+        nsfw: from.nsfw,
+        createdAt: from.createdAt,
+        updatedAt: from.updatedAt,
+        mediaType: from.mediaType,
+        status: from.status,
+        genres: from.genres,
+        myListStatus: from.myListStatus,
+        numEpisodes: from.numEpisodes,
+        startSeason: from.startSeason,
+        broadcast: from.broadcast,
+        source: from.source,
+        averageEpisodeDuration: from.averageEpisodeDuration,
+        rating: from.rating,
+        studios: from.studios,
+      ),
+    );
+  }
 }
 
 class SearchNode {
@@ -158,6 +126,7 @@ class SearchNode {
     this.popularity,
     this.numListUsers,
     this.numScoringUsers,
+    this.nsfw,
     this.createdAt,
     this.updatedAt,
     this.mediaType,
@@ -185,6 +154,7 @@ class SearchNode {
   final int popularity;
   final int numListUsers;
   final int numScoringUsers;
+  final String nsfw;
   final DateTime createdAt;
   final DateTime updatedAt;
   final String mediaType;
@@ -192,21 +162,6 @@ class SearchNode {
   final Broadcast broadcast;
   final int averageEpisodeDuration;
   final String endDate;
-
-  int get totalDuration {
-    var eps = numEpisodes ?? 0;
-    var avgD = averageEpisodeDuration ?? 0;
-    if (eps == 0) {
-      eps = myListStatus?.numEpisodesWatched ?? 0;
-      if (eps == 0) {
-        eps = 1;
-      }
-    }
-    if (avgD == 0) {
-      avgD = 1;
-    }
-    return (eps * avgD) ~/ 60;
-  }
 
   SearchNode copyWith({
     int id,
@@ -227,6 +182,7 @@ class SearchNode {
     int popularity,
     int numListUsers,
     int numScoringUsers,
+    String nsfw,
     DateTime createdAt,
     DateTime updatedAt,
     String mediaType,
@@ -254,6 +210,7 @@ class SearchNode {
         popularity: popularity ?? this.popularity,
         numListUsers: numListUsers ?? this.numListUsers,
         numScoringUsers: numScoringUsers ?? this.numScoringUsers,
+        nsfw: nsfw ?? this.nsfw,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         mediaType: mediaType ?? this.mediaType,
@@ -286,6 +243,7 @@ class SearchNode {
         popularity: json["popularity"] == null ? 0 : json["popularity"],
         numListUsers: json["num_list_users"] == null ? 0 : json["num_list_users"],
         numScoringUsers: json["num_scoring_users"] == null ? 0 : json["num_scoring_users"],
+        nsfw: json["nsfw"] == null ? 0 : json["nsfw"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         mediaType: json["media_type"] == null ? null : json["media_type"],
@@ -314,6 +272,7 @@ class SearchNode {
         "popularity": popularity == null ? null : popularity,
         "num_list_users": numListUsers == null ? null : numListUsers,
         "num_scoring_users": numScoringUsers == null ? null : numScoringUsers,
+        "nsfw": nsfw == null ? null : nsfw,
         "created_at": createdAt == null ? null : createdAt.toIso8601String(),
         "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
         "media_type": mediaType == null ? null : mediaType,

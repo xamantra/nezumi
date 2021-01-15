@@ -119,10 +119,10 @@ class ApiService extends MomentumService {
           accessToken: accessToken,
           transformer: UserAnimeList.fromJson,
         );
-        var merged = List<AnimeData>.from(current.animeList);
-        merged.addAll(result.animeList);
+        var merged = List<AnimeDetails>.from(current.list);
+        merged.addAll(result.list);
         var n = UserAnimeList(
-          animeList: merged,
+          list: merged,
           paging: result?.paging,
         );
         return getUserAnimeList(

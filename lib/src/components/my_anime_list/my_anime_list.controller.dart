@@ -21,7 +21,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   void initializeAnimeList() {
     if (!_animeListInitialized) {
       _animeListInitialized = true;
-      if (model.userAnimeList?.animeList == null) {
+      if (model.userAnimeList?.list == null) {
         loadAnimeList();
       }
     }
@@ -69,7 +69,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         loadAnimeList();
         return;
       }
-      var current = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
+      var current = List<AnimeDetails>.from(model.userAnimeList?.list ?? []);
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
@@ -77,11 +77,11 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         customFields: allAnimeListParams(omit: omitList1),
         timeout: 360000,
       );
-      var newlyLoaded = result?.animeList ?? [];
-      await Future.forEach<AnimeData>(
+      var newlyLoaded = result?.list ?? [];
+      await Future.forEach<AnimeDetails>(
         newlyLoaded,
         (item) async {
-          var index = current.indexWhere((x) => x.node.id == item.node.id);
+          var index = current.indexWhere((x) => x.id == item.id);
           if (index >= 0) {
             current.replaceRange(index, index + 1, [item]);
           } else {
@@ -89,7 +89,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
           }
         },
       );
-      var userAnimeList = UserAnimeList(paging: result?.paging, animeList: current);
+      var userAnimeList = UserAnimeList(paging: result?.paging, list: current);
       model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
     } catch (e) {
       print(e);
@@ -110,7 +110,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int getMinutesPerEp() {
     var totalMins = 0;
     var totalEps = 0;
-    var group = model.userAnimeHistory.groupByDay;
+    var group = model.userAnimeHistory?.groupByDay ?? {};
     var lastDay = trycatch(() => group.keys.last);
     group.forEach((key, list) {
       if (key == lastDay) {
@@ -128,7 +128,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
 
   int getEpisodesPerDay() {
     var totalEps = 0;
-    var group = model.userAnimeHistory.groupByDay;
+    var group = model.userAnimeHistory?.groupByDay ?? {};
     var lastDay = trycatch(() => group.keys.last);
     var totalDays = group.entries.length - 1;
     group.forEach((key, list) {
@@ -180,9 +180,9 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     return historyGroup;
   }
 
-  AnimeData getAnime(int animeId) {
+  AnimeDetails getAnime(int animeId) {
     try {
-      var result = model.userAnimeList?.animeList?.firstWhere((x) => x.node?.id == animeId, orElse: () => null);
+      var result = model.userAnimeList?.list?.firstWhere((x) => x?.id == animeId, orElse: () => null);
       return result;
     } catch (e) {
       return null;
@@ -192,9 +192,9 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
 
   // TODO; dynamic sorting (by title, date-update, content length ... DESC/ASC)
   void sortAnimeList() {
-    var list = List<AnimeData>.from(model.userAnimeList?.animeList ?? []);
-    list.sort((a, b) => b.listStatus.updatedAt.compareTo(a.listStatus.updatedAt));
-    var sorted = UserAnimeList(paging: model?.userAnimeList?.paging, animeList: list);
+    var list = List<AnimeDetails>.from(model.userAnimeList?.list ?? []);
+    list.sort((a, b) => b.myListStatus.updatedAt.compareTo(a.myListStatus.updatedAt));
+    var sorted = UserAnimeList(paging: model?.userAnimeList?.paging, list: list);
     model.update(userAnimeList: sorted);
   }
 }

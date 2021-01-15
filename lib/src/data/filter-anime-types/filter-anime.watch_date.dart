@@ -40,7 +40,7 @@ class AnimeFilterWatchDateData extends AnimeFilterData {
   }
 
   @override
-  bool match(AnimeData animeData) {
+  bool match(AnimeDetails animeData) {
     if (started == null && finished == null) {
       return true;
     }
@@ -50,7 +50,7 @@ class AnimeFilterWatchDateData extends AnimeFilterData {
     return matched;
   }
 
-  bool startDateMatch(AnimeData animeData) {
+  bool startDateMatch(AnimeDetails animeData) {
     var animeWatchStart = animeStartWatchParseDate(animeData);
     if (animeWatchStart == null || started == null) {
       return false;
@@ -60,7 +60,7 @@ class AnimeFilterWatchDateData extends AnimeFilterData {
     return sameMomentOrAfter;
   }
 
-  bool finishDateMatch(AnimeData animeData) {
+  bool finishDateMatch(AnimeDetails animeData) {
     var animeWatchFinish = animeFinishWatchParseDate(animeData);
     if (animeWatchFinish == null || finished == null) {
       return false;

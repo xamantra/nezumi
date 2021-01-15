@@ -61,21 +61,21 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   // yearly rankings
   final int selectedYear;
-  // final List<AnimeDataItem> filteredYearlyRankings;
-  // final List<AnimeDataItem> selectedYearRankings;
+  // final List<AnimeDetails> filteredYearlyRankings;
+  // final List<AnimeDetails> selectedYearRankings;
   final List<YearlyAnimeRankingsCache> yearlyRankingsCache;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
   final TopAnimeSortBy yearlyRankingSortBy;
-  List<AnimeDataItem> getRankingByYear(int year) {
+  List<AnimeDetails> getRankingByYear(int year) {
     var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
-    var result = List<AnimeDataItem>.from(find?.rankings ?? []);
+    var result = List<AnimeDetails>.from(find?.rankings ?? []);
     return result;
   }
 
-  List<AnimeDataItem> getAllEntriesYear(int year) {
+  List<AnimeDetails> getAllEntriesYear(int year) {
     var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
-    var result = List<AnimeDataItem>.from(find?.allYearEntries ?? []);
+    var result = List<AnimeDetails>.from(find?.allYearEntries ?? []);
     return result;
   }
 
@@ -140,7 +140,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       case 8:
         return topFavorites;
       default:
-        return AnimeListGlobal(data: []);
+        return AnimeListGlobal(list: []);
     }
   }
 
@@ -165,8 +165,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     bool loadingTopPopularity,
     bool loadingTopFavorites,
     int selectedYear,
-    // List<AnimeDataItem> filteredYearlyRankings,
-    // List<AnimeDataItem> selectedYearRankings,
+    // List<AnimeDetails> filteredYearlyRankings,
+    // List<AnimeDetails> selectedYearRankings,
     List<YearlyAnimeRankingsCache> yearlyRankingsCache,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
@@ -271,8 +271,8 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   //     loadingTopPopularity: json['loadingTopPopularity'],
   //     loadingTopFavorites: json['loadingTopFavorites'],
   //     selectedYear: json['selectedYear'],
-  //     // filteredYearlyRankings: List<AnimeDataItem>.from(json['filteredYearlyRankings']?.map((x) => AnimeDataItem.fromJson(x))),
-  //     selectedYearRankings: List<AnimeDataItem>.from(json['selectedYearRankings']?.map((x) => AnimeDataItem.fromJson(x))),
+  //     // filteredYearlyRankings: List<AnimeDetails>.from(json['filteredYearlyRankings']?.map((x) => AnimeDetails.fromJson(x))),
+  //     selectedYearRankings: List<AnimeDetails>.from(json['selectedYearRankings']?.map((x) => AnimeDetails.fromJson(x))),
   //     yearlyRankingsCache: List<YearlyAnimeRankingsCache>.from(json['yearlyRankingsCache']?.map((x) => YearlyAnimeRankingsCache.fromJson(x))),
   //     loadingYearlyRankings: json['loadingYearlyRankings'],
   //     yearlyRankingOrderBy: orderBy_fromJson(json['yearlyRankingOrderBy']),

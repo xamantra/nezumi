@@ -18,8 +18,8 @@ class AnimeTopYearlyView extends StatefulWidget {
     @required this.trailBuilder,
   }) : super(key: key);
 
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) leadBuilder;
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) trailBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) leadBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) trailBuilder;
 
   @override
   _AnimeTopYearlyViewState createState() => _AnimeTopYearlyViewState();
@@ -107,9 +107,9 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                       itemCount: list.length,
                       itemBuilder: (context, index) {
                         var anime = list[index];
-                        var inMyList = mal.inMyList(anime?.node?.id);
-                        var selected = animeTop.isAnimeSelected(anime.node.id);
-                        return AnimeGlobalItemCard(
+                        var inMyList = mal.inMyList(anime?.id);
+                        var selected = animeTop.isAnimeSelected(anime.id);
+                        return AnimeItemCard(
                           anime: anime,
                           compactMode: compactMode,
                           editMode: inMyList,
@@ -127,17 +127,17 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                           onPressed: (anime) {
                             if (animeTop.selectionMode) {
                               if (selected) {
-                                animeTop.controller.unselectAnime(anime.node.id);
+                                animeTop.controller.unselectAnime(anime.id);
                               } else {
-                                animeTop.controller.selectAnime(anime.node.id);
+                                animeTop.controller.selectAnime(anime.id);
                               }
                             }
                           },
                           onLongPress: (anime) {
                             if (selected) {
-                              animeTop.controller.unselectAnime(anime.node.id);
+                              animeTop.controller.unselectAnime(anime.id);
                             } else {
-                              animeTop.controller.selectAnime(anime.node.id);
+                              animeTop.controller.selectAnime(anime.id);
                             }
                           },
                         );

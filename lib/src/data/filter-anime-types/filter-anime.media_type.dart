@@ -11,12 +11,12 @@ class AnimeFilterMediaTypeData extends AnimeFilterData {
   final List<String> selectedMediaTypes;
 
   @override
-  bool match(AnimeData animeData) {
+  bool match(AnimeDetails animeData) {
     if (selectedMediaTypes.isEmpty) {
       return true;
     }
 
-    var media_type = animeData?.node?.mediaType;
+    var media_type = animeData?.mediaType;
     var exist = selectedMediaTypes.any((x) => x == media_type);
 
     if (exist) {

@@ -4,17 +4,17 @@ import 'index.dart';
 
 class UserAnimeList {
   UserAnimeList({
-    this.animeList,
+    this.list,
     this.paging,
   });
 
-  final List<AnimeData> animeList;
+  final List<AnimeDetails> list;
   final MalPaging paging;
 
-  List<AnimeData> getByStatus(String status) {
+  List<AnimeDetails> getByStatus(String status) {
     try {
-      var result = <AnimeData>[];
-      result = animeList?.where((x) => status == "all" || x?.listStatus?.status == status)?.toList() ?? [];
+      var result = <AnimeDetails>[];
+      result = list?.where((x) => status == "all" || x?.myListStatus?.status == status)?.toList() ?? [];
       return result;
     } catch (e) {
       return [];
@@ -22,11 +22,11 @@ class UserAnimeList {
   }
 
   UserAnimeList copyWith({
-    List<AnimeData> data,
+    List<AnimeDetails> list,
     MalPaging paging,
   }) =>
       UserAnimeList(
-        animeList: data ?? this.animeList,
+        list: list ?? this.list,
         paging: paging ?? this.paging,
       );
 
@@ -34,15 +34,25 @@ class UserAnimeList {
 
   String toRawJson() => json.encode(toJson());
 
-  static UserAnimeList fromJson(Map<String, dynamic> json) => UserAnimeList(
-        animeList: json["data"] == null ? null : List<AnimeData>.from(json["data"].map((x) => AnimeData.fromJson(x))),
+  static UserAnimeList fromJson(Map<String, dynamic> json) {
+    try {
+      List<AnimeData> data = json["data"] == null ? null : List<AnimeData>.from(json["data"].map((x) => AnimeData.fromJson(x)));
+      return UserAnimeList(
+        list: (data ?? []).map<AnimeDetails>((x) => AnimeDetails.fromAnimeData(x)).toList(),
         paging: json["paging"] == null ? null : MalPaging.fromJson(json["paging"]),
       );
+    } catch (e) {
+      return null;
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        "data": animeList == null ? null : List<dynamic>.from(animeList.map((x) => x.toJson())),
-        "paging": paging == null ? null : paging.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    var originalFormat = list.map<AnimeData>((x) => AnimeData.fromAnimeDetails(x)).toList();
+    return {
+      "data": list == null ? null : List<dynamic>.from(originalFormat.map((x) => x.toJson())),
+      "paging": paging == null ? null : paging.toJson(),
+    };
+  }
 }
 
 class AnimeData {
@@ -54,23 +64,6 @@ class AnimeData {
   final EntryNode node;
   final AnimeListStatus listStatus;
 
-  bool seasonMatch(String season) {
-    return node?.seasonMatch(season) ?? false;
-  }
-
-  bool searchMatch(String query) {
-    if (query == null || query.isEmpty) {
-      return false;
-    }
-    var source = node.title;
-    source += '\n${node.alternativeTitles?.en ?? ""}';
-    source += '\n${node.alternativeTitles?.ja ?? ""}';
-    (node.alternativeTitles?.synonyms ?? []).forEach((title) {
-      source += '\n${title ?? ""}';
-    });
-    return (source ?? '').toLowerCase().contains(query?.toLowerCase() ?? '') ?? false;
-  }
-
   AnimeData copyWith({
     EntryNode node,
     AnimeListStatus listStatus,
@@ -79,58 +72,6 @@ class AnimeData {
         node: node ?? this.node,
         listStatus: listStatus ?? this.listStatus,
       );
-
-  AnimeData copyFrom(AnimeUpdateResponse response) {
-    return copyWith(
-      listStatus: AnimeListStatus(
-        status: response.status,
-        score: response.score,
-        numEpisodesWatched: response.numEpisodesWatched,
-        isRewatching: response.isRewatching,
-        updatedAt: response.updatedAt,
-        comments: response.comments,
-        tags: response.tags,
-        priority: response.priority,
-        numTimesRewatched: response.numTimesRewatched,
-        rewatchValue: response.rewatchValue,
-        startDate: response.startDate,
-        finishDate: response.finishDate,
-      ),
-    );
-  }
-
-  static AnimeData copyFromDetails(AnimeDetails details) {
-    return AnimeData(
-      node: EntryNode(
-        id: details.id,
-        title: details.title,
-        mainPicture: details.mainPicture,
-        synopsis: details.synopsis,
-        startDate: details.startDate,
-        endDate: details.endDate,
-        alternativeTitles: details.alternativeTitles,
-        numEpisodes: details.numEpisodes,
-        status: details.status,
-        genres: details.genres,
-        studios: details.studios,
-        rating: details.rating,
-        source: details.source,
-        mean: details.mean,
-        rank: details.rank,
-        popularity: details.popularity,
-        numListUsers: details.numListUsers,
-        numScoringUsers: details.numScoringUsers,
-        createdAt: details.createdAt,
-        updatedAt: details.updatedAt,
-        mediaType: details.mediaType,
-        startSeason: details.startSeason,
-        averageEpisodeDuration: details.averageEpisodeDuration,
-        broadcast: details.broadcast,
-        nsfw: details.nsfw,
-      ),
-      listStatus: details.myListStatus,
-    );
-  }
 
   factory AnimeData.fromRawJson(String str) => AnimeData.fromJson(json.decode(str));
 
@@ -145,6 +86,40 @@ class AnimeData {
         "node": node == null ? null : node.toJson(),
         "list_status": listStatus == null ? null : listStatus.toJson(),
       };
+
+  factory AnimeData.fromAnimeDetails(AnimeDetails animeDetails) {
+    var from = animeDetails;
+    return AnimeData(
+      node: EntryNode(
+        id: from.id,
+        title: from.title,
+        mainPicture: from.mainPicture,
+        alternativeTitles: from.alternativeTitles,
+        startDate: from.startDate,
+        endDate: from.endDate,
+        synopsis: from.synopsis,
+        mean: from.mean,
+        rank: from.rank,
+        popularity: from.popularity,
+        numListUsers: from.numListUsers,
+        numScoringUsers: from.numScoringUsers,
+        nsfw: from.nsfw,
+        createdAt: from.createdAt,
+        updatedAt: from.updatedAt,
+        mediaType: from.mediaType,
+        status: from.status,
+        genres: from.genres,
+        numEpisodes: from.numEpisodes,
+        startSeason: from.startSeason,
+        broadcast: from.broadcast,
+        source: from.source,
+        averageEpisodeDuration: from.averageEpisodeDuration,
+        rating: from.rating,
+        studios: from.studios,
+      ),
+      listStatus: animeDetails.myListStatus,
+    );
+  }
 }
 
 class EntryNode {
@@ -201,10 +176,6 @@ class EntryNode {
   final int averageEpisodeDuration;
   final Broadcast broadcast;
   final String nsfw;
-
-  bool seasonMatch(String season) {
-    return startSeason?.seasonMatch(season) ?? false;
-  }
 
   EntryNode copyWith({
     int id,

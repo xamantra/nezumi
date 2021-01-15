@@ -12,7 +12,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
   }) : super(controller);
 
   final List<AnimeFilterData> animeFilters;
-  final List<AnimeData> results;
+  final List<AnimeDetails> results;
 
   T getFilter<T extends AnimeFilterData>() {
     try {
@@ -35,7 +35,7 @@ class AnimeFilterModel extends MomentumModel<AnimeFilterController> {
   @override
   void update({
     List<AnimeFilterData> animeFilters,
-    List<AnimeData> results,
+    List<AnimeDetails> results,
   }) {
     AnimeFilterModel(
       controller,

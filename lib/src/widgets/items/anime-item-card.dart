@@ -13,16 +13,22 @@ class AnimeItemCard extends StatelessWidget {
     Key key,
     @required this.anime,
     this.compactMode = false,
+    this.selected = false,
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
+    this.onPressed,
+    this.onLongPress,
   }) : super(key: key);
 
-  final AnimeData anime;
+  final AnimeDetails anime;
   final bool compactMode;
+  final bool selected;
   final bool editMode;
-  final Widget Function(BuildContext context, AnimeData anime) leadBuilder;
-  final Widget Function(BuildContext context, AnimeData anime) trailBuilder;
+  final Widget Function(BuildContext context, AnimeDetails anime) leadBuilder;
+  final Widget Function(BuildContext context, AnimeDetails anime) trailBuilder;
+  final void Function(AnimeDetails anime) onPressed;
+  final void Function(AnimeDetails anime) onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +48,8 @@ class AnimeItemCard extends StatelessWidget {
                 ),
                 onTap: () {
                   ctrl<AnimeUpdateController>(context).setCurrentAnime(
-                    id: anime.node.id,
-                    title: anime.node.title,
+                    id: anime.id,
+                    title: anime.title,
                   );
                   dialog(context, EditAnimeDialog());
                 },
@@ -58,17 +64,26 @@ class AnimeItemCard extends StatelessWidget {
           child: Container(
             width: width,
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
-            color: Colors.transparent,
+            color: selected ? AppTheme.of(context).text7 : Colors.transparent,
             child: Ripple(
               padding: sy(compactMode ? 6 : 8),
-              onPressed: () {},
+              onPressed: () {
+                if (onPressed != null) {
+                  onPressed(anime);
+                }
+              },
+              onLongPress: () {
+                if (onLongPress != null) {
+                  onLongPress(anime);
+                }
+              },
               radius: 0,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   leadBuilder != null ? leadBuilder(context, anime) : SizedBox(),
                   SymmetricImage(
-                    url: anime?.node?.mainPicture?.medium ?? '',
+                    url: anime?.mainPicture?.medium ?? '',
                     size: sy(compactMode ? 26 : 36),
                   ),
                   SizedBox(width: sy(8)),
@@ -78,7 +93,7 @@ class AnimeItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          anime.node?.title,
+                          anime?.title,
                           style: TextStyle(
                             color: AppTheme.of(context).text3,
                             fontWeight: FontWeight.w600,
@@ -90,12 +105,13 @@ class AnimeItemCard extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              anime?.node?.mediaType?.toUpperCase(),
+                              anime?.mediaType?.toUpperCase(),
                               style: TextStyle(
                                 color: AppTheme.of(context).text4,
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Text(
@@ -105,6 +121,7 @@ class AnimeItemCard extends StatelessWidget {
                                 fontWeight: FontWeight.w300,
                                 fontSize: sy(7),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Dot(color: AppTheme.of(context).text5),
                             Flexible(
@@ -134,17 +151,19 @@ class AnimeItemCard extends StatelessWidget {
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                     Dot(color: AppTheme.of(context).text5),
                                     Text(
-                                      anime.source,
+                                      anime.sourceFormatted,
                                       style: TextStyle(
                                         color: AppTheme.of(context).text4,
                                         fontWeight: FontWeight.w300,
                                         fontSize: sy(7),
                                       ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ]..addAll(anime.studios.map(
+                                  ]..addAll(anime.studiosFormatted.map(
                                       (e) => Row(
                                         children: [
                                           Dot(color: AppTheme.of(context).text5),
@@ -155,6 +174,7 @@ class AnimeItemCard extends StatelessWidget {
                                               fontWeight: FontWeight.w300,
                                               fontSize: sy(7),
                                             ),
+                                            overflow: TextOverflow.ellipsis,
                                           ),
                                         ],
                                       ),

@@ -16,7 +16,7 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     );
   }
 
-  List<AnimeData> get animeListSource => mal.userAnimeList?.animeList ?? [];
+  List<AnimeDetails> get animeListSource => mal.userAnimeList?.list ?? [];
 
   void addFilter<T extends AnimeFilterData>(T filter) {
     var animeFilters = List<AnimeFilterData>.from(model.animeFilters);
@@ -48,8 +48,8 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
   void _processFilters() async {
     var source = animeListSource;
     var filters = model.animeFilters;
-    var results = <AnimeData>[];
-    await Future.forEach<AnimeData>(source, (anime) {
+    var results = <AnimeDetails>[];
+    await Future.forEach<AnimeDetails>(source, (anime) {
       var matched = filters.every((x) => x.match(anime));
       if (matched) {
         results.add(anime);
@@ -59,14 +59,14 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
       model.update(results: []);
       return;
     }
-    results.sort((a, b) => a.node.title.compareTo(b.node.title));
+    results.sort((a, b) => a.title.compareTo(b.title));
     model.update(results: results);
   }
 
   List<String> allGenre() {
     var result = <String>[];
     for (var anime in animeListSource) {
-      var genreList = anime.node?.genres ?? [];
+      var genreList = anime?.genres ?? [];
       result.addAll(genreList.map((x) => x.name));
       result = result.toSet().toList();
     }
@@ -78,14 +78,14 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     var totalMinutes = 0.0;
     var results = model.results;
     for (var anime in results) {
-      var eps = anime.listStatus.numEpisodesWatched;
+      var eps = anime.myListStatus.numEpisodesWatched;
       if (eps == null || eps == 0) {
-        eps = anime.node.numEpisodes;
+        eps = anime.numEpisodes;
       }
-      var epDuration = anime.node.averageEpisodeDuration;
+      var epDuration = anime.averageEpisodeDuration;
 
       var overallSeconds = epDuration * eps; // total seconds
-      var rewatched = anime.listStatus.numTimesRewatched;
+      var rewatched = anime.myListStatus.numTimesRewatched;
       if (rewatched != null) {
         overallSeconds *= (rewatched + 1);
       }
@@ -106,13 +106,13 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     var totalEpisodes = 0;
     var results = model.results;
     for (var anime in results) {
-      var eps = anime.listStatus.numEpisodesWatched;
+      var eps = anime.myListStatus.numEpisodesWatched;
       if (eps == null || eps == 0) {
-        eps = anime.node.numEpisodes;
+        eps = anime.numEpisodes;
       }
 
       var overallEpisodes = eps;
-      var rewatched = anime.listStatus.numTimesRewatched;
+      var rewatched = anime.myListStatus.numTimesRewatched;
       if (rewatched != null) {
         overallEpisodes *= (rewatched + 1);
       }

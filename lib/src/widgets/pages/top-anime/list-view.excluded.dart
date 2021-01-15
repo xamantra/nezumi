@@ -19,8 +19,8 @@ class AnimeTopListExlcudedView extends StatelessWidget {
     this.trailBuilder,
   }) : super(key: key);
 
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) leadBuilder;
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) trailBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) leadBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) trailBuilder;
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +114,9 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                 itemCount: list.length,
                                 itemBuilder: (context, index) {
                                   var anime = list[index];
-                                  var inMyList = mal.inMyList(anime?.node?.id);
-                                  var selected = animeTop.isAnimeSelected(anime.node.id);
-                                  return AnimeGlobalItemCard(
+                                  var inMyList = mal.inMyList(anime?.id);
+                                  var selected = animeTop.isAnimeSelected(anime.id);
+                                  return AnimeItemCard(
                                     anime: anime,
                                     compactMode: compactMode,
                                     editMode: inMyList,
@@ -134,17 +134,17 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                     onPressed: (anime) {
                                       if (animeTop.selectionMode) {
                                         if (selected) {
-                                          animeTop.controller.unselectAnime(anime.node.id);
+                                          animeTop.controller.unselectAnime(anime.id);
                                         } else {
-                                          animeTop.controller.selectAnime(anime.node.id);
+                                          animeTop.controller.selectAnime(anime.id);
                                         }
                                       }
                                     },
                                     onLongPress: (anime) {
                                       if (selected) {
-                                        animeTop.controller.unselectAnime(anime.node.id);
+                                        animeTop.controller.unselectAnime(anime.id);
                                       } else {
-                                        animeTop.controller.selectAnime(anime.node.id);
+                                        animeTop.controller.selectAnime(anime.id);
                                       }
                                     },
                                   );

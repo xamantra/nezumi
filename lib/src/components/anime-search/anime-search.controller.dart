@@ -26,7 +26,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
       return;
     }
 
-    List<AnimeData> listSource = mal.loadingAnimeList ? [] : mal.userAnimeList?.animeList ?? [];
+    List<AnimeDetails> listSource = mal.loadingAnimeList ? [] : mal.userAnimeList?.list ?? [];
     var listResults = listSource.where((x) => x.searchMatch(query)).toList();
     model.update(listResults: listResults);
   }
@@ -50,8 +50,8 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
 
-    var results = result?.data ?? [];
-    var filtered = results.where((x) => !mal.inMyList(x?.node?.id))?.toList();
+    var results = result?.list ?? [];
+    var filtered = results.where((x) => !mal.inMyList(x?.id))?.toList();
     model.update(
       results: filtered ?? [],
       prevPage: result?.paging?.prev,

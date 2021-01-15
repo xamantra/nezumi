@@ -18,8 +18,8 @@ class AnimeTopListView extends StatefulWidget {
   }) : super(key: key);
 
   final int index;
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) leadBuilder;
-  final Widget Function(BuildContext context, int index, AnimeDataItem anime) trailBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) leadBuilder;
+  final Widget Function(BuildContext context, int index, AnimeDetails anime) trailBuilder;
 
   @override
   _AnimeTopListViewState createState() => _AnimeTopListViewState();
@@ -76,14 +76,14 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
               return Loader();
             }
 
-            var list = animeTop.getTopByIndex(widget.index)?.data ?? [];
+            var list = animeTop.getTopByIndex(widget.index)?.list ?? [];
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: list.length,
               itemBuilder: (context, index) {
                 var anime = list[index];
-                var inMyList = mal.inMyList(anime?.node?.id);
-                return AnimeGlobalItemCard(
+                var inMyList = mal.inMyList(anime?.id);
+                return AnimeItemCard(
                   anime: anime,
                   compactMode: compactMode,
                   editMode: inMyList,

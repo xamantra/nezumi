@@ -5,7 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../data/index.dart';
 import '../index.dart';
 
-Widget buildAnimeGlobalItemIndexNumber(BuildContext context, int index, AnimeDataItem anime) {
+Widget buildAnimeGlobalItemIndexNumber(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Padding(
@@ -24,7 +24,7 @@ Widget buildAnimeGlobalItemIndexNumber(BuildContext context, int index, AnimeDat
   );
 }
 
-Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDataItem anime) {
+Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
@@ -32,7 +32,7 @@ Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDataItem 
         child: Badge(
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
-          text: (anime?.node?.mean ?? 0).toStringAsFixed(2),
+          text: (anime?.mean ?? 0).toStringAsFixed(2),
           fontSize: sy(10),
         ),
       );
@@ -40,25 +40,7 @@ Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDataItem 
   );
 }
 
-Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeDataItem anime) {
-  return RelativeBuilder(
-    builder: (context, height, width, sy, sx) {
-      final display = createDisplay(length: 99);
-      return Container(
-        height: sy(28),
-        padding: EdgeInsets.only(left: sy(2)),
-        child: Badge(
-          color: AppTheme.of(context).primary,
-          textColor: Colors.white,
-          text: display((anime?.node?.numListUsers ?? 0)),
-          fontSize: sy(10),
-        ),
-      );
-    },
-  );
-}
-
-Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDataItem anime) {
+Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       final display = createDisplay(length: 99);
@@ -68,7 +50,7 @@ Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDa
         child: Badge(
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
-          text: display((anime?.node?.numScoringUsers ?? 0)),
+          text: display((anime?.numListUsers ?? 0)),
           fontSize: sy(10),
         ),
       );
@@ -76,7 +58,25 @@ Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDa
   );
 }
 
-Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeDataItem anime) {
+Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      final display = createDisplay(length: 99);
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: display((anime?.numScoringUsers ?? 0)),
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
@@ -93,7 +93,7 @@ Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeD
   );
 }
 
-Widget buildAnimeGlobalItemFavorites(BuildContext context, int index, AnimeDataItem anime) {
+Widget buildAnimeGlobalItemFavorites(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return SizedBox();

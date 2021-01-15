@@ -2,12 +2,12 @@ import 'package:intl/intl.dart';
 
 import '../data/index.dart';
 
-DateTime animeStartWatchParseDate(AnimeData animeData) {
+DateTime animeStartWatchParseDate(AnimeDetails animeData) {
   // yyyy-mm-dd -> valid (datetime)
   // yyyy-mm -> invalidate (null)
   // yyyy -> invalidate (null)
 
-  var animeWatchStart = animeData?.listStatus?.startDate;
+  var animeWatchStart = animeData?.myListStatus?.startDate;
   if (animeWatchStart == null || animeWatchStart.isEmpty) {
     return null;
   }
@@ -21,12 +21,12 @@ DateTime animeStartWatchParseDate(AnimeData animeData) {
   return datetime;
 }
 
-DateTime animeFinishWatchParseDate(AnimeData animeData) {
+DateTime animeFinishWatchParseDate(AnimeDetails animeData) {
   // yyyy-mm-dd -> valid (datetime)
   // yyyy-mm -> invalidate (null)
   // yyyy -> invalidate (null)
 
-  var animeWatchFinish = animeData?.listStatus?.finishDate;
+  var animeWatchFinish = animeData?.myListStatus?.finishDate;
   if (animeWatchFinish == null || animeWatchFinish.isEmpty) {
     return null;
   }
@@ -40,8 +40,8 @@ DateTime animeFinishWatchParseDate(AnimeData animeData) {
   return datetime;
 }
 
-DateTime animeStartAirParseDate(AnimeData animeData) {
-  var startDate = animeData?.node?.startDate;
+DateTime animeStartAirParseDate(AnimeDetails animeData) {
+  var startDate = animeData?.startDate;
   if (startDate == null || startDate.isEmpty) {
     return null;
   }
@@ -55,8 +55,8 @@ DateTime animeStartAirParseDate(AnimeData animeData) {
   return datetime;
 }
 
-DateTime animeFinishAirParseDate(AnimeData animeData) {
-  var endDate = animeData?.node?.endDate;
+DateTime animeFinishAirParseDate(AnimeDetails animeData) {
+  var endDate = animeData?.endDate;
   if (endDate == null || endDate.isEmpty) {
     return null;
   }

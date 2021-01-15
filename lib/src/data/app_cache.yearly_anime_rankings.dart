@@ -4,8 +4,8 @@ import 'index.dart';
 
 class YearlyAnimeRankingsCache {
   final int year;
-  final List<AnimeDataItem> allYearEntries;
-  final List<AnimeDataItem> rankings;
+  final List<AnimeDetails> allYearEntries;
+  final List<AnimeDetails> rankings;
 
   YearlyAnimeRankingsCache({
     @required this.year,

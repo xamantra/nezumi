@@ -54,22 +54,22 @@ class AnimeFilterRewatchData extends AnimeFilterData {
   }
 
   @override
-  bool match(AnimeData animeData) {
+  bool match(AnimeDetails animeData) {
     try {
       switch (type) {
         case AnimeFilterRewatchType.none:
           return false;
           break;
         case AnimeFilterRewatchType.anyRewatched:
-          var matched = (animeData.listStatus?.numTimesRewatched ?? 0) > 0;
+          var matched = (animeData.myListStatus?.numTimesRewatched ?? 0) > 0;
           return matched;
           break;
         case AnimeFilterRewatchType.exactCount:
-          var matched = (animeData.listStatus?.numTimesRewatched ?? 0) == exactCount;
+          var matched = (animeData.myListStatus?.numTimesRewatched ?? 0) == exactCount;
           return matched;
           break;
         case AnimeFilterRewatchType.range:
-          var rw_count = animeData.listStatus?.numTimesRewatched ?? 0;
+          var rw_count = animeData.myListStatus?.numTimesRewatched ?? 0;
           var min = range[0];
           var max = range[1];
           if (rw_count >= min && rw_count <= max) {
@@ -78,12 +78,12 @@ class AnimeFilterRewatchData extends AnimeFilterData {
           return false;
           break;
         case AnimeFilterRewatchType.lessThan:
-          var rw_count = animeData.listStatus?.numTimesRewatched ?? 0;
+          var rw_count = animeData.myListStatus?.numTimesRewatched ?? 0;
           var matched = rw_count > 0 && rw_count < lessThan;
           return matched;
           break;
         case AnimeFilterRewatchType.moreThan:
-          var matched = (animeData.listStatus?.numTimesRewatched ?? 0) > moreThan;
+          var matched = (animeData.myListStatus?.numTimesRewatched ?? 0) > moreThan;
           return matched;
           break;
       }

@@ -38,7 +38,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  var inMyList = mal.inMyList(anime?.node?.id);
+                  var inMyList = mal.inMyList(anime?.id);
                   return AnimeItemCard(
                     anime: anime,
                     compactMode: compactMode,
@@ -59,8 +59,8 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  var inMyList = mal.inMyList(anime?.node?.id);
-                  return AnimeGlobalItemCard(
+                  var inMyList = mal.inMyList(anime?.id);
+                  return AnimeItemCard(
                     anime: anime,
                     compactMode: compactMode,
                     editMode: inMyList,
