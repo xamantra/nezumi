@@ -3,6 +3,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../data/index.dart';
 import '../../../mixins/index.dart';
+import '../../../utils/index.dart';
 import '../../app-theme.dart';
 import '../../index.dart';
 import 'index.dart';
@@ -27,17 +28,73 @@ class _HistoryGroupState extends State<HistoryGroup> with CoreStateMixin {
     var reqMet = totalHours >= settings.requiredHoursPerDay;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
+        String day;
+        var date = widget.historyGroupData.historyList.first.timestamp;
+        var now = DateTime.now();
+        var diff = now.difference(date).abs();
+        if (isSameDay(date, DateTime.now())) {
+          day = 'Today';
+        } else if (diff.inDays < 6) {
+          var daysDiff = now.day - date.day;
+          if (daysDiff == 1) {
+            day = 'Yesterday';
+          } else {
+            switch (date.weekday) {
+              case DateTime.sunday:
+                day = 'Sunday';
+                break;
+              case DateTime.monday:
+                day = 'Monday';
+                break;
+              case DateTime.tuesday:
+                day = 'Tuesday';
+                break;
+              case DateTime.wednesday:
+                day = 'Wednesday';
+                break;
+              case DateTime.thursday:
+                day = 'Thursday';
+                break;
+              case DateTime.friday:
+                day = 'Friday';
+                break;
+              case DateTime.saturday:
+                day = 'Saturday';
+                break;
+              default:
+                day = '';
+            }
+          }
+        } else {
+          day = '';
+        }
+
         return Column(
           children: [
             ExpansionTile(
               childrenPadding: EdgeInsets.zero,
-              title: Text(
-                widget.historyGroupData.day,
-                style: TextStyle(
-                  color: AppTheme.of(context).text3,
-                  fontWeight: FontWeight.w400,
-                  fontSize: sy(10),
-                ),
+              title: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.historyGroupData.day,
+                    style: TextStyle(
+                      color: AppTheme.of(context).text3,
+                      fontWeight: FontWeight.w400,
+                      fontSize: sy(10),
+                    ),
+                  ),
+                  SizedBox(width: sy(2)),
+                  Text(
+                    day,
+                    style: TextStyle(
+                      color: AppTheme.of(context).text7,
+                      fontWeight: FontWeight.w400,
+                      fontSize: sy(7),
+                    ),
+                  ),
+                ],
               ),
               subtitle: Row(
                 children: [

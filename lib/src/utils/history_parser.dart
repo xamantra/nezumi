@@ -26,9 +26,11 @@ AnimeHistory parseAnimeHistory(Element element) {
 DateTime parseFuzzyTime(String from) {
   // Nov 29, 10:23 PM
   DateTime result;
+  var timeZoneOffset = DateTime.now().timeZoneOffset.inHours;
   var time = from.replaceAll('Edit ', '');
   var isToday = time.contains('Today');
   var isYesterday = time.contains('Yesterday');
+
   if (isToday || isYesterday) {
     var isPM = time.contains(' PM');
     var t = time.replaceAll('Today, ', '').replaceAll('Yesterday, ', '').replaceAll(' AM', '').replaceAll(' PM', '');
@@ -48,16 +50,12 @@ DateTime parseFuzzyTime(String from) {
     if (isYesterday) {
       var today = DateFormat('y-MM-d').format(now);
       result = DateFormat('y-MM-d H:mm').parse('$today $t');
-      result = result.subtract(Duration(hours: 8));
+      result = result.subtract(Duration(hours: timeZoneOffset));
     } else {
       var today = DateFormat('y-MM-d').format(now);
       result = DateFormat('y-MM-d H:mm').parse('$today $t');
-      result = result.add(Duration(hours: 16));
+      result = result.add(Duration(hours: timeZoneOffset + 8));
     }
-    // MAL => LOCAL
-    // Today, 12:52 AM => Yesterday, 4:52 PM ..... (-8 hours)
-    // Yesterday, 8:25 PM => Yesterday, 12:25 PM ..... (-8 hours)
-    // result = result.subtract(Duration(hours: 8));
   } else if (time.contains('second')) {
     var now = DateTime.now();
     var agoStr = time.replaceAll(' seconds ago', '').replaceAll(' second ago', '');
@@ -96,10 +94,8 @@ DateTime parseFuzzyTime(String from) {
       var _d = '${day[0]}, $_t';
       var t = '${now.year} $_d';
       result = DateFormat('y MMM d, H:mm').parse(t);
-      result = result.add(Duration(hours: 16));
+      result = result.add(Duration(hours: timeZoneOffset + 8));
     } catch (e) {
-      // MMM d, y H:mm a
-      // var now = DateTime.now().toUtc().subtract(Duration(hours: 8)); // PST time.
       var day = time.split(', ');
       var year = day[1].split(' ')[0];
       day[1] = day[1].replaceAll(year, '').trim();
@@ -121,8 +117,9 @@ DateTime parseFuzzyTime(String from) {
       var _d = '${day[0]}, $_t';
       var t = '$year $_d';
       result = DateFormat('y MMM d, H:mm').parse(t);
-      result = result.add(Duration(hours: 16));
+      result = result.add(Duration(hours: timeZoneOffset + 8));
     }
   }
+
   return result;
 }

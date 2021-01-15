@@ -23,10 +23,10 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
       builder: (context, height, width, sy, sx) {
         String ago;
         var diff = DateTime.now().difference(widget.history.timestamp).abs();
-        if (diff.inHours <= 18) {
+        if (diff.inHours <= 12) {
           ago = timeago.format(widget.history.timestamp);
         } else {
-          ago = DateFormat('MMM dd, H:mm a').format(widget.history.timestamp);
+          ago = DateFormat('MMM dd, h:mm a').format(widget.history.timestamp);
         }
         return Column(
           children: [
@@ -42,22 +42,24 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
                     fontWeight: FontWeight.w400,
                     fontSize: sy(8),
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: Row(
                   children: [
                     Text(
                       'Episode ${widget.history.episode}',
                       style: TextStyle(
-                        color: AppTheme.of(context).text3,
+                        color: AppTheme.of(context).text5,
                         fontWeight: FontWeight.w300,
                         fontSize: sy(7),
                       ),
                     ),
-                    Dot(color: AppTheme.of(context).text3),
+                    Dot(color: AppTheme.of(context).text5),
                     Text(
                       ago,
                       style: TextStyle(
-                        color: AppTheme.of(context).text3,
+                        color: AppTheme.of(context).text5,
                         fontWeight: FontWeight.w300,
                         fontSize: sy(7),
                       ),
@@ -67,7 +69,7 @@ class _HistoryItemState extends State<HistoryItem> with CoreStateMixin {
                 trailing: Text(
                   '${widget.history.durationMins} mins.',
                   style: TextStyle(
-                    color: AppTheme.of(context).text3,
+                    color: AppTheme.of(context).text5,
                     fontWeight: FontWeight.w400,
                     fontSize: sy(8),
                     fontStyle: FontStyle.italic,
