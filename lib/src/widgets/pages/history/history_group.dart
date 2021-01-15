@@ -29,41 +29,45 @@ class _HistoryGroupState extends State<HistoryGroup> with CoreStateMixin {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         String day;
-        var date = widget.historyGroupData.historyList.first.timestamp;
-        var now = DateTime.now();
-        var diff = now.difference(date).abs();
-        if (isSameDay(date, now)) {
-          day = 'Today';
-        } else if (diff.inDays < 6) {
-          var daysDiff = now.day - date.day;
-          if (isSameYearMonth(date, now) && daysDiff == 1) {
-            day = 'Yesterday';
-          } else {
-            switch (date.weekday) {
-              case DateTime.sunday:
-                day = 'Sunday';
-                break;
-              case DateTime.monday:
-                day = 'Monday';
-                break;
-              case DateTime.tuesday:
-                day = 'Tuesday';
-                break;
-              case DateTime.wednesday:
-                day = 'Wednesday';
-                break;
-              case DateTime.thursday:
-                day = 'Thursday';
-                break;
-              case DateTime.friday:
-                day = 'Friday';
-                break;
-              case DateTime.saturday:
-                day = 'Saturday';
-                break;
-              default:
-                day = '';
+        var date = trycatch(() => widget.historyGroupData.historyList.first.timestamp);
+        if (date != null) {
+          var now = DateTime.now();
+          var diff = now.difference(date).abs();
+          if (isSameDay(date, now)) {
+            day = 'Today';
+          } else if (diff.inDays < 6) {
+            var daysDiff = now.day - date.day;
+            if (isSameYearMonth(date, now) && daysDiff == 1) {
+              day = 'Yesterday';
+            } else {
+              switch (date.weekday) {
+                case DateTime.sunday:
+                  day = 'Sunday';
+                  break;
+                case DateTime.monday:
+                  day = 'Monday';
+                  break;
+                case DateTime.tuesday:
+                  day = 'Tuesday';
+                  break;
+                case DateTime.wednesday:
+                  day = 'Wednesday';
+                  break;
+                case DateTime.thursday:
+                  day = 'Thursday';
+                  break;
+                case DateTime.friday:
+                  day = 'Friday';
+                  break;
+                case DateTime.saturday:
+                  day = 'Saturday';
+                  break;
+                default:
+                  day = '';
+              }
             }
+          } else {
+            day = '';
           }
         } else {
           day = '';
