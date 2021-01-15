@@ -12,16 +12,16 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
     this.iconSize,
   }) : super(key: key);
 
-  final AnimeSortBy value;
+  final TopAnimeSortBy value;
   final IconData orderByIcon;
   final double iconSize;
-  final void Function(AnimeSortBy) onChanged;
+  final void Function(TopAnimeSortBy) onChanged;
 
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
-        return PopupMenuButton<AnimeSortBy>(
+        return PopupMenuButton<TopAnimeSortBy>(
           tooltip: 'Sort By: ${getAnimeSortByLabel(value)}',
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: sy(8)),
@@ -34,9 +34,9 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
           initialValue: value,
           onSelected: onChanged,
           itemBuilder: (context) {
-            return AnimeSortBy.values
+            return TopAnimeSortBy.values
                 .map(
-                  (e) => PopupMenuItem<AnimeSortBy>(
+                  (e) => PopupMenuItem<TopAnimeSortBy>(
                     value: e,
                     child: Text(
                       getAnimeSortByLabel(e),

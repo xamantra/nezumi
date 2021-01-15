@@ -28,7 +28,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       selectedYear: DateTime.now().year,
       loadingYearlyRankings: false,
       yearlyRankingOrderBy: OrderBy.descending,
-      yearlyRankingSortBy: AnimeSortBy.score,
+      yearlyRankingSortBy: TopAnimeSortBy.score,
       fullscreen: false,
       selectionMode: false,
       // filteredYearlyRankings: [],
@@ -109,19 +109,19 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
     filtered.sort((a, b) => b.node.mean.compareTo(a.node.mean));
     switch (model.yearlyRankingSortBy) {
-      case AnimeSortBy.title:
+      case TopAnimeSortBy.title:
         filtered.sort(compareTitle);
         break;
-      case AnimeSortBy.score:
+      case TopAnimeSortBy.score:
         filtered.sort(compareMean);
         break;
-      case AnimeSortBy.member:
+      case TopAnimeSortBy.member:
         filtered.sort(compareMember);
         break;
-      case AnimeSortBy.scoringMember:
+      case TopAnimeSortBy.scoringMember:
         filtered.sort(compareScoringMember);
         break;
-      case AnimeSortBy.totalDuraton:
+      case TopAnimeSortBy.totalDuraton:
         filtered.sort(compareTotalDuration);
         break;
     }
@@ -290,19 +290,19 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
     result.sort((a, b) => b.node.mean.compareTo(a.node.mean));
     switch (model.yearlyRankingSortBy) {
-      case AnimeSortBy.title:
+      case TopAnimeSortBy.title:
         result.sort(compareTitle);
         break;
-      case AnimeSortBy.score:
+      case TopAnimeSortBy.score:
         result.sort(compareMean);
         break;
-      case AnimeSortBy.member:
+      case TopAnimeSortBy.member:
         result.sort(compareMember);
         break;
-      case AnimeSortBy.scoringMember:
+      case TopAnimeSortBy.scoringMember:
         result.sort(compareScoringMember);
         break;
-      case AnimeSortBy.totalDuraton:
+      case TopAnimeSortBy.totalDuraton:
         result.sort(compareTotalDuration);
         break;
     }
@@ -343,7 +343,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     validateAndSortYearlyRankings();
   }
 
-  void changeSortBy(AnimeSortBy sortBy) {
+  void changeSortBy(TopAnimeSortBy sortBy) {
     clearSelection();
     model.update(yearlyRankingSortBy: sortBy);
     validateAndSortYearlyRankings();

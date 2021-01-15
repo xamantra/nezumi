@@ -66,7 +66,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   final List<YearlyAnimeRankingsCache> yearlyRankingsCache;
   final bool loadingYearlyRankings;
   final OrderBy yearlyRankingOrderBy;
-  final AnimeSortBy yearlyRankingSortBy;
+  final TopAnimeSortBy yearlyRankingSortBy;
   List<AnimeDataItem> getRankingByYear(int year) {
     var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
     var result = List<AnimeDataItem>.from(find?.rankings ?? []);
@@ -170,7 +170,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     List<YearlyAnimeRankingsCache> yearlyRankingsCache,
     bool loadingYearlyRankings,
     OrderBy yearlyRankingOrderBy,
-    AnimeSortBy yearlyRankingSortBy,
+    TopAnimeSortBy yearlyRankingSortBy,
     bool fullscreen,
     bool selectionMode,
     List<int> excludedAnimeIDs,

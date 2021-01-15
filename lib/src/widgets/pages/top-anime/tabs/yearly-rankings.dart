@@ -246,18 +246,18 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
 
   Widget _buildTrailWidget(BuildContext context, int index, AnimeDataItem anime) {
     switch (animeTop.yearlyRankingSortBy) {
-      case AnimeSortBy.title:
+      case TopAnimeSortBy.title:
         break;
-      case AnimeSortBy.score:
+      case TopAnimeSortBy.score:
         return buildAnimeGlobalItemScore(context, index, anime);
         break;
-      case AnimeSortBy.member:
+      case TopAnimeSortBy.member:
         return buildAnimeGlobalItemPopularity(context, index, anime);
         break;
-      case AnimeSortBy.scoringMember:
+      case TopAnimeSortBy.scoringMember:
         return buildAnimeGlobalItemScoringUsers(context, index, anime);
         break;
-      case AnimeSortBy.totalDuraton:
+      case TopAnimeSortBy.totalDuraton:
         return buildAnimeGlobalItemTotalDuration(context, index, anime);
         break;
     }
