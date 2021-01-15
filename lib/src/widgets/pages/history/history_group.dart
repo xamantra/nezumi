@@ -32,11 +32,11 @@ class _HistoryGroupState extends State<HistoryGroup> with CoreStateMixin {
         var date = widget.historyGroupData.historyList.first.timestamp;
         var now = DateTime.now();
         var diff = now.difference(date).abs();
-        if (isSameDay(date, DateTime.now())) {
+        if (isSameDay(date, now)) {
           day = 'Today';
         } else if (diff.inDays < 6) {
           var daysDiff = now.day - date.day;
-          if (daysDiff == 1) {
+          if (isSameYearMonth(date, now) && daysDiff == 1) {
             day = 'Yesterday';
           } else {
             switch (date.weekday) {
