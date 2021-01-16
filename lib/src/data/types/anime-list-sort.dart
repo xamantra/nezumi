@@ -1,12 +1,14 @@
 enum AnimeListSortBy {
   title,
-  score,
-  member,
-  userVotes,
   lastUpdated,
+  personalScore,
   episodesWatched,
   startWatchDate,
   finishWatchDate,
+  totalDuration,
+  globalScore,
+  userVotes,
+  member,
 }
 
 String getAnimeListSortByLabel(AnimeListSortBy sortBy) {
@@ -14,7 +16,7 @@ String getAnimeListSortByLabel(AnimeListSortBy sortBy) {
     case AnimeListSortBy.title:
       return 'Title';
       break;
-    case AnimeListSortBy.score:
+    case AnimeListSortBy.globalScore:
       return 'Score';
       break;
     case AnimeListSortBy.member:
@@ -34,6 +36,12 @@ String getAnimeListSortByLabel(AnimeListSortBy sortBy) {
       break;
     case AnimeListSortBy.finishWatchDate:
       return 'Finish Watch Date';
+      break;
+    case AnimeListSortBy.personalScore:
+      return 'Personal Score';
+      break;
+    case AnimeListSortBy.totalDuration:
+      return 'Total Duration (mins)';
       break;
   }
   return '';

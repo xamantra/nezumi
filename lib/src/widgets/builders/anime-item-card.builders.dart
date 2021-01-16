@@ -25,6 +25,23 @@ Widget buildAnimeIndexNumber(BuildContext context, int index, AnimeDetails anime
   );
 }
 
+Widget buildAnimePersonalScore(BuildContext context, int index, AnimeDetails anime) {
+  var score = anime?.myListStatus?.score ?? 0;
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      return Container(
+        height: sy(28),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: score != 0 ? '$score'  : 'N/A',
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
 Widget buildAnimeScore(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {

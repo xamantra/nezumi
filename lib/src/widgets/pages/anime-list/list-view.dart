@@ -59,7 +59,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
                       switch (listSort.animeListSortBy) {
                         case AnimeListSortBy.title:
                           break;
-                        case AnimeListSortBy.score:
+                        case AnimeListSortBy.globalScore:
                           return buildAnimeScore(context, index, anime);
                         case AnimeListSortBy.member:
                           return buildAnimePopularity(context, index, anime);
@@ -73,6 +73,10 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
                           return buildAnimeStartWatch(context, index, anime);
                         case AnimeListSortBy.finishWatchDate:
                           return buildAnimeFinishWatch(context, index, anime);
+                        case AnimeListSortBy.personalScore:
+                          return buildAnimePersonalScore(context, index, anime);
+                        case AnimeListSortBy.totalDuration:
+                          return buildAnimeTotalDuration(context, index, anime);
                       }
                       return SizedBox();
                     },
