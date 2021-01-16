@@ -19,12 +19,14 @@ class AnimeItemCard extends StatelessWidget {
     this.trailBuilder,
     this.onPressed,
     this.onLongPress,
+    this.index,
   }) : super(key: key);
 
   final AnimeDetails anime;
   final bool compactMode;
   final bool selected;
   final bool editMode;
+  final int index;
   final Widget Function(BuildContext context, AnimeDetails anime) leadBuilder;
   final Widget Function(BuildContext context, AnimeDetails anime) trailBuilder;
   final void Function(AnimeDetails anime) onPressed;
@@ -66,7 +68,7 @@ class AnimeItemCard extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: sy(compactMode ? 0 : 4)),
             color: selected ? AppTheme.of(context).text7 : Colors.transparent,
             child: Ripple(
-              padding: sy(6),
+              padding: sy(2),
               onPressed: () {
                 if (onPressed != null) {
                   onPressed(anime);
@@ -82,9 +84,28 @@ class AnimeItemCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   leadBuilder != null ? leadBuilder(context, anime) : SizedBox(),
-                  SymmetricImage(
-                    url: anime?.mainPicture?.medium ?? '',
-                    size: sy(compactMode ? 26 : 36),
+                  Stack(
+                    alignment: Alignment.topLeft,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(sy(4)),
+                        child: SymmetricImage(
+                          url: anime?.mainPicture?.medium ?? '',
+                          size: sy(compactMode ? 22 : 32),
+                        ),
+                      ),
+                      index == null
+                          ? SizedBox()
+                          : Badge(
+                              color: AppTheme.of(context).accent,
+                              textColor: Colors.white,
+                              text: '${index + 1}',
+                              fontSize: sy(compactMode ? 6.5 : 8),
+                              paddingX: 3,
+                              paddingY: 3,
+                              shape: BoxShape.circle,
+                            ),
+                    ],
                   ),
                   SizedBox(width: sy(8)),
                   Expanded(

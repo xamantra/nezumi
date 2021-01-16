@@ -8,6 +8,7 @@ import '../components/anime-update/index.dart';
 import '../components/app-settings/index.dart';
 import '../components/app/index.dart';
 import '../components/export-list/index.dart';
+import '../components/list-sort/index.dart';
 import '../components/my_anime_list/index.dart';
 import '../components/settings/index.dart';
 import '../services/index.dart';
@@ -52,6 +53,14 @@ mixin CoreMixin<T> on MomentumController<T> {
       _animeFilterCtrl = controller<AnimeFilterController>();
     }
     return _animeFilterCtrl?.model;
+  }
+
+  ListSortController _listSortCtrl;
+  ListSortModel get listSort {
+    if (_listSortCtrl == null) {
+      _listSortCtrl = controller<ListSortController>();
+    }
+    return _listSortCtrl?.model;
   }
 }
 
@@ -142,5 +151,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _exportListCtrl = ctrl<ExportListController>(context);
     }
     return _exportListCtrl?.model;
+  }
+
+  ListSortController _listSortCtrl;
+  ListSortModel get listSort {
+    if (_listSortCtrl == null) {
+      _listSortCtrl = ctrl<ListSortController>(context);
+    }
+    return _listSortCtrl?.model;
   }
 }

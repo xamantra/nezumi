@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 import 'package:relative_scale/relative_scale.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../data/index.dart';
 import '../index.dart';
 
-Widget buildAnimeGlobalItemIndexNumber(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimeIndexNumber(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Padding(
@@ -24,7 +25,7 @@ Widget buildAnimeGlobalItemIndexNumber(BuildContext context, int index, AnimeDet
   );
 }
 
-Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimeScore(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
@@ -40,7 +41,7 @@ Widget buildAnimeGlobalItemScore(BuildContext context, int index, AnimeDetails a
   );
 }
 
-Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimePopularity(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       final display = createDisplay(length: 99);
@@ -58,7 +59,7 @@ Widget buildAnimeGlobalItemPopularity(BuildContext context, int index, AnimeDeta
   );
 }
 
-Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimeScoringUsers(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       final display = createDisplay(length: 99);
@@ -76,7 +77,83 @@ Widget buildAnimeGlobalItemScoringUsers(BuildContext context, int index, AnimeDe
   );
 }
 
-Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimeEpisodesWatched(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      final display = createDisplay(length: 99);
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: display((anime?.myListStatus?.numEpisodesWatched ?? 0)),
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeStartWatch(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      var start = anime?.myListStatus?.startDate;
+      if (start == null) return SizedBox();
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: start,
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeFinishWatch(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      var finish = anime?.myListStatus?.finishDate;
+      if (finish == null) return SizedBox();
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: finish,
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeLastUpdated(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      var updatedAt = anime?.myListStatus?.updatedAt;
+      if (updatedAt == null) return SizedBox();
+      var lastUpdated = timeago.format(updatedAt);
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: lastUpdated,
+          fontSize: sy(10),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeTotalDuration(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return Container(
@@ -93,7 +170,7 @@ Widget buildAnimeGlobalItemTotalDuration(BuildContext context, int index, AnimeD
   );
 }
 
-Widget buildAnimeGlobalItemFavorites(BuildContext context, int index, AnimeDetails anime) {
+Widget buildAnimeFavorites(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
       return SizedBox();

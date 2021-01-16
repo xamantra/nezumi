@@ -10,6 +10,9 @@ class Badge extends StatelessWidget {
     @required this.fontSize,
     this.borderRadius,
     this.onPressed,
+    this.paddingX,
+    this.paddingY,
+    this.shape = BoxShape.rectangle,
   }) : super(key: key);
 
   final Color color;
@@ -18,6 +21,9 @@ class Badge extends StatelessWidget {
   final double fontSize;
   final double borderRadius;
   final void Function(String) onPressed;
+  final double paddingX;
+  final double paddingY;
+  final BoxShape shape;
 
   @override
   Widget build(BuildContext context) {
@@ -32,18 +38,21 @@ class Badge extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: sy(4), vertical: sy(2)),
+              padding: EdgeInsets.symmetric(horizontal: sy(paddingX ?? 4), vertical: sy(paddingY ?? 2)),
               decoration: BoxDecoration(
                 color: color,
-                borderRadius: BorderRadius.circular(borderRadius ?? 10),
+                borderRadius: shape == BoxShape.circle ? null : BorderRadius.circular(borderRadius ?? 10),
+                shape: shape,
               ),
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: fontSize,
+              child: Center(
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: fontSize,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
             ),
           ),

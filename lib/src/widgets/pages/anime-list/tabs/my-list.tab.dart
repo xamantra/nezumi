@@ -3,7 +3,9 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/app/index.dart';
+import '../../../../components/list-sort/index.dart';
 import '../../../../components/my_anime_list/index.dart';
+import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../index.dart';
 import '../index.dart';
@@ -45,22 +47,53 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
           child: SafeArea(
             child: Column(
               children: [
-                Toolbar(
-                  height: sy(42),
-                  leadingIcon: Icons.menu,
-                  title: 'Anime List',
-                  actions: [
-                    ToolbarAction(
-                      icon: Icons.refresh,
-                      onPressed: () {
-                        mal.controller.loadAnimeList();
+                MomentumBuilder(
+                  controllers: [ListSortController],
+                  builder: (context, snapshot) {
+                    IconData orderByIcon;
+                    IconData sortByIcon;
+                    String orderBy;
+                    switch (listSort.orderAnimeBy) {
+                      case OrderBy.ascending:
+                        orderByIcon = Icons.arrow_upward;
+                        sortByIcon = CustomIcons.sort_amount_up;
+                        orderBy = 'Ascending';
+                        break;
+                      case OrderBy.descending:
+                        orderByIcon = Icons.arrow_downward;
+                        sortByIcon = CustomIcons.sort_amount_down;
+                        orderBy = 'Descending';
+                        break;
+                    }
+                    return Toolbar(
+                      height: sy(42),
+                      leadingIcon: Icons.menu,
+                      title: 'Anime List',
+                      actions: [
+                        ToolbarAction(
+                          icon: orderByIcon,
+                          size: sy(32),
+                          iconSize: sy(13),
+                          tooltip: orderBy,
+                          onPressed: () {
+                            listSort.controller.toggleOrderBy();
+                          },
+                        ),
+                        AnimeListSortMenu(
+                          value: listSort.animeListSortBy,
+                          iconSize: sy(10),
+                          orderByIcon: sortByIcon,
+                          onChanged: (sortBy) {
+                            listSort.controller.changeSortBy(sortBy);
+                          },
+                        ),
+                        // TODO: grid and list view mode switcher
+                        ToolbarAction(icon: Icons.view_list),
+                      ],
+                      leadingAction: () {
+                        Scaffold.of(context).openDrawer();
                       },
-                    ),
-                    // TODO: grid and list view mode switcher
-                    ToolbarAction(icon: Icons.view_list),
-                  ],
-                  leadingAction: () {
-                    Scaffold.of(context).openDrawer();
+                    );
                   },
                 ),
                 MomentumBuilder(

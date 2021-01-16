@@ -1,6 +1,7 @@
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
+import '../../data/types/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
 import 'index.dart';
@@ -190,11 +191,112 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
   /* front-end functions */
 
-  // TODO; dynamic sorting (by title, date-update, content length ... DESC/ASC)
   void sortAnimeList() {
     var list = List<AnimeDetails>.from(model.userAnimeList?.list ?? []);
-    list.sort((a, b) => b.myListStatus.updatedAt.compareTo(a.myListStatus.updatedAt));
-    var sorted = UserAnimeList(paging: model?.userAnimeList?.paging, list: list);
-    model.update(userAnimeList: sorted);
+    switch (listSort.animeListSortBy) {
+      case AnimeListSortBy.title:
+        list.sort(compareTitle);
+        break;
+      case AnimeListSortBy.score:
+        list.sort(compareMean);
+        break;
+      case AnimeListSortBy.member:
+        list.sort(compareMember);
+        break;
+      case AnimeListSortBy.userVotes:
+        list.sort(compareScoringMember);
+        break;
+      case AnimeListSortBy.lastUpdated:
+        list.sort(compareLastUpdated);
+        break;
+      case AnimeListSortBy.episodesWatched:
+        // list.sort(TODO);
+        break;
+      case AnimeListSortBy.startWatchDate:
+        // list.sort(TODO);
+        break;
+      case AnimeListSortBy.finishWatchDate:
+        // list.sort(TODO);
+        break;
+    }
+
+    model.update(
+      userAnimeList: UserAnimeList(
+        list: list,
+        paging: model.userAnimeList?.paging,
+      ),
+    );
+  }
+
+  int compareTitle(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return a.title.compareTo(b.title);
+        break;
+      case OrderBy.descending:
+        return b.title.compareTo(a.title);
+        break;
+    }
+    return 0;
+  }
+
+  int compareMean(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return a.mean.compareTo(b.mean);
+        break;
+      case OrderBy.descending:
+        return b.mean.compareTo(a.mean);
+        break;
+    }
+    return 0;
+  }
+
+  int compareScoringMember(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return (a.numScoringUsers ?? 0).compareTo(b.numScoringUsers ?? 0);
+        break;
+      case OrderBy.descending:
+        return (b.numScoringUsers ?? 0).compareTo(a.numScoringUsers ?? 0);
+        break;
+    }
+    return 0;
+  }
+
+  int compareLastUpdated(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return a.myListStatus.updatedAt.compareTo(b.myListStatus.updatedAt);
+        break;
+      case OrderBy.descending:
+        return b.myListStatus.updatedAt.compareTo(a.myListStatus.updatedAt);
+        break;
+    }
+    return 0;
+  }
+
+  int compareMember(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return (a.numListUsers ?? 0).compareTo(b.numListUsers ?? 0);
+        break;
+      case OrderBy.descending:
+        return (b.numListUsers ?? 0).compareTo(a.numListUsers ?? 0);
+        break;
+    }
+    return 0;
+  }
+
+  int compareTotalDuration(AnimeDetails a, AnimeDetails b) {
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        return a.totalDuration.compareTo(b.totalDuration);
+        break;
+      case OrderBy.descending:
+        return b.totalDuration.compareTo(a.totalDuration);
+        break;
+    }
+    return 0;
   }
 }

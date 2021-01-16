@@ -199,7 +199,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                     push(
                                       context,
                                       AnimeTopListExlcudedView(
-                                        leadBuilder: buildAnimeGlobalItemIndexNumber,
+                                        leadBuilder: buildAnimeIndexNumber,
                                         trailBuilder: _buildTrailWidget,
                                       ),
                                     );
@@ -228,7 +228,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                         controllers: [AnimeTopController],
                         builder: (context, snapshot) {
                           return AnimeTopYearlyView(
-                            leadBuilder: buildAnimeGlobalItemIndexNumber,
+                            leadBuilder: buildAnimeIndexNumber,
                             trailBuilder: _buildTrailWidget,
                           );
                         },
@@ -249,16 +249,16 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
       case TopAnimeSortBy.title:
         break;
       case TopAnimeSortBy.score:
-        return buildAnimeGlobalItemScore(context, index, anime);
+        return buildAnimeScore(context, index, anime);
         break;
       case TopAnimeSortBy.member:
-        return buildAnimeGlobalItemPopularity(context, index, anime);
+        return buildAnimePopularity(context, index, anime);
         break;
       case TopAnimeSortBy.scoringMember:
-        return buildAnimeGlobalItemScoringUsers(context, index, anime);
+        return buildAnimeScoringUsers(context, index, anime);
         break;
       case TopAnimeSortBy.totalDuraton:
-        return buildAnimeGlobalItemTotalDuration(context, index, anime);
+        return buildAnimeTotalDuration(context, index, anime);
         break;
     }
     return SizedBox();
