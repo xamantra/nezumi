@@ -40,6 +40,9 @@ class AnimeListSortMenu extends StatelessWidget {
                     value: e,
                     child: Text(
                       getAnimeListSortByLabel(e),
+                      style: TextStyle(
+                        fontSize: sy(9),
+                      ),
                     ),
                   ),
                 )

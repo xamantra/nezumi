@@ -40,6 +40,9 @@ class YearlyAnimeRankingSortMenu extends StatelessWidget {
                     value: e,
                     child: Text(
                       getAnimeSortByLabel(e),
+                      style: TextStyle(
+                        fontSize: sy(9),
+                      ),
                     ),
                   ),
                 )
