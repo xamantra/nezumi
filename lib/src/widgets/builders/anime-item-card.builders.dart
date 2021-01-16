@@ -34,8 +34,8 @@ Widget buildAnimePersonalScore(BuildContext context, int index, AnimeDetails ani
         child: Badge(
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
-          text: score != 0 ? '$score'  : 'N/A',
-          fontSize: sy(10),
+          text: score != 0 ? '$score' : 'N/A',
+          fontSize: sy(9),
         ),
       );
     },
@@ -51,7 +51,7 @@ Widget buildAnimeScore(BuildContext context, int index, AnimeDetails anime) {
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: (anime?.mean ?? 0).toStringAsFixed(2),
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -69,7 +69,7 @@ Widget buildAnimePopularity(BuildContext context, int index, AnimeDetails anime)
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: display((anime?.numListUsers ?? 0)),
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -87,7 +87,7 @@ Widget buildAnimeScoringUsers(BuildContext context, int index, AnimeDetails anim
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: display((anime?.numScoringUsers ?? 0)),
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -105,7 +105,7 @@ Widget buildAnimeEpisodesWatched(BuildContext context, int index, AnimeDetails a
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: display((anime?.myListStatus?.numEpisodesWatched ?? 0)),
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -124,7 +124,7 @@ Widget buildAnimeStartWatch(BuildContext context, int index, AnimeDetails anime)
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: start,
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -143,7 +143,7 @@ Widget buildAnimeFinishWatch(BuildContext context, int index, AnimeDetails anime
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: finish,
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -163,7 +163,7 @@ Widget buildAnimeLastUpdated(BuildContext context, int index, AnimeDetails anime
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: lastUpdated,
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
     },
@@ -180,17 +180,9 @@ Widget buildAnimeTotalDuration(BuildContext context, int index, AnimeDetails ani
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
           text: anime.totalDuration.toString(),
-          fontSize: sy(10),
+          fontSize: sy(9),
         ),
       );
-    },
-  );
-}
-
-Widget buildAnimeFavorites(BuildContext context, int index, AnimeDetails anime) {
-  return RelativeBuilder(
-    builder: (context, height, width, sy, sx) {
-      return SizedBox();
     },
   );
 }

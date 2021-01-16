@@ -147,7 +147,7 @@ class _MalAnimeRankingPageState extends State<MalAnimeRankingPage> with CoreStat
                               AnimeTopListView(
                                 index: 8,
                                 leadBuilder: buildAnimeIndexNumber,
-                                trailBuilder: buildAnimeFavorites,
+                                trailBuilder: (_, __, ___) => SizedBox(),
                               ),
                             ],
                           );
