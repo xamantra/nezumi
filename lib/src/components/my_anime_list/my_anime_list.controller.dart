@@ -24,6 +24,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       _animeListInitialized = true;
       if (model.userAnimeList?.list == null) {
         loadAnimeList();
+      } else {
+        sortAnimeList();
       }
     }
   }
