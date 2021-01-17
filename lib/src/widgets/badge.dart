@@ -12,6 +12,7 @@ class Badge extends StatelessWidget {
     this.onPressed,
     this.paddingX,
     this.paddingY,
+    this.fontWeight,
     this.shape = BoxShape.rectangle,
   }) : super(key: key);
 
@@ -24,6 +25,7 @@ class Badge extends StatelessWidget {
   final double paddingX;
   final double paddingY;
   final BoxShape shape;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,7 @@ class Badge extends StatelessWidget {
                   style: TextStyle(
                     color: textColor,
                     fontSize: fontSize,
+                    fontWeight: fontWeight ?? FontWeight.normal,
                   ),
                   textAlign: TextAlign.center,
                 ),
