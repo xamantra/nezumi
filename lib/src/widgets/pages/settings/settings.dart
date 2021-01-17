@@ -5,6 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/app-settings/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
+import 'widgets/index.dart';
 
 class AppSettingsPage extends StatefulWidget {
   const AppSettingsPage({Key key}) : super(key: key);
@@ -40,47 +41,13 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                   color: AppTheme.of(context).primaryBackground,
                   child: Column(
                     children: [
-                      // TODO: extract widget as "SettingItem" with appropriate parameters.
-                      Ripple(
-                        onPressed: () {
-                          appSettings.controller.changeCompactModeState(!appSettings.compactMode);
+                      BoolSettingItem(
+                        value: appSettings.compactMode,
+                        onChanged: (compactMode) {
+                          appSettings.controller.changeCompactModeState(compactMode);
                         },
-                        radius: 0,
-                        padding: sy(8),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Compact List Mode',
-                                    style: TextStyle(
-                                      fontSize: sy(11),
-                                      color: AppTheme.of(context).text1,
-                                    ),
-                                  ),
-                                  SizedBox(height: sy(4)),
-                                  Text(
-                                    'Smaller cover image, Smaller vertical padding and only two lines of text each item instead of three.',
-                                    style: TextStyle(
-                                      fontSize: sy(9),
-                                      color: AppTheme.of(context).text4,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Checkbox(
-                              value: appSettings.compactMode,
-                              activeColor: AppTheme.of(context).primary,
-                              onChanged: (compactMode) {
-                                appSettings.controller.changeCompactModeState(compactMode);
-                              },
-                            ),
-                          ],
-                        ),
+                        title: 'Compact List Mode',
+                        description: 'Smaller cover image, Smaller vertical padding and only two lines of text each item instead of three.',
                       ),
                     ],
                   ),
