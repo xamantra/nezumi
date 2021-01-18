@@ -13,6 +13,8 @@ class AppThemeData {
   final Color text5;
   final Color text6;
   final Color text7;
+  final Color text8;
+  final Color text9;
 
   AppThemeData({
     @required this.primary,
@@ -27,6 +29,8 @@ class AppThemeData {
     @required this.text5,
     @required this.text6,
     @required this.text7,
+    @required this.text8,
+    @required this.text9,
   });
 }
 
@@ -43,4 +47,6 @@ final defaultTheme = AppThemeData(
   text5: Colors.white.withOpacity(0.4),
   text6: Colors.white.withOpacity(0.3),
   text7: Colors.white.withOpacity(0.2),
+  text8: Colors.white.withOpacity(0.1),
+  text9: Colors.white.withOpacity(0.05),
 );

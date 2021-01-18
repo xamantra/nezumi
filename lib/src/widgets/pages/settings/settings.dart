@@ -49,11 +49,11 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                           appSettings.controller.changeCompactModeState(compactMode);
                         },
                         title: 'Compact List Mode',
-                        description: 'Smaller cover image, Smaller vertical padding and only two lines of text each item instead of three.',
+                        description: 'Smaller cover image, smaller vertical padding and only up to 3 anime fields is displayed aside from the entry title.',
                       ),
                       DialogSettingItem(
                         title: 'Anime List Fields',
-                        description: 'Select specific anime info to show in each item from the list.',
+                        description: 'Select specific anime info to show in each item from the list. Drag and drop to re-order.',
                         builder: (_) => AnimeListFieldsDialogSetting(),
                       ),
                     ],

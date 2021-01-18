@@ -169,18 +169,30 @@ Widget buildAnimeListFields(
         widgets.add(widget);
       }
 
-      if (length <= 3 || compactMode) {
-        return RowSeparator(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: compactMode ? widgets.sublist(0, 3) : widgets,
-          separator: separator,
+      if (length == 0) {
+        return SizedBox();
+      } else if (length <= 3 || compactMode) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: sy(2)),
+            RowSeparator(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: compactMode ? widgets.sublist(0, 3) : widgets,
+              separator: separator,
+            ),
+          ],
         );
       } else if (length > 3 && length <= 6) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
+            SizedBox(height: sy(2)),
             RowSeparator(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,

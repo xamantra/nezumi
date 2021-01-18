@@ -35,10 +35,17 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
                   settings.selectedAnimeListFields.forEach((key, value) {
                     items.add(buildItem(field: key, value: value));
                   });
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                  return ReorderableSeparator(
                     children: items,
+                    onReorder: (oldIndex, newIndex) {
+                      print([oldIndex, newIndex]);
+                      if (oldIndex == 0 && newIndex != 0) {
+                        showWarning('Cannot re-order the title.');
+                      } else {
+                        settings.controller.reorderFields(oldIndex, newIndex);
+                      }
+                    },
+                    separator: Divider(height: 1, color: AppTheme.of(context).text8),
                   );
                 }),
           );
@@ -52,19 +59,10 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
     @required bool value,
   }) {
     return RelativeBuilder(
+      key: Key('buildItem(${field.toString()})'),
       builder: (context, height, width, sy, sx) {
-        return Ripple(
-          radius: 0,
-          onPressed: () {
-            settings.controller.toggleAnimeField(field);
-            if (field == AnimeListField.title) {
-              showToast(
-                'Cannot hide title.',
-                fontSize: 14,
-                color: Colors.orange,
-              );
-            }
-          },
+        return InkWell(
+          onTap: () {},
           child: ListTile(
             title: Text(
               animeListField_toJson(field),
@@ -80,17 +78,27 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
               onChanged: (value) {
                 settings.controller.updateAnimeField(field: field, value: value);
                 if (field == AnimeListField.title) {
-                  showToast(
-                    'Cannot hide title.',
-                    fontSize: 14,
-                    color: Colors.orange,
-                  );
+                  showWarning('Cannot hide title.');
                 }
               },
             ),
+            onTap: () {
+              settings.controller.toggleAnimeField(field);
+              if (field == AnimeListField.title) {
+                showWarning('Cannot hide title.');
+              }
+            },
           ),
         );
       },
+    );
+  }
+
+  void showWarning(String message) {
+    showToast(
+      message,
+      fontSize: 14,
+      color: Colors.orange,
     );
   }
 }

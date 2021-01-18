@@ -89,4 +89,23 @@ class SettingsController extends MomentumController<SettingsModel> {
     selectedAnimeListFields[field] = !selectedAnimeListFields[field];
     model.update(selectedAnimeListFields: selectedAnimeListFields);
   }
+
+  void reorderFields(int oldIndex, int newIndex) {
+    var fields = model.selectedAnimeListFields?.keys?.toList() ?? [];
+    var field = fields[oldIndex];
+    var index = fields.indexWhere((x) => x == field);
+    fields.removeAt(index);
+    if (oldIndex < newIndex) {
+      fields.insert(newIndex - 1, field);
+    } else {
+      fields.insert(newIndex, field);
+    }
+    var oldMap = model.selectedAnimeListFields ?? {};
+    Map<AnimeListField, bool> selectedAnimeListFields = {};
+    for (var i = 0; i < fields.length; i++) {
+      var value = oldMap[fields[i]];
+      selectedAnimeListFields.putIfAbsent(fields[i], () => value);
+    }
+    model.update(selectedAnimeListFields: selectedAnimeListFields);
+  }
 }

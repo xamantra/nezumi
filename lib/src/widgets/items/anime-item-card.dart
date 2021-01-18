@@ -124,7 +124,6 @@ class AnimeItemCard extends StatelessWidget {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: sy(2)),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: fieldsBuilder == null ? SizedBox() : fieldsBuilder(context, anime),
