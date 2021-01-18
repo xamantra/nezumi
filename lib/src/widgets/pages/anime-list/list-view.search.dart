@@ -5,6 +5,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-search/index.dart';
 import '../../../mixins/index.dart';
+import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 
@@ -26,6 +27,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
   @override
   Widget build(BuildContext context) {
     var compactMode = appSettings.compactMode;
+    var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -43,6 +45,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                     anime: anime,
                     compactMode: compactMode,
                     editMode: inMyList,
+                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                   );
                 },
               );
@@ -64,6 +67,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                     anime: anime,
                     compactMode: compactMode,
                     editMode: inMyList,
+                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                   );
                 },
               );

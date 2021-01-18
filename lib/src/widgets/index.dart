@@ -12,5 +12,6 @@ export 'image.dart';
 export 'loader.dart';
 export 'my-list.tab_item.dart';
 export 'ripple.dart';
+export 'row.separator.dart';
 export 'sized-button.dart';
 export 'toolbar.action.dart';

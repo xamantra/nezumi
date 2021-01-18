@@ -17,6 +17,7 @@ class AnimeItemCard extends StatelessWidget {
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
+    @required this.fieldsBuilder,
     this.onPressed,
     this.onLongPress,
     this.index,
@@ -29,6 +30,7 @@ class AnimeItemCard extends StatelessWidget {
   final int index;
   final Widget Function(BuildContext context, AnimeDetails anime) leadBuilder;
   final Widget Function(BuildContext context, AnimeDetails anime) trailBuilder;
+  final Widget Function(BuildContext context, AnimeDetails anime) fieldsBuilder;
   final void Function(AnimeDetails anime) onPressed;
   final void Function(AnimeDetails anime) onLongPress;
 
@@ -107,10 +109,10 @@ class AnimeItemCard extends StatelessWidget {
                             ),
                     ],
                   ),
-                  SizedBox(width: sy(8)),
+                  SizedBox(width: sy(2)),
                   Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -122,89 +124,111 @@ class AnimeItemCard extends StatelessWidget {
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(height: sy(4)),
-                        Row(
-                          children: [
-                            Text(
-                              anime?.mediaType?.toUpperCase(),
-                              style: TextStyle(
-                                color: AppTheme.of(context).text4,
-                                fontWeight: FontWeight.w300,
-                                fontSize: sy(7),
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Dot(color: AppTheme.of(context).text5),
-                            Text(
-                              anime.animeStatus,
-                              style: TextStyle(
-                                color: AppTheme.of(context).text4,
-                                fontWeight: FontWeight.w300,
-                                fontSize: sy(7),
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Dot(color: AppTheme.of(context).text5),
-                            Flexible(
-                              child: Text(
-                                '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
-                                style: TextStyle(
-                                  color: AppTheme.of(context).text4,
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: sy(7),
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                        SizedBox(height: sy(2)),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: fieldsBuilder == null ? SizedBox() : fieldsBuilder(context, anime),
                         ),
-                        compactMode ? SizedBox() : SizedBox(height: sy(4)),
-                        compactMode
-                            ? SizedBox()
-                            : SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      anime.season,
-                                      style: TextStyle(
-                                        color: AppTheme.of(context).text4,
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: sy(7),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    Dot(color: AppTheme.of(context).text5),
-                                    Text(
-                                      anime.sourceFormatted,
-                                      style: TextStyle(
-                                        color: AppTheme.of(context).text4,
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: sy(7),
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ]..addAll(anime.studiosFormatted.map(
-                                      (e) => Row(
-                                        children: [
-                                          Dot(color: AppTheme.of(context).text5),
-                                          Text(
-                                            e,
-                                            style: TextStyle(
-                                              color: AppTheme.of(context).text4,
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: sy(7),
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    )),
-                                ),
-                              ),
                       ],
                     ),
                   ),
+                  // Expanded(
+                  //   child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  // Text(
+                  //   anime?.title,
+                  //   style: TextStyle(
+                  //     color: AppTheme.of(context).text3,
+                  //     fontWeight: FontWeight.w600,
+                  //     fontSize: sy(10),
+                  //   ),
+                  //   overflow: TextOverflow.ellipsis,
+                  // ),
+                  //       SizedBox(height: sy(4)),
+                  //       Row(
+                  //         children: [
+                  //           Text(
+                  //             anime?.mediaType?.toUpperCase(),
+                  //             style: TextStyle(
+                  //               color: AppTheme.of(context).text4,
+                  //               fontWeight: FontWeight.w300,
+                  //               fontSize: sy(7),
+                  //             ),
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //           Dot(color: AppTheme.of(context).text5),
+                  //           Text(
+                  //             anime.animeStatus,
+                  //             style: TextStyle(
+                  //               color: AppTheme.of(context).text4,
+                  //               fontWeight: FontWeight.w300,
+                  //               fontSize: sy(7),
+                  //             ),
+                  //             overflow: TextOverflow.ellipsis,
+                  //           ),
+                  //           Dot(color: AppTheme.of(context).text5),
+                  //           Flexible(
+                  //             child: Text(
+                  //               '${anime.durationPerEpisode} mins x ${anime.episodeCount}',
+                  //               style: TextStyle(
+                  //                 color: AppTheme.of(context).text4,
+                  //                 fontWeight: FontWeight.w300,
+                  //                 fontSize: sy(7),
+                  //               ),
+                  //               overflow: TextOverflow.ellipsis,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //       compactMode ? SizedBox() : SizedBox(height: sy(4)),
+                  //       compactMode
+                  //           ? SizedBox()
+                  //           : SingleChildScrollView(
+                  //               scrollDirection: Axis.horizontal,
+                  //               child: Row(
+                  //                 children: [
+                  //                   Text(
+                  //                     anime.season,
+                  //                     style: TextStyle(
+                  //                       color: AppTheme.of(context).text4,
+                  //                       fontWeight: FontWeight.w300,
+                  //                       fontSize: sy(7),
+                  //                     ),
+                  //                     overflow: TextOverflow.ellipsis,
+                  //                   ),
+                  //                   Dot(color: AppTheme.of(context).text5),
+                  //                   Text(
+                  //                     anime.sourceFormatted,
+                  //                     style: TextStyle(
+                  //                       color: AppTheme.of(context).text4,
+                  //                       fontWeight: FontWeight.w300,
+                  //                       fontSize: sy(7),
+                  //                     ),
+                  //                     overflow: TextOverflow.ellipsis,
+                  //                   ),
+                  //                 ]..addAll(anime.studiosFormatted.map(
+                  //                     (e) => Row(
+                  //                       children: [
+                  //                         Dot(color: AppTheme.of(context).text5),
+                  //                         Text(
+                  //                           e,
+                  //                           style: TextStyle(
+                  //                             color: AppTheme.of(context).text4,
+                  //                             fontWeight: FontWeight.w300,
+                  //                             fontSize: sy(7),
+                  //                           ),
+                  //                           overflow: TextOverflow.ellipsis,
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   )),
+                  //               ),
+                  //             ),
+                  //     ],
+                  //   ),
+                  // ),
                   trailBuilder != null ? trailBuilder(context, anime) : SizedBox(),
                 ],
               ),

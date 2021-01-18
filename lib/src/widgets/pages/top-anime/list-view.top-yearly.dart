@@ -6,6 +6,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/anime-top/index.dart';
 import '../../../data/index.dart';
 import '../../../mixins/index.dart';
+import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 import '../anime-list/tabs/anime-filter-widgets/index.dart';
@@ -45,6 +46,8 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
             if (onlyOneSelectd) {
               selectedAnimeId = animeTop.selectedAnimeIDs.first;
             }
+
+            var fields = settings.getSelectedAnimeFields ?? [];
 
             return Column(
               children: [
@@ -124,6 +127,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                                   return widget.trailBuilder(context, index, anime);
                                 }
                               : null,
+                          fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                           onPressed: (anime) {
                             if (animeTop.selectionMode) {
                               if (selected) {

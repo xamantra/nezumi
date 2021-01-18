@@ -6,6 +6,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/anime-top/index.dart';
 import '../../../data/index.dart';
 import '../../../mixins/index.dart';
+import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 
@@ -77,6 +78,8 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
             }
 
             var list = animeTop.getTopByIndex(widget.index)?.list ?? [];
+            var fields = settings.getSelectedAnimeFields ?? [];
+
             return ListView.builder(
               physics: BouncingScrollPhysics(),
               itemCount: list.length,
@@ -97,6 +100,7 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
                           return widget.trailBuilder(context, index, anime);
                         }
                       : null,
+                  fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                 );
               },
             );

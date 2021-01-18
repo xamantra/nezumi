@@ -4,6 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../components/anime-filter/index.dart';
 import '../../../../../mixins/index.dart';
+import '../../../../builders/index.dart';
 import '../../../../items/index.dart';
 import 'index.dart';
 
@@ -18,6 +19,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
   @override
   Widget build(BuildContext context) {
     var compactMode = appSettings.compactMode;
+    var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -88,6 +90,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                       return AnimeItemCard(
                         anime: anime,
                         compactMode: compactMode,
+                        fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                       );
                     },
                   ),

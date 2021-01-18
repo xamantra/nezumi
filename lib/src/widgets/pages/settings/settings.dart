@@ -6,6 +6,7 @@ import '../../../components/app-settings/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
 import 'widgets/index.dart';
+import 'widgets/items/index.dart';
 
 class AppSettingsPage extends StatefulWidget {
   const AppSettingsPage({Key key}) : super(key: key);
@@ -40,6 +41,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                   width: width,
                   color: AppTheme.of(context).primaryBackground,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BoolSettingItem(
                         value: appSettings.compactMode,
@@ -48,6 +50,11 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                         },
                         title: 'Compact List Mode',
                         description: 'Smaller cover image, Smaller vertical padding and only two lines of text each item instead of three.',
+                      ),
+                      DialogSettingItem(
+                        title: 'Anime List Fields',
+                        description: 'Select specific anime info to show in each item from the list.',
+                        builder: (_) => AnimeListFieldsDialogSetting(),
                       ),
                     ],
                   ),

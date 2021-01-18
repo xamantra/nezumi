@@ -22,3 +22,18 @@ const allAnimeMediaTypeList = [
 ];
 
 const allAnimeSeasonNames = ['Winter', 'Spring', 'Summer', 'Fall'];
+
+const animeListFields = [
+  'Title',
+  'Format',
+  'Season',
+  'Airing Status',
+  'List Status',
+  'Episode count',
+  'Episodes watched',
+  'Duration per episode',
+  'Total duration',
+  'Source Material',
+  'Studio/s',
+  'Age Rating',
+];

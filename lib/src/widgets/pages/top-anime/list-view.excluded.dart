@@ -5,9 +5,11 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../components/anime-top/index.dart';
 import '../../../components/app-settings/index.dart';
 import '../../../components/my_anime_list/index.dart';
+import '../../../components/settings/index.dart';
 import '../../../data/index.dart';
 import '../../../data/types/index.dart';
 import '../../../utils/index.dart';
+import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 import 'index.dart';
@@ -32,10 +34,12 @@ class AnimeTopListExlcudedView extends StatelessWidget {
             controllers: [AnimeTopController],
             builder: (context, snapshot) {
               var settings = ctrl<AppSettingsController>(context).model;
+              var s2 = ctrl<SettingsController>(context).model;
               var mal = ctrl<MyAnimeListController>(context).model;
               var animeTop = ctrl<AnimeTopController>(context).model;
 
               var compactMode = settings.compactMode;
+              var fields = s2.getSelectedAnimeFields ?? [];
               var list = animeTop.controller.getExcludedList();
 
               var onlyOneSelectd = animeTop.selectedAnimeIDs.length == 1;
@@ -131,6 +135,7 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                             return trailBuilder(context, index, anime);
                                           }
                                         : null,
+                                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                                     onPressed: (anime) {
                                       if (animeTop.selectionMode) {
                                         if (selected) {

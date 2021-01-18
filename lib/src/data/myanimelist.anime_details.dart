@@ -289,6 +289,15 @@ class AnimeDetails {
   /* Parsers and Converters */
 
   /* Getters */
+  String get listStatus {
+    try {
+      var s = StringUtils.capitalize(myListStatus.status?.replaceAll('_', ' ') ?? '', allWords: true);
+      return s;
+    } catch (e) {
+      return '';
+    }
+  }
+
   String get animeStatus {
     try {
       var s = StringUtils.capitalize(status?.replaceAll('_', ' ') ?? '', allWords: true);
@@ -352,6 +361,11 @@ class AnimeDetails {
     } catch (e) {
       return [];
     }
+  }
+
+  int get durationPerEp {
+    var avgD = averageEpisodeDuration ?? 0;
+    return avgD ~/ 60;
   }
 
   int get totalDuration {
