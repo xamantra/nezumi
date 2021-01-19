@@ -6,8 +6,7 @@ enum AnimeListField {
   season,
   airingStatus,
   listStatus,
-  episodeCount,
-  episodesWatched,
+  episodes,
   durationPerEpisode,
   totalDuration,
   sourceMaterial,
@@ -16,11 +15,19 @@ enum AnimeListField {
 }
 
 String animeListField_toJson(AnimeListField field) {
-  var index = AnimeListField.values.indexOf(field);
-  return animeListFields[index];
+  try {
+    var index = AnimeListField.values.indexOf(field);
+    return animeListFields[index];
+  } catch (e) {
+    return '';
+  }
 }
 
 AnimeListField animeListField_fromJson(String raw) {
-  var index = animeListFields.indexOf(raw);
-  return AnimeListField.values[index];
+  try {
+    var index = animeListFields.indexOf(raw);
+    return AnimeListField.values[index];
+  } catch (e) {
+    return AnimeListField.title;
+  }
 }

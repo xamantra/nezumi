@@ -17,7 +17,7 @@ class SettingsModel extends MomentumModel<SettingsController> {
   final Map<AnimeListField, bool> selectedAnimeListFields;
   List<AnimeListField> get getSelectedAnimeFields {
     var result = <AnimeListField>[];
-    selectedAnimeListFields.forEach((key, value) {
+    selectedAnimeListFields?.forEach((key, value) {
       if (value) {
         result.add(key);
       }
@@ -43,7 +43,7 @@ class SettingsModel extends MomentumModel<SettingsController> {
 
   Map<String, dynamic> toJson() {
     Map<String, bool> _jsonAnimeFields = {};
-    selectedAnimeListFields.forEach((key, value) {
+    selectedAnimeListFields?.forEach((key, value) {
       _jsonAnimeFields.putIfAbsent(animeListField_toJson(key), () => value);
     });
     return {

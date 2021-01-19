@@ -19,9 +19,9 @@ class SettingsController extends MomentumController<SettingsModel> {
     initializeAnimeListFields();
   }
 
-  void initializeAnimeListFields() {
+  void initializeAnimeListFields({bool reset = false}) {
     var current = model.selectedAnimeListFields;
-    if (current == null || current.isEmpty) {
+    if (current == null || current.isEmpty || reset) {
       Map<AnimeListField, bool> selectedAnimeListFields = {};
       for (var field in AnimeListField.values) {
         switch (field) {
@@ -40,11 +40,8 @@ class SettingsController extends MomentumController<SettingsModel> {
           case AnimeListField.listStatus:
             selectedAnimeListFields.putIfAbsent(AnimeListField.listStatus, () => false);
             break;
-          case AnimeListField.episodeCount:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.episodeCount, () => true);
-            break;
-          case AnimeListField.episodesWatched:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.episodesWatched, () => false);
+          case AnimeListField.episodes:
+            selectedAnimeListFields.putIfAbsent(AnimeListField.episodes, () => true);
             break;
           case AnimeListField.durationPerEpisode:
             selectedAnimeListFields.putIfAbsent(AnimeListField.durationPerEpisode, () => true);
@@ -85,13 +82,15 @@ class SettingsController extends MomentumController<SettingsModel> {
       sendEvent(SettingsWarning('Cannot hide title.'));
       return;
     }
+    var selectedAnimeListFields = Map<AnimeListField, bool>.from(model.selectedAnimeListFields);
+    selectedAnimeListFields[field] = !selectedAnimeListFields[field];
+
     var currentlyChecked = model.getSelectedAnimeFields.length;
-    if (currentlyChecked >= 7) {
+    if (currentlyChecked >= 7 && selectedAnimeListFields[field]) {
       sendEvent(SettingsError('Can only show up to 6 fields in anime list item aside from the title.'));
       return;
     }
-    var selectedAnimeListFields = Map<AnimeListField, bool>.from(model.selectedAnimeListFields);
-    selectedAnimeListFields[field] = !selectedAnimeListFields[field];
+
     model.update(selectedAnimeListFields: selectedAnimeListFields);
   }
 

@@ -41,26 +41,67 @@ class _AnimeListFieldsDialogSettingState extends MomentumState<AnimeListFieldsDi
         builder: (context, height, width, sy, sx) {
           return Container(
             width: width,
+            height: height,
             decoration: BoxDecoration(
               color: AppTheme.of(context).primaryBackground,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: MomentumBuilder(
-                controllers: [SettingsController],
-                builder: (context, snapshot) {
-                  var items = <Widget>[];
-                  settings.selectedAnimeListFields.forEach((key, value) {
-                    items.add(buildItem(field: key, value: value));
-                  });
-                  return ReorderableSeparator(
-                    children: items,
-                    onReorder: (oldIndex, newIndex) {
-                      print([oldIndex, newIndex]);
-                      settings.controller.reorderFields(oldIndex, newIndex);
-                    },
-                    separator: Divider(height: 1, color: AppTheme.of(context).text8),
-                  );
-                }),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: sy(8)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Choose anime info',
+                        style: TextStyle(
+                          fontSize: sy(12),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Spacer(),
+                      SizedButton(
+                        height: sy(32),
+                        width: sy(40),
+                        radius: 5,
+                        child: Text(
+                          'Reset',
+                          style: TextStyle(
+                            fontSize: sy(10),
+                            fontWeight: FontWeight.w400,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                        onPressed: () {
+                          settings.controller.initializeAnimeListFields(reset: true);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: MomentumBuilder(
+                      controllers: [SettingsController],
+                      builder: (context, snapshot) {
+                        var items = <Widget>[];
+                        settings.selectedAnimeListFields.forEach((key, value) {
+                          items.add(buildItem(field: key, value: value));
+                        });
+                        return ReorderableSeparator(
+                          children: items,
+                          onReorder: (oldIndex, newIndex) {
+                            print([oldIndex, newIndex]);
+                            settings.controller.reorderFields(oldIndex, newIndex);
+                          },
+                          separator: Divider(height: 1, color: AppTheme.of(context).text8),
+                        );
+                      }),
+                ),
+              ],
+            ),
           );
         },
       ),

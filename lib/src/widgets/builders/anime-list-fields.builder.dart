@@ -24,22 +24,27 @@ Widget buildAnimeListFields(
           case AnimeListField.title:
             break;
           case AnimeListField.format:
+            var format = anime?.mediaType?.toUpperCase();
+            var unknown = format == 'UNKNOWN';
             widget = Text(
-              anime?.mediaType?.toUpperCase(),
+              unknown ? 'Unknown Format' : anime?.mediaType?.toUpperCase(),
               style: TextStyle(
-                color: AppTheme.of(context).text4,
+                color: unknown ? AppTheme.of(context).text6 : AppTheme.of(context).text4,
                 fontWeight: FontWeight.w300,
+                fontStyle: unknown ? FontStyle.italic : FontStyle.normal,
                 fontSize: sy(7),
               ),
               overflow: TextOverflow.ellipsis,
             );
             break;
           case AnimeListField.season:
+            var unknown = anime.season == '? ?';
             widget = Text(
-              anime.season,
+              unknown ? 'Unknown Season' : anime.season,
               style: TextStyle(
-                color: AppTheme.of(context).text4,
+                color: unknown ? AppTheme.of(context).text6 : AppTheme.of(context).text4,
                 fontWeight: FontWeight.w300,
+                fontStyle: unknown ? FontStyle.italic : FontStyle.normal,
                 fontSize: sy(7),
               ),
               overflow: TextOverflow.ellipsis,
@@ -67,20 +72,26 @@ Widget buildAnimeListFields(
               overflow: TextOverflow.ellipsis,
             );
             break;
-          case AnimeListField.episodeCount:
+          case AnimeListField.episodes:
+            var eps = '${anime.numEpisodes == 0 ? "??" : anime.numEpisodes} eps';
+            var listStatus = anime?.myListStatus;
+            var watchedEps = '';
+            switch (listStatus?.status ?? 'NONE') {
+              case 'watching':
+                watchedEps = '${listStatus.numEpisodesWatched}/';
+                break;
+              case 'on_hold':
+                watchedEps = '${listStatus.numEpisodesWatched}/';
+                break;
+              case 'dropped':
+                watchedEps = '${listStatus.numEpisodesWatched}/';
+                break;
+              default:
+                break;
+            }
+            var episodes = '$watchedEps$eps';
             widget = Text(
-              '${anime.numEpisodes == 0 ? "??" : anime.numEpisodes} eps',
-              style: TextStyle(
-                color: AppTheme.of(context).text4,
-                fontWeight: FontWeight.w300,
-                fontSize: sy(7),
-              ),
-              overflow: TextOverflow.ellipsis,
-            );
-            break;
-          case AnimeListField.episodesWatched:
-            widget = Text(
-              '${anime.myListStatus?.numEpisodesWatched?.toString() ?? 0} watched eps',
+              episodes,
               style: TextStyle(
                 color: AppTheme.of(context).text4,
                 fontWeight: FontWeight.w300,
@@ -90,22 +101,36 @@ Widget buildAnimeListFields(
             );
             break;
           case AnimeListField.durationPerEpisode:
+            var duration = '${anime.durationPerEp == 0 ? "Unknown" : anime.durationPerEp}';
+            var unknown = duration == 'Unknown';
             widget = Text(
-              '${anime.durationPerEp == 0 ? "Unknown" : anime.durationPerEp} mins/ep',
+              '$duration mins/ep',
               style: TextStyle(
-                color: AppTheme.of(context).text4,
+                color: unknown ? AppTheme.of(context).text6 : AppTheme.of(context).text4,
                 fontWeight: FontWeight.w300,
+                fontStyle: unknown ? FontStyle.italic : FontStyle.normal,
                 fontSize: sy(7),
               ),
               overflow: TextOverflow.ellipsis,
             );
             break;
           case AnimeListField.totalDuration:
+            var duration = '${anime.totalDuration == 0 ? "Unknown" : anime.totalDuration}';
+            var unknown = duration == 'Unknown';
+
+            var formatted = '';
+            var hours = anime.totalDuration / 60;
+            if (hours >= 1) {
+              formatted = '${hours.toStringAsFixed(1)} hours';
+            } else {
+              formatted = '$duration mins';
+            }
             widget = Text(
-              '${anime.totalDuration == 0 ? "Unknown" : anime.totalDuration}',
+              unknown ? 'Unknown duration' : formatted,
               style: TextStyle(
-                color: AppTheme.of(context).text4,
+                color: unknown ? AppTheme.of(context).text6 : AppTheme.of(context).text4,
                 fontWeight: FontWeight.w300,
+                fontStyle: unknown ? FontStyle.italic : FontStyle.normal,
                 fontSize: sy(7),
               ),
               overflow: TextOverflow.ellipsis,
