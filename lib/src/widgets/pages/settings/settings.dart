@@ -18,7 +18,6 @@ class AppSettingsPage extends StatefulWidget {
 class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
-    // TODO: add "Anime List Item Fields" setting that allows user to select which anime fields they want to get displayed in all anime listing page (media-type, airing-status, list-status, episodes, etc...)
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -53,7 +52,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                       ),
                       DialogSettingItem(
                         title: 'Anime List Fields',
-                        description: 'Select specific anime info to show in each item from the list. Drag and drop to re-order.',
+                        description: 'Select specific anime info to show in each item from the list. Drag and drop to re-order. And can only show up to 6 fields aside from the title.',
                         builder: (_) => AnimeListFieldsDialogSetting(),
                       ),
                     ],

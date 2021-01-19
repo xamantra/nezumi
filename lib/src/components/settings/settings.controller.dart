@@ -72,7 +72,7 @@ class SettingsController extends MomentumController<SettingsModel> {
     @required bool value,
   }) {
     if (field == AnimeListField.title) {
-      // title is always shown.
+      sendEvent(SettingsWarning('Cannot hide title.'));
       return;
     }
     var selectedAnimeListFields = Map<AnimeListField, bool>.from(model.selectedAnimeListFields);
@@ -82,7 +82,12 @@ class SettingsController extends MomentumController<SettingsModel> {
 
   void toggleAnimeField(AnimeListField field) {
     if (field == AnimeListField.title) {
-      // title is always shown.
+      sendEvent(SettingsWarning('Cannot hide title.'));
+      return;
+    }
+    var currentlyChecked = model.getSelectedAnimeFields.length;
+    if (currentlyChecked >= 7) {
+      sendEvent(SettingsError('Can only show up to 6 fields in anime list item aside from the title.'));
       return;
     }
     var selectedAnimeListFields = Map<AnimeListField, bool>.from(model.selectedAnimeListFields);
@@ -91,6 +96,12 @@ class SettingsController extends MomentumController<SettingsModel> {
   }
 
   void reorderFields(int oldIndex, int newIndex) {
+    var titleMoved = oldIndex == 0 && newIndex != 0;
+    var titleAffected = newIndex == 0 && oldIndex != 0;
+    if (titleMoved || titleAffected) {
+      sendEvent(SettingsWarning('Cannot re-order the title.'));
+      return;
+    }
     var fields = model.selectedAnimeListFields?.keys?.toList() ?? [];
     var field = fields[oldIndex];
     var index = fields.indexWhere((x) => x == field);

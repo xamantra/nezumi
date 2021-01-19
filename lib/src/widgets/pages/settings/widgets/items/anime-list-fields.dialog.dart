@@ -15,7 +15,24 @@ class AnimeListFieldsDialogSetting extends StatefulWidget {
   _AnimeListFieldsDialogSettingState createState() => _AnimeListFieldsDialogSettingState();
 }
 
-class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSetting> with CoreStateMixin {
+class _AnimeListFieldsDialogSettingState extends MomentumState<AnimeListFieldsDialogSetting> with CoreStateMixin {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    settings.controller.listen<SettingsWarning>(
+      state: this,
+      invoke: (event) {
+        showWarning(event.message);
+      },
+    );
+    settings.controller.listen<SettingsError>(
+      state: this,
+      invoke: (event) {
+        showError(event.message);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -39,11 +56,7 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
                     children: items,
                     onReorder: (oldIndex, newIndex) {
                       print([oldIndex, newIndex]);
-                      if (oldIndex == 0 && newIndex != 0) {
-                        showWarning('Cannot re-order the title.');
-                      } else {
-                        settings.controller.reorderFields(oldIndex, newIndex);
-                      }
+                      settings.controller.reorderFields(oldIndex, newIndex);
                     },
                     separator: Divider(height: 1, color: AppTheme.of(context).text8),
                   );
@@ -77,16 +90,10 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               onChanged: (value) {
                 settings.controller.updateAnimeField(field: field, value: value);
-                if (field == AnimeListField.title) {
-                  showWarning('Cannot hide title.');
-                }
               },
             ),
             onTap: () {
               settings.controller.toggleAnimeField(field);
-              if (field == AnimeListField.title) {
-                showWarning('Cannot hide title.');
-              }
             },
           ),
         );
@@ -99,6 +106,14 @@ class _AnimeListFieldsDialogSettingState extends State<AnimeListFieldsDialogSett
       message,
       fontSize: 14,
       color: Colors.orange,
+    );
+  }
+
+  void showError(String message) {
+    showToast(
+      message,
+      fontSize: 14,
+      color: Colors.redAccent,
     );
   }
 }
