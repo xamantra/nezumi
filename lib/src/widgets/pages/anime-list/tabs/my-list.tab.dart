@@ -110,6 +110,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                       height: sy(30),
                       width: width,
                       color: AppTheme.of(context).primary,
+                      padding: EdgeInsets.symmetric(horizontal: sy(8)),
                       child: TabBar(
                         controller: tabController,
                         isScrollable: true,

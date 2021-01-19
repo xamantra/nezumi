@@ -28,9 +28,9 @@ class MyListTabItem extends StatelessWidget {
                 Text(
                   label,
                   style: TextStyle(
-                    fontSize: sy(9),
+                    fontSize: sy((active ?? false) ? 11 : 9),
                     color: Colors.white,
-                    fontWeight: (active ?? false) ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: (active ?? false) ? FontWeight.w600 : FontWeight.w500,
                   ),
                 ),
                 (count ?? 0) == 0
