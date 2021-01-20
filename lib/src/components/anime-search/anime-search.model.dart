@@ -11,6 +11,7 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
     this.loadingResult,
     this.prevPage,
     this.nextPage,
+    this.currentPage,
     this.listResults,
   }) : super(controller);
 
@@ -21,6 +22,7 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
   final String prevPage;
   final String nextPage;
   final bool loadingResult;
+  final int currentPage;
 
   /// Search results from user's list only.
   final List<AnimeDetails> listResults;
@@ -32,6 +34,7 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
     String prevPage,
     String nextPage,
     bool loadingResult,
+    int currentPage,
     List<AnimeDetails> listResults,
   }) {
     AnimeSearchModel(
@@ -41,6 +44,7 @@ class AnimeSearchModel extends MomentumModel<AnimeSearchController> {
       prevPage: prevPage ?? this.prevPage,
       nextPage: nextPage ?? this.nextPage,
       loadingResult: loadingResult ?? this.loadingResult,
+      currentPage: currentPage ?? this.currentPage,
       listResults: listResults ?? this.listResults,
     ).updateMomentum();
   }

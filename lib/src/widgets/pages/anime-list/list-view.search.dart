@@ -83,39 +83,12 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
               var list = animeSearch.results ?? [];
               return Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedButton(
-                        height: sy(36),
-                        width: sy(36),
-                        radius: 100,
-                        enabled: animeSearch.prevPage.isNotEmpty,
-                        child: Icon(
-                          Icons.chevron_left,
-                          size: sy(20),
-                          color: AppTheme.of(context).accent,
-                        ),
-                        onPressed: () {
-                          animeSearch.controller.gotoPrevPageMALSearch();
-                        },
-                      ),
-                      SizedButton(
-                        height: sy(36),
-                        width: sy(36),
-                        radius: 100,
-                        enabled: animeSearch.nextPage.isNotEmpty,
-                        child: Icon(
-                          Icons.chevron_right,
-                          size: sy(20),
-                          color: AppTheme.of(context).accent,
-                        ),
-                        onPressed: () {
-                          animeSearch.controller.gotoNextPageMALSearch();
-                        },
-                      ),
-                    ],
+                  Paginator(
+                    currentPage: animeSearch.currentPage,
+                    prevEnabled: animeSearch.prevPage.isNotEmpty,
+                    nextEnabled: animeSearch.nextPage.isNotEmpty,
+                    onPrev: animeSearch.controller.gotoPrevPageMALSearch,
+                    onNext: animeSearch.controller.gotoNextPageMALSearch,
                   ),
                   Expanded(
                     child: ListView.builder(

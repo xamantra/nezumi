@@ -15,6 +15,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
       prevPage: '',
       nextPage: '',
       loadingResult: false,
+      currentPage: 1,
       listResults: [],
     );
   }
@@ -76,11 +77,17 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     );
     var results = result?.list ?? [];
     var filtered = results.where((x) => !mal.inMyList(x?.id))?.toList();
+
+    var params = Uri.parse(page).queryParameters;
+    var offset = int.parse(params['offset']);
+    var currentPage = (offset ~/ 50) + 1;
+
     model.update(
       results: filtered ?? [],
       prevPage: result?.paging?.prev ?? '',
       nextPage: result?.paging?.next ?? '',
       loadingResult: false,
+      currentPage: currentPage,
     );
   }
 }
