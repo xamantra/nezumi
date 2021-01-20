@@ -68,6 +68,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
               var canEditStartDate = status != 'plan_to_watch';
               var canEditFinishDate = status == 'completed' || status == 'dropped';
               var canEditRewatching = status == 'completed';
+              var notInMyList = !mal.inMyList(anime?.id ?? -1);
 
               return Container(
                 padding: EdgeInsets.all(sy(8)),
@@ -296,7 +297,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                 color: AppTheme.of(context).accent,
                                 radius: 5,
                                 child: Text(
-                                  "SAVE", // TODO: set label to "ADD TO LIST" if the anime is not yet on the user's list.
+                                  notInMyList ? "ADD TO LIST" : "SAVE",
                                   style: TextStyle(
                                     color: AppTheme.of(context).text1,
                                     fontSize: sy(11),
