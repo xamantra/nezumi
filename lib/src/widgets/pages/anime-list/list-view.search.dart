@@ -35,6 +35,19 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
           builder: (context, snapshot) {
             if (widget.isMyListResults) {
               var list = animeSearch.listResults ?? [];
+              if (list.isEmpty) {
+                return Center(
+                  child: Text(
+                    'There\'s nothing here.',
+                    style: TextStyle(
+                      color: AppTheme.of(context).text7,
+                      fontSize: sy(12),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                );
+              }
+
               return ListView.builder(
                 physics: BouncingScrollPhysics(),
                 itemCount: list.length,
@@ -54,22 +67,73 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
               if (loading) {
                 return Loader();
               }
+              if (animeSearch.results.isEmpty) {
+                return Center(
+                  child: Text(
+                    'There\'s nothing here.',
+                    style: TextStyle(
+                      color: AppTheme.of(context).text7,
+                      fontSize: sy(12),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                );
+              }
 
-              // TODO: paginate search results
               var list = animeSearch.results ?? [];
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  var anime = list[index];
-                  var inMyList = mal.inMyList(anime?.id);
-                  return AnimeItemCard(
-                    anime: anime,
-                    compactMode: compactMode,
-                    editMode: inMyList,
-                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                  );
-                },
+              return Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedButton(
+                        height: sy(36),
+                        width: sy(36),
+                        radius: 100,
+                        enabled: animeSearch.prevPage.isNotEmpty,
+                        child: Icon(
+                          Icons.chevron_left,
+                          size: sy(20),
+                          color: AppTheme.of(context).accent,
+                        ),
+                        onPressed: () {
+                          animeSearch.controller.gotoPrevPageMALSearch();
+                        },
+                      ),
+                      SizedButton(
+                        height: sy(36),
+                        width: sy(36),
+                        radius: 100,
+                        enabled: animeSearch.nextPage.isNotEmpty,
+                        child: Icon(
+                          Icons.chevron_right,
+                          size: sy(20),
+                          color: AppTheme.of(context).accent,
+                        ),
+                        onPressed: () {
+                          animeSearch.controller.gotoNextPageMALSearch();
+                        },
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        var inMyList = mal.inMyList(anime?.id);
+                        return AnimeItemCard(
+                          anime: anime,
+                          compactMode: compactMode,
+                          editMode: inMyList,
+                          fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             }
           },

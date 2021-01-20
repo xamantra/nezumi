@@ -32,57 +32,64 @@ class SizedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget container;
-    if (height != null && width != null) {
-      container = Container(
-        height: height,
-        width: width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius ?? 0),
-        ),
-        child: FlatButton(
-          onPressed: !enabled ? null : onPressed ?? () {},
-          color: color ?? Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)),
-          materialTapTargetSize: materialTapTargetSize ?? MaterialTapTargetSize.shrinkWrap,
-          padding: padding ?? EdgeInsets.zero,
-          child: child,
-        ),
-      );
-    } else if (height != null && width == null) {
-      container = Container(
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(radius ?? 0),
-        ),
-        child: FlatButton(
-          onPressed: !enabled ? null : onPressed ?? () {},
-          color: color ?? Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)),
-          materialTapTargetSize: materialTapTargetSize ?? MaterialTapTargetSize.shrinkWrap,
-          padding: padding ?? EdgeInsets.zero,
-          child: child,
-        ),
-      );
-    }
-    if (tooltip != null) {
-      return RelativeBuilder(
-        builder: (context, height, width, sy, sx) {
-          return Tooltip(
-            message: tooltip,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppTheme.of(context).primaryBackground,
-            ),
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontSize: sy(10),
-            ),
-            child: container,
-          );
+    return Opacity(
+      opacity: enabled ? 1 : 0.4,
+      child: Builder(
+        builder: (_) {
+          Widget container;
+          if (height != null && width != null) {
+            container = Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius ?? 0),
+              ),
+              child: FlatButton(
+                onPressed: !enabled ? null : onPressed ?? () {},
+                color: color ?? Colors.transparent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)),
+                materialTapTargetSize: materialTapTargetSize ?? MaterialTapTargetSize.shrinkWrap,
+                padding: padding ?? EdgeInsets.zero,
+                child: child,
+              ),
+            );
+          } else if (height != null && width == null) {
+            container = Container(
+              height: height,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius ?? 0),
+              ),
+              child: FlatButton(
+                onPressed: !enabled ? null : onPressed ?? () {},
+                color: color ?? Colors.transparent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius ?? 0)),
+                materialTapTargetSize: materialTapTargetSize ?? MaterialTapTargetSize.shrinkWrap,
+                padding: padding ?? EdgeInsets.zero,
+                child: child,
+              ),
+            );
+          }
+          if (tooltip != null) {
+            return RelativeBuilder(
+              builder: (context, height, width, sy, sx) {
+                return Tooltip(
+                  message: tooltip,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppTheme.of(context).primaryBackground,
+                  ),
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: sy(10),
+                  ),
+                  child: container,
+                );
+              },
+            );
+          }
+          return container;
         },
-      );
-    }
-    return container;
+      ),
+    );
   }
 }
