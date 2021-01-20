@@ -255,6 +255,7 @@ class ApiService extends MomentumService {
   Future<AnimeListGlobal> animeSearch({
     @required String accessToken,
     String query,
+    String prevPage,
     String nextPage,
     String fields,
     int timeout = 10000,
@@ -271,6 +272,14 @@ class ApiService extends MomentumService {
       if (nextPage != null) {
         var result = await httpGet(
           nextPage,
+          timeout: timeout,
+          accessToken: accessToken,
+          transformer: AnimeListGlobal.fromJson,
+        );
+        return result;
+      } else if (prevPage != null) {
+        var result = await httpGet(
+          prevPage,
           timeout: timeout,
           accessToken: accessToken,
           transformer: AnimeListGlobal.fromJson,
