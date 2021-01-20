@@ -5,6 +5,8 @@ enum AnimeListSortBy {
   episodesWatched,
   startWatchDate,
   finishWatchDate,
+  startAirDate,
+  endAirDate,
   totalDuration,
   globalScore,
   userVotes,
@@ -42,6 +44,12 @@ String getAnimeListSortByLabel(AnimeListSortBy sortBy) {
       break;
     case AnimeListSortBy.totalDuration:
       return 'Total Duration (mins)';
+      break;
+    case AnimeListSortBy.startAirDate:
+      return 'Start Air Date';
+      break;
+    case AnimeListSortBy.endAirDate:
+      return 'End Air Date';
       break;
   }
   return '';

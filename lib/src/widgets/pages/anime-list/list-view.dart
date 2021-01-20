@@ -78,6 +78,10 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
                           return buildAnimePersonalScore(context, index, anime);
                         case AnimeListSortBy.totalDuration:
                           return buildAnimeTotalDuration(context, index, anime);
+                        case AnimeListSortBy.startAirDate:
+                          return buildAnimeStartAir(context, index, anime);
+                        case AnimeListSortBy.endAirDate:
+                          return buildAnimeEndAir(context, index, anime);
                       }
                       return SizedBox();
                     },

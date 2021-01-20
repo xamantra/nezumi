@@ -226,6 +226,12 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
       case AnimeListSortBy.totalDuration:
         list.sort(compareTotalDuration);
         break;
+      case AnimeListSortBy.startAirDate:
+        list.sort(compareStartAir);
+        break;
+      case AnimeListSortBy.endAirDate:
+        list.sort(compareEndAir);
+        break;
     }
 
     model.update(
@@ -383,6 +389,58 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
           return -1;
         }
         return b_Finish.compareTo(a_Finish);
+        break;
+    }
+    return 0;
+  }
+
+  int compareStartAir(AnimeDetails a, AnimeDetails b) {
+    var a_Start = a.startDate;
+    var b_Start = b.startDate;
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        if (a_Start == null) {
+          return -1;
+        }
+        if (b_Start == null) {
+          return 1;
+        }
+        return a_Start.compareTo(b_Start);
+        break;
+      case OrderBy.descending:
+        if (a_Start == null) {
+          return 1;
+        }
+        if (b_Start == null) {
+          return -1;
+        }
+        return b_Start.compareTo(a_Start);
+        break;
+    }
+    return 0;
+  }
+
+  int compareEndAir(AnimeDetails a, AnimeDetails b) {
+    var a_End = a.endDate;
+    var b_End = b.endDate;
+    switch (listSort.orderAnimeBy) {
+      case OrderBy.ascending:
+        if (a_End == null) {
+          return -1;
+        }
+        if (b_End == null) {
+          return 1;
+        }
+        return a_End.compareTo(b_End);
+        break;
+      case OrderBy.descending:
+        if (a_End == null) {
+          return 1;
+        }
+        if (b_End == null) {
+          return -1;
+        }
+        return b_End.compareTo(a_End);
         break;
     }
     return 0;

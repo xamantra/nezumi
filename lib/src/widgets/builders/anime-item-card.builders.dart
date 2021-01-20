@@ -152,6 +152,44 @@ Widget buildAnimeFinishWatch(BuildContext context, int index, AnimeDetails anime
   );
 }
 
+Widget buildAnimeStartAir(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      var start = anime?.startDate;
+      if (start == null) return SizedBox();
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: start,
+          fontSize: sy(7),
+        ),
+      );
+    },
+  );
+}
+
+Widget buildAnimeEndAir(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      var finish = anime?.endDate;
+      if (finish == null) return SizedBox();
+      return Container(
+        height: sy(28),
+        padding: EdgeInsets.only(left: sy(2)),
+        child: Badge(
+          color: AppTheme.of(context).primary,
+          textColor: Colors.white,
+          text: finish,
+          fontSize: sy(7),
+        ),
+      );
+    },
+  );
+}
+
 Widget buildAnimeLastUpdated(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
