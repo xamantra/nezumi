@@ -28,22 +28,52 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
           child: SafeArea(
             child: Column(
               children: [
-                Container(
-                  height: sy(42),
-                  width: width,
-                  padding: EdgeInsets.all(sy(8)),
-                  color: AppTheme.of(context).primaryBackground,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Nezumi',
-                      style: TextStyle(
-                        fontSize: sy(14),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
+                Row(
+                  children: [
+                    Container(
+                      height: sy(42),
+                      padding: EdgeInsets.all(sy(8)),
+                      color: AppTheme.of(context).primaryBackground,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Nezumi',
+                          style: TextStyle(
+                            fontSize: sy(14),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    Spacer(),
+                    SizedButton(
+                      height: sy(36),
+                      width: sy(36),
+                      radius: 100,
+                      child: Icon(
+                        Icons.person,
+                        size: sy(14),
+                        color: AppTheme.of(context).accent,
+                      ),
+                      onPressed: () {},
+                    ),
+                    SizedButton(
+                      height: sy(36),
+                      width: sy(36),
+                      radius: 100,
+                      child: Icon(
+                        Icons.settings,
+                        size: sy(14),
+                        color: AppTheme.of(context).accent,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        nav.gotoPage(AppSettingsPage());
+                        app.triggerRebuild();
+                      },
+                    ),
+                  ],
                 ),
                 Divider(height: 1, color: Colors.white.withOpacity(0.15)),
                 Expanded(
@@ -91,20 +121,9 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                           DrawerItem(icon: CustomIcons.book, text: 'Manga List'),
                           DrawerItem(icon: CustomIcons.award, text: 'Top Manga'),
                           DrawerItem(icon: CustomIcons.history_1, text: 'History'),
-                          DrawerItem(icon: CustomIcons.book_reader, text: 'Achievements'),
+                          DrawerItem(icon: Icons.error, text: 'List Errors'),
                           DrawerItem(icon: CustomIcons.tag_empty, text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
-                          DividerSectionHeader(text: 'More'),
-                          DrawerItem(icon: CustomIcons.user_outline, text: 'My Profile'),
-                          DrawerItem(
-                            icon: CustomIcons.wrench,
-                            text: 'Settings',
-                            onPressed: () {
-                              Navigator.pop(context);
-                              nav.gotoPage(AppSettingsPage());
-                              app.triggerRebuild();
-                            },
-                          ),
                         ],
                       ),
                     ),
