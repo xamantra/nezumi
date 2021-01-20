@@ -76,6 +76,13 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
   }
 
   void editStatus(String newStatus) {
+    var anime = model.animeDetails;
+    var animeStatus = anime.status;
+    if (newStatus == 'completed' && animeStatus == 'currently_airing') {
+      sendEvent(AnimeUpdateError('Cannot set as completed a currently airing show.'));
+      return;
+    }
+
     var isCompleted = newStatus == 'completed';
     var isRewatching = model.currentInput.isRewatching;
     var updated = model.currentInput.copyWith(status: newStatus);
@@ -83,6 +90,12 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
       updated = updated.copyWith(isRewatching: false);
     }
     editInput(updated);
+
+    var episodes = anime.numEpisodes ?? 0;
+    if (episodes != 0) {
+      sendEvent(AnimeUpdateEpisodesEvent(episodes));
+      editEpisodes(episodes);
+    }
   }
 
   void editIsRewatching(bool isRewatching) {

@@ -38,6 +38,16 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
         episodesTextController.text = event.value?.toString();
       },
     );
+    animeUpdate.controller.listen<AnimeUpdateError>(
+      state: this,
+      invoke: (event) {
+        showToast(
+          event.message,
+          fontSize: 14,
+          color: Colors.red[600],
+        );
+      },
+    );
   }
 
   @override
@@ -104,16 +114,6 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                   dense: true,
                                   color: AppTheme.of(context).accent,
                                   onChanged: (newStatus) {
-                                    // TODO: set num watched episodes to maximum when setting status to completed.
-                                    var animeStatus = anime.status;
-                                    if (newStatus == 'completed' && animeStatus == 'currently_airing') {
-                                      showToast(
-                                        'Cannot set as completed a currently airing show.',
-                                        fontSize: sy(10),
-                                        color: Colors.red[600],
-                                      );
-                                      return;
-                                    }
                                     controller.editStatus(newStatus);
                                   },
                                 ),

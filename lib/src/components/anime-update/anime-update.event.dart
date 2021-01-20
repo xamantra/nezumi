@@ -9,3 +9,9 @@ class AnimeUpdateEpisodesEvent {
 
   AnimeUpdateEpisodesEvent(this.value);
 }
+
+class AnimeUpdateError {
+  final String message;
+
+  AnimeUpdateError(this.message);
+}
