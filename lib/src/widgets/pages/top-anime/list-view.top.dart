@@ -10,6 +10,7 @@ import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 
+// TODO: paginate top list
 class AnimeTopListView extends StatefulWidget {
   AnimeTopListView({
     Key key,
