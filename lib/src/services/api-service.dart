@@ -7,7 +7,11 @@ import '../data/index.dart';
 import '../utils/index.dart';
 
 class ApiService extends MomentumService {
-  final dio = Dio();
+  final dio = Dio(
+    BaseOptions(),
+  )..interceptors.add(
+      HttpInterceptor(),
+    );
 
   Future<MyAnimeListToken> getToken({
     @required String code,
@@ -265,7 +269,7 @@ class ApiService extends MomentumService {
       var data = {
         'q': query,
         'fields': fields,
-        'limit': 50,
+        'limit': ANIME_SEARCH_LIMIT,
         'offset': 0,
         'nsfw': true,
       };
@@ -308,6 +312,7 @@ class ApiService extends MomentumService {
   Future<AnimeListGlobal> animeTop({
     @required String accessToken,
     String type = 'all',
+    String prevPage,
     String nextPage,
     String fields,
     int timeout = 10000,
@@ -317,13 +322,21 @@ class ApiService extends MomentumService {
       var data = {
         'ranking_type': type ?? 'all',
         'fields': fields,
-        'limit': 100,
+        'limit': ANIME_TOP_LIMIT,
         'offset': 0,
         'nsfw': true,
       };
       if (nextPage != null) {
         var result = await httpGet(
           nextPage,
+          timeout: timeout,
+          accessToken: accessToken,
+          transformer: AnimeListGlobal.fromJson,
+        );
+        return result;
+      } else if (prevPage != null) {
+        var result = await httpGet(
+          prevPage,
           timeout: timeout,
           accessToken: accessToken,
           transformer: AnimeListGlobal.fromJson,
@@ -360,7 +373,7 @@ class ApiService extends MomentumService {
       var path = 'https://api.myanimelist.net/v2/anime/season/$year/$season';
       var data = {
         'fields': fields,
-        'limit': 500, // every season usually have 150 to 300 entries.
+        'limit': ANIME_SEASON_LIMIT, // every season usually have 150 to 300 entries.
         'offset': 0,
         'nsfw': true,
       };

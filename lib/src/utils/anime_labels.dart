@@ -36,3 +36,15 @@ const animeListFields = [
   'Studio/s',
   'Age Rating',
 ];
+
+const malRankingTabs = [
+  'All',
+  'Airing',
+  'Upcoming',
+  'TV',
+  'Movie',
+  'OVA',
+  'Special',
+  'By Popularity',
+  'Favorite',
+];

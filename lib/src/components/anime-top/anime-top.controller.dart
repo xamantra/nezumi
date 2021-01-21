@@ -16,27 +16,49 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
     return AnimeTopModel(
       this,
-      loadingTopAll: false,
-      loadingTopAiring: false,
-      loadingTopUpcoming: false,
-      loadingTopTV: false,
-      loadingTopMovies: false,
-      loadingTopOVA: false,
-      loadingTopSpecials: false,
-      loadingTopPopularity: false,
-      loadingTopFavorites: false,
       selectedYear: DateTime.now().year,
       loadingYearlyRankings: false,
       yearlyRankingOrderBy: OrderBy.descending,
       yearlyRankingSortBy: TopAnimeSortBy.score,
       fullscreen: false,
       selectionMode: false,
-      // filteredYearlyRankings: [],
-      // selectedYearRankings: [],
       yearlyRankingsCache: [],
       excludedAnimeIDs: [],
       selectedAnimeIDs: [],
       showOnlyAnimeTypes: showOnlyAnimeTypes,
+      malRankings: {
+        0: null,
+        1: null,
+        2: null,
+        3: null,
+        4: null,
+        5: null,
+        6: null,
+        7: null,
+        8: null,
+      },
+      loading: {
+        0: false,
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+        7: false,
+        8: false,
+      },
+      currentPages: {
+        0: 1,
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 1,
+        5: 1,
+        6: 1,
+        7: 1,
+        8: 1,
+      },
     );
   }
 
@@ -486,112 +508,69 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     validateAndSortYearlyRankings();
   }
 
-  Future<void> loadTopAll() async {
-    if (model.loadingTopAll) return;
-    model.update(loadingTopAll: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'all',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopAll: false, topAll: result);
+  void updateLoadingState(int index, bool state) {
+    var loading = Map<int, bool>.from(model.loading);
+    loading[index] = state;
+    model.update(loading: loading);
   }
 
-  Future<void> loadTopAiring() async {
-    if (model.loadingTopAiring) return;
-    model.update(loadingTopAiring: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'airing',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopAiring: false, topAiring: result);
+  void updateCurrentPageState(int index, int page) {
+    var currentPages = Map<int, int>.from(model.currentPages);
+    currentPages[index] = page;
+    model.update(currentPages: currentPages);
   }
 
-  Future<void> loadTopUpcoming() async {
-    if (model.loadingTopUpcoming) return;
-    model.update(loadingTopUpcoming: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'upcoming',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopUpcoming: false, topUpcoming: result);
+  void updateMalRankingState(int index, AnimeListGlobal rankings) {
+    var malRankings = Map<int, AnimeListGlobal>.from(model.malRankings);
+    malRankings[index] = rankings;
+    model.update(malRankings: malRankings);
   }
 
-  Future<void> loadTopTV() async {
-    if (model.loadingTopTV) return;
-    model.update(loadingTopTV: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'tv',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopTV: false, topTV: result);
+  void gotoPrevPageMALSearch(int index) {
+    var top = model.getTopByIndex(index);
+    gotoPageMALRankings(index, prevPage: top?.paging?.prev);
   }
 
-  Future<void> loadTopMovies() async {
-    if (model.loadingTopMovies) return;
-    model.update(loadingTopMovies: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'movie',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopMovies: false, topMovies: result);
+  void gotoNextPageMalRankings(int index) {
+    var top = model.getTopByIndex(index);
+    gotoPageMALRankings(index, nextPage: top?.paging?.next);
   }
 
-  Future<void> loadTopOVA() async {
-    if (model.loadingTopOVA) return;
-    model.update(loadingTopOVA: true);
+  Future<void> loadMalRankings(int index) async {
+    if (model.isLoading(index)) return;
+    updateLoadingState(index, true);
+    var slug = trycatch(() => malRankingTabs[index].toLowerCase().trim().replaceAll(' ', ''));
+    if (slug == null || slug.isEmpty) {
+      updateLoadingState(index, false);
+      return;
+    }
     var result = await api.animeTop(
       accessToken: accessToken,
       timeout: 30000,
-      type: 'ova',
+      type: slug,
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    model.update(loadingTopOVA: false, topOVA: result);
+    updateLoadingState(index, false);
+    updateMalRankingState(index, result);
   }
 
-  Future<void> loadTopSpecials() async {
-    if (model.loadingTopSpecials) return;
-    model.update(loadingTopSpecials: true);
+  Future<void> gotoPageMALRankings(int index, {String prevPage, String nextPage}) async {
+    updateLoadingState(index, true);
     var result = await api.animeTop(
       accessToken: accessToken,
       timeout: 30000,
-      type: 'special',
+      prevPage: prevPage,
+      nextPage: nextPage,
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
-    model.update(loadingTopSpecials: false, topSpecials: result);
-  }
 
-  Future<void> loadTopPopularity() async {
-    if (model.loadingTopPopularity) return;
-    model.update(loadingTopPopularity: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'bypopularity',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopPopularity: false, topPopularity: result);
-  }
+    var params = Uri.parse(prevPage ?? nextPage).queryParameters;
+    var offset = int.parse(params['offset']);
+    var currentPage = (offset ~/ ANIME_TOP_LIMIT) + 1;
 
-  Future<void> loadTopFavorites() async {
-    if (model.loadingTopFavorites) return;
-    model.update(loadingTopFavorites: true);
-    var result = await api.animeTop(
-      accessToken: accessToken,
-      timeout: 30000,
-      type: 'favorite',
-      fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
-    );
-    model.update(loadingTopFavorites: false, topFavorites: result);
+    updateLoadingState(index, false);
+    updateCurrentPageState(index, currentPage);
+    updateMalRankingState(index, result);
   }
 
   Future<void> loadYearRankings() async {

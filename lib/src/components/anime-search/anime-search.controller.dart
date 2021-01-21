@@ -62,25 +62,26 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
   }
 
   void gotoNextPageMALSearch() {
-    gotoPageMALSearch(model.nextPage);
+    gotoPageMALSearch(nextPage: model.nextPage);
   }
 
   void gotoPrevPageMALSearch() {
-    gotoPageMALSearch(model.prevPage);
+    gotoPageMALSearch(prevPage: model.prevPage);
   }
 
-  Future<void> gotoPageMALSearch(String page) async {
+  Future<void> gotoPageMALSearch({String prevPage, String nextPage}) async {
     model.update(loadingResult: true);
     var result = await api.animeSearch(
       accessToken: accessToken,
-      nextPage: page,
+      nextPage: nextPage,
+      prevPage: prevPage,
     );
     var results = result?.list ?? [];
     var filtered = results.where((x) => !mal.inMyList(x?.id))?.toList();
 
-    var params = Uri.parse(page).queryParameters;
+    var params = Uri.parse(nextPage ?? prevPage).queryParameters;
     var offset = int.parse(params['offset']);
-    var currentPage = (offset ~/ 50) + 1;
+    var currentPage = (offset ~/ ANIME_SEARCH_LIMIT) + 1;
 
     model.update(
       results: filtered ?? [],

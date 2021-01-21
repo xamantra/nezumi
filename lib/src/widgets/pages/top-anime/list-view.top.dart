@@ -34,41 +34,16 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    switch (widget.index) {
-      case 0:
-        if (animeTop.topAll == null) animeTop.controller.loadTopAll();
-        break;
-      case 1:
-        if (animeTop.topAiring == null) animeTop.controller.loadTopAiring();
-        break;
-      case 2:
-        if (animeTop.topUpcoming == null) animeTop.controller.loadTopUpcoming();
-        break;
-      case 3:
-        if (animeTop.topTV == null) animeTop.controller.loadTopTV();
-        break;
-      case 4:
-        if (animeTop.topMovies == null) animeTop.controller.loadTopMovies();
-        break;
-      case 5:
-        if (animeTop.topOVA == null) animeTop.controller.loadTopOVA();
-        break;
-      case 6:
-        if (animeTop.topSpecials == null) animeTop.controller.loadTopSpecials();
-        break;
-      case 7:
-        if (animeTop.topPopularity == null) animeTop.controller.loadTopPopularity();
-        break;
-      case 8:
-        if (animeTop.topFavorites == null) animeTop.controller.loadTopFavorites();
-        break;
-      default:
+    var top = animeTop.getTopByIndex(widget.index);
+    if (top == null) {
+      animeTop.controller.loadMalRankings(widget.index);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var compactMode = appSettings.compactMode;
+    var index = widget.index;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
@@ -81,29 +56,46 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
             var list = animeTop.getTopByIndex(widget.index)?.list ?? [];
             var fields = settings.getSelectedAnimeFields ?? [];
 
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: list.length,
-              itemBuilder: (context, index) {
-                var anime = list[index];
-                var inMyList = mal.inMyList(anime?.id);
-                return AnimeItemCard(
-                  anime: anime,
-                  compactMode: compactMode,
-                  editMode: inMyList,
-                  leadBuilder: widget.leadBuilder != null
-                      ? (context, anime) {
-                          return widget.leadBuilder(context, index, anime);
-                        }
-                      : null,
-                  trailBuilder: widget.trailBuilder != null
-                      ? (context, anime) {
-                          return widget.trailBuilder(context, index, anime);
-                        }
-                      : null,
-                  fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                );
-              },
+            return Column(
+              children: [
+                Paginator(
+                  currentPage: animeTop.currentPage(index),
+                  prevEnabled: animeTop.prevPageEnabled(index),
+                  nextEnabled: animeTop.nextPageEnabled(index),
+                  onPrev: () {
+                    animeTop.controller.gotoPrevPageMALSearch(index);
+                  },
+                  onNext: () {
+                    animeTop.controller.gotoNextPageMalRankings(index);
+                  },
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    itemCount: list.length,
+                    itemBuilder: (context, index) {
+                      var anime = list[index];
+                      var inMyList = mal.inMyList(anime?.id);
+                      return AnimeItemCard(
+                        anime: anime,
+                        compactMode: compactMode,
+                        editMode: inMyList,
+                        leadBuilder: widget.leadBuilder != null
+                            ? (context, anime) {
+                                return widget.leadBuilder(context, index, anime);
+                              }
+                            : null,
+                        trailBuilder: widget.trailBuilder != null
+                            ? (context, anime) {
+                                return widget.trailBuilder(context, index, anime);
+                              }
+                            : null,
+                        fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                      );
+                    },
+                  ),
+                ),
+              ],
             );
           },
         );
