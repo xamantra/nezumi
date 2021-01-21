@@ -18,6 +18,7 @@ export 'myanimelist.genre.dart';
 export 'myanimelist.paging.dart';
 export 'myanimelist.picture.dart';
 export 'myanimelist.profile.dart';
+export 'myanimelist.ranking.dart';
 export 'myanimelist.start_season.dart';
 export 'myanimelist.token.dart';
 export 'myanimelist.user_anime_list.dart';

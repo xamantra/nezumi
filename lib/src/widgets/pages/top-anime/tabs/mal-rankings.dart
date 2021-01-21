@@ -106,47 +106,47 @@ class _MalAnimeRankingPageState extends State<MalAnimeRankingPage> with CoreStat
                             children: [
                               AnimeTopListView(
                                 index: 0,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 1,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 2,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimePopularity,
                               ),
                               AnimeTopListView(
                                 index: 3,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 4,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 5,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 6,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimeScore,
                               ),
                               AnimeTopListView(
                                 index: 7,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: buildAnimePopularity,
                               ),
                               AnimeTopListView(
                                 index: 8,
-                                leadBuilder: buildAnimeIndexNumber,
+                                leadBuilder: buildAnimeRankingNumber,
                                 trailBuilder: (_, __, ___) => SizedBox(),
                               ),
                             ],

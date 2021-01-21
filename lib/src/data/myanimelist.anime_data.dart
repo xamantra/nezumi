@@ -48,15 +48,19 @@ class AnimeListGlobal {
 class AnimeDataItem {
   AnimeDataItem({
     this.node,
+    this.ranking,
   });
 
   final SearchNode node;
+  final Ranking ranking;
 
   AnimeDataItem copyWith({
     SearchNode node,
+    Ranking ranking,
   }) =>
       AnimeDataItem(
         node: node ?? this.node,
+        ranking: ranking ?? this.ranking,
       );
 
   factory AnimeDataItem.fromRawJson(String str) => AnimeDataItem.fromJson(json.decode(str));
@@ -65,10 +69,12 @@ class AnimeDataItem {
 
   factory AnimeDataItem.fromJson(Map<String, dynamic> json) => AnimeDataItem(
         node: json["node"] == null ? null : SearchNode.fromJson(json["node"]),
+        ranking: json["ranking"] == null ? null : Ranking.fromJson(json["ranking"]),
       );
 
   Map<String, dynamic> toJson() => {
         "node": node == null ? null : node.toJson(),
+        "ranking": ranking == null ? null : ranking.toJson(),
       };
 
   factory AnimeDataItem.fromAnimeDetails(AnimeDetails animeDetails) {
@@ -102,6 +108,7 @@ class AnimeDataItem {
         rating: from.rating,
         studios: from.studios,
       ),
+      ranking: null,
     );
   }
 }

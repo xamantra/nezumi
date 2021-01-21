@@ -25,6 +25,25 @@ Widget buildAnimeIndexNumber(BuildContext context, int index, AnimeDetails anime
   );
 }
 
+Widget buildAnimeRankingNumber(BuildContext context, int index, AnimeDetails anime) {
+  return RelativeBuilder(
+    builder: (context, height, width, sy, sx) {
+      return Padding(
+        padding: EdgeInsets.only(right: sy(8)),
+        child: Text(
+          '${anime.ranking.rank}.',
+          style: TextStyle(
+            color: AppTheme.of(context).accent,
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.italic,
+            fontSize: sy(12),
+          ),
+        ),
+      );
+    },
+  );
+}
+
 Widget buildAnimePersonalScore(BuildContext context, int index, AnimeDetails anime) {
   var score = anime?.myListStatus?.score ?? 0;
   return RelativeBuilder(

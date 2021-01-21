@@ -36,6 +36,7 @@ class AnimeDetails {
     this.recommendations,
     this.studios,
     this.statistics,
+    this.ranking,
   });
 
   final int id;
@@ -70,6 +71,7 @@ class AnimeDetails {
   final List<Recommendation> recommendations;
   final List<Genre> studios;
   final AnimeDetailStatistics statistics;
+  final Ranking ranking;
 
   AnimeDetails copyWith({
     int id,
@@ -104,6 +106,7 @@ class AnimeDetails {
     List<Recommendation> recommendations,
     List<Genre> studios,
     AnimeDetailStatistics statistics,
+    Ranking ranking,
   }) =>
       AnimeDetails(
         id: id ?? this.id,
@@ -138,6 +141,7 @@ class AnimeDetails {
         recommendations: recommendations ?? this.recommendations,
         studios: studios ?? this.studios,
         statistics: statistics ?? this.statistics,
+        ranking: ranking ?? this.ranking,
       );
 
   factory AnimeDetails.fromJson(Map<String, dynamic> json) => AnimeDetails(
@@ -173,6 +177,7 @@ class AnimeDetails {
         recommendations: json["recommendations"] == null ? null : List<Recommendation>.from(json["recommendations"].map((x) => Recommendation.fromJson(x))),
         studios: json["studios"] == null ? null : List<Genre>.from(json["studios"].map((x) => Genre.fromJson(x))),
         statistics: json["statistics"] == null ? null : AnimeDetailStatistics.fromJson(json["statistics"]),
+        ranking: json["ranking"] == null ? null : Ranking.fromJson(json["ranking"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -208,6 +213,7 @@ class AnimeDetails {
         "recommendations": recommendations == null ? null : List<dynamic>.from(recommendations.map((x) => x.toJson())),
         "studios": studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
         "statistics": statistics == null ? null : statistics.toJson(),
+        "ranking": ranking == null ? null : ranking.toJson(),
       };
 
   /* Parsers and Converters */
@@ -246,6 +252,7 @@ class AnimeDetails {
       recommendations: [],
       studios: from.studios,
       statistics: null,
+      ranking: animeDataItem.ranking,
     );
   }
 
@@ -284,6 +291,7 @@ class AnimeDetails {
       recommendations: [],
       studios: from.studios,
       statistics: null,
+      ranking: null,
     );
   }
   /* Parsers and Converters */
