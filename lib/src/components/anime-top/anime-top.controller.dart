@@ -548,6 +548,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       accessToken: accessToken,
       timeout: 30000,
       type: slug,
+      offset: (model.currentPage(index) - 1) * ANIME_TOP_LIMIT,
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     updateLoadingState(index, false);

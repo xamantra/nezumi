@@ -56,7 +56,7 @@ class _MalAnimeRankingPageState extends State<MalAnimeRankingPage> with CoreStat
                       ToolbarAction(
                         icon: Icons.refresh,
                         onPressed: () {
-                          // TODO: refresh active tab.
+                          animeTop.controller.loadMalRankings(tabController.index);
                         },
                       ),
                     ],

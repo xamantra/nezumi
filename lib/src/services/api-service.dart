@@ -315,6 +315,7 @@ class ApiService extends MomentumService {
     String prevPage,
     String nextPage,
     String fields,
+    int offset = 0,
     int timeout = 10000,
   }) async {
     try {
@@ -323,7 +324,7 @@ class ApiService extends MomentumService {
         'ranking_type': type ?? 'all',
         'fields': fields,
         'limit': ANIME_TOP_LIMIT,
-        'offset': 0,
+        'offset': offset ?? 0,
         'nsfw': true,
       };
       if (nextPage != null) {
