@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import '../../absract/index.dart';
 import '../../data/filter-anime-types/index.dart';
 import '../../widgets/anime-filter-item-widgets/index.dart';
+import '../../widgets/index.dart';
 
 class AnimeFilterItemReleaseSeason extends AnimeFilterItem {
   @override

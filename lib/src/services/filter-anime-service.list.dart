@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:momentum/momentum.dart';
 
-import '../absract/index.dart';
 import '../utils/anime-filter-items/index.dart';
+import '../widgets/index.dart';
 
 class AnimeFilterListService extends MomentumService {
   final List<AnimeFilterItem> filterItemSource = [

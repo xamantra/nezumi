@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../../absract/index.dart';
 import '../../../../../mixins/index.dart';
 import '../../../../../services/index.dart';
 import '../../../../../utils/index.dart';

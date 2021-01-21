@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nezumi/src/data/filter-anime-types/filter-anime.rewatch.dart';
+import 'package:nezumi/src/data/filter-anime-types/index.dart';
 import 'package:nezumi/src/data/index.dart';
 
 void main() {

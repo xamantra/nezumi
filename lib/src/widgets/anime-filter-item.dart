@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 
+import '../absract/index.dart';
 import '../components/anime-filter/index.dart';
 import '../components/app/index.dart';
 import '../services/index.dart';
 import '../utils/index.dart';
-import 'index.dart';
 
 abstract class AnimeFilterItem {
   String get title;

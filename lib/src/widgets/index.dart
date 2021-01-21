@@ -1,3 +1,4 @@
+export 'anime-filter-item.dart';
 export 'anime-filter-item.widget.dart';
 export 'app-loader.dart';
 export 'app-theme.dart';

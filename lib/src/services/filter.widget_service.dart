@@ -1,6 +1,6 @@
 import 'package:momentum/momentum.dart';
 
-import '../absract/index.dart';
+import '../widgets/index.dart';
 
 class FilterWigdetService extends MomentumService {
   List<AnimeFilterItem> filterWidgets = [];

@@ -417,6 +417,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  remove_from_coverage:
+    dependency: "direct dev"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "66eb56e3bf11784419c0cbd254e1beed2d19b46a"
+      url: "git@github.com:xamantra/remove_from_coverage.git"
+    source: git
+    version: "1.0.7"
   sky_engine:
     dependency: transitive
     description: flutter
