@@ -56,8 +56,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: 0.8.1
-  remove_from_coverage:
-    git: git@github.com:xamantra/remove_from_coverage.git
+  remove_from_coverage: 1.0.7
 
 flutter_icons:
   android: "launcher_icon"
