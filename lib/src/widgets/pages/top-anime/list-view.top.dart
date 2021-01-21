@@ -10,7 +10,7 @@ import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 
-// TODO: paginate top list
+// TODO: fixed ranking numbers in mal rankings.
 class AnimeTopListView extends StatefulWidget {
   AnimeTopListView({
     Key key,
