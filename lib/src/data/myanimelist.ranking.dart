@@ -13,10 +13,10 @@ class Ranking {
       );
 
   factory Ranking.fromJson(Map<String, dynamic> json) => Ranking(
-        rank: json["rank"] == null ? null : json["rank"],
+        rank: json['rank'] == null ? null : json['rank'],
       );
 
   Map<String, dynamic> toJson() => {
-        "rank": rank == null ? null : rank,
+        'rank': rank == null ? null : rank,
       };
 }

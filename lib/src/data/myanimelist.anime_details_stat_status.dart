@@ -35,18 +35,18 @@ class AnimeDetailStatStatus {
   String toRawJson() => json.encode(toJson());
 
   factory AnimeDetailStatStatus.fromJson(Map<String, dynamic> json) => AnimeDetailStatStatus(
-        watching: json["watching"] == null ? null : json["watching"],
-        completed: json["completed"] == null ? null : json["completed"],
-        onHold: json["on_hold"] == null ? null : json["on_hold"],
-        dropped: json["dropped"] == null ? null : json["dropped"],
-        planToWatch: json["plan_to_watch"] == null ? null : json["plan_to_watch"],
+        watching: json['watching'] == null ? null : json['watching'],
+        completed: json['completed'] == null ? null : json['completed'],
+        onHold: json['on_hold'] == null ? null : json['on_hold'],
+        dropped: json['dropped'] == null ? null : json['dropped'],
+        planToWatch: json['plan_to_watch'] == null ? null : json['plan_to_watch'],
       );
 
   Map<String, dynamic> toJson() => {
-        "watching": watching == null ? null : watching,
-        "completed": completed == null ? null : completed,
-        "on_hold": onHold == null ? null : onHold,
-        "dropped": dropped == null ? null : dropped,
-        "plan_to_watch": planToWatch == null ? null : planToWatch,
+        'watching': watching == null ? null : watching,
+        'completed': completed == null ? null : completed,
+        'on_hold': onHold == null ? null : onHold,
+        'dropped': dropped == null ? null : dropped,
+        'plan_to_watch': planToWatch == null ? null : planToWatch,
       };
 }

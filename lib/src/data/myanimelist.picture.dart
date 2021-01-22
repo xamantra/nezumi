@@ -23,12 +23,12 @@ class MalPicture {
   String toRawJson() => json.encode(toJson());
 
   factory MalPicture.fromJson(Map<String, dynamic> json) => MalPicture(
-        medium: json["medium"] == null ? null : json["medium"],
-        large: json["large"] == null ? null : json["large"],
+        medium: json['medium'] == null ? null : json['medium'],
+        large: json['large'] == null ? null : json['large'],
       );
 
   Map<String, dynamic> toJson() => {
-        "medium": medium == null ? null : medium,
-        "large": large == null ? null : large,
+        'medium': medium == null ? null : medium,
+        'large': large == null ? null : large,
       };
 }

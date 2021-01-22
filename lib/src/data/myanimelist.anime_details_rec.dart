@@ -25,12 +25,12 @@ class Recommendation {
   String toRawJson() => json.encode(toJson());
 
   factory Recommendation.fromJson(Map<String, dynamic> json) => Recommendation(
-        node: json["node"] == null ? null : EntityDetailsNode.fromJson(json["node"]),
-        numRecommendations: json["num_recommendations"] == null ? null : json["num_recommendations"],
+        node: json['node'] == null ? null : EntityDetailsNode.fromJson(json['node']),
+        numRecommendations: json['num_recommendations'] == null ? null : json['num_recommendations'],
       );
 
   Map<String, dynamic> toJson() => {
-        "node": node == null ? null : node.toJson(),
-        "num_recommendations": numRecommendations == null ? null : numRecommendations,
+        'node': node == null ? null : node.toJson(),
+        'num_recommendations': numRecommendations == null ? null : numRecommendations,
       };
 }

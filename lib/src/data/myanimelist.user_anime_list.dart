@@ -14,7 +14,7 @@ class UserAnimeList {
   List<AnimeDetails> getByStatus(String status) {
     try {
       var result = <AnimeDetails>[];
-      result = list?.where((x) => status == "all" || x?.myListStatus?.status == status)?.toList() ?? [];
+      result = list?.where((x) => status == 'all' || x?.myListStatus?.status == status)?.toList() ?? [];
       return result;
     } catch (e) {
       return [];
@@ -36,10 +36,10 @@ class UserAnimeList {
 
   static UserAnimeList fromJson(Map<String, dynamic> json) {
     try {
-      List<AnimeData> data = json["data"] == null ? null : List<AnimeData>.from(json["data"].map((x) => AnimeData.fromJson(x)));
+      List<AnimeData> data = json['data'] == null ? null : List<AnimeData>.from(json['data'].map((x) => AnimeData.fromJson(x)));
       return UserAnimeList(
         list: (data ?? []).map<AnimeDetails>((x) => AnimeDetails.fromAnimeData(x)).toList(),
-        paging: json["paging"] == null ? null : MalPaging.fromJson(json["paging"]),
+        paging: json['paging'] == null ? null : MalPaging.fromJson(json['paging']),
       );
     } catch (e) {
       return null;
@@ -49,8 +49,8 @@ class UserAnimeList {
   Map<String, dynamic> toJson() {
     var originalFormat = list.map<AnimeData>((x) => AnimeData.fromAnimeDetails(x)).toList();
     return {
-      "data": list == null ? null : List<dynamic>.from(originalFormat.map((x) => x.toJson())),
-      "paging": paging == null ? null : paging.toJson(),
+      'data': list == null ? null : List<dynamic>.from(originalFormat.map((x) => x.toJson())),
+      'paging': paging == null ? null : paging.toJson(),
     };
   }
 }
@@ -78,13 +78,13 @@ class AnimeData {
   String toRawJson() => json.encode(toJson());
 
   factory AnimeData.fromJson(Map<String, dynamic> json) => AnimeData(
-        node: json["node"] == null ? null : EntryNode.fromJson(json["node"]),
-        listStatus: json["list_status"] == null ? null : AnimeListStatus.fromJson(json["list_status"]),
+        node: json['node'] == null ? null : EntryNode.fromJson(json['node']),
+        listStatus: json['list_status'] == null ? null : AnimeListStatus.fromJson(json['list_status']),
       );
 
   Map<String, dynamic> toJson() => {
-        "node": node == null ? null : node.toJson(),
-        "list_status": listStatus == null ? null : listStatus.toJson(),
+        'node': node == null ? null : node.toJson(),
+        'list_status': listStatus == null ? null : listStatus.toJson(),
       };
 
   factory AnimeData.fromAnimeDetails(AnimeDetails animeDetails) {
@@ -237,58 +237,58 @@ class EntryNode {
   String toRawJson() => json.encode(toJson());
 
   factory EntryNode.fromJson(Map<String, dynamic> json) => EntryNode(
-        id: json["id"] == null ? null : json["id"],
-        title: json["title"] == null ? null : json["title"],
-        mainPicture: json["main_picture"] == null ? null : MalPicture.fromJson(json["main_picture"]),
-        synopsis: json["synopsis"] == null ? null : json["synopsis"],
-        startDate: json["start_date"] == null ? null : json["start_date"],
-        endDate: json["end_date"] == null ? null : json["end_date"],
-        alternativeTitles: json["alternative_titles"] == null ? null : AlternativeTitles.fromJson(json["alternative_titles"]),
-        numEpisodes: json["num_episodes"] == null ? null : json["num_episodes"],
-        status: json["status"] == null ? null : json["status"],
-        genres: json["genres"] == null ? null : List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
-        studios: json["studios"] == null ? null : List<Genre>.from(json["studios"].map((x) => Genre.fromJson(x))),
-        rating: json["rating"] == null ? null : json["rating"],
-        source: json["source"] == null ? null : json["source"],
-        mean: json["mean"] == null ? null : json["mean"].toDouble(),
-        rank: json["rank"] == null ? null : json["rank"],
-        popularity: json["popularity"] == null ? null : json["popularity"],
-        numListUsers: json["num_list_users"] == null ? null : json["num_list_users"],
-        numScoringUsers: json["num_scoring_users"] == null ? null : json["num_scoring_users"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        mediaType: json["media_type"] == null ? null : json["media_type"],
-        startSeason: json["start_season"] == null ? null : StartSeason.fromJson(json["start_season"]),
-        averageEpisodeDuration: json["average_episode_duration"] == null ? null : json["average_episode_duration"],
-        broadcast: json["broadcast"] == null ? null : Broadcast.fromJson(json["broadcast"]),
-        nsfw: json["nsfw"] == null ? null : json["nsfw"],
+        id: json['id'] == null ? null : json['id'],
+        title: json['title'] == null ? null : json['title'],
+        mainPicture: json['main_picture'] == null ? null : MalPicture.fromJson(json['main_picture']),
+        synopsis: json['synopsis'] == null ? null : json['synopsis'],
+        startDate: json['start_date'] == null ? null : json['start_date'],
+        endDate: json['end_date'] == null ? null : json['end_date'],
+        alternativeTitles: json['alternative_titles'] == null ? null : AlternativeTitles.fromJson(json['alternative_titles']),
+        numEpisodes: json['num_episodes'] == null ? null : json['num_episodes'],
+        status: json['status'] == null ? null : json['status'],
+        genres: json['genres'] == null ? null : List<Genre>.from(json['genres'].map((x) => Genre.fromJson(x))),
+        studios: json['studios'] == null ? null : List<Genre>.from(json['studios'].map((x) => Genre.fromJson(x))),
+        rating: json['rating'] == null ? null : json['rating'],
+        source: json['source'] == null ? null : json['source'],
+        mean: json['mean'] == null ? null : json['mean'].toDouble(),
+        rank: json['rank'] == null ? null : json['rank'],
+        popularity: json['popularity'] == null ? null : json['popularity'],
+        numListUsers: json['num_list_users'] == null ? null : json['num_list_users'],
+        numScoringUsers: json['num_scoring_users'] == null ? null : json['num_scoring_users'],
+        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+        updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
+        mediaType: json['media_type'] == null ? null : json['media_type'],
+        startSeason: json['start_season'] == null ? null : StartSeason.fromJson(json['start_season']),
+        averageEpisodeDuration: json['average_episode_duration'] == null ? null : json['average_episode_duration'],
+        broadcast: json['broadcast'] == null ? null : Broadcast.fromJson(json['broadcast']),
+        nsfw: json['nsfw'] == null ? null : json['nsfw'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "title": title == null ? null : title,
-        "main_picture": mainPicture == null ? null : mainPicture.toJson(),
-        "synopsis": synopsis == null ? null : synopsis,
-        "start_date": startDate == null ? null : startDate,
-        "end_date": endDate == null ? null : endDate,
-        "alternative_titles": alternativeTitles == null ? null : alternativeTitles.toJson(),
-        "num_episodes": numEpisodes == null ? null : numEpisodes,
-        "status": status == null ? null : status,
-        "genres": genres == null ? null : List<dynamic>.from(genres.map((x) => x.toJson())),
-        "studios": studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
-        "rating": rating == null ? null : rating,
-        "source": source == null ? null : source,
-        "mean": mean == null ? null : mean,
-        "rank": rank == null ? null : rank,
-        "popularity": popularity == null ? null : popularity,
-        "num_list_users": numListUsers == null ? null : numListUsers,
-        "num_scoring_users": numScoringUsers == null ? null : numScoringUsers,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "media_type": mediaType == null ? null : mediaType,
-        "start_season": startSeason == null ? null : startSeason.toJson(),
-        "average_episode_duration": averageEpisodeDuration == null ? null : averageEpisodeDuration,
-        "broadcast": broadcast == null ? null : broadcast.toJson(),
-        "nsfw": nsfw == null ? null : nsfw,
+        'id': id == null ? null : id,
+        'title': title == null ? null : title,
+        'main_picture': mainPicture == null ? null : mainPicture.toJson(),
+        'synopsis': synopsis == null ? null : synopsis,
+        'start_date': startDate == null ? null : startDate,
+        'end_date': endDate == null ? null : endDate,
+        'alternative_titles': alternativeTitles == null ? null : alternativeTitles.toJson(),
+        'num_episodes': numEpisodes == null ? null : numEpisodes,
+        'status': status == null ? null : status,
+        'genres': genres == null ? null : List<dynamic>.from(genres.map((x) => x.toJson())),
+        'studios': studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
+        'rating': rating == null ? null : rating,
+        'source': source == null ? null : source,
+        'mean': mean == null ? null : mean,
+        'rank': rank == null ? null : rank,
+        'popularity': popularity == null ? null : popularity,
+        'num_list_users': numListUsers == null ? null : numListUsers,
+        'num_scoring_users': numScoringUsers == null ? null : numScoringUsers,
+        'created_at': createdAt == null ? null : createdAt.toIso8601String(),
+        'updated_at': updatedAt == null ? null : updatedAt.toIso8601String(),
+        'media_type': mediaType == null ? null : mediaType,
+        'start_season': startSeason == null ? null : startSeason.toJson(),
+        'average_episode_duration': averageEpisodeDuration == null ? null : averageEpisodeDuration,
+        'broadcast': broadcast == null ? null : broadcast.toJson(),
+        'nsfw': nsfw == null ? null : nsfw,
       };
 }

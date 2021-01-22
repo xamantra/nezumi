@@ -9,9 +9,9 @@ class StartSeason {
   final int year;
   final String season;
 
-  /// - Check if season string matches with format `"$year $season"` or `"$season $year"`.
+  /// - Check if season string matches with format `'$year $season'` or `'$season $year'`.
   /// - Case not sensitive.
-  /// - *Example:* `"2020 Summer"` or `"Summer 2020"`
+  /// - *Example:* `'2020 Summer'` or `'Summer 2020'`
   bool seasonMatch(String season_year) {
     if (!seasonValid) return false;
     var s = season_year.toLowerCase();
@@ -38,12 +38,12 @@ class StartSeason {
   String toRawJson() => json.encode(toJson());
 
   factory StartSeason.fromJson(Map<String, dynamic> json) => StartSeason(
-        year: json["year"] == null ? null : json["year"],
-        season: json["season"] == null ? null : json["season"],
+        year: json['year'] == null ? null : json['year'],
+        season: json['season'] == null ? null : json['season'],
       );
 
   Map<String, dynamic> toJson() => {
-        "year": year == null ? null : year,
-        "season": season == null ? null : season,
+        'year': year == null ? null : year,
+        'season': season == null ? null : season,
       };
 }

@@ -189,7 +189,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                       },
                                     ),
                                     Text(
-                                      ' / ${anime?.realEpisodeCount ?? ""}',
+                                      ' / ${anime?.realEpisodeCount ?? ''}',
                                       style: TextStyle(
                                         color: AppTheme.of(context).text3,
                                         fontSize: sy(10),
@@ -297,7 +297,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
                                 color: AppTheme.of(context).accent,
                                 radius: 5,
                                 child: Text(
-                                  notInMyList ? "ADD TO LIST" : "SAVE",
+                                  notInMyList ? 'ADD TO LIST' : 'SAVE',
                                   style: TextStyle(
                                     color: AppTheme.of(context).text1,
                                     fontSize: sy(11),

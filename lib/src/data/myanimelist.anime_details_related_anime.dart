@@ -29,14 +29,14 @@ class RelatedAnime {
   String toRawJson() => json.encode(toJson());
 
   factory RelatedAnime.fromJson(Map<String, dynamic> json) => RelatedAnime(
-        node: json["node"] == null ? null : EntityDetailsNode.fromJson(json["node"]),
-        relationType: json["relation_type"] == null ? null : json["relation_type"],
-        relationTypeFormatted: json["relation_type_formatted"] == null ? null : json["relation_type_formatted"],
+        node: json['node'] == null ? null : EntityDetailsNode.fromJson(json['node']),
+        relationType: json['relation_type'] == null ? null : json['relation_type'],
+        relationTypeFormatted: json['relation_type_formatted'] == null ? null : json['relation_type_formatted'],
       );
 
   Map<String, dynamic> toJson() => {
-        "node": node == null ? null : node.toJson(),
-        "relation_type": relationType == null ? null : relationType,
-        "relation_type_formatted": relationTypeFormatted == null ? null : relationTypeFormatted,
+        'node': node == null ? null : node.toJson(),
+        'relation_type': relationType == null ? null : relationType,
+        'relation_type_formatted': relationTypeFormatted == null ? null : relationTypeFormatted,
       };
 }

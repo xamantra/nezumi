@@ -29,14 +29,14 @@ class EntityDetailsNode {
   String toRawJson() => json.encode(toJson());
 
   factory EntityDetailsNode.fromJson(Map<String, dynamic> json) => EntityDetailsNode(
-        id: json["id"] == null ? null : json["id"],
-        title: json["title"] == null ? null : json["title"],
-        mainPicture: json["main_picture"] == null ? null : MalPicture.fromJson(json["main_picture"]),
+        id: json['id'] == null ? null : json['id'],
+        title: json['title'] == null ? null : json['title'],
+        mainPicture: json['main_picture'] == null ? null : MalPicture.fromJson(json['main_picture']),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "title": title == null ? null : title,
-        "main_picture": mainPicture == null ? null : mainPicture.toJson(),
+        'id': id == null ? null : id,
+        'title': title == null ? null : title,
+        'main_picture': mainPicture == null ? null : mainPicture.toJson(),
       };
 }

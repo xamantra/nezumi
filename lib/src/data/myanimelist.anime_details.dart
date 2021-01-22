@@ -145,75 +145,75 @@ class AnimeDetails {
       );
 
   factory AnimeDetails.fromJson(Map<String, dynamic> json) => AnimeDetails(
-        id: json["id"] == null ? null : json["id"],
-        title: json["title"] == null ? null : json["title"],
-        mainPicture: json["main_picture"] == null ? null : MalPicture.fromJson(json["main_picture"]),
-        alternativeTitles: json["alternative_titles"] == null ? null : AlternativeTitles.fromJson(json["alternative_titles"]),
-        startDate: json["start_date"] == null ? null : json["start_date"],
-        endDate: json["end_date"] == null ? null : json["end_date"],
-        synopsis: json["synopsis"] == null ? null : json["synopsis"],
-        mean: json["mean"] == null ? 0.0 : json["mean"].toDouble(),
-        rank: json["rank"] == null ? 0 : json["rank"],
-        popularity: json["popularity"] == null ? 0 : json["popularity"],
-        numListUsers: json["num_list_users"] == null ? 0 : json["num_list_users"],
-        numScoringUsers: json["num_scoring_users"] == null ? 0 : json["num_scoring_users"],
-        nsfw: json["nsfw"] == null ? null : json["nsfw"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        mediaType: json["media_type"] == null ? null : json["media_type"],
-        status: json["status"] == null ? null : json["status"],
-        genres: json["genres"] == null ? null : List<Genre>.from(json["genres"].map((x) => Genre.fromJson(x))),
-        myListStatus: json["my_list_status"] == null ? null : AnimeListStatus.fromJson(json["my_list_status"]),
-        numEpisodes: json["num_episodes"] == null ? null : json["num_episodes"],
-        startSeason: json["start_season"] == null ? null : StartSeason.fromJson(json["start_season"]),
-        broadcast: json["broadcast"] == null ? null : Broadcast.fromJson(json["broadcast"]),
-        source: json["source"] == null ? null : json["source"],
-        averageEpisodeDuration: json["average_episode_duration"] == null ? null : json["average_episode_duration"],
-        rating: json["rating"] == null ? null : json["rating"],
-        pictures: json["pictures"] == null ? null : List<MalPicture>.from(json["pictures"].map((x) => MalPicture.fromJson(x))),
-        background: json["background"] == null ? null : json["background"],
-        relatedAnime: json["related_anime"] == null ? null : List<RelatedAnime>.from(json["related_anime"].map((x) => RelatedAnime.fromJson(x))),
-        relatedManga: json["related_manga"] == null ? null : List<dynamic>.from(json["related_manga"].map((x) => x)),
-        recommendations: json["recommendations"] == null ? null : List<Recommendation>.from(json["recommendations"].map((x) => Recommendation.fromJson(x))),
-        studios: json["studios"] == null ? null : List<Genre>.from(json["studios"].map((x) => Genre.fromJson(x))),
-        statistics: json["statistics"] == null ? null : AnimeDetailStatistics.fromJson(json["statistics"]),
-        ranking: json["ranking"] == null ? null : Ranking.fromJson(json["ranking"]),
+        id: json['id'] == null ? null : json['id'],
+        title: json['title'] == null ? null : json['title'],
+        mainPicture: json['main_picture'] == null ? null : MalPicture.fromJson(json['main_picture']),
+        alternativeTitles: json['alternative_titles'] == null ? null : AlternativeTitles.fromJson(json['alternative_titles']),
+        startDate: json['start_date'] == null ? null : json['start_date'],
+        endDate: json['end_date'] == null ? null : json['end_date'],
+        synopsis: json['synopsis'] == null ? null : json['synopsis'],
+        mean: json['mean'] == null ? 0.0 : json['mean'].toDouble(),
+        rank: json['rank'] == null ? 0 : json['rank'],
+        popularity: json['popularity'] == null ? 0 : json['popularity'],
+        numListUsers: json['num_list_users'] == null ? 0 : json['num_list_users'],
+        numScoringUsers: json['num_scoring_users'] == null ? 0 : json['num_scoring_users'],
+        nsfw: json['nsfw'] == null ? null : json['nsfw'],
+        createdAt: json['created_at'] == null ? null : DateTime.parse(json['created_at']),
+        updatedAt: json['updated_at'] == null ? null : DateTime.parse(json['updated_at']),
+        mediaType: json['media_type'] == null ? null : json['media_type'],
+        status: json['status'] == null ? null : json['status'],
+        genres: json['genres'] == null ? null : List<Genre>.from(json['genres'].map((x) => Genre.fromJson(x))),
+        myListStatus: json['my_list_status'] == null ? null : AnimeListStatus.fromJson(json['my_list_status']),
+        numEpisodes: json['num_episodes'] == null ? null : json['num_episodes'],
+        startSeason: json['start_season'] == null ? null : StartSeason.fromJson(json['start_season']),
+        broadcast: json['broadcast'] == null ? null : Broadcast.fromJson(json['broadcast']),
+        source: json['source'] == null ? null : json['source'],
+        averageEpisodeDuration: json['average_episode_duration'] == null ? null : json['average_episode_duration'],
+        rating: json['rating'] == null ? null : json['rating'],
+        pictures: json['pictures'] == null ? null : List<MalPicture>.from(json['pictures'].map((x) => MalPicture.fromJson(x))),
+        background: json['background'] == null ? null : json['background'],
+        relatedAnime: json['related_anime'] == null ? null : List<RelatedAnime>.from(json['related_anime'].map((x) => RelatedAnime.fromJson(x))),
+        relatedManga: json['related_manga'] == null ? null : List<dynamic>.from(json['related_manga'].map((x) => x)),
+        recommendations: json['recommendations'] == null ? null : List<Recommendation>.from(json['recommendations'].map((x) => Recommendation.fromJson(x))),
+        studios: json['studios'] == null ? null : List<Genre>.from(json['studios'].map((x) => Genre.fromJson(x))),
+        statistics: json['statistics'] == null ? null : AnimeDetailStatistics.fromJson(json['statistics']),
+        ranking: json['ranking'] == null ? null : Ranking.fromJson(json['ranking']),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "title": title == null ? null : title,
-        "main_picture": mainPicture == null ? null : mainPicture.toJson(),
-        "alternative_titles": alternativeTitles == null ? null : alternativeTitles.toJson(),
-        "start_date": startDate == null ? null : startDate,
-        "end_date": endDate == null ? null : endDate,
-        "synopsis": synopsis == null ? null : synopsis,
-        "mean": mean == null ? 0.0 : mean,
-        "rank": rank == null ? 0 : rank,
-        "popularity": popularity == null ? 0 : popularity,
-        "num_list_users": numListUsers == null ? 0 : numListUsers,
-        "num_scoring_users": numScoringUsers == null ? 0 : numScoringUsers,
-        "nsfw": nsfw == null ? null : nsfw,
-        "created_at": createdAt == null ? null : createdAt.toIso8601String(),
-        "updated_at": updatedAt == null ? null : updatedAt.toIso8601String(),
-        "media_type": mediaType == null ? null : mediaType,
-        "status": status == null ? null : status,
-        "genres": genres == null ? null : List<dynamic>.from(genres.map((x) => x.toJson())),
-        "my_list_status": myListStatus == null ? null : myListStatus.toJson(),
-        "num_episodes": numEpisodes == null ? null : numEpisodes,
-        "start_season": startSeason == null ? null : startSeason.toJson(),
-        "broadcast": broadcast == null ? null : broadcast.toJson(),
-        "source": source == null ? null : source,
-        "average_episode_duration": averageEpisodeDuration == null ? null : averageEpisodeDuration,
-        "rating": rating == null ? null : rating,
-        "pictures": pictures == null ? null : List<dynamic>.from(pictures.map((x) => x.toJson())),
-        "background": background == null ? null : background,
-        "related_anime": relatedAnime == null ? null : List<dynamic>.from(relatedAnime.map((x) => x.toJson())),
-        "related_manga": relatedManga == null ? null : List<dynamic>.from(relatedManga.map((x) => x)),
-        "recommendations": recommendations == null ? null : List<dynamic>.from(recommendations.map((x) => x.toJson())),
-        "studios": studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
-        "statistics": statistics == null ? null : statistics.toJson(),
-        "ranking": ranking == null ? null : ranking.toJson(),
+        'id': id == null ? null : id,
+        'title': title == null ? null : title,
+        'main_picture': mainPicture == null ? null : mainPicture.toJson(),
+        'alternative_titles': alternativeTitles == null ? null : alternativeTitles.toJson(),
+        'start_date': startDate == null ? null : startDate,
+        'end_date': endDate == null ? null : endDate,
+        'synopsis': synopsis == null ? null : synopsis,
+        'mean': mean == null ? 0.0 : mean,
+        'rank': rank == null ? 0 : rank,
+        'popularity': popularity == null ? 0 : popularity,
+        'num_list_users': numListUsers == null ? 0 : numListUsers,
+        'num_scoring_users': numScoringUsers == null ? 0 : numScoringUsers,
+        'nsfw': nsfw == null ? null : nsfw,
+        'created_at': createdAt == null ? null : createdAt.toIso8601String(),
+        'updated_at': updatedAt == null ? null : updatedAt.toIso8601String(),
+        'media_type': mediaType == null ? null : mediaType,
+        'status': status == null ? null : status,
+        'genres': genres == null ? null : List<dynamic>.from(genres.map((x) => x.toJson())),
+        'my_list_status': myListStatus == null ? null : myListStatus.toJson(),
+        'num_episodes': numEpisodes == null ? null : numEpisodes,
+        'start_season': startSeason == null ? null : startSeason.toJson(),
+        'broadcast': broadcast == null ? null : broadcast.toJson(),
+        'source': source == null ? null : source,
+        'average_episode_duration': averageEpisodeDuration == null ? null : averageEpisodeDuration,
+        'rating': rating == null ? null : rating,
+        'pictures': pictures == null ? null : List<dynamic>.from(pictures.map((x) => x.toJson())),
+        'background': background == null ? null : background,
+        'related_anime': relatedAnime == null ? null : List<dynamic>.from(relatedAnime.map((x) => x.toJson())),
+        'related_manga': relatedManga == null ? null : List<dynamic>.from(relatedManga.map((x) => x)),
+        'recommendations': recommendations == null ? null : List<dynamic>.from(recommendations.map((x) => x.toJson())),
+        'studios': studios == null ? null : List<dynamic>.from(studios.map((x) => x.toJson())),
+        'statistics': statistics == null ? null : statistics.toJson(),
+        'ranking': ranking == null ? null : ranking.toJson(),
       };
 
   /* Parsers and Converters */
@@ -347,8 +347,8 @@ class AnimeDetails {
 
   String get season {
     try {
-      var s = StringUtils.capitalize(startSeason?.season ?? "?");
-      return '$s ${startSeason?.year ?? "?"}';
+      var s = StringUtils.capitalize(startSeason?.season ?? '?');
+      return '$s ${startSeason?.year ?? '?'}';
     } catch (e) {
       return '';
     }
@@ -394,9 +394,9 @@ class AnimeDetails {
 
   /* Logic */
 
-  /// - Check if season string matches with format `"$year $season"` or `"$season $year"`.
+  /// - Check if season string matches with format `'$year $season'` or `'$season $year'`.
   /// - Case not sensitive.
-  /// - *Example:* `"2020 Summer"` or `"Summer 2020"`
+  /// - *Example:* `'2020 Summer'` or `'Summer 2020'`
   bool seasonMatch(String season) {
     return startSeason?.seasonMatch(season) ?? false;
   }
@@ -406,10 +406,10 @@ class AnimeDetails {
       return false;
     }
     var source = title;
-    source += '\n${alternativeTitles?.en ?? ""}';
-    source += '\n${alternativeTitles?.ja ?? ""}';
+    source += '\n${alternativeTitles?.en ?? ''}';
+    source += '\n${alternativeTitles?.ja ?? ''}';
     (alternativeTitles?.synonyms ?? []).forEach((title) {
-      source += '\n${title ?? ""}';
+      source += '\n${title ?? ''}';
     });
     return (source ?? '').toLowerCase().contains(query?.toLowerCase() ?? '') ?? false;
   }

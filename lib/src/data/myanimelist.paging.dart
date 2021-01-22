@@ -32,12 +32,12 @@ class MalPaging {
     }
     return MalPaging(
       prev: prev,
-      next: json["next"] == null ? null : json["next"],
+      next: json['next'] == null ? null : json['next'],
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "prev": prev == null ? null : prev,
-        "next": next == null ? null : next,
+        'prev': prev == null ? null : prev,
+        'next': next == null ? null : next,
       };
 }
