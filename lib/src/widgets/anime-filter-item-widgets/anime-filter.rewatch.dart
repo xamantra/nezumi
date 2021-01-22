@@ -4,6 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../components/anime-filter/index.dart';
 import '../../data/filter-anime-types/index.dart';
+import '../../data/types/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
 import '../app-theme.dart';
@@ -30,7 +31,7 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                 SizedBox(height: sy(4)),
                 Row(
                   children: [
-                    PopupMenuButton<AnimeFilterRewatchType>(
+                    PopupMenuButton<CountFilterType>(
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                       child: Padding(
@@ -48,12 +49,12 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                         updateFilter(updated);
                       },
                       itemBuilder: (context) {
-                        return AnimeFilterRewatchType.values
+                        return CountFilterType.values
                             .map(
-                              (type) => PopupMenuItem<AnimeFilterRewatchType>(
+                              (type) => PopupMenuItem<CountFilterType>(
                                 value: type,
                                 child: Text(
-                                  getRewatchFilterTypeLabel(type),
+                                  getCountFilterTypeLabel(type),
                                   style: TextStyle(
                                     color: AppTheme.of(context).accent,
                                     fontSize: sy(9),
@@ -80,22 +81,19 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
     var borderSide = BorderSide(color: AppTheme.of(context).accent, width: 2);
     var underlineInputBorder = UnderlineInputBorder(borderSide: borderSide);
 
-    var exactCount = filter.exactCount ?? 0;
-    var rangeMin = trycatch(() => filter.range[0] ?? 0, 0);
-    var rangeMax = trycatch(() => filter.range[1] ?? 0, 0);
-    var lessThan = filter.lessThan ?? 0;
-    var moreThan = filter.moreThan ?? 0;
+    var exactCount = filter.exactCount ?? -1;
+    var rangeMin = trycatch(() => filter.range[0] ?? -1, -1);
+    var rangeMax = trycatch(() => filter.range[1] ?? -1, -1);
+    var lessThan = filter.lessThan ?? -1;
+    var moreThan = filter.moreThan ?? 999999;
 
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         switch (type) {
-          case AnimeFilterRewatchType.none:
+          case CountFilterType.none:
             return SizedBox();
             break;
-          case AnimeFilterRewatchType.anyRewatched:
-            return SizedBox();
-            break;
-          case AnimeFilterRewatchType.exactCount:
+          case CountFilterType.exactCount:
             return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -115,10 +113,10 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                   height: sy(12),
                   width: sy(18),
                   child: TextFormField(
-                    initialValue: exactCount == 0 ? '' : exactCount?.toString(),
+                    initialValue: exactCount <= 0 ? '' : exactCount?.toString(),
                     maxLines: 1,
                     keyboardType: TextInputType.number,
-                    key: Key(AnimeFilterRewatchType.exactCount.toString()),
+                    key: Key(CountFilterType.exactCount.toString()),
                     decoration: InputDecoration(
                       border: underlineInputBorder,
                       enabledBorder: underlineInputBorder,
@@ -132,6 +130,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                     ),
                     onChanged: (value) {
                       var exactCount = trycatch(() => int.parse(value), 0);
+                      if (value == null || value.isEmpty) {
+                        exactCount = -1;
+                      }
                       var updated = filter.copyWith(exactCount: exactCount);
                       updateFilter(updated);
                     },
@@ -147,7 +148,7 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
               ],
             );
             break;
-          case AnimeFilterRewatchType.range:
+          case CountFilterType.range:
             return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -167,9 +168,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                   height: sy(12),
                   width: sy(18),
                   child: TextFormField(
-                    initialValue: rangeMin == 0 ? '' : rangeMin?.toString(),
+                    initialValue: rangeMin <= 0 ? '' : rangeMin?.toString(),
                     maxLines: 1,
-                    key: Key('AnimeFilterRewatchType.range[0]'),
+                    key: Key('CountFilterType.range[0]'),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: underlineInputBorder,
@@ -184,6 +185,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                     ),
                     onChanged: (value) {
                       var rangeMin = trycatch(() => int.parse(value), 0);
+                      if (value == null || value.isEmpty) {
+                        rangeMin = -1;
+                      }
                       var updated = filter.copyWith(range: [rangeMin, rangeMax]);
                       updateFilter(updated);
                     },
@@ -200,9 +204,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                   height: sy(12),
                   width: sy(18),
                   child: TextFormField(
-                    initialValue: rangeMax == 0 ? '' : rangeMax?.toString(),
+                    initialValue: rangeMax <= 0 ? '' : rangeMax?.toString(),
                     maxLines: 1,
-                    key: Key('AnimeFilterRewatchType.range[1]'),
+                    key: Key('CountFilterType.range[1]'),
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       border: underlineInputBorder,
@@ -217,6 +221,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                     ),
                     onChanged: (value) {
                       var rangeMax = trycatch(() => int.parse(value), 0);
+                      if (value == null || value.isEmpty) {
+                        rangeMax = -1;
+                      }
                       var updated = filter.copyWith(range: [rangeMin, rangeMax]);
                       updateFilter(updated);
                     },
@@ -232,7 +239,7 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
               ],
             );
             break;
-          case AnimeFilterRewatchType.lessThan:
+          case CountFilterType.lessThan:
             return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -252,10 +259,10 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                   height: sy(12),
                   width: sy(18),
                   child: TextFormField(
-                    initialValue: lessThan == 0 ? '' : lessThan?.toString(),
+                    initialValue: lessThan <= 0 ? '' : lessThan?.toString(),
                     maxLines: 1,
                     keyboardType: TextInputType.number,
-                    key: Key(AnimeFilterRewatchType.lessThan.toString()),
+                    key: Key(CountFilterType.lessThan.toString()),
                     decoration: InputDecoration(
                       border: underlineInputBorder,
                       enabledBorder: underlineInputBorder,
@@ -269,6 +276,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                     ),
                     onChanged: (value) {
                       var lessThan = trycatch(() => int.parse(value), 0);
+                      if (value == null || value.isEmpty) {
+                        lessThan = -1;
+                      }
                       var updated = filter.copyWith(lessThan: lessThan);
                       updateFilter(updated);
                     },
@@ -284,7 +294,7 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
               ],
             );
             break;
-          case AnimeFilterRewatchType.moreThan:
+          case CountFilterType.moreThan:
             return Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
@@ -304,10 +314,10 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                   height: sy(12),
                   width: sy(18),
                   child: TextFormField(
-                    initialValue: moreThan == 0 ? '' : moreThan?.toString(),
+                    initialValue: moreThan >= 999999 ? '' : moreThan?.toString(),
                     maxLines: 1,
                     keyboardType: TextInputType.number,
-                    key: Key(AnimeFilterRewatchType.moreThan.toString()),
+                    key: Key(CountFilterType.moreThan.toString()),
                     decoration: InputDecoration(
                       border: underlineInputBorder,
                       enabledBorder: underlineInputBorder,
@@ -321,6 +331,9 @@ class _AnimeFilterRewatchWidgetState extends State<AnimeFilterRewatchWidget> wit
                     ),
                     onChanged: (value) {
                       var moreThan = trycatch(() => int.parse(value), 0);
+                      if (value == null || value.isEmpty) {
+                        moreThan = 999999;
+                      }
                       var updated = filter.copyWith(moreThan: moreThan);
                       updateFilter(updated);
                     },
