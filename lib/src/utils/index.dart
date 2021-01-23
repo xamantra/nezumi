@@ -11,6 +11,7 @@ export 'core.util.dart';
 export 'date-selector.dart';
 export 'date-utils.dart';
 export 'datetime.util.dart';
+export 'decimal_format.dart';
 export 'history_parser.dart';
 export 'interceptor.dart';
 export 'month_list.dart';
