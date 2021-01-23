@@ -12,7 +12,7 @@ String getCountFilterTypeLabel(CountFilterType type) {
       return 'No Filter';
       break;
     case CountFilterType.exactCount:
-      return 'Exact Count';
+      return 'Exact';
       break;
     case CountFilterType.range:
       return 'Between Range';
