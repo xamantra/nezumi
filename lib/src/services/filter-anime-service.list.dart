@@ -17,7 +17,6 @@ class AnimeFilterListService extends MomentumService {
     // TODO: episodes filter
     // TODO: duration filter
     // TODO: list tags filter
-    // TODO: comments filter
   ];
 
   void init(BuildContext context) {
