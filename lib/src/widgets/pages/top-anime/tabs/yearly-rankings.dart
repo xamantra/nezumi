@@ -19,7 +19,7 @@ class YearlyAnimeRankingPage extends StatefulWidget {
   _YearlyAnimeRankingPageState createState() => _YearlyAnimeRankingPageState();
 }
 
-class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage> with CoreStateMixin, SingleTickerProviderStateMixin {
+class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage> with AuthStateMixin, CoreStateMixin, SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
@@ -68,19 +68,21 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                         title: 'Top Anime',
                         actions: [
                           // hidden feature
-                          // ToolbarAction(
-                          //   icon: Icons.import_export_outlined,
-                          //   onPressed: () {
-                          //     var list = animeTop.getRankingByYear(animeTop.selectedYear);
-                          //     var items = list
-                          //         .map<ExportAnimeItem>(
-                          //           (item) => ExportAnimeItem.fromAnimeDataItem(item),
-                          //         )
-                          //         .toList();
-                          //     var fields = [ExportAnimeField.title, ExportAnimeField.mean];
-                          //     exportList.controller.exportRedditTable(fields: fields, items: items);
-                          //   },
-                          // ),
+                          malAccountId != 11090858
+                              ? SizedBox()
+                              : ToolbarAction(
+                                  icon: Icons.import_export_outlined,
+                                  onPressed: () {
+                                    var list = animeTop.getRankingByYear(animeTop.selectedYear);
+                                    var items = list
+                                        .map<ExportAnimeItem>(
+                                          (item) => ExportAnimeItem.fromAnimeDataItem(item),
+                                        )
+                                        .toList();
+                                    var fields = [ExportAnimeField.title, ExportAnimeField.mean];
+                                    exportList.controller.exportRedditTable(fields: fields, items: items);
+                                  },
+                                ),
                           ToolbarAction(
                             icon: Icons.more_vert,
                             onPressed: () {
