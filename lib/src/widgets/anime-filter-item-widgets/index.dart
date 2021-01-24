@@ -1,5 +1,6 @@
 export 'anime-filter.airing_status.dart';
 export 'anime-filter.duration_per_ep.dart';
+export 'anime-filter.duration_total.dart';
 export 'anime-filter.episodes.dart';
 export 'anime-filter.episodes_watched.dart';
 export 'anime-filter.genre.dart';
