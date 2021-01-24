@@ -18,7 +18,7 @@ class AnimeFilterListService extends MomentumService {
     AnimeFilterItemEpisodesWatched(),
     AnimeFilterItemDurationPerEp(),
     AnimeFilterItemTotalDuration(),
-    // TODO: list tags filter
+    AnimeFilterItemTags(),
   ];
 
   void init(BuildContext context) {

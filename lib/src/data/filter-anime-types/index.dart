@@ -9,4 +9,5 @@ export 'filter-anime.media_type.dart';
 export 'filter-anime.release_date.dart';
 export 'filter-anime.release_season.dart';
 export 'filter-anime.rewatch.dart';
+export 'filter-anime.tags.dart';
 export 'filter-anime.watch_date.dart';

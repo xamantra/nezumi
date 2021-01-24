@@ -74,6 +74,17 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     return result;
   }
 
+  List<String> allTag() {
+    var result = <String>[];
+    for (var anime in animeListSource) {
+      var tagList = anime?.myListStatus?.tags ?? [];
+      result.addAll(tagList.where((tag) => !(tag?.toLowerCase()?.contains('score:') ?? false)));
+      result = result.toSet().toList();
+    }
+    result.sort((a, b) => a.compareTo(b));
+    return result;
+  }
+
   int resultTotalHours() {
     var totalMinutes = 0.0;
     var results = model.results;
