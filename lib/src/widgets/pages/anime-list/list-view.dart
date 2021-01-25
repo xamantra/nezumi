@@ -28,7 +28,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var compactMode = appSettings.compactMode;
+    var compactMode = settings.compactMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {

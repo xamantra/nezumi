@@ -41,7 +41,7 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
 
   @override
   Widget build(BuildContext context) {
-    var compactMode = appSettings.compactMode;
+    var compactMode = settings.compactMode;
     var index = widget.index;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {

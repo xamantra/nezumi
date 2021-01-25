@@ -11,6 +11,7 @@ class SettingsController extends MomentumController<SettingsModel> {
       this,
       requiredMinsPerEp: 23,
       requiredEpsPerDay: 4,
+      compactMode: false,
     );
   }
 
@@ -117,5 +118,9 @@ class SettingsController extends MomentumController<SettingsModel> {
       selectedAnimeListFields.putIfAbsent(fields[i], () => value);
     }
     model.update(selectedAnimeListFields: selectedAnimeListFields);
+  }
+
+  void changeCompactModeState(bool compactMode) {
+    model.update(compactMode: compactMode ?? false);
   }
 }

@@ -18,7 +18,7 @@ class AnimeFilterResultView extends StatefulWidget {
 class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
-    var compactMode = appSettings.compactMode;
+    var compactMode = settings.compactMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {

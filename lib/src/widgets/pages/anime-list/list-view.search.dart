@@ -26,7 +26,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
 
   @override
   Widget build(BuildContext context) {
-    var compactMode = appSettings.compactMode;
+    var compactMode = settings.compactMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {

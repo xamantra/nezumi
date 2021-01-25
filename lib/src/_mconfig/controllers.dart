@@ -4,7 +4,6 @@ import '../components/anime-filter/index.dart';
 import '../components/anime-search/index.dart';
 import '../components/anime-top/index.dart';
 import '../components/anime-update/index.dart';
-import '../components/app-settings/index.dart';
 import '../components/app/index.dart';
 import '../components/export-list/index.dart';
 import '../components/list-sort/index.dart';
@@ -15,7 +14,6 @@ import '../components/settings/index.dart';
 List<MomentumController> controllers() {
   return <MomentumController>[
     AppController(),
-    AppSettingsController(),
     LoginController(),
     SettingsController(),
     ExportListController(),

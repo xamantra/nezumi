@@ -31,7 +31,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
 
   @override
   Widget build(BuildContext context) {
-    var compactMode = appSettings.compactMode;
+    var compactMode = settings.compactMode;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(

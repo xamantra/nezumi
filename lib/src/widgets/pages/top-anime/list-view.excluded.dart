@@ -3,7 +3,6 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-top/index.dart';
-import '../../../components/app-settings/index.dart';
 import '../../../components/my_anime_list/index.dart';
 import '../../../components/settings/index.dart';
 import '../../../data/index.dart';
@@ -33,7 +32,7 @@ class AnimeTopListExlcudedView extends StatelessWidget {
           body: MomentumBuilder(
             controllers: [AnimeTopController],
             builder: (context, snapshot) {
-              var settings = ctrl<AppSettingsController>(context).model;
+              var settings = ctrl<SettingsController>(context).model;
               var s2 = ctrl<SettingsController>(context).model;
               var mal = ctrl<MyAnimeListController>(context).model;
               var animeTop = ctrl<AnimeTopController>(context).model;

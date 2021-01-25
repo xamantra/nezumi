@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../components/app-settings/index.dart';
+import '../../../components/settings/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
 import 'widgets/index.dart';
@@ -21,7 +21,7 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
-          controllers: [AppSettingsController],
+          controllers: [SettingsController],
           builder: (context, snapshot) {
             return Scaffold(
               backgroundColor: AppTheme.of(context).primary,
@@ -43,9 +43,9 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BoolSettingItem(
-                        value: appSettings.compactMode,
+                        value: settings.compactMode,
                         onChanged: (compactMode) {
-                          appSettings.controller.changeCompactModeState(compactMode);
+                          settings.controller.changeCompactModeState(compactMode);
                         },
                         title: 'Compact List Mode',
                         description: 'Smaller cover image, smaller vertical padding and only up to 3 anime fields is displayed aside from the entry title.',

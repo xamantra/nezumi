@@ -9,10 +9,12 @@ class SettingsModel extends MomentumModel<SettingsController> {
     this.requiredMinsPerEp,
     this.requiredEpsPerDay,
     this.selectedAnimeListFields,
+    this.compactMode,
   }) : super(controller);
 
   final int requiredMinsPerEp;
   final int requiredEpsPerDay;
+  final bool compactMode;
 
   final Map<AnimeListField, bool> selectedAnimeListFields;
   List<AnimeListField> get getSelectedAnimeFields {
@@ -32,12 +34,14 @@ class SettingsModel extends MomentumModel<SettingsController> {
     int requiredMinsPerEp,
     int requiredEpsPerDay,
     Map<AnimeListField, bool> selectedAnimeListFields,
+    bool compactMode,
   }) {
     SettingsModel(
       controller,
       requiredMinsPerEp: requiredMinsPerEp ?? this.requiredMinsPerEp,
       requiredEpsPerDay: requiredEpsPerDay ?? this.requiredEpsPerDay,
       selectedAnimeListFields: selectedAnimeListFields ?? this.selectedAnimeListFields,
+      compactMode: compactMode ?? this.compactMode,
     ).updateMomentum();
   }
 
@@ -49,6 +53,7 @@ class SettingsModel extends MomentumModel<SettingsController> {
     return {
       'requiredMinsPerEp': requiredMinsPerEp,
       'requiredEpsPerDay': requiredEpsPerDay,
+      'compactMode': compactMode,
       'selectedAnimeListFields': _jsonAnimeFields,
     };
   }
@@ -64,8 +69,9 @@ class SettingsModel extends MomentumModel<SettingsController> {
 
     return SettingsModel(
       controller,
-      requiredMinsPerEp: json['requiredMinsPerEp'],
-      requiredEpsPerDay: json['requiredEpsPerDay'],
+      requiredMinsPerEp: json['requiredMinsPerEp'] ?? 23,
+      requiredEpsPerDay: json['requiredEpsPerDay'] ?? 4,
+      compactMode: json['compactMode'] ?? false,
       selectedAnimeListFields: _parsedAnimeFields,
     );
   }
