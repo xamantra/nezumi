@@ -12,7 +12,7 @@ class SettingsController extends MomentumController<SettingsModel> {
       requiredMinsPerEp: 23,
       requiredEpsPerDay: 4,
       compactMode: false,
-      listMode: false,
+      listMode: true,
     );
   }
 
@@ -123,5 +123,10 @@ class SettingsController extends MomentumController<SettingsModel> {
 
   void changeCompactModeState(bool compactMode) {
     model.update(compactMode: compactMode ?? false);
+  }
+
+  /// `True` if list view mode.
+  void changeListViewModeState(bool listView) {
+    model.update(listMode: listView ?? true);
   }
 }

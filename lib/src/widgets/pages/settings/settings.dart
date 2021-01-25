@@ -50,6 +50,14 @@ class _AppSettingsPageState extends State<AppSettingsPage> with CoreStateMixin {
                         title: 'Compact List Mode',
                         description: 'Smaller cover image, smaller vertical padding and only up to 3 anime fields is displayed aside from the entry title.',
                       ),
+                      BoolSettingItem(
+                        value: !settings.listMode,
+                        onChanged: (gridMode) {
+                          settings.controller.changeListViewModeState(!gridMode);
+                        },
+                        title: 'Grid View',
+                        description: 'Display the list as grids instead of typical list. Doesn\'t apply to top anime or rankings.',
+                      ),
                       DialogSettingItem(
                         title: 'Anime List Fields',
                         description: 'Select specific anime info to show in each item from the list. Drag and drop to re-order. And can only show up to 6 fields aside from the title.',
