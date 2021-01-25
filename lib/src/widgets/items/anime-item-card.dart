@@ -8,8 +8,8 @@ import '../../utils/index.dart';
 import '../index.dart';
 import '../pages/anime-list/index.dart';
 
-class AnimeItemCard extends StatelessWidget {
-  const AnimeItemCard({
+class AnimeItemList extends StatelessWidget {
+  const AnimeItemList({
     Key key,
     @required this.anime,
     this.compactMode = false,
@@ -17,7 +17,7 @@ class AnimeItemCard extends StatelessWidget {
     this.editMode = true,
     this.leadBuilder,
     this.trailBuilder,
-    @required this.fieldsBuilder,
+    this.fieldsBuilder,
     this.onPressed,
     this.onLongPress,
     this.index,

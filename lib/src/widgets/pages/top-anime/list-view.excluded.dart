@@ -119,9 +119,10 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                   var anime = list[index];
                                   var inMyList = mal.inMyList(anime?.id);
                                   var selected = animeTop.isAnimeSelected(anime.id);
-                                  return AnimeItemCard(
+                                  return AnimeItem(
                                     anime: anime,
                                     compactMode: compactMode,
+                                    listMode: true,
                                     editMode: inMyList,
                                     selected: selected,
                                     leadBuilder: leadBuilder != null

@@ -27,6 +27,7 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
   @override
   Widget build(BuildContext context) {
     var compactMode = settings.compactMode;
+    var listMode = settings.listMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
@@ -54,9 +55,10 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 itemBuilder: (context, index) {
                   var anime = list[index];
                   var inMyList = mal.inMyList(anime?.id);
-                  return AnimeItemCard(
+                  return AnimeItem(
                     anime: anime,
                     compactMode: compactMode,
+                    listMode: listMode,
                     editMode: inMyList,
                     fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                   );
@@ -97,9 +99,10 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                       itemBuilder: (context, index) {
                         var anime = list[index];
                         var inMyList = mal.inMyList(anime?.id);
-                        return AnimeItemCard(
+                        return AnimeItem(
                           anime: anime,
                           compactMode: compactMode,
+                          listMode: listMode,
                           editMode: inMyList,
                           fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                         );

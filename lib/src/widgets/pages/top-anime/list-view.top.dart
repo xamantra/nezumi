@@ -75,9 +75,10 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
                     itemBuilder: (context, index) {
                       var anime = list[index];
                       var inMyList = mal.inMyList(anime?.id);
-                      return AnimeItemCard(
+                      return AnimeItem(
                         anime: anime,
                         compactMode: compactMode,
+                        listMode: true,
                         editMode: inMyList,
                         leadBuilder: widget.leadBuilder != null
                             ? (context, anime) {

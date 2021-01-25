@@ -19,6 +19,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
   @override
   Widget build(BuildContext context) {
     var compactMode = settings.compactMode;
+    var listMode = settings.listMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
@@ -87,9 +88,10 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                     itemCount: list.length,
                     itemBuilder: (context, index) {
                       var anime = list[index];
-                      return AnimeItemCard(
+                      return AnimeItem(
                         anime: anime,
                         compactMode: compactMode,
+                        listMode: listMode,
                         fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                       );
                     },

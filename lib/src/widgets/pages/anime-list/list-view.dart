@@ -29,6 +29,7 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     var compactMode = settings.compactMode;
+    var listMode = settings.listMode;
     var fields = settings.getSelectedAnimeFields ?? [];
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
@@ -52,9 +53,10 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
                 itemCount: list.length,
                 itemBuilder: (context, index) {
                   var anime = list[index];
-                  return AnimeItemCard(
+                  return AnimeItem(
                     anime: anime,
                     compactMode: compactMode,
+                    listMode: listMode,
                     index: index,
                     trailBuilder: (_, anime) {
                       switch (listSort.animeListSortBy) {

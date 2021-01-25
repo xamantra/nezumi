@@ -12,6 +12,7 @@ class SettingsController extends MomentumController<SettingsModel> {
       requiredMinsPerEp: 23,
       requiredEpsPerDay: 4,
       compactMode: false,
+      listMode: false,
     );
   }
 
