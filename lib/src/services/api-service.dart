@@ -256,7 +256,7 @@ class ApiService extends MomentumService {
     }
   }
 
-  Future<AnimeListGlobal> animeSearch({
+  Future<AnimeList> animeSearch({
     @required String accessToken,
     String query,
     String prevPage,
@@ -278,7 +278,7 @@ class ApiService extends MomentumService {
           nextPage,
           timeout: timeout,
           accessToken: accessToken,
-          transformer: AnimeListGlobal.fromJson,
+          transformer: AnimeList.fromJson,
         );
         return result;
       } else if (prevPage != null) {
@@ -286,7 +286,7 @@ class ApiService extends MomentumService {
           prevPage,
           timeout: timeout,
           accessToken: accessToken,
-          transformer: AnimeListGlobal.fromJson,
+          transformer: AnimeList.fromJson,
         );
         return result;
       } else {
@@ -301,7 +301,7 @@ class ApiService extends MomentumService {
             sendTimeout: timeout,
           ),
         );
-        return AnimeListGlobal.fromJson(response.data);
+        return AnimeList.fromJson(response.data);
       }
     } catch (e) {
       print(['ApiService.animeSearch', e]);
@@ -309,7 +309,7 @@ class ApiService extends MomentumService {
     }
   }
 
-  Future<AnimeListGlobal> animeTop({
+  Future<AnimeList> animeTop({
     @required String accessToken,
     String type = 'all',
     String prevPage,
@@ -332,7 +332,7 @@ class ApiService extends MomentumService {
           nextPage,
           timeout: timeout,
           accessToken: accessToken,
-          transformer: AnimeListGlobal.fromJson,
+          transformer: AnimeList.fromJson,
         );
         return result;
       } else if (prevPage != null) {
@@ -340,7 +340,7 @@ class ApiService extends MomentumService {
           prevPage,
           timeout: timeout,
           accessToken: accessToken,
-          transformer: AnimeListGlobal.fromJson,
+          transformer: AnimeList.fromJson,
         );
         return result;
       } else {
@@ -355,7 +355,7 @@ class ApiService extends MomentumService {
             sendTimeout: timeout,
           ),
         );
-        return AnimeListGlobal.fromJson(response.data);
+        return AnimeList.fromJson(response.data);
       }
     } catch (e) {
       print(['ApiService.animeTop', e]);
@@ -363,7 +363,7 @@ class ApiService extends MomentumService {
     }
   }
 
-  Future<AnimeListGlobal> animeSeason({
+  Future<AnimeList> animeSeason({
     @required String accessToken,
     @required int year,
     @required String season,
@@ -390,7 +390,7 @@ class ApiService extends MomentumService {
           sendTimeout: timeout,
         ),
       );
-      return AnimeListGlobal.fromJson(response.data);
+      return AnimeList.fromJson(response.data);
     } catch (e) {
       print(['ApiService.animeSeason', e]);
       return null;

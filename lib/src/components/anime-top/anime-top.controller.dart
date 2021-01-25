@@ -520,8 +520,8 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     model.update(currentPages: currentPages);
   }
 
-  void updateMalRankingState(int index, AnimeListGlobal rankings) {
-    var malRankings = Map<int, AnimeListGlobal>.from(model.malRankings);
+  void updateMalRankingState(int index, AnimeList rankings) {
+    var malRankings = Map<int, AnimeList>.from(model.malRankings);
     malRankings[index] = rankings;
     model.update(malRankings: malRankings);
   }

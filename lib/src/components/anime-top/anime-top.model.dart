@@ -22,7 +22,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.currentPages,
   }) : super(controller);
 
-  final Map<int, AnimeListGlobal> malRankings;
+  final Map<int, AnimeList> malRankings;
   final Map<int, bool> loading;
   final Map<int, int> currentPages;
 
@@ -67,11 +67,11 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     }
   }
 
-  AnimeListGlobal getTopByIndex(int index) {
+  AnimeList getTopByIndex(int index) {
     try {
       return malRankings[index];
     } catch (e) {
-      return AnimeListGlobal(list: []);
+      return AnimeList(list: []);
     }
   }
 
@@ -101,7 +101,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   @override
   void update({
-    Map<int, AnimeListGlobal> malRankings,
+    Map<int, AnimeList> malRankings,
     Map<int, bool> loading,
     int selectedYear,
     List<YearlyAnimeRankingsCache> yearlyRankingsCache,

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'index.dart';
 
-class AnimeListGlobal {
-  AnimeListGlobal({
+class AnimeList {
+  AnimeList({
     this.list,
     this.paging,
   });
@@ -11,23 +11,23 @@ class AnimeListGlobal {
   final List<AnimeDetails> list;
   final MalPaging paging;
 
-  AnimeListGlobal copyWith({
+  AnimeList copyWith({
     List<AnimeDetails> list,
     MalPaging paging,
   }) =>
-      AnimeListGlobal(
+      AnimeList(
         list: list ?? this.list,
         paging: paging ?? this.paging,
       );
 
-  factory AnimeListGlobal.fromRawJson(String str) => AnimeListGlobal.fromJson(json.decode(str));
+  factory AnimeList.fromRawJson(String str) => AnimeList.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  static AnimeListGlobal fromJson(Map<String, dynamic> json) {
+  static AnimeList fromJson(Map<String, dynamic> json) {
     try {
       List<AnimeDataItem> data = json['data'] == null ? null : List<AnimeDataItem>.from(json['data'].map((x) => AnimeDataItem.fromJson(x)));
-      return AnimeListGlobal(
+      return AnimeList(
         list: (data ?? []).map<AnimeDetails>((x) => AnimeDetails.fromAnimeDataItem(x)).toList(),
         paging: json['paging'] == null ? null : MalPaging.fromJson(json['paging']),
       );
