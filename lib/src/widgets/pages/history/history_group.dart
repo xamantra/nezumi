@@ -23,8 +23,7 @@ class HistoryGroup extends StatefulWidget {
 class _HistoryGroupState extends State<HistoryGroup> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
-    var totalMinutes = minsPerEp() * widget.historyGroupData?.historyList?.length ?? 0;
-    var totalHours = double.parse((totalMinutes / 60).toStringAsFixed(2));
+    var totalHours = double.parse(((totalMins() / 60.0)).toStringAsFixed(2));
     var reqMet = totalHours >= settings.requiredHoursPerDay;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
@@ -137,6 +136,14 @@ class _HistoryGroupState extends State<HistoryGroup> with CoreStateMixin {
         );
       },
     );
+  }
+
+  double totalMins() {
+    var total = 0.0;
+    for (var h in widget.historyGroupData.historyList) {
+      total += h.durationMins;
+    }
+    return total;
   }
 
   int minsPerEp() {
