@@ -87,8 +87,6 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                             listSort.controller.changeSortBy(sortBy);
                           },
                         ),
-                        // TODO: grid and list view mode switcher
-                        ToolbarAction(icon: Icons.view_list),
                       ],
                       leadingAction: () {
                         Scaffold.of(context).openDrawer();
@@ -134,6 +132,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                 Expanded(
                   child: Container(
                     color: AppTheme.of(context).primaryBackground,
+                    padding: EdgeInsets.all(sy(4)),
                     child: TabBarView(
                       controller: tabController,
                       physics: BouncingScrollPhysics(),

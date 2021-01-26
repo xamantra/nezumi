@@ -56,7 +56,7 @@ class _LoginState extends MomentumState<Login> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          SymmetricImage(
+                          ImageWidget(
                             url: 'assets/images/icon.png',
                             asset: true,
                             size: sy(72),

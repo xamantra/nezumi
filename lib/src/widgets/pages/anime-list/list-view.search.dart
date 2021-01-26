@@ -49,21 +49,34 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                 );
               }
 
-              return ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  var anime = list[index];
-                  var inMyList = mal.inMyList(anime?.id);
-                  return AnimeItem(
-                    anime: anime,
-                    compactMode: compactMode,
-                    listMode: listMode,
-                    editMode: inMyList,
-                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                  );
-                },
-              );
+              return listMode
+                  ? ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        var inMyList = mal.inMyList(anime?.id);
+                        return AnimeItem(
+                          anime: anime,
+                          compactMode: compactMode,
+                          listMode: listMode,
+                          editMode: inMyList,
+                          fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                        );
+                      },
+                    )
+                  : GridView.builder(
+                      physics: BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: compactMode ? 4 : 3,
+                        childAspectRatio: 1 / 1.3,
+                      ),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        return AnimeItem(anime: anime, compactMode: compactMode, listMode: listMode, index: index);
+                      },
+                    );
             } else {
               var loading = animeSearch.loadingResult ?? false;
               if (loading) {
@@ -93,21 +106,34 @@ class _AnimeSearchListViewState extends State<AnimeSearchListView> with CoreStat
                     onNext: animeSearch.controller.gotoNextPageMALSearch,
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: list.length,
-                      itemBuilder: (context, index) {
-                        var anime = list[index];
-                        var inMyList = mal.inMyList(anime?.id);
-                        return AnimeItem(
-                          anime: anime,
-                          compactMode: compactMode,
-                          listMode: listMode,
-                          editMode: inMyList,
-                          fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                        );
-                      },
-                    ),
+                    child: listMode
+                        ? ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              var anime = list[index];
+                              var inMyList = mal.inMyList(anime?.id);
+                              return AnimeItem(
+                                anime: anime,
+                                compactMode: compactMode,
+                                listMode: listMode,
+                                editMode: inMyList,
+                                fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                              );
+                            },
+                          )
+                        : GridView.builder(
+                            physics: BouncingScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: compactMode ? 4 : 3,
+                              childAspectRatio: 1 / 1.3,
+                            ),
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              var anime = list[index];
+                              return AnimeItem(anime: anime, compactMode: compactMode, listMode: listMode, index: index);
+                            },
+                          ),
                   ),
                 ],
               );

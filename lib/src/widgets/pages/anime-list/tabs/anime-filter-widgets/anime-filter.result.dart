@@ -83,19 +83,32 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                   ),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: list.length,
-                    itemBuilder: (context, index) {
-                      var anime = list[index];
-                      return AnimeItem(
-                        anime: anime,
-                        compactMode: compactMode,
-                        listMode: listMode,
-                        fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                      );
-                    },
-                  ),
+                  child: listMode
+                      ? ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            var anime = list[index];
+                            return AnimeItem(
+                              anime: anime,
+                              compactMode: compactMode,
+                              listMode: listMode,
+                              fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                            );
+                          },
+                        )
+                      : GridView.builder(
+                          physics: BouncingScrollPhysics(),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: compactMode ? 4 : 3,
+                            childAspectRatio: 1 / 1.3,
+                          ),
+                          itemCount: list.length,
+                          itemBuilder: (context, index) {
+                            var anime = list[index];
+                            return AnimeItem(anime: anime, compactMode: compactMode, listMode: listMode, index: index);
+                          },
+                        ),
                 ),
               ],
             );

@@ -30,6 +30,7 @@ class _DashboardState extends State<Dashboard> with SingleTickerProviderStateMix
         return MomentumBuilder(
           controllers: [AppController],
           builder: (context, snapshot) {
+            // TODO: create page adapter to navigate instead of active widget variable.
             return Scaffold(
               backgroundColor: AppTheme.of(context).primary,
               body: nav.activeWidget,

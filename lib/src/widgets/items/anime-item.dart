@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nezumi/src/data/index.dart';
 
+import '../../data/index.dart';
 import 'index.dart';
 
 class AnimeItem extends StatelessWidget {
@@ -46,7 +46,11 @@ class AnimeItem extends StatelessWidget {
         onPressed: onPressed,
         onLongPress: onLongPress,
       );
+    } else {
+      return AnimeItemGrid(
+        anime: anime,
+        index: index,
+      );
     }
-    return AnimeItemGrid();
   }
 }

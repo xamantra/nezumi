@@ -48,49 +48,62 @@ class _AnimeListViewState extends State<AnimeListView> with CoreStateMixin {
               onRefresh: () {
                 mal.controller.loadAnimeListByStatus(widget.status);
               },
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  var anime = list[index];
-                  return AnimeItem(
-                    anime: anime,
-                    compactMode: compactMode,
-                    listMode: listMode,
-                    index: index,
-                    trailBuilder: (_, anime) {
-                      switch (listSort.animeListSortBy) {
-                        case AnimeListSortBy.title:
-                          break;
-                        case AnimeListSortBy.globalScore:
-                          return buildAnimeScore(context, index, anime);
-                        case AnimeListSortBy.member:
-                          return buildAnimePopularity(context, index, anime);
-                        case AnimeListSortBy.userVotes:
-                          return buildAnimeScoringUsers(context, index, anime);
-                        case AnimeListSortBy.lastUpdated:
-                          return buildAnimeLastUpdated(context, index, anime);
-                        case AnimeListSortBy.episodesWatched:
-                          return buildAnimeEpisodesWatched(context, index, anime);
-                        case AnimeListSortBy.startWatchDate:
-                          return buildAnimeStartWatch(context, index, anime);
-                        case AnimeListSortBy.finishWatchDate:
-                          return buildAnimeFinishWatch(context, index, anime);
-                        case AnimeListSortBy.personalScore:
-                          return buildAnimePersonalScore(context, index, anime);
-                        case AnimeListSortBy.totalDuration:
-                          return buildAnimeTotalDuration(context, index, anime);
-                        case AnimeListSortBy.startAirDate:
-                          return buildAnimeStartAir(context, index, anime);
-                        case AnimeListSortBy.endAirDate:
-                          return buildAnimeEndAir(context, index, anime);
-                      }
-                      return SizedBox();
-                    },
-                    fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
-                  );
-                },
-              ),
+              child: listMode
+                  ? ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        return AnimeItem(
+                          anime: anime,
+                          compactMode: compactMode,
+                          listMode: listMode,
+                          index: index,
+                          trailBuilder: (_, anime) {
+                            switch (listSort.animeListSortBy) {
+                              case AnimeListSortBy.title:
+                                break;
+                              case AnimeListSortBy.globalScore:
+                                return buildAnimeScore(context, index, anime);
+                              case AnimeListSortBy.member:
+                                return buildAnimePopularity(context, index, anime);
+                              case AnimeListSortBy.userVotes:
+                                return buildAnimeScoringUsers(context, index, anime);
+                              case AnimeListSortBy.lastUpdated:
+                                return buildAnimeLastUpdated(context, index, anime);
+                              case AnimeListSortBy.episodesWatched:
+                                return buildAnimeEpisodesWatched(context, index, anime);
+                              case AnimeListSortBy.startWatchDate:
+                                return buildAnimeStartWatch(context, index, anime);
+                              case AnimeListSortBy.finishWatchDate:
+                                return buildAnimeFinishWatch(context, index, anime);
+                              case AnimeListSortBy.personalScore:
+                                return buildAnimePersonalScore(context, index, anime);
+                              case AnimeListSortBy.totalDuration:
+                                return buildAnimeTotalDuration(context, index, anime);
+                              case AnimeListSortBy.startAirDate:
+                                return buildAnimeStartAir(context, index, anime);
+                              case AnimeListSortBy.endAirDate:
+                                return buildAnimeEndAir(context, index, anime);
+                            }
+                            return SizedBox();
+                          },
+                          fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
+                        );
+                      },
+                    )
+                  : GridView.builder(
+                      physics: BouncingScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: compactMode ? 4 : 3,
+                        childAspectRatio: 1 / 1.3,
+                      ),
+                      itemCount: list.length,
+                      itemBuilder: (context, index) {
+                        var anime = list[index];
+                        return AnimeItem(anime: anime, compactMode: compactMode, listMode: listMode, index: index);
+                      },
+                    ),
             );
           },
         );

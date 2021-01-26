@@ -91,9 +91,10 @@ class AnimeItemList extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.all(sy(4)),
-                        child: SymmetricImage(
+                        child: ImageWidget(
                           url: anime?.mainPicture?.medium ?? '',
                           size: sy(compactMode ? 22 : 32),
+                          fit: BoxFit.cover,
                         ),
                       ),
                       index == null

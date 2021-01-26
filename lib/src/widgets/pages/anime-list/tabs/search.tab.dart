@@ -89,7 +89,6 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                         animeSearch.controller.submitMALSearch();
                       },
                     ),
-                    ToolbarAction(icon: Icons.view_list), // TODO: grid and list view mode switcher
                   ],
                   leadingAction: () {
                     Scaffold.of(context).openDrawer();
