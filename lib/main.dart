@@ -6,9 +6,10 @@ import 'src/services/index.dart';
 import 'src/utils/index.dart';
 import 'src/widgets/index.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   InitializeYearList();
+  await initStorage();
   runApp(momentum());
 }
 

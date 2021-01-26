@@ -13,57 +13,55 @@ class SettingsController extends MomentumController<SettingsModel> {
       requiredEpsPerDay: 4,
       compactMode: false,
       listMode: true,
+      selectedAnimeListFields: getInitialAnimeFields(),
     );
   }
 
-  @override
-  void bootstrap() {
-    initializeAnimeListFields();
+  void resetAnimeFields() {
+    var fields = getInitialAnimeFields();
+    model.update(selectedAnimeListFields: fields);
   }
 
-  void initializeAnimeListFields({bool reset = false}) {
-    var current = model.selectedAnimeListFields;
-    if (current == null || current.isEmpty || reset) {
-      Map<AnimeListField, bool> selectedAnimeListFields = {};
-      for (var field in AnimeListField.values) {
-        switch (field) {
-          case AnimeListField.title:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.title, () => true);
-            break;
-          case AnimeListField.format:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.format, () => true);
-            break;
-          case AnimeListField.season:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.season, () => true);
-            break;
-          case AnimeListField.airingStatus:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.airingStatus, () => true);
-            break;
-          case AnimeListField.listStatus:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.listStatus, () => false);
-            break;
-          case AnimeListField.episodes:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.episodes, () => true);
-            break;
-          case AnimeListField.durationPerEpisode:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.durationPerEpisode, () => true);
-            break;
-          case AnimeListField.totalDuration:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.totalDuration, () => false);
-            break;
-          case AnimeListField.sourceMaterial:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.sourceMaterial, () => true);
-            break;
-          case AnimeListField.studios:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.studios, () => false);
-            break;
-          case AnimeListField.ageRating:
-            selectedAnimeListFields.putIfAbsent(AnimeListField.ageRating, () => false);
-            break;
-        }
+  Map<AnimeListField, bool> getInitialAnimeFields() {
+    Map<AnimeListField, bool> selectedAnimeListFields = {};
+    for (var field in AnimeListField.values) {
+      switch (field) {
+        case AnimeListField.title:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.title, () => true);
+          break;
+        case AnimeListField.format:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.format, () => true);
+          break;
+        case AnimeListField.season:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.season, () => true);
+          break;
+        case AnimeListField.airingStatus:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.airingStatus, () => true);
+          break;
+        case AnimeListField.listStatus:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.listStatus, () => false);
+          break;
+        case AnimeListField.episodes:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.episodes, () => true);
+          break;
+        case AnimeListField.durationPerEpisode:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.durationPerEpisode, () => true);
+          break;
+        case AnimeListField.totalDuration:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.totalDuration, () => false);
+          break;
+        case AnimeListField.sourceMaterial:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.sourceMaterial, () => true);
+          break;
+        case AnimeListField.studios:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.studios, () => false);
+          break;
+        case AnimeListField.ageRating:
+          selectedAnimeListFields.putIfAbsent(AnimeListField.ageRating, () => false);
+          break;
       }
-      model.update(selectedAnimeListFields: selectedAnimeListFields);
     }
+    return selectedAnimeListFields;
   }
 
   void updateAnimeField({

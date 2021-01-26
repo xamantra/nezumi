@@ -76,7 +76,7 @@ class _AnimeListFieldsDialogSettingState extends MomentumState<AnimeListFieldsDi
                           ),
                         ),
                         onPressed: () {
-                          settings.controller.initializeAnimeListFields(reset: true);
+                          settings.controller.resetAnimeFields();
                         },
                       ),
                     ],
