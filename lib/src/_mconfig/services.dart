@@ -10,7 +10,7 @@ List<MomentumService> services() {
     FilterWigdetService(),
     AnimeFilterListService(),
     MomentumRouter(
-      [Login(), Dashboard()],
+      [Login(), InitialPage()],
       enablePersistence: true,
     ),
   ];

@@ -69,8 +69,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                       ),
                       onPressed: () {
                         Navigator.pop(context);
-                        nav.gotoPage(AppSettingsPage());
-                        app.triggerRebuild();
+                        gotoPage(context, AppSettingsPage());
                       },
                     ),
                   ],
@@ -91,8 +90,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                             text: 'Anime List',
                             onPressed: () {
                               Navigator.pop(context);
-                              nav.gotoPage(AnimeListPage());
-                              app.triggerRebuild();
+                              gotoPage(context, AnimeListPage());
                             },
                           ),
                           DrawerItem(
@@ -100,8 +98,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                             text: 'Top Anime',
                             onPressed: () {
                               Navigator.pop(context);
-                              nav.gotoPage(TopAnimePage());
-                              app.triggerRebuild();
+                              gotoPage(context, TopAnimePage());
                             },
                           ),
                           DrawerItem(
@@ -109,8 +106,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                             text: 'History',
                             onPressed: () {
                               Navigator.pop(context);
-                              nav.gotoPage(History());
-                              app.triggerRebuild();
+                              gotoPage(context, History());
                             },
                           ),
                           DrawerItem(icon: Icons.account_tree, text: 'Seasonals'),

@@ -12,6 +12,7 @@ export 'edit-field.info_row.dart';
 export 'image.dart';
 export 'loader.dart';
 export 'my-list.tab_item.dart';
+export 'page-adapter.dart';
 export 'paginator.dart';
 export 'reorderable.separator.dart';
 export 'ripple.dart';

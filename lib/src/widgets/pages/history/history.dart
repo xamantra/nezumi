@@ -30,101 +30,107 @@ class _HistoryState extends State<History> with SingleTickerProviderStateMixin, 
 
   @override
   Widget build(BuildContext context) {
-    return RelativeBuilder(
-      builder: (context, height, width, sy, sx) {
-        return Scaffold(
-          backgroundColor: AppTheme.of(context).primary,
-          appBar: Toolbar(
-            height: sy(36),
-            leadingIcon: Icons.menu,
-            title: 'Watch History',
-            actions: [
-              ToolbarAction(
-                icon: Icons.settings,
-                onPressed: () {
-                  dialog(context, HistoryAnimeSettings());
-                },
-              ),
-            ],
-            leadingAction: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-          body: SafeArea(
-            child: MomentumBuilder(
-              controllers: [MyAnimeListController, SettingsController],
-              builder: (context, snapshot) {
-                var loading = mal.loading;
-                var historyGroup = mal?.controller?.getGroupedHistoryData();
-                var requiredHoursMet = (mal?.controller?.requiredHoursMet() ?? false);
-                return loading
-                    ? Loader()
-                    : Container(
-                        color: AppTheme.of(context).primaryBackground,
-                        height: height,
-                        width: width,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: SmartRefresher(
-                                physics: BouncingScrollPhysics(),
-                                enablePullDown: true,
-                                controller: refreshController,
-                                onRefresh: () {
-                                  mal.controller.loadAnimeHistory();
-                                },
-                                child: ListView.builder(
-                                  physics: BouncingScrollPhysics(),
-                                  itemCount: historyGroup.length,
-                                  itemBuilder: (_, i) {
-                                    return HistoryGroup(historyGroupData: historyGroup[i]);
-                                  },
-                                ),
-                              ),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: RelativeBuilder(
+        builder: (context, height, width, sy, sx) {
+          return Scaffold(
+            backgroundColor: AppTheme.of(context).primary,
+            appBar: Toolbar(
+              height: sy(36),
+              leadingIcon: Icons.menu,
+              title: 'Watch History',
+              actions: [
+                ToolbarAction(
+                  icon: Icons.settings,
+                  onPressed: () {
+                    dialog(context, HistoryAnimeSettings());
+                  },
+                ),
+              ],
+              leadingAction: () {
+                Scaffold.of(context).openDrawer();
+              },
+            ),
+            body: SafeArea(
+              child: MomentumBuilder(
+                controllers: [MyAnimeListController, SettingsController],
+                builder: (context, snapshot) {
+                  var loading = mal.loading;
+
+                  if (loading) {
+                    return Loader();
+                  }
+
+                  var historyGroup = mal?.controller?.getGroupedHistoryData();
+                  var requiredHoursMet = (mal?.controller?.requiredHoursMet() ?? false);
+                  return Container(
+                    color: AppTheme.of(context).primaryBackground,
+                    height: height,
+                    width: width,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: SmartRefresher(
+                            physics: BouncingScrollPhysics(),
+                            enablePullDown: true,
+                            controller: refreshController,
+                            onRefresh: () {
+                              mal.controller.loadAnimeHistory();
+                            },
+                            child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              itemCount: historyGroup.length,
+                              itemBuilder: (_, i) {
+                                return HistoryGroup(historyGroupData: historyGroup[i]);
+                              },
                             ),
-                            Container(
-                              height: sy(40),
-                              width: width,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          ),
+                        ),
+                        Container(
+                          height: sy(40),
+                          width: width,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Icon(
-                                        !requiredHoursMet ? Icons.error_outline : Icons.check_circle,
-                                        size: sy(10),
-                                        color: !requiredHoursMet ? Colors.red : Colors.green,
-                                      ),
-                                      SizedBox(width: sy(2)),
-                                      StatItem(
-                                        value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
-                                        label: 'Hrs/day',
-                                        valueColor: requiredHoursMet ? Colors.green : Colors.red,
-                                      ),
-                                    ],
+                                  Icon(
+                                    !requiredHoursMet ? Icons.error_outline : Icons.check_circle,
+                                    size: sy(10),
+                                    color: !requiredHoursMet ? Colors.red : Colors.green,
                                   ),
+                                  SizedBox(width: sy(2)),
                                   StatItem(
-                                    value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
-                                    label: 'Mins/ep',
-                                    valueColor: AppTheme.of(context).accent,
-                                  ),
-                                  StatItem(
-                                    value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
-                                    label: 'Eps/day',
-                                    valueColor: AppTheme.of(context).accent,
+                                    value: mal?.controller?.getHoursPerDay()?.toString() ?? '--',
+                                    label: 'Hrs/day',
+                                    valueColor: requiredHoursMet ? Colors.green : Colors.red,
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              StatItem(
+                                value: mal?.controller?.getMinutesPerEp()?.toString() ?? '--',
+                                label: 'Mins/ep',
+                                valueColor: AppTheme.of(context).accent,
+                              ),
+                              StatItem(
+                                value: mal?.controller?.getEpisodesPerDay()?.toString() ?? '--',
+                                label: 'Eps/day',
+                                valueColor: AppTheme.of(context).accent,
+                              ),
+                            ],
+                          ),
                         ),
-                      );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

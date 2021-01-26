@@ -6,7 +6,7 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../components/login/index.dart';
 import '../../utils/index.dart';
 import '../index.dart';
-import 'index.dart';
+import 'anime-list/index.dart';
 
 class Login extends StatefulWidget {
   const Login({Key key}) : super(key: key);
@@ -24,7 +24,7 @@ class _LoginState extends MomentumState<Login> {
       invoke: (event) {
         switch (event) {
           case LoginEvent.loggedIn:
-            MomentumRouter.goto(context, Dashboard);
+            gotoPage(context, AnimeListPage());
             break;
           case LoginEvent.gotoLogin:
             var codeVerifier = ctrl<LoginController>(context).model.codeVerifier;
