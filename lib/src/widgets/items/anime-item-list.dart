@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../components/anime-update/index.dart';
@@ -38,30 +39,7 @@ class AnimeItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
-        var actions = [
-          Container(
-            padding: EdgeInsets.symmetric(vertical: sy(4)),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(5),
-              child: IconSlideAction(
-                color: Colors.transparent,
-                iconWidget: Icon(
-                  editMode ? Icons.edit : Icons.add,
-                  size: sy(20),
-                  color: Colors.blue,
-                ),
-                onTap: () {
-                  ctrl<AnimeUpdateController>(context).setCurrentAnime(
-                    id: anime.id,
-                    title: anime.title,
-                  );
-                  dialog(context, EditAnimeDialog());
-                },
-                closeOnTap: false,
-              ),
-            ),
-          ),
-        ];
+        var actions = [_AnimeEditButton(editMode: editMode, anime: anime)];
         return Slidable(
           actionPane: SlidableStrechActionPane(),
           actionExtentRatio: 0.25,
@@ -139,6 +117,55 @@ class AnimeItemList extends StatelessWidget {
           ),
           actions: actions,
           secondaryActions: actions,
+        );
+      },
+    );
+  }
+}
+
+class _AnimeEditButton extends StatelessWidget {
+  const _AnimeEditButton({
+    Key key,
+    @required this.editMode,
+    @required this.anime,
+  }) : super(key: key);
+
+  final bool editMode;
+  final AnimeDetails anime;
+
+  @override
+  Widget build(BuildContext context) {
+    return RelativeBuilder(
+      builder: (context, height, width, sy, sx) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: sy(4)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: MomentumBuilder(
+              controllers: [AnimeUpdateController],
+              builder: (context, snapshot) {
+                var loading = snapshot<AnimeUpdateModel>().loading;
+                return IconSlideAction(
+                  color: Colors.transparent,
+                  iconWidget: Icon(
+                    editMode ? Icons.edit : Icons.add,
+                    size: sy(20),
+                    color: Colors.blue.withOpacity(loading ? 0.5 : 1),
+                  ),
+                  onTap: loading
+                      ? null
+                      : () {
+                          ctrl<AnimeUpdateController>(context).setCurrentAnime(
+                            id: anime.id,
+                            title: anime.title,
+                          );
+                          dialog(context, EditAnimeDialog());
+                        },
+                  closeOnTap: false,
+                );
+              },
+            ),
+          ),
         );
       },
     );

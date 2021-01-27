@@ -15,3 +15,9 @@ class AnimeUpdateError {
 
   AnimeUpdateError(this.message);
 }
+
+class AnimeFailedToloadError {
+  final String message;
+
+  AnimeFailedToloadError(this.message);
+}

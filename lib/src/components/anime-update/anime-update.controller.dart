@@ -26,7 +26,10 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     if (details == null) {
-      // TODO: send event to UI to close the dialog and return
+      await Future.delayed(Duration(milliseconds: 2000));
+      sendEvent(AnimeFailedToloadError('Failed to load anime details.'));
+      model.update(loading: false);
+      return;
     }
     var status = details?.myListStatus;
     if (status == null) {

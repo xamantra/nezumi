@@ -36,6 +36,7 @@ class AnimeItemGrid extends StatelessWidget {
                 padding: EdgeInsets.all(sy(4)),
                 child: GestureDetector(
                   onTap: () {
+                    // TODO: error trap when anime details is loading, don't allow click
                     ctrl<AnimeUpdateController>(context).setCurrentAnime(
                       id: anime.id,
                       title: anime.title,

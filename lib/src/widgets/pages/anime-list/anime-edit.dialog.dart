@@ -48,6 +48,17 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
         );
       },
     );
+    animeUpdate.controller.listen<AnimeFailedToloadError>(
+      state: this,
+      invoke: (event) async {
+        await Navigator.pop(context);
+        showToast(
+          event.message,
+          fontSize: 14,
+          color: Colors.red[600],
+        );
+      },
+    );
   }
 
   @override
