@@ -1,20 +1,21 @@
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
-import '../../data/myanimelist.user_anime_list.dart';
 import 'index.dart';
 
 class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   MyAnimeListModel(
     MyAnimeListController controller, {
-    this.userAnimeList,
+    int rebuilds,
     this.userAnimeHistory,
     this.loadingAnimeList,
     this.loadingHistory,
     this.updatingListStatus,
-  }) : super(controller);
+  })  : this._rebuilds = rebuilds,
+        super(controller);
 
-  final UserAnimeList userAnimeList;
+  final int _rebuilds;
+
   final UserAnimeHistory userAnimeHistory;
   final bool loadingAnimeList;
   final bool loadingHistory;
@@ -22,14 +23,9 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
   bool get loading => loadingAnimeList || loadingHistory || updatingListStatus;
 
-  bool inMyList(int animeId) {
-    var result = (userAnimeList?.list ?? []).any((x) => x?.id == animeId);
-    return result;
-  }
-
   @override
   void update({
-    UserAnimeList userAnimeList,
+    int rebuilds,
     UserAnimeHistory userAnimeHistory,
     bool loadingAnimeList,
     bool loadingHistory,
@@ -37,7 +33,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   }) {
     MyAnimeListModel(
       controller,
-      userAnimeList: userAnimeList ?? this.userAnimeList,
+      rebuilds: rebuilds ?? this._rebuilds,
       userAnimeHistory: userAnimeHistory ?? this.userAnimeHistory,
       loadingAnimeList: loadingAnimeList ?? this.loadingAnimeList,
       loadingHistory: loadingHistory ?? this.loadingHistory,
@@ -45,9 +41,13 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     ).updateMomentum();
   }
 
+  void rebuild() {
+    update(rebuilds: _rebuilds + 1);
+  }
+
   Map<String, dynamic> toJson() {
     return {
-      'userAnimeList': userAnimeList?.toJson(),
+      'rebuilds': 0,
       'userAnimeHistory': userAnimeHistory?.toJson(),
       'loadingAnimeList': false,
       'loadingHistory': false,
@@ -60,7 +60,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
 
     return MyAnimeListModel(
       controller,
-      userAnimeList: UserAnimeList.fromJson(map['userAnimeList'] ?? {}),
+      rebuilds: 0,
       userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory'] ?? {}),
       loadingAnimeList: false,
       loadingHistory: false,

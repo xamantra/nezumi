@@ -16,7 +16,7 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     );
   }
 
-  List<AnimeDetails> get animeListSource => mal.userAnimeList?.list ?? [];
+  List<AnimeDetails> get animeListSource => animeCache.user_list;
 
   void addFilter<T extends AnimeFilterData>(T filter) {
     var animeFilters = List<AnimeFilterData>.from(model.animeFilters);

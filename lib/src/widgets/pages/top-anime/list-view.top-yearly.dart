@@ -110,7 +110,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                       itemCount: list.length,
                       itemBuilder: (context, index) {
                         var anime = list[index];
-                        var inMyList = mal.inMyList(anime?.id);
+                        var inMyList = mal.controller.inMyList(anime?.id);
                         var selected = animeTop.isAnimeSelected(anime.id);
                         return AnimeItem(
                           anime: anime,

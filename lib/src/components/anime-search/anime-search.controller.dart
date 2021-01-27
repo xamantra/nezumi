@@ -27,7 +27,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
       return;
     }
 
-    List<AnimeDetails> listSource = mal.loadingAnimeList ? [] : mal.userAnimeList?.list ?? [];
+    List<AnimeDetails> listSource = mal.loadingAnimeList ? [] : animeCache.user_list ?? [];
     var listResults = listSource.where((x) => x.searchMatch(query)).toList();
     model.update(listResults: listResults);
   }
@@ -52,7 +52,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     );
 
     var results = result?.list ?? [];
-    var filtered = results.where((x) => !mal.inMyList(x?.id))?.toList();
+    var filtered = results.where((x) => !mal.controller.inMyList(x?.id))?.toList();
     model.update(
       results: filtered ?? [],
       prevPage: result?.paging?.prev ?? '',
@@ -77,7 +77,7 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
       prevPage: prevPage,
     );
     var results = result?.list ?? [];
-    var filtered = results.where((x) => !mal.inMyList(x?.id))?.toList();
+    var filtered = results.where((x) => !mal.controller.inMyList(x?.id))?.toList();
 
     var params = Uri.parse(nextPage ?? prevPage).queryParameters;
     var offset = int.parse(params['offset']);

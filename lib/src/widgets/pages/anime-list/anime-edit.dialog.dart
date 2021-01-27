@@ -68,7 +68,7 @@ class _EditAnimeGlobalDialogState extends MomentumState<EditAnimeDialog> with Co
               var canEditStartDate = status != 'plan_to_watch';
               var canEditFinishDate = status == 'completed' || status == 'dropped';
               var canEditRewatching = status == 'completed';
-              var notInMyList = !mal.inMyList(anime?.id ?? -1);
+              var notInMyList = !mal.controller.inMyList(anime?.id ?? -1);
 
               return Container(
                 padding: EdgeInsets.all(sy(8)),

@@ -8,6 +8,7 @@ List<MomentumService> services() {
     ApiService(),
     FilterWigdetService(),
     AnimeFilterListService(),
+    AnimeCacheService(),
     MomentumRouter(
       [Login(), InitialPage()],
       enablePersistence: true,

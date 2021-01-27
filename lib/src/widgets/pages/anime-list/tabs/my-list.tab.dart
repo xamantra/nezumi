@@ -97,12 +97,12 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                 MomentumBuilder(
                   controllers: [MyAnimeListController, AppController],
                   builder: (context, snapshot) {
-                    var all = mal.userAnimeList?.getByStatus('all') ?? [];
-                    var watching = mal.userAnimeList?.getByStatus('watching') ?? [];
-                    var on_hold = mal.userAnimeList?.getByStatus('on_hold') ?? [];
-                    var completed = mal.userAnimeList?.getByStatus('completed') ?? [];
-                    var plan_to_watch = mal.userAnimeList?.getByStatus('plan_to_watch') ?? [];
-                    var dropped = mal.userAnimeList?.getByStatus('dropped') ?? [];
+                    var all = mal.controller.getByStatus('all') ?? [];
+                    var watching = mal.controller.getByStatus('watching') ?? [];
+                    var on_hold = mal.controller.getByStatus('on_hold') ?? [];
+                    var completed = mal.controller.getByStatus('completed') ?? [];
+                    var plan_to_watch = mal.controller.getByStatus('plan_to_watch') ?? [];
+                    var dropped = mal.controller.getByStatus('dropped') ?? [];
 
                     return Container(
                       height: sy(30),

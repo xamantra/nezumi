@@ -74,7 +74,7 @@ class _AnimeTopListViewState extends State<AnimeTopListView> with CoreStateMixin
                     itemCount: list.length,
                     itemBuilder: (context, index) {
                       var anime = list[index];
-                      var inMyList = mal.inMyList(anime?.id);
+                      var inMyList = mal.controller.inMyList(anime?.id);
                       return AnimeItem(
                         anime: anime,
                         compactMode: compactMode,

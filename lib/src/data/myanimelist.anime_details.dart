@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:basic_utils/basic_utils.dart';
 
 import 'index.dart';
@@ -143,6 +145,9 @@ class AnimeDetails {
         statistics: statistics ?? this.statistics,
         ranking: ranking ?? this.ranking,
       );
+
+  String toRawJson() => json.encode(toJson());
+  static AnimeDetails fromRawJson(String raw) => AnimeDetails.fromJson(json.decode(raw));
 
   factory AnimeDetails.fromJson(Map<String, dynamic> json) => AnimeDetails(
         id: json['id'] == null ? null : json['id'],

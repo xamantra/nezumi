@@ -18,11 +18,13 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     );
   }
 
+  bool get userListInitialized => animeCache.isInitialized();
+
   bool _animeListInitialized = false;
   void initializeAnimeList() {
     if (!_animeListInitialized) {
       _animeListInitialized = true;
-      if (model.userAnimeList?.list == null) {
+      if (!userListInitialized) {
         loadAnimeList();
       } else {
         sortAnimeList();
@@ -34,7 +36,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   void initializeAnimeHistory() async {
     if (!_animeHistoryInitialized) {
       _animeHistoryInitialized = true;
-      if (model.userAnimeList != null) {
+      if (userListInitialized) {
         await loadAnimeHistory();
       } else {
         await loadData();
@@ -42,6 +44,16 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     }
   }
   /* initializations */
+
+  bool inMyList(int animeId) {
+    var list = animeCache.user_list;
+    var result = (list ?? []).any((x) => x?.id == animeId);
+    return result;
+  }
+
+  List<AnimeDetails> getByStatus(String status) {
+    return animeCache.getByStatus(status);
+  }
 
   /* backend functions */
   Future<void> loadData() async {
@@ -52,12 +64,19 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   Future<void> loadAnimeList() async {
     try {
       model.update(loadingAnimeList: true);
+      await animeCache.retrieveAnimeCache();
+      if (userListInitialized) {
+        model.update(loadingAnimeList: false);
+        sortAnimeList();
+        return;
+      }
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
         customFields: allAnimeListParams(omit: omitList1),
         timeout: 360000,
       );
-      model.update(userAnimeList: result, loadingAnimeList: false);
+      await animeCache.cacheAllAnime(result.list);
+      model.update(loadingAnimeList: false);
     } catch (e) {
       print(e);
       model.update(loadingAnimeList: false);
@@ -72,7 +91,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         loadAnimeList();
         return;
       }
-      var current = List<AnimeDetails>.from(model.userAnimeList?.list ?? []);
+      var list = animeCache.user_list;
+      var current = List<AnimeDetails>.from(list ?? []);
       model.update(loadingAnimeList: true);
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
@@ -92,8 +112,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
           }
         },
       );
-      var userAnimeList = UserAnimeList(paging: result?.paging, list: current);
-      model.update(userAnimeList: userAnimeList, loadingAnimeList: false);
+      await animeCache.cacheAllAnime(current);
+      model.update(loadingAnimeList: false);
     } catch (e) {
       print(e);
     }
@@ -103,7 +123,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   Future<void> loadAnimeHistory() async {
     model.update(loadingHistory: true);
     var history = await api.getAnimeHistory(username: username);
-    history = history?.bindDurations(model.userAnimeList);
+    var list = animeCache.user_list;
+    history = history?.bindDurations(list);
     model.update(loadingHistory: false, userAnimeHistory: history);
   }
 
@@ -185,7 +206,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
 
   AnimeDetails getAnime(int animeId) {
     try {
-      var result = model.userAnimeList?.list?.firstWhere((x) => x?.id == animeId, orElse: () => null);
+      var list = animeCache.user_list;
+      var result = list?.firstWhere((x) => x?.id == animeId, orElse: () => null);
       return result;
     } catch (e) {
       return null;
@@ -194,7 +216,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   /* front-end functions */
 
   void sortAnimeList() {
-    var list = List<AnimeDetails>.from(model.userAnimeList?.list ?? []);
+    var list = List<AnimeDetails>.from(animeCache.user_list ?? []);
     switch (listSort.animeListSortBy) {
       case AnimeListSortBy.title:
         list.sort(compareTitle);
@@ -234,12 +256,8 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
         break;
     }
 
-    model.update(
-      userAnimeList: UserAnimeList(
-        list: list,
-        paging: model.userAnimeList?.paging,
-      ),
-    );
+    animeCache.renderList(list);
+    model.rebuild();
   }
 
   int compareTitle(AnimeDetails a, AnimeDetails b) {
