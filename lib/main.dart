@@ -15,6 +15,7 @@ void main() async {
 
 Momentum momentum() {
   return Momentum(
+    initializer: initStorage,
     child: MyApp(),
     appLoader: AppLoader(),
     restartCallback: main,

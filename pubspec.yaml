@@ -16,7 +16,7 @@ dependencies:
   momentum:
     git:
       url: https://github.com/xamantra/momentum.git
-      ref: d15ea3fdf6113b9eedd6d2f44414c86a7d4c1514
+      ref: dd8ddd35ccf39efe1106810cda72a332ac13e849
   relative_scale: 1.1.0
   dio: 3.0.10
   html: 0.14.0+4
