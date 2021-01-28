@@ -4,6 +4,8 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-search/index.dart';
 import '../../../../components/app/index.dart';
+import '../../../../components/list-sort/index.dart';
+import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../index.dart';
 import '../index.dart';
@@ -48,59 +50,96 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
           child: SafeArea(
             child: Column(
               children: [
-                Toolbar(
-                  height: sy(42),
-                  leadingIcon: Icons.menu,
-                  title: 'Anime Search',
-                  titleWidget: Center(
-                    child: SizedBox(
-                      width: width,
-                      child: TextFormField(
-                        controller: searchInputController,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          border: underlineInputBorder,
-                          enabledBorder: underlineInputBorder,
-                          focusedBorder: underlineInputBorder,
-                          hintText: 'Type here to search...',
+                MomentumBuilder(
+                  controllers: [ListSortController],
+                  builder: (context, snapshot) {
+                    IconData orderByIcon;
+                    IconData sortByIcon;
+                    String orderBy;
+                    switch (listSort.animeSearchOrderBy) {
+                      case OrderBy.ascending:
+                        orderByIcon = Icons.arrow_upward;
+                        sortByIcon = CustomIcons.sort_amount_up;
+                        orderBy = 'Ascending';
+                        break;
+                      case OrderBy.descending:
+                        orderByIcon = Icons.arrow_downward;
+                        sortByIcon = CustomIcons.sort_amount_down;
+                        orderBy = 'Descending';
+                        break;
+                    }
+                    return Toolbar(
+                      height: sy(42),
+                      leadingIcon: Icons.menu,
+                      title: 'Anime Search',
+                      titleWidget: Center(
+                        child: SizedBox(
+                          width: width,
+                          child: TextFormField(
+                            controller: searchInputController,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              border: underlineInputBorder,
+                              enabledBorder: underlineInputBorder,
+                              focusedBorder: underlineInputBorder,
+                              hintText: 'Type here to search...',
+                            ),
+                            style: TextStyle(
+                              color: AppTheme.of(context).text1,
+                              fontSize: sy(13),
+                            ),
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            onChanged: (query) {
+                              animeSearch.controller.search(query);
+                            },
+                            onFieldSubmitted: (query) {
+                              animeSearch.controller.submitMALSearch();
+                            },
+                          ),
                         ),
-                        style: TextStyle(
-                          color: AppTheme.of(context).text1,
-                          fontSize: sy(13),
-                        ),
-                        textAlign: TextAlign.start,
-                        maxLines: 1,
-                        onChanged: (query) {
-                          animeSearch.controller.search(query);
-                        },
-                        onFieldSubmitted: (query) {
-                          animeSearch.controller.submitMALSearch();
-                        },
                       ),
-                    ),
-                  ),
-                  actions: [
-                    MomentumBuilder(
-                      controllers: [AnimeSearchController],
-                      builder: (context, snapshot) {
-                        if (animeSearch.query.isEmpty || animeSearch.loadingResult) {
-                          return SizedBox();
-                        }
+                      actions: [
+                        MomentumBuilder(
+                          controllers: [AnimeSearchController],
+                          builder: (context, snapshot) {
+                            if (animeSearch.query.isEmpty || animeSearch.loadingResult) {
+                              return SizedBox();
+                            }
 
-                        return ToolbarAction(
-                          icon: Icons.close,
-                          onPressed: () {
-                            searchInputController.clear();
-                            searchInputController.clearComposing();
-                            animeSearch.controller.search('');
-                            animeSearch.controller.submitMALSearch();
+                            return ToolbarAction(
+                              icon: Icons.close,
+                              onPressed: () {
+                                searchInputController.clear();
+                                searchInputController.clearComposing();
+                                animeSearch.controller.search('');
+                                animeSearch.controller.submitMALSearch();
+                              },
+                            );
                           },
-                        );
+                        ),
+                        ToolbarAction(
+                          icon: orderByIcon,
+                          size: sy(32),
+                          iconSize: sy(13),
+                          tooltip: orderBy,
+                          onPressed: () {
+                            listSort.controller.toggleAnimeSearchOrderBy();
+                          },
+                        ),
+                        AnimeListSortMenu(
+                          value: listSort.animeSearchSortBy,
+                          iconSize: sy(10),
+                          orderByIcon: sortByIcon,
+                          onChanged: (sortBy) {
+                            listSort.controller.changeAnimeSearchSortBy(sortBy);
+                          },
+                        ),
+                      ],
+                      leadingAction: () {
+                        Scaffold.of(context).openDrawer();
                       },
-                    ),
-                  ],
-                  leadingAction: () {
-                    Scaffold.of(context).openDrawer();
+                    );
                   },
                 ),
                 MomentumBuilder(

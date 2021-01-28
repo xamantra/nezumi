@@ -9,27 +9,48 @@ class ListSortController extends MomentumController<ListSortModel> with CoreMixi
   ListSortModel init() {
     return ListSortModel(
       this,
-      orderAnimeBy: OrderBy.descending,
+      animeListOrderBy: OrderBy.descending,
       animeListSortBy: AnimeListSortBy.lastUpdated,
+      animeSearchOrderBy: OrderBy.descending,
+      animeSearchSortBy: AnimeListSortBy.lastUpdated,
     );
   }
 
-  void toggleOrderBy() {
-    switch (model.orderAnimeBy) {
+  void toggleAnimeListOrderBy() {
+    switch (model.animeListOrderBy) {
       case OrderBy.ascending:
-        model.update(orderAnimeBy: OrderBy.descending);
+        model.update(animeListOrderBy: OrderBy.descending);
         break;
       case OrderBy.descending:
-        model.update(orderAnimeBy: OrderBy.ascending);
+        model.update(animeListOrderBy: OrderBy.ascending);
         break;
     }
 
     mal.controller.sortAnimeList();
   }
 
-  void changeSortBy(AnimeListSortBy sortBy) {
+  void changeAnimeListSortBy(AnimeListSortBy sortBy) {
     model.update(animeListSortBy: sortBy);
 
     mal.controller.sortAnimeList();
+  }
+
+  void toggleAnimeSearchOrderBy() {
+    switch (model.animeSearchOrderBy) {
+      case OrderBy.ascending:
+        model.update(animeSearchOrderBy: OrderBy.descending);
+        break;
+      case OrderBy.descending:
+        model.update(animeSearchOrderBy: OrderBy.ascending);
+        break;
+    }
+
+    animeSearch.controller.sortAnimeSearch();
+  }
+
+  void changeAnimeSearchSortBy(AnimeListSortBy sortBy) {
+    model.update(animeSearchSortBy: sortBy);
+
+    animeSearch.controller.sortAnimeSearch();
   }
 }

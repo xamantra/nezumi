@@ -6,22 +6,31 @@ import 'index.dart';
 class ListSortModel extends MomentumModel<ListSortController> {
   ListSortModel(
     ListSortController controller, {
-    this.orderAnimeBy,
+    this.animeListOrderBy,
     this.animeListSortBy,
+    this.animeSearchOrderBy,
+    this.animeSearchSortBy,
   }) : super(controller);
 
-  final OrderBy orderAnimeBy;
+  final OrderBy animeListOrderBy;
   final AnimeListSortBy animeListSortBy;
+
+  final OrderBy animeSearchOrderBy;
+  final AnimeListSortBy animeSearchSortBy;
 
   @override
   void update({
-    OrderBy orderAnimeBy,
+    OrderBy animeListOrderBy,
     AnimeListSortBy animeListSortBy,
+    OrderBy animeSearchOrderBy,
+    AnimeListSortBy animeSearchSortBy,
   }) {
     ListSortModel(
       controller,
-      orderAnimeBy: orderAnimeBy ?? this.orderAnimeBy,
+      animeListOrderBy: animeListOrderBy ?? this.animeListOrderBy,
       animeListSortBy: animeListSortBy ?? this.animeListSortBy,
+      animeSearchOrderBy: animeSearchOrderBy ?? this.animeSearchOrderBy,
+      animeSearchSortBy: animeSearchSortBy ?? this.animeSearchSortBy,
     ).updateMomentum();
   }
 }

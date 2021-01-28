@@ -53,7 +53,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                     IconData orderByIcon;
                     IconData sortByIcon;
                     String orderBy;
-                    switch (listSort.orderAnimeBy) {
+                    switch (listSort.animeListOrderBy) {
                       case OrderBy.ascending:
                         orderByIcon = Icons.arrow_upward;
                         sortByIcon = CustomIcons.sort_amount_up;
@@ -76,7 +76,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                           iconSize: sy(13),
                           tooltip: orderBy,
                           onPressed: () {
-                            listSort.controller.toggleOrderBy();
+                            listSort.controller.toggleAnimeListOrderBy();
                           },
                         ),
                         AnimeListSortMenu(
@@ -84,7 +84,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
                           iconSize: sy(10),
                           orderByIcon: sortByIcon,
                           onChanged: (sortBy) {
-                            listSort.controller.changeSortBy(sortBy);
+                            listSort.controller.changeAnimeListSortBy(sortBy);
                           },
                         ),
                       ],

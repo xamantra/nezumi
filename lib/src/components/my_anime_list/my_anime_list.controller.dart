@@ -267,7 +267,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareTitle(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a.title.compareTo(b.title);
         break;
@@ -281,7 +281,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int comparePersonalScore(AnimeDetails a, AnimeDetails b) {
     var a_Score = a.myListStatus.score ?? 0;
     var b_Score = b.myListStatus.score ?? 0;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a_Score.compareTo(b_Score);
         break;
@@ -293,7 +293,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareMean(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a.mean.compareTo(b.mean);
         break;
@@ -305,7 +305,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareScoringMember(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return (a.numScoringUsers ?? 0).compareTo(b.numScoringUsers ?? 0);
         break;
@@ -317,7 +317,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareLastUpdated(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a.myListStatus.updatedAt.compareTo(b.myListStatus.updatedAt);
         break;
@@ -329,7 +329,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareMember(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return (a.numListUsers ?? 0).compareTo(b.numListUsers ?? 0);
         break;
@@ -341,7 +341,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   }
 
   int compareTotalDuration(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a.totalDuration.compareTo(b.totalDuration);
         break;
@@ -355,7 +355,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int compareEpisodesWatched(AnimeDetails a, AnimeDetails b) {
     var a_Eps = a.myListStatus?.numEpisodesWatched ?? 0;
     var b_Eps = b.myListStatus?.numEpisodesWatched ?? 0;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         return a_Eps.compareTo(b_Eps);
         break;
@@ -369,7 +369,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int compareStartWatch(AnimeDetails a, AnimeDetails b) {
     var a_Start = a.myListStatus.startDate;
     var b_Start = b.myListStatus.startDate;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         if (a_Start == null) {
           return -1;
@@ -395,7 +395,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int compareFinishWatch(AnimeDetails a, AnimeDetails b) {
     var a_Finish = a.myListStatus.finishDate;
     var b_Finish = b.myListStatus.finishDate;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         if (a_Finish == null) {
           return -1;
@@ -421,7 +421,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int compareStartAir(AnimeDetails a, AnimeDetails b) {
     var a_Start = a.startDate;
     var b_Start = b.startDate;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         if (a_Start == null) {
           return -1;
@@ -447,7 +447,7 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   int compareEndAir(AnimeDetails a, AnimeDetails b) {
     var a_End = a.endDate;
     var b_End = b.endDate;
-    switch (listSort.orderAnimeBy) {
+    switch (listSort.animeListOrderBy) {
       case OrderBy.ascending:
         if (a_End == null) {
           return -1;

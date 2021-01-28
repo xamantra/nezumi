@@ -77,6 +77,14 @@ mixin CoreMixin<T> on MomentumController<T> {
     }
     return _listSortCtrl?.model;
   }
+
+  AnimeSearchController _animeSearchCtrl;
+  AnimeSearchModel get animeSearch {
+    if (_animeSearchCtrl == null) {
+      _animeSearchCtrl = controller<AnimeSearchController>();
+    }
+    return _animeSearchCtrl?.model;
+  }
 }
 
 mixin CoreStateMixin<T extends StatefulWidget> on State<T> {

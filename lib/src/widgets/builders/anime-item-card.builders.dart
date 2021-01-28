@@ -48,6 +48,7 @@ Widget buildAnimePersonalScore(BuildContext context, int index, AnimeDetails ani
   var score = anime?.myListStatus?.score ?? 0;
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
+      if (anime.myListStatus?.score == null) return SizedBox();
       return Container(
         height: sy(28),
         child: Badge(
@@ -118,6 +119,7 @@ Widget buildAnimeScoringUsers(BuildContext context, int index, AnimeDetails anim
 Widget buildAnimeEpisodesWatched(BuildContext context, int index, AnimeDetails anime) {
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
+      if (anime.myListStatus?.numEpisodesWatched == null) return SizedBox();
       final display = createDisplay(length: 99);
       return Container(
         height: sy(28),
