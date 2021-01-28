@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,15 +16,23 @@ Box<String> _animeHistoryCacheBox;
 Box<String> get animeHistoryCacheBox => _animeHistoryCacheBox;
 
 Future<void> initStorage() async {
-  List<int> bytes = utf8.encode(encryptionKey);
+  await _initHive(); // not needed in the web, comment out.
 
+  List<int> bytes = utf8.encode(encryptionKey);
+  var key = base64Url.decode(base64UrlEncode(bytes));
+
+  _persistedStateBox = await _openBox('nezumi_box', key);
+  _animeCacheBox = await _openBox('nezumi_anime_cache_box', key);
+  _animeHistoryCacheBox = await _openBox('nezumi_anime_history_cache_box', key);
+}
+
+Future<Box<T>> _openBox<T>(String name, Uint8List key) async {
+  var box = await Hive.openBox<T>(name, encryptionCipher: HiveAesCipher(key));
+  return box;
+}
+
+Future<void> _initHive() async {
   var appDocDir = await getApplicationDocumentsDirectory();
   var appDocPath = appDocDir.path;
-
   Hive.init(appDocPath);
-
-  var key = base64Url.decode(base64UrlEncode(bytes));
-  _persistedStateBox = await Hive.openBox<String>('nezumi_box', encryptionCipher: HiveAesCipher(key));
-  _animeCacheBox = await Hive.openBox<String>('nezumi_anime_cache_box', encryptionCipher: HiveAesCipher(key));
-  _animeHistoryCacheBox = await Hive.openBox<String>('nezumi_anime_history_cache_box', encryptionCipher: HiveAesCipher(key));
 }
