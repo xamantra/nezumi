@@ -17,7 +17,7 @@ Momentum momentum() {
   return Momentum(
     initializer: initStorage,
     child: MyApp(),
-    appLoader: AppLoader(),
+    appLoader: Splash(),
     restartCallback: main,
     key: UniqueKey(),
     controllers: controllers(),

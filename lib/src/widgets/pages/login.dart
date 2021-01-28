@@ -50,6 +50,10 @@ class _LoginState extends MomentumState<Login> {
                 var login = snapshot<LoginModel>();
                 var loading = login.loading;
 
+                if (login.controller.isLoggedIn()) {
+                  return Splash();
+                }
+
                 return Stack(
                   children: [
                     Center(

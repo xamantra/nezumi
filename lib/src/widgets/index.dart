@@ -1,6 +1,5 @@
 export 'anime-filter-item.dart';
 export 'anime-filter-item.widget.dart';
-export 'app-loader.dart';
 export 'app-theme.dart';
 export 'appbar.dart';
 export 'badge-list.horizontal.dart';
@@ -18,4 +17,5 @@ export 'reorderable.separator.dart';
 export 'ripple.dart';
 export 'row.separator.dart';
 export 'sized-button.dart';
+export 'splash.dart';
 export 'toolbar.action.dart';
