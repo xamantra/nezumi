@@ -36,11 +36,16 @@ class AnimeItemGrid extends StatelessWidget {
                 padding: EdgeInsets.all(sy(4)),
                 child: GestureDetector(
                   onTap: () {
-                    // TODO: error trap when anime details is loading, don't allow click
-                    ctrl<AnimeUpdateController>(context).setCurrentAnime(
-                      id: anime.id,
-                      title: anime.title,
-                    );
+                    var controller = ctrl<AnimeUpdateController>(context);
+                    if (controller.model.loading) {
+                      showToast(
+                        'Another action is still in progress. Please wait.',
+                        fontSize: sy(12),
+                        color: AppTheme.of(context).secondary,
+                      );
+                      return;
+                    }
+                    controller.setCurrentAnime(id: anime.id, title: anime.title);
                     dialog(context, EditAnimeDialog());
                   },
                   child: ImageWidget(
