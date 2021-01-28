@@ -68,7 +68,7 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                           color: AppTheme.of(context).text1,
                           fontSize: sy(13),
                         ),
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.start,
                         maxLines: 1,
                         onChanged: (query) {
                           animeSearch.controller.search(query);
@@ -80,13 +80,22 @@ class _AnimeSearchTabPageState extends State<AnimeSearchTabPage> with TickerProv
                     ),
                   ),
                   actions: [
-                    ToolbarAction(
-                      icon: Icons.close,
-                      onPressed: () {
-                        searchInputController.clear();
-                        searchInputController.clearComposing();
-                        animeSearch.controller.search('');
-                        animeSearch.controller.submitMALSearch();
+                    MomentumBuilder(
+                      controllers: [AnimeSearchController],
+                      builder: (context, snapshot) {
+                        if (animeSearch.query.isEmpty || animeSearch.loadingResult) {
+                          return SizedBox();
+                        }
+
+                        return ToolbarAction(
+                          icon: Icons.close,
+                          onPressed: () {
+                            searchInputController.clear();
+                            searchInputController.clearComposing();
+                            animeSearch.controller.search('');
+                            animeSearch.controller.submitMALSearch();
+                          },
+                        );
                       },
                     ),
                   ],

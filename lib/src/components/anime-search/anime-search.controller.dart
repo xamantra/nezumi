@@ -20,6 +20,10 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     );
   }
 
+  bool isEmpty() {
+    return model.results?.isEmpty ?? true;
+  }
+
   void search(String query) {
     model.update(query: query ?? '');
     if (model.query.isEmpty) {
