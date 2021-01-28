@@ -48,7 +48,9 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
                   height: sy(42),
                   leadingIcon: Icons.menu,
                   title: 'Anime Filter',
-                  actions: [],
+                  actions: [
+                    // TODO: sort filter results.
+                  ],
                   leadingAction: () {
                     Scaffold.of(context).openDrawer();
                   },
