@@ -11,6 +11,9 @@ Box<String> get persistedStateBox => _persistedStateBox;
 Box<String> _animeCacheBox;
 Box<String> get animeCacheBox => _animeCacheBox;
 
+Box<String> _animeHistoryCacheBox;
+Box<String> get animeHistoryCacheBox => _animeHistoryCacheBox;
+
 Future<void> initStorage() async {
   List<int> bytes = utf8.encode(encryptionKey);
 
@@ -22,4 +25,5 @@ Future<void> initStorage() async {
   var key = base64Url.decode(base64UrlEncode(bytes));
   _persistedStateBox = await Hive.openBox<String>('nezumi_box', encryptionCipher: HiveAesCipher(key));
   _animeCacheBox = await Hive.openBox<String>('nezumi_anime_cache_box', encryptionCipher: HiveAesCipher(key));
+  _animeHistoryCacheBox = await Hive.openBox<String>('nezumi_anime_history_cache_box', encryptionCipher: HiveAesCipher(key));
 }

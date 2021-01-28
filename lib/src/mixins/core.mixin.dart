@@ -30,6 +30,14 @@ mixin CoreMixin<T> on MomentumController<T> {
     return _animeCache;
   }
 
+  AnimeHistoryCacheService _animeHistoryCache;
+  AnimeHistoryCacheService get animeHistoryCache {
+    if (_animeHistoryCache == null) {
+      _animeHistoryCache = service<AnimeHistoryCacheService>();
+    }
+    return _animeHistoryCache;
+  }
+
   AppController _appCtrl;
   AppModel get app {
     if (_appCtrl == null) {

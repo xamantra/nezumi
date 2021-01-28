@@ -123,9 +123,15 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   Future<void> loadAnimeHistory() async {
     model.update(loadingHistory: true);
     var history = await api.getAnimeHistory(username: username);
+    if (history == null) {
+      var fromCache = animeHistoryCache.getCache();
+      model.update(loadingHistory: false, userAnimeHistory: fromCache);
+      return;
+    }
     var list = animeCache.user_list;
     history = history?.bindDurations(list);
     model.update(loadingHistory: false, userAnimeHistory: history);
+    animeHistoryCache.setCache(history);
   }
 
   /* backend functions */

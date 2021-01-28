@@ -48,7 +48,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   Map<String, dynamic> toJson() {
     return {
       'rebuilds': 0,
-      'userAnimeHistory': userAnimeHistory?.toJson(),
       'loadingAnimeList': false,
       'loadingHistory': false,
       'updatingListStatus': false,
@@ -61,7 +60,6 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
     return MyAnimeListModel(
       controller,
       rebuilds: 0,
-      userAnimeHistory: UserAnimeHistory.fromJson(map['userAnimeHistory'] ?? {}),
       loadingAnimeList: false,
       loadingHistory: false,
       updatingListStatus: false,

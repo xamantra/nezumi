@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +11,9 @@ class UserAnimeHistory {
   UserAnimeHistory({
     this.list,
   });
+
+  String toRawJson() => json.encode(toJson());
+  static UserAnimeHistory fromRawJson(String raw) => UserAnimeHistory.fromJson(json.decode(raw));
 
   Map<String, dynamic> toJson() {
     return {
