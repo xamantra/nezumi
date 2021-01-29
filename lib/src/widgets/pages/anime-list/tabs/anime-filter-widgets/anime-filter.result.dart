@@ -3,6 +3,8 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../../components/anime-filter/index.dart';
+import '../../../../../components/list-sort/index.dart';
+import '../../../../../data/types/index.dart';
 import '../../../../../mixins/index.dart';
 import '../../../../builders/index.dart';
 import '../../../../items/index.dart';
@@ -24,7 +26,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return MomentumBuilder(
-          controllers: [AnimeFilterController],
+          controllers: [AnimeFilterController, ListSortController],
           builder: (context, snapshot) {
             var list = animeFilter.results ?? [];
             var entryCount = list.length;
@@ -93,6 +95,35 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                               anime: anime,
                               compactMode: compactMode,
                               listMode: listMode,
+                              trailBuilder: (_, anime) {
+                                switch (listSort.animeFilterSortBy) {
+                                  case AnimeListSortBy.title:
+                                    break;
+                                  case AnimeListSortBy.globalScore:
+                                    return buildAnimeScore(context, index, anime);
+                                  case AnimeListSortBy.member:
+                                    return buildAnimePopularity(context, index, anime);
+                                  case AnimeListSortBy.userVotes:
+                                    return buildAnimeScoringUsers(context, index, anime);
+                                  case AnimeListSortBy.lastUpdated:
+                                    return buildAnimeLastUpdated(context, index, anime);
+                                  case AnimeListSortBy.episodesWatched:
+                                    return buildAnimeEpisodesWatched(context, index, anime);
+                                  case AnimeListSortBy.startWatchDate:
+                                    return buildAnimeStartWatch(context, index, anime);
+                                  case AnimeListSortBy.finishWatchDate:
+                                    return buildAnimeFinishWatch(context, index, anime);
+                                  case AnimeListSortBy.personalScore:
+                                    return buildAnimePersonalScore(context, index, anime);
+                                  case AnimeListSortBy.totalDuration:
+                                    return buildAnimeTotalDuration(context, index, anime);
+                                  case AnimeListSortBy.startAirDate:
+                                    return buildAnimeStartAir(context, index, anime);
+                                  case AnimeListSortBy.endAirDate:
+                                    return buildAnimeEndAir(context, index, anime);
+                                }
+                                return SizedBox();
+                              },
                               fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),
                             );
                           },

@@ -18,11 +18,15 @@ int comparePersonalScore(OrderBy orderBy, AnimeDetails a, AnimeDetails b) {
   var b_Score = b.myListStatus?.score ?? 0;
   switch (orderBy) {
     case OrderBy.ascending:
+      if (a_Score == 0) {
+        return 1;
+      }
       return a_Score.compareTo(b_Score);
-      break;
     case OrderBy.descending:
+      if (b_Score == 0) {
+        return -1;
+      }
       return b_Score.compareTo(a_Score);
-      break;
   }
   return 0;
 }
@@ -30,11 +34,15 @@ int comparePersonalScore(OrderBy orderBy, AnimeDetails a, AnimeDetails b) {
 int compareMean(OrderBy orderBy, AnimeDetails a, AnimeDetails b) {
   switch (orderBy) {
     case OrderBy.ascending:
+      if (a.mean == 0) {
+        return 1;
+      }
       return a.mean.compareTo(b.mean);
-      break;
     case OrderBy.descending:
+      if (b.mean == 0) {
+        return -1;
+      }
       return b.mean.compareTo(a.mean);
-      break;
   }
   return 0;
 }

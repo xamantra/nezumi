@@ -2,6 +2,7 @@ import 'package:momentum/momentum.dart';
 
 import '../../absract/index.dart';
 import '../../data/index.dart';
+import '../../data/types/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
 import 'index.dart';
@@ -61,6 +62,55 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
     }
     results.sort((a, b) => a.title.compareTo(b.title));
     model.update(results: results);
+  }
+
+  void sortResults() {
+    var results = List<AnimeDetails>.from(model.results);
+    switch (listSort.animeFilterSortBy) {
+      case AnimeListSortBy.title:
+        results.sort(sorter(compareTitle));
+        break;
+      case AnimeListSortBy.globalScore:
+        results.sort(sorter(compareMean));
+        break;
+      case AnimeListSortBy.member:
+        results.sort(sorter(compareMember));
+        break;
+      case AnimeListSortBy.userVotes:
+        results.sort(sorter(compareScoringMember));
+        break;
+      case AnimeListSortBy.lastUpdated:
+        results.sort(sorter(compareLastUpdated));
+        break;
+      case AnimeListSortBy.episodesWatched:
+        results.sort(sorter(compareEpisodesWatched));
+        break;
+      case AnimeListSortBy.startWatchDate:
+        results.sort(sorter(compareStartWatch));
+        break;
+      case AnimeListSortBy.finishWatchDate:
+        results.sort(sorter(compareFinishWatch));
+        break;
+      case AnimeListSortBy.personalScore:
+        results.sort(sorter(comparePersonalScore));
+        break;
+      case AnimeListSortBy.totalDuration:
+        results.sort(sorter(compareTotalDuration));
+        break;
+      case AnimeListSortBy.startAirDate:
+        results.sort(sorter(compareStartAir));
+        break;
+      case AnimeListSortBy.endAirDate:
+        results.sort(sorter(compareEndAir));
+        break;
+    }
+    model.update(results: results);
+  }
+
+  int Function(AnimeDetails, AnimeDetails) sorter(int Function(OrderBy, AnimeDetails, AnimeDetails) sorter) {
+    return (a, b) {
+      return sorter(listSort.animeFilterOrderBy, a, b);
+    };
   }
 
   List<String> allGenre() {

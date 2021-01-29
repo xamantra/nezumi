@@ -4,8 +4,11 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-filter/index.dart';
 import '../../../../components/app/index.dart';
+import '../../../../components/list-sort/index.dart';
+import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
 import '../../../index.dart';
+import '../index.dart';
 import 'anime-filter-widgets/index.dart';
 
 class AnimeFilterTab extends StatefulWidget {
@@ -44,15 +47,51 @@ class _AnimeFilterTabState extends State<AnimeFilterTab> with SingleTickerProvid
           child: SafeArea(
             child: Column(
               children: [
-                Toolbar(
-                  height: sy(42),
-                  leadingIcon: Icons.menu,
-                  title: 'Anime Filter',
-                  actions: [
-                    // TODO: sort filter results.
-                  ],
-                  leadingAction: () {
-                    Scaffold.of(context).openDrawer();
+                MomentumBuilder(
+                  controllers: [ListSortController],
+                  builder: (context, snapshot) {
+                    IconData orderByIcon;
+                    IconData sortByIcon;
+                    String orderBy;
+                    switch (listSort.animeFilterOrderBy) {
+                      case OrderBy.ascending:
+                        orderByIcon = Icons.arrow_upward;
+                        sortByIcon = CustomIcons.sort_amount_up;
+                        orderBy = 'Ascending';
+                        break;
+                      case OrderBy.descending:
+                        orderByIcon = Icons.arrow_downward;
+                        sortByIcon = CustomIcons.sort_amount_down;
+                        orderBy = 'Descending';
+                        break;
+                    }
+                    return Toolbar(
+                      height: sy(42),
+                      leadingIcon: Icons.menu,
+                      title: 'Anime Filter',
+                      actions: [
+                        ToolbarAction(
+                          icon: orderByIcon,
+                          size: sy(32),
+                          iconSize: sy(13),
+                          tooltip: orderBy,
+                          onPressed: () {
+                            listSort.controller.toggleAnimeFilterOrderBy();
+                          },
+                        ),
+                        AnimeListSortMenu(
+                          value: listSort.animeFilterSortBy,
+                          iconSize: sy(10),
+                          orderByIcon: sortByIcon,
+                          onChanged: (sortBy) {
+                            listSort.controller.changeAnimeFilterSortBy(sortBy);
+                          },
+                        ),
+                      ],
+                      leadingAction: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    );
                   },
                 ),
                 MomentumBuilder(

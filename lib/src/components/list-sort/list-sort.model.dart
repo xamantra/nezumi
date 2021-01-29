@@ -12,6 +12,8 @@ class ListSortModel extends MomentumModel<ListSortController> {
     this.animeSearchSortBy,
     this.animeYearlyOrderBy,
     this.animeYearlySortBy,
+    this.animeFilterOrderBy,
+    this.animeFilterSortBy,
   }) : super(controller);
 
   final OrderBy animeListOrderBy;
@@ -23,6 +25,9 @@ class ListSortModel extends MomentumModel<ListSortController> {
   final OrderBy animeYearlyOrderBy;
   final AnimeListSortBy animeYearlySortBy;
 
+  final OrderBy animeFilterOrderBy;
+  final AnimeListSortBy animeFilterSortBy;
+
   @override
   void update({
     OrderBy animeListOrderBy,
@@ -31,6 +36,8 @@ class ListSortModel extends MomentumModel<ListSortController> {
     AnimeListSortBy animeSearchSortBy,
     OrderBy animeYearlyOrderBy,
     AnimeListSortBy animeYearlySortBy,
+    OrderBy animeFilterOrderBy,
+    AnimeListSortBy animeFilterSortBy,
   }) {
     ListSortModel(
       controller,
@@ -40,6 +47,8 @@ class ListSortModel extends MomentumModel<ListSortController> {
       animeSearchSortBy: animeSearchSortBy ?? this.animeSearchSortBy,
       animeYearlyOrderBy: animeYearlyOrderBy ?? this.animeYearlyOrderBy,
       animeYearlySortBy: animeYearlySortBy ?? this.animeYearlySortBy,
+      animeFilterOrderBy: animeFilterOrderBy ?? this.animeFilterOrderBy,
+      animeFilterSortBy: animeFilterSortBy ?? this.animeFilterSortBy,
     ).updateMomentum();
   }
 }
