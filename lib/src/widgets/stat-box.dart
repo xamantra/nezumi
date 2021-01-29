@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../app-theme.dart';
+import 'index.dart';
 
-class AnimeFilterStatItem extends StatelessWidget {
-  const AnimeFilterStatItem({
+class StatBox extends StatelessWidget {
+  const StatBox({
     Key key,
     @required this.title,
     @required this.icon,

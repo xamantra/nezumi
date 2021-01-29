@@ -18,4 +18,5 @@ export 'ripple.dart';
 export 'row.separator.dart';
 export 'sized-button.dart';
 export 'splash.dart';
+export 'stat-box.dart';
 export 'toolbar.action.dart';

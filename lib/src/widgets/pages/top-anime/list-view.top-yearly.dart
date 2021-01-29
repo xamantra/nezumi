@@ -9,7 +9,6 @@ import '../../../mixins/index.dart';
 import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
-import '../anime-list/tabs/anime-filter-widgets/index.dart';
 import 'index.dart';
 
 class AnimeTopYearlyView extends StatefulWidget {
@@ -58,7 +57,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            AnimeFilterStatItem(
+                            StatBox(
                               title: 'Filtered',
                               icon: Icons.sort,
                               value: animeTop.controller.getEntryCount(),
@@ -66,7 +65,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                               color: Colors.deepPurple,
                             ),
                             SizedBox(width: sy(8)),
-                            AnimeFilterStatItem(
+                            StatBox(
                               title: 'Average',
                               icon: Icons.timeline,
                               value: animeTop.controller.getMeanScore(),
@@ -74,7 +73,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                               color: Colors.pink,
                             ),
                             SizedBox(width: sy(8)),
-                            AnimeFilterStatItem(
+                            StatBox(
                               title: 'Votes',
                               icon: Icons.people,
                               value: animeTop.controller.getVotesPerEntry(),

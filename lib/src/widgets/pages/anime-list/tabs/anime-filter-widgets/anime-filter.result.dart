@@ -7,8 +7,8 @@ import '../../../../../components/list-sort/index.dart';
 import '../../../../../data/types/index.dart';
 import '../../../../../mixins/index.dart';
 import '../../../../builders/index.dart';
+import '../../../../index.dart';
 import '../../../../items/index.dart';
-import 'index.dart';
 
 class AnimeFilterResultView extends StatefulWidget {
   const AnimeFilterResultView({Key key}) : super(key: key);
@@ -41,7 +41,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        AnimeFilterStatItem(
+                        StatBox(
                           title: 'Results',
                           icon: Icons.sort,
                           value: '$entryCount',
@@ -49,7 +49,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                           color: Colors.deepPurple,
                         ),
                         SizedBox(width: sy(8)),
-                        AnimeFilterStatItem(
+                        StatBox(
                           title: 'Length',
                           icon: Icons.calendar_today,
                           value: '${animeFilter.controller.resultTotalDays()}',
@@ -57,7 +57,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                           color: Colors.pink,
                         ),
                         SizedBox(width: sy(8)),
-                        AnimeFilterStatItem(
+                        StatBox(
                           title: 'Average',
                           icon: Icons.timeline,
                           value: '${animeFilter.controller.resultEpisodesPerEntry()}',
@@ -65,7 +65,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                           color: Colors.redAccent,
                         ),
                         SizedBox(width: sy(8)),
-                        AnimeFilterStatItem(
+                        StatBox(
                           title: 'Duration',
                           icon: Icons.timer_sharp,
                           value: '${animeFilter.controller.minutesPerEpisode()}',
@@ -73,7 +73,7 @@ class _AnimeFilterResultViewState extends State<AnimeFilterResultView> with Core
                           color: Colors.purple,
                         ),
                         SizedBox(width: sy(8)),
-                        AnimeFilterStatItem(
+                        StatBox(
                           title: 'Episodes',
                           icon: Icons.filter_1,
                           value: '${animeFilter.controller.resultTotalEpisodes()}',
