@@ -3,17 +3,19 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-top/index.dart';
+import '../../../components/list-sort/index.dart';
 import '../../../components/my_anime_list/index.dart';
 import '../../../components/settings/index.dart';
 import '../../../data/index.dart';
 import '../../../data/types/index.dart';
+import '../../../mixins/index.dart';
 import '../../../utils/index.dart';
 import '../../builders/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 import 'index.dart';
 
-class AnimeTopListExlcudedView extends StatelessWidget {
+class AnimeTopListExlcudedView extends StatefulWidget {
   const AnimeTopListExlcudedView({
     Key key,
     this.leadBuilder,
@@ -24,13 +26,18 @@ class AnimeTopListExlcudedView extends StatelessWidget {
   final Widget Function(BuildContext context, int index, AnimeDetails anime) trailBuilder;
 
   @override
+  _AnimeTopListExlcudedViewState createState() => _AnimeTopListExlcudedViewState();
+}
+
+class _AnimeTopListExlcudedViewState extends State<AnimeTopListExlcudedView> with CoreStateMixin {
+  @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Scaffold(
           backgroundColor: AppTheme.of(context).primaryBackground,
           body: MomentumBuilder(
-            controllers: [AnimeTopController],
+            controllers: [AnimeTopController, ListSortController],
             builder: (context, snapshot) {
               var settings = ctrl<SettingsController>(context).model;
               var s2 = ctrl<SettingsController>(context).model;
@@ -50,7 +57,7 @@ class AnimeTopListExlcudedView extends StatelessWidget {
               IconData orderByIcon;
               IconData sortByIcon;
               String orderBy;
-              switch (animeTop.yearlyRankingOrderBy) {
+              switch (listSort.animeYearlyOrderBy) {
                 case OrderBy.ascending:
                   orderByIcon = Icons.arrow_upward;
                   sortByIcon = CustomIcons.sort_amount_up;
@@ -83,14 +90,14 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                 icon: orderByIcon,
                                 tooltip: orderBy,
                                 onPressed: () {
-                                  animeTop.controller.toggleOrderBy();
+                                  listSort.controller.toggleAnimeYearlyOrderBy();
                                 },
                               ),
                               YearlyAnimeRankingSortMenu(
-                                value: animeTop.yearlyRankingSortBy,
+                                value: listSort.animeYearlySortBy,
                                 orderByIcon: sortByIcon,
                                 onChanged: (sortBy) {
-                                  animeTop.controller.changeSortBy(sortBy);
+                                  listSort.controller.changeAnimeYearlySortBy(sortBy);
                                 },
                               ),
                             ],
@@ -125,14 +132,14 @@ class AnimeTopListExlcudedView extends StatelessWidget {
                                     listMode: true,
                                     editMode: inMyList,
                                     selected: selected,
-                                    leadBuilder: leadBuilder != null
+                                    leadBuilder: widget.leadBuilder != null
                                         ? (context, anime) {
-                                            return leadBuilder(context, index, anime);
+                                            return widget.leadBuilder(context, index, anime);
                                           }
                                         : null,
-                                    trailBuilder: trailBuilder != null
+                                    trailBuilder: widget.trailBuilder != null
                                         ? (context, anime) {
-                                            return trailBuilder(context, index, anime);
+                                            return widget.trailBuilder(context, index, anime);
                                           }
                                         : null,
                                     fieldsBuilder: (context, anime) => buildAnimeListFields(context, anime, fields, compactMode),

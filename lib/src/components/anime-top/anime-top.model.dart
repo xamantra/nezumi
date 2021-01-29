@@ -1,7 +1,6 @@
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
-import '../../data/types/index.dart';
 import 'index.dart';
 
 class AnimeTopModel extends MomentumModel<AnimeTopController> {
@@ -12,8 +11,6 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.selectedYear,
     this.yearlyRankingsCache,
     this.loadingYearlyRankings,
-    this.yearlyRankingOrderBy,
-    this.yearlyRankingSortBy,
     this.fullscreen,
     this.selectionMode,
     this.excludedAnimeIDs,
@@ -30,8 +27,6 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   final int selectedYear;
   final List<YearlyAnimeRankingsCache> yearlyRankingsCache;
   final bool loadingYearlyRankings;
-  final OrderBy yearlyRankingOrderBy;
-  final AnimeListSortBy yearlyRankingSortBy;
   List<AnimeDetails> getRankingByYear(int year) {
     var find = yearlyRankingsCache.firstWhere((x) => x.year == year, orElse: () => null);
     var result = List<AnimeDetails>.from(find?.rankings ?? []);
@@ -106,8 +101,6 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     int selectedYear,
     List<YearlyAnimeRankingsCache> yearlyRankingsCache,
     bool loadingYearlyRankings,
-    OrderBy yearlyRankingOrderBy,
-    AnimeListSortBy yearlyRankingSortBy,
     bool fullscreen,
     bool selectionMode,
     List<int> excludedAnimeIDs,
@@ -122,8 +115,6 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       selectedYear: selectedYear ?? this.selectedYear,
       yearlyRankingsCache: yearlyRankingsCache ?? this.yearlyRankingsCache,
       loadingYearlyRankings: loadingYearlyRankings ?? this.loadingYearlyRankings,
-      yearlyRankingOrderBy: yearlyRankingOrderBy ?? this.yearlyRankingOrderBy,
-      yearlyRankingSortBy: yearlyRankingSortBy ?? this.yearlyRankingSortBy,
       fullscreen: fullscreen ?? this.fullscreen,
       selectionMode: selectionMode ?? this.selectionMode,
       excludedAnimeIDs: excludedAnimeIDs ?? this.excludedAnimeIDs,

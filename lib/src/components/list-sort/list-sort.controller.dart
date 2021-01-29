@@ -13,6 +13,8 @@ class ListSortController extends MomentumController<ListSortModel> with CoreMixi
       animeListSortBy: AnimeListSortBy.lastUpdated,
       animeSearchOrderBy: OrderBy.descending,
       animeSearchSortBy: AnimeListSortBy.lastUpdated,
+      animeYearlyOrderBy: OrderBy.descending,
+      animeYearlySortBy: AnimeListSortBy.globalScore,
     );
   }
 
@@ -52,5 +54,24 @@ class ListSortController extends MomentumController<ListSortModel> with CoreMixi
     model.update(animeSearchSortBy: sortBy);
 
     animeSearch.controller.sortAnimeSearch();
+  }
+
+  void toggleAnimeYearlyOrderBy() {
+    switch (model.animeYearlyOrderBy) {
+      case OrderBy.ascending:
+        model.update(animeYearlyOrderBy: OrderBy.descending);
+        break;
+      case OrderBy.descending:
+        model.update(animeYearlyOrderBy: OrderBy.ascending);
+        break;
+    }
+
+    animeTop.controller.validateAndSortYearlyRankings();
+  }
+
+  void changeAnimeYearlySortBy(AnimeListSortBy sortBy) {
+    model.update(animeYearlySortBy: sortBy);
+
+    animeTop.controller.validateAndSortYearlyRankings();
   }
 }

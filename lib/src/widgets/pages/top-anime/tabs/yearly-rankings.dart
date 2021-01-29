@@ -4,6 +4,7 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../components/anime-top/index.dart';
 import '../../../../components/export-list/index.dart';
+import '../../../../components/list-sort/index.dart';
 import '../../../../data/index.dart';
 import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
@@ -57,7 +58,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
               child: Column(
                 children: [
                   MomentumBuilder(
-                    controllers: [AnimeTopController],
+                    controllers: [AnimeTopController, ListSortController],
                     builder: (context, snapshot) {
                       if (animeTop.fullscreen) {
                         return SizedBox();
@@ -102,7 +103,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                       IconData orderByIcon;
                       IconData sortByIcon;
                       String orderBy;
-                      switch (animeTop.yearlyRankingOrderBy) {
+                      switch (listSort.animeYearlyOrderBy) {
                         case OrderBy.ascending:
                           orderByIcon = Icons.arrow_upward;
                           sortByIcon = CustomIcons.sort_amount_up;
@@ -181,15 +182,15 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   iconSize: sy(13),
                                   tooltip: orderBy,
                                   onPressed: () {
-                                    animeTop.controller.toggleOrderBy();
+                                    listSort.controller.toggleAnimeYearlyOrderBy();
                                   },
                                 ),
                                 YearlyAnimeRankingSortMenu(
-                                  value: animeTop.yearlyRankingSortBy,
+                                  value: listSort.animeYearlySortBy,
                                   iconSize: sy(10),
                                   orderByIcon: sortByIcon,
                                   onChanged: (sortBy) {
-                                    animeTop.controller.changeSortBy(sortBy);
+                                    listSort.controller.changeAnimeYearlySortBy(sortBy);
                                   },
                                 ),
                                 ToolbarAction(
@@ -247,7 +248,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
   }
 
   Widget _buildTrailWidget(BuildContext context, int index, AnimeDetails anime) {
-    switch (animeTop.yearlyRankingSortBy) {
+    switch (listSort.animeYearlySortBy) {
       case AnimeListSortBy.title:
         break;
       case AnimeListSortBy.globalScore:

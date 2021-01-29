@@ -18,8 +18,6 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       this,
       selectedYear: DateTime.now().year,
       loadingYearlyRankings: false,
-      yearlyRankingOrderBy: OrderBy.descending,
-      yearlyRankingSortBy: AnimeListSortBy.globalScore,
       fullscreen: false,
       selectionMode: false,
       yearlyRankingsCache: [],
@@ -130,7 +128,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var filtered = filterAnimeList(year, original);
 
     filtered.sort((a, b) => b.mean.compareTo(a.mean));
-    switch (model.yearlyRankingSortBy) {
+    switch (listSort.animeYearlySortBy) {
       case AnimeListSortBy.title:
         filtered.sort(sorter(compareTitle));
         break;
@@ -272,7 +270,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
 
     result.sort((a, b) => b.mean.compareTo(a.mean));
-    switch (model.yearlyRankingSortBy) {
+    switch (listSort.animeYearlySortBy) {
       case AnimeListSortBy.title:
         result.sort(sorter(compareTitle));
         break;
@@ -335,28 +333,8 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
   int Function(AnimeDetails, AnimeDetails) sorter(int Function(OrderBy, AnimeDetails, AnimeDetails) sorter) {
     return (a, b) {
-      return sorter(model.yearlyRankingOrderBy, a, b);
+      return sorter(listSort.animeYearlyOrderBy, a, b);
     };
-  }
-
-  void toggleOrderBy() {
-    clearSelection();
-    switch (model.yearlyRankingOrderBy) {
-      case OrderBy.ascending:
-        model.update(yearlyRankingOrderBy: OrderBy.descending);
-        break;
-      case OrderBy.descending:
-        model.update(yearlyRankingOrderBy: OrderBy.ascending);
-        break;
-    }
-
-    validateAndSortYearlyRankings();
-  }
-
-  void changeSortBy(AnimeListSortBy sortBy) {
-    clearSelection();
-    model.update(yearlyRankingSortBy: sortBy);
-    validateAndSortYearlyRankings();
   }
 
   void toggleFullscreen() {
