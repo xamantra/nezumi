@@ -48,13 +48,13 @@ Widget buildAnimePersonalScore(BuildContext context, int index, AnimeDetails ani
   var score = anime?.myListStatus?.score ?? 0;
   return RelativeBuilder(
     builder: (context, height, width, sy, sx) {
-      if (anime.myListStatus?.score == null) return SizedBox();
+      if (score == 0) return SizedBox();
       return Container(
         height: sy(28),
         child: Badge(
           color: AppTheme.of(context).primary,
           textColor: Colors.white,
-          text: score != 0 ? '$score' : 'N/A',
+          text: '$score',
           fontSize: sy(10),
           fontWeight: FontWeight.w700,
         ),

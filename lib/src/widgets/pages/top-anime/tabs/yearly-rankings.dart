@@ -248,19 +248,40 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
 
   Widget _buildTrailWidget(BuildContext context, int index, AnimeDetails anime) {
     switch (animeTop.yearlyRankingSortBy) {
-      case TopAnimeSortBy.title:
+      case AnimeListSortBy.title:
         break;
-      case TopAnimeSortBy.score:
+      case AnimeListSortBy.globalScore:
         return buildAnimeScore(context, index, anime);
         break;
-      case TopAnimeSortBy.member:
+      case AnimeListSortBy.member:
         return buildAnimePopularity(context, index, anime);
         break;
-      case TopAnimeSortBy.scoringMember:
+      case AnimeListSortBy.userVotes:
         return buildAnimeScoringUsers(context, index, anime);
         break;
-      case TopAnimeSortBy.totalDuraton:
+      case AnimeListSortBy.totalDuration:
         return buildAnimeTotalDuration(context, index, anime);
+        break;
+      case AnimeListSortBy.lastUpdated:
+        return buildAnimeLastUpdated(context, index, anime);
+        break;
+      case AnimeListSortBy.personalScore:
+        return buildAnimePersonalScore(context, index, anime);
+        break;
+      case AnimeListSortBy.episodesWatched:
+        return buildAnimeEpisodesWatched(context, index, anime);
+        break;
+      case AnimeListSortBy.startWatchDate:
+        return buildAnimeStartWatch(context, index, anime);
+        break;
+      case AnimeListSortBy.finishWatchDate:
+        return buildAnimeFinishWatch(context, index, anime);
+        break;
+      case AnimeListSortBy.startAirDate:
+        return buildAnimeStartAir(context, index, anime);
+        break;
+      case AnimeListSortBy.endAirDate:
+        return buildAnimeEndAir(context, index, anime);
         break;
     }
     return SizedBox();

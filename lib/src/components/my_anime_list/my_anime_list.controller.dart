@@ -225,40 +225,40 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     var list = List<AnimeDetails>.from(animeCache.user_list ?? []);
     switch (listSort.animeListSortBy) {
       case AnimeListSortBy.title:
-        list.sort(compareTitle);
+        list.sort(sorter(compareTitle));
         break;
       case AnimeListSortBy.globalScore:
-        list.sort(compareMean);
+        list.sort(sorter(compareMean));
         break;
       case AnimeListSortBy.member:
-        list.sort(compareMember);
+        list.sort(sorter(compareMember));
         break;
       case AnimeListSortBy.userVotes:
-        list.sort(compareScoringMember);
+        list.sort(sorter(compareScoringMember));
         break;
       case AnimeListSortBy.lastUpdated:
-        list.sort(compareLastUpdated);
+        list.sort(sorter(compareLastUpdated));
         break;
       case AnimeListSortBy.episodesWatched:
-        list.sort(compareEpisodesWatched);
+        list.sort(sorter(compareEpisodesWatched));
         break;
       case AnimeListSortBy.startWatchDate:
-        list.sort(compareStartWatch);
+        list.sort(sorter(compareStartWatch));
         break;
       case AnimeListSortBy.finishWatchDate:
-        list.sort(compareFinishWatch);
+        list.sort(sorter(compareFinishWatch));
         break;
       case AnimeListSortBy.personalScore:
-        list.sort(comparePersonalScore);
+        list.sort(sorter(comparePersonalScore));
         break;
       case AnimeListSortBy.totalDuration:
-        list.sort(compareTotalDuration);
+        list.sort(sorter(compareTotalDuration));
         break;
       case AnimeListSortBy.startAirDate:
-        list.sort(compareStartAir);
+        list.sort(sorter(compareStartAir));
         break;
       case AnimeListSortBy.endAirDate:
-        list.sort(compareEndAir);
+        list.sort(sorter(compareEndAir));
         break;
     }
 
@@ -266,207 +266,9 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
     model.rebuild();
   }
 
-  int compareTitle(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a.title.compareTo(b.title);
-        break;
-      case OrderBy.descending:
-        return b.title.compareTo(a.title);
-        break;
-    }
-    return 0;
-  }
-
-  int comparePersonalScore(AnimeDetails a, AnimeDetails b) {
-    var a_Score = a.myListStatus.score ?? 0;
-    var b_Score = b.myListStatus.score ?? 0;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a_Score.compareTo(b_Score);
-        break;
-      case OrderBy.descending:
-        return b_Score.compareTo(a_Score);
-        break;
-    }
-    return 0;
-  }
-
-  int compareMean(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a.mean.compareTo(b.mean);
-        break;
-      case OrderBy.descending:
-        return b.mean.compareTo(a.mean);
-        break;
-    }
-    return 0;
-  }
-
-  int compareScoringMember(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return (a.numScoringUsers ?? 0).compareTo(b.numScoringUsers ?? 0);
-        break;
-      case OrderBy.descending:
-        return (b.numScoringUsers ?? 0).compareTo(a.numScoringUsers ?? 0);
-        break;
-    }
-    return 0;
-  }
-
-  int compareLastUpdated(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a.myListStatus.updatedAt.compareTo(b.myListStatus.updatedAt);
-        break;
-      case OrderBy.descending:
-        return b.myListStatus.updatedAt.compareTo(a.myListStatus.updatedAt);
-        break;
-    }
-    return 0;
-  }
-
-  int compareMember(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return (a.numListUsers ?? 0).compareTo(b.numListUsers ?? 0);
-        break;
-      case OrderBy.descending:
-        return (b.numListUsers ?? 0).compareTo(a.numListUsers ?? 0);
-        break;
-    }
-    return 0;
-  }
-
-  int compareTotalDuration(AnimeDetails a, AnimeDetails b) {
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a.totalDuration.compareTo(b.totalDuration);
-        break;
-      case OrderBy.descending:
-        return b.totalDuration.compareTo(a.totalDuration);
-        break;
-    }
-    return 0;
-  }
-
-  int compareEpisodesWatched(AnimeDetails a, AnimeDetails b) {
-    var a_Eps = a.myListStatus?.numEpisodesWatched ?? 0;
-    var b_Eps = b.myListStatus?.numEpisodesWatched ?? 0;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        return a_Eps.compareTo(b_Eps);
-        break;
-      case OrderBy.descending:
-        return b_Eps.compareTo(a_Eps);
-        break;
-    }
-    return 0;
-  }
-
-  int compareStartWatch(AnimeDetails a, AnimeDetails b) {
-    var a_Start = a.myListStatus.startDate;
-    var b_Start = b.myListStatus.startDate;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        if (a_Start == null) {
-          return -1;
-        }
-        if (b_Start == null) {
-          return 1;
-        }
-        return a_Start.compareTo(b_Start);
-        break;
-      case OrderBy.descending:
-        if (a_Start == null) {
-          return 1;
-        }
-        if (b_Start == null) {
-          return -1;
-        }
-        return b_Start.compareTo(a_Start);
-        break;
-    }
-    return 0;
-  }
-
-  int compareFinishWatch(AnimeDetails a, AnimeDetails b) {
-    var a_Finish = a.myListStatus.finishDate;
-    var b_Finish = b.myListStatus.finishDate;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        if (a_Finish == null) {
-          return -1;
-        }
-        if (b_Finish == null) {
-          return 1;
-        }
-        return a_Finish.compareTo(b_Finish);
-        break;
-      case OrderBy.descending:
-        if (a_Finish == null) {
-          return 1;
-        }
-        if (b_Finish == null) {
-          return -1;
-        }
-        return b_Finish.compareTo(a_Finish);
-        break;
-    }
-    return 0;
-  }
-
-  int compareStartAir(AnimeDetails a, AnimeDetails b) {
-    var a_Start = a.startDate;
-    var b_Start = b.startDate;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        if (a_Start == null) {
-          return -1;
-        }
-        if (b_Start == null) {
-          return 1;
-        }
-        return a_Start.compareTo(b_Start);
-        break;
-      case OrderBy.descending:
-        if (a_Start == null) {
-          return 1;
-        }
-        if (b_Start == null) {
-          return -1;
-        }
-        return b_Start.compareTo(a_Start);
-        break;
-    }
-    return 0;
-  }
-
-  int compareEndAir(AnimeDetails a, AnimeDetails b) {
-    var a_End = a.endDate;
-    var b_End = b.endDate;
-    switch (listSort.animeListOrderBy) {
-      case OrderBy.ascending:
-        if (a_End == null) {
-          return -1;
-        }
-        if (b_End == null) {
-          return 1;
-        }
-        return a_End.compareTo(b_End);
-        break;
-      case OrderBy.descending:
-        if (a_End == null) {
-          return 1;
-        }
-        if (b_End == null) {
-          return -1;
-        }
-        return b_End.compareTo(a_End);
-        break;
-    }
-    return 0;
+  int Function(AnimeDetails, AnimeDetails) sorter(int Function(OrderBy, AnimeDetails, AnimeDetails) sorter) {
+    return (a, b) {
+      return sorter(listSort.animeListOrderBy, a, b);
+    };
   }
 }

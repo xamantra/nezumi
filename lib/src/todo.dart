@@ -3,6 +3,7 @@
 // TODO: decimal scoring system.
 // TODO: delete anime from list.
 // TODO: full unit testing before moving on to manga pages.
+// TODO: export list
 
-// vs code doesn't highlight todo items in an empty file. so had to pust this.
+// vs code doesn't highlight todo items in an empty file. so had to put this.
 void main() {}
