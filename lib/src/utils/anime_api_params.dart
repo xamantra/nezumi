@@ -63,7 +63,6 @@ const statistics = 'statistics';
 // omit list
 const omitList1 = [
   synopsis,
-  alternative_titles,
   background,
   pictures,
   related_anime,
