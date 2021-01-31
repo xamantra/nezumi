@@ -81,10 +81,12 @@ class AnimeUpdateController extends MomentumController<AnimeUpdateModel> with Co
     }
     editInput(updated);
 
-    var episodes = anime.numEpisodes ?? 0;
-    if (episodes != 0) {
-      sendEvent(AnimeUpdateEpisodesEvent(episodes));
-      editEpisodes(episodes);
+    if (isCompleted) {
+      var episodes = anime.numEpisodes ?? 0;
+      if (episodes != 0) {
+        sendEvent(AnimeUpdateEpisodesEvent(episodes));
+        editEpisodes(episodes);
+      }
     }
   }
 

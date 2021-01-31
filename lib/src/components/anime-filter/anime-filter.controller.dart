@@ -61,11 +61,11 @@ class AnimeFilterController extends MomentumController<AnimeFilterModel> with Co
       return;
     }
     results.sort((a, b) => a.title.compareTo(b.title));
-    model.update(results: results);
+    sortResults(source: results);
   }
 
-  void sortResults() {
-    var results = List<AnimeDetails>.from(model.results);
+  void sortResults({List<AnimeDetails> source}) {
+    var results = source ?? List<AnimeDetails>.from(model.results);
     switch (listSort.animeFilterSortBy) {
       case AnimeListSortBy.title:
         results.sort(sorter(compareTitle));

@@ -34,12 +34,15 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
 
     List<AnimeDetails> listSource = mal.loadingAnimeList ? [] : animeCache.user_list ?? [];
     var listResults = listSource.where((x) => x.searchMatch(query)).toList();
-    model.update(listResults: listResults);
+    sortAnimeSearch(listSource: listResults);
   }
 
-  void sortAnimeSearch() {
-    var listResults = List<AnimeDetails>.from(model.listResults ?? []);
-    var results = List<AnimeDetails>.from(model.results ?? []);
+  void sortAnimeSearch({
+    List<AnimeDetails> listSource,
+    List<AnimeDetails> malSource,
+  }) {
+    var listResults = listSource ?? List<AnimeDetails>.from(model.listResults ?? []);
+    var results = malSource ?? List<AnimeDetails>.from(model.results ?? []);
     switch (listSort.animeSearchSortBy) {
       case AnimeListSortBy.title:
         listResults.sort(sorter(compareTitle));
@@ -121,11 +124,11 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     var results = result?.list ?? [];
     var filtered = results.where((x) => !mal.controller.inMyList(x?.id))?.toList();
     model.update(
-      results: filtered ?? [],
       prevPage: result?.paging?.prev ?? '',
       nextPage: result?.paging?.next ?? '',
       loadingResult: false,
     );
+    sortAnimeSearch(malSource: filtered);
   }
 
   void gotoNextPageMALSearch() {
