@@ -100,13 +100,15 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       var seasonYear = x?.startSeason?.year ?? -1;
       var matchedYear = seasonYear == year;
       var hasScore = (x?.mean ?? 0) > 0;
+      var hasVotes = (x?.numScoringUsers ?? 0) > 0;
       if (!hasScore) {
+        var currentYear = DateTime.now().year == seasonYear;
         var not_yet_aired = x.status == 'not_yet_aired';
-        if (not_yet_aired) {
+        if (not_yet_aired && currentYear) {
           return matchedYear;
         }
       }
-      return matchedYear && hasScore;
+      return matchedYear && hasScore && hasVotes;
     }).toList();
     var noHentaiAndKids = <AnimeDetails>[];
     for (var item in filtered) {
