@@ -4,7 +4,7 @@ class ScoreData {
   final double score;
   final double weight;
 
-  double get weighted => score * weight;
+  double get weighted => (score ?? 0.0) * (weight ?? 0.0);
 
   ScoreData({
     @required this.score,

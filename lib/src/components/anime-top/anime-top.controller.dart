@@ -214,17 +214,20 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var year = model.selectedYear;
     var list = model.getRankingByYear(year);
     if (list.isEmpty) return '0.0';
-    var totalScore = 0.0;
-    var scoredEntries = 0;
+
+    var scores = <ScoreData>[];
     for (var anime in list) {
-      var mean = anime?.mean ?? 0;
-      if (mean != 0) {
-        totalScore += mean;
-        scoredEntries += 1;
+      var score = anime.mean;
+      var votes = anime.numScoringUsers;
+      if (score != 0 && votes != 0) {
+        var weight = votes.toDouble();
+        scores.add(ScoreData(score: score, weight: weight));
+      } else {
+        print('');
       }
     }
-    var result = totalScore / scoredEntries;
-    return result.toStringAsFixed(3);
+    var source = WeightScores(scores);
+    return source.getWeightedMean(3).toStringAsFixed(3);
   }
 
   String getVotesPerEntry() {
