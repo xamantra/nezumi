@@ -10,8 +10,7 @@
 // TODO: Anime profile page.
 // TODO: full unit testing before moving on to manga pages.
 // TODO: change title preference.
-// TODO: weighted mean (yearly rankings and profile)
-// TODO: do not sort MAL search results.
+// TODO: weighted mean (profile)
 // TODO: token refresh every app open.
 // TODO: logout function.
 

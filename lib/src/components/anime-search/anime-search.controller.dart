@@ -46,51 +46,39 @@ class AnimeSearchController extends MomentumController<AnimeSearchModel> with Au
     switch (listSort.animeSearchSortBy) {
       case AnimeListSortBy.title:
         listResults.sort(sorter(compareTitle));
-        results.sort(sorter(compareTitle));
         break;
       case AnimeListSortBy.globalScore:
         listResults.sort(sorter(compareMean));
-        results.sort(sorter(compareMean));
         break;
       case AnimeListSortBy.member:
         listResults.sort(sorter(compareMember));
-        results.sort(sorter(compareMember));
         break;
       case AnimeListSortBy.userVotes:
         listResults.sort(sorter(compareScoringMember));
-        results.sort(sorter(compareScoringMember));
         break;
       case AnimeListSortBy.lastUpdated:
         listResults.sort(sorter(compareLastUpdated));
-        results.sort(sorter(compareLastUpdated));
         break;
       case AnimeListSortBy.episodesWatched:
         listResults.sort(sorter(compareEpisodesWatched));
-        results.sort(sorter(compareEpisodesWatched));
         break;
       case AnimeListSortBy.startWatchDate:
         listResults.sort(sorter(compareStartWatch));
-        results.sort(sorter(compareStartWatch));
         break;
       case AnimeListSortBy.finishWatchDate:
         listResults.sort(sorter(compareFinishWatch));
-        results.sort(sorter(compareFinishWatch));
         break;
       case AnimeListSortBy.personalScore:
         listResults.sort(sorter(comparePersonalScore));
-        results.sort(sorter(comparePersonalScore));
         break;
       case AnimeListSortBy.totalDuration:
         listResults.sort(sorter(compareTotalDuration));
-        results.sort(sorter(compareTotalDuration));
         break;
       case AnimeListSortBy.startAirDate:
         listResults.sort(sorter(compareStartAir));
-        results.sort(sorter(compareStartAir));
         break;
       case AnimeListSortBy.endAirDate:
         listResults.sort(sorter(compareEndAir));
-        results.sort(sorter(compareEndAir));
         break;
     }
     model.update(listResults: listResults, results: results);
