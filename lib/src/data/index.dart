@@ -22,3 +22,4 @@ export 'myanimelist.ranking.dart';
 export 'myanimelist.start_season.dart';
 export 'myanimelist.token.dart';
 export 'myanimelist.user_anime_list.dart';
+export 'weight-score.dart';
