@@ -9,7 +9,6 @@ import 'src/widgets/index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   InitializeYearList();
-  await initStorage();
   runApp(momentum());
 }
 
