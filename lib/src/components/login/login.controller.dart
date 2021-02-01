@@ -36,7 +36,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
   void tryLogin() async {
     var code = await getLoginCode();
     if (code != null) {
-      login(loginCode: code);
+      attempLogin(loginCode: code);
     } else {
       generateCodeVerifier();
       sendEvent(LoginEvent.gotoLogin);
@@ -52,7 +52,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
   void checkLogin() async {
     var code = await getLoginCode();
     if (code != null) {
-      login(loginCode: code);
+      attempLogin(loginCode: code);
     }
     setTimeout(checkLogin, 3000);
   }
@@ -70,7 +70,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
     }
   }
 
-  Future<void> login({@required String loginCode}) async {
+  Future<void> attempLogin({@required String loginCode}) async {
     if (model.activeAccountUsername != null) {
       return;
     }

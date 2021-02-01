@@ -14,22 +14,14 @@ mixin AuthMixin<T> on MomentumController<T> {
     return _malAccountId;
   }
 
-  String _username;
   String get username {
-    if (_username == null) {
-      var account = controller<LoginController>().getActiveAccount();
-      _username = account?.profile?.name;
-    }
-    return _username;
+    var account = controller<LoginController>().getActiveAccount();
+    return account.profile.name;
   }
 
-  String _accessToken;
   String get accessToken {
-    if (_accessToken == null) {
-      var account = controller<LoginController>().getActiveAccount();
-      _accessToken = account?.token?.accessToken;
-    }
-    return _accessToken;
+    var account = controller<LoginController>().getActiveAccount();
+    return account.token.accessToken;
   }
 }
 
@@ -43,21 +35,13 @@ mixin AuthStateMixin<T extends StatefulWidget> on State<T> {
     return _malAccountId;
   }
 
-  String _username;
   String get username {
-    if (_username == null) {
-      var account = ctrl<LoginController>(context).getActiveAccount();
-      _username = account?.profile?.name;
-    }
-    return _username;
+    var account = ctrl<LoginController>(context).getActiveAccount();
+    return account.profile.name;
   }
 
-  String _accessToken;
   String get accessToken {
-    if (_accessToken == null) {
-      var account = ctrl<LoginController>(context).getActiveAccount();
-      _accessToken = account?.token?.accessToken;
-    }
-    return _accessToken;
+    var account = ctrl<LoginController>(context).getActiveAccount();
+    return account.token.accessToken;
   }
 }

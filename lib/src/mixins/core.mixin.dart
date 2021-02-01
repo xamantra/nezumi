@@ -8,6 +8,7 @@ import '../components/anime-update/index.dart';
 import '../components/app/index.dart';
 import '../components/export-list/index.dart';
 import '../components/list-sort/index.dart';
+import '../components/login/index.dart';
 import '../components/my_anime_list/index.dart';
 import '../components/settings/index.dart';
 import '../services/index.dart';
@@ -92,6 +93,14 @@ mixin CoreMixin<T> on MomentumController<T> {
       _animeTopCtrl = controller<AnimeTopController>();
     }
     return _animeTopCtrl?.model;
+  }
+
+  LoginController _loginCtrl;
+  LoginModel get login {
+    if (_loginCtrl == null) {
+      _loginCtrl = controller<LoginController>();
+    }
+    return _loginCtrl?.model;
   }
 }
 

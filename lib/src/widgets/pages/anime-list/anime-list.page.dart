@@ -3,7 +3,9 @@ import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/app/index.dart';
+import '../../../components/session/index.dart';
 import '../../../mixins/index.dart';
+import '../../../utils/index.dart';
 import '../../index.dart';
 import '../../items/index.dart';
 import 'tabs/index.dart';
@@ -31,6 +33,7 @@ class _AnimeListPageState extends State<AnimeListPage> with SingleTickerProvider
         app.triggerRebuild();
       }
     });
+    ctrl<SessionController>(context);
   }
 
   @override

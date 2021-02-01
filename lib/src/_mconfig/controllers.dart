@@ -9,6 +9,7 @@ import '../components/export-list/index.dart';
 import '../components/list-sort/index.dart';
 import '../components/login/index.dart';
 import '../components/my_anime_list/index.dart';
+import '../components/session/index.dart';
 import '../components/settings/index.dart';
 
 List<MomentumController> controllers() {
@@ -22,6 +23,11 @@ List<MomentumController> controllers() {
     AnimeSearchController(),
     AnimeTopController(),
     ListSortController(),
+    SessionController()
+      ..config(
+        strategy: BootstrapStrategy.lazyFirstCall,
+        lazy: true,
+      ),
     MyAnimeListController()
       ..config(
         strategy: BootstrapStrategy.lazyFirstBuild,

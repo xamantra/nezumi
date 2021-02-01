@@ -35,6 +35,25 @@ class ApiService extends MomentumService {
     }
   }
 
+  Future<MyAnimeListToken> refreshToken({
+    @required String refresh_token,
+  }) async {
+    try {
+      var path = 'https://myanimelist.net/v1/oauth2/token';
+      var data = FormData.fromMap({
+        'client_id': client_id,
+        'grant_type': 'refresh_token',
+        'refresh_token': refresh_token,
+      });
+      var response = await dio.post(path, data: data);
+      var result = MyAnimeListToken.fromJson(response.data);
+      return result;
+    } catch (e) {
+      print(['ApiService.refreshToken', e]);
+      return null;
+    }
+  }
+
   Future<T> httpGet<T>(
     String url, {
     int timeout = 10000,
