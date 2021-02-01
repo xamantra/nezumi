@@ -11,6 +11,8 @@
 // TODO: full unit testing before moving on to manga pages.
 // TODO: change title preference.
 // TODO: weighted mean (yearly rankings and profile)
+// TODO: do not sort MAL search results.
+// TODO: token refresh every app open.
 // TODO: logout function.
 
 // vs code doesn't highlight todo items in an empty file. so had to put this.
