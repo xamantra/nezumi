@@ -6,6 +6,7 @@ import 'index.dart';
 class AnimeTopModel extends MomentumModel<AnimeTopController> {
   AnimeTopModel(
     AnimeTopController controller, {
+    this.yearlyFailedToLoad,
     this.malRankings,
     this.loading,
     this.selectedYear,
@@ -18,6 +19,10 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.showOnlyAnimeTypes,
     this.currentPages,
   }) : super(controller);
+
+  /// USed to check for yearly anime list if a season failed to load.
+  /// If failed, block the UI,
+  final bool yearlyFailedToLoad;
 
   final Map<int, AnimeList> malRankings;
   final Map<int, bool> loading;
@@ -96,6 +101,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   @override
   void update({
+    bool yearlyFailedToLoad,
     Map<int, AnimeList> malRankings,
     Map<int, bool> loading,
     int selectedYear,
@@ -110,6 +116,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
   }) {
     AnimeTopModel(
       controller,
+      yearlyFailedToLoad: yearlyFailedToLoad ?? this.yearlyFailedToLoad,
       malRankings: malRankings ?? this.malRankings,
       loading: loading ?? this.loading,
       selectedYear: selectedYear ?? this.selectedYear,

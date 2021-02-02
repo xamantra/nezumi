@@ -80,8 +80,6 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                           (item) => ExportAnimeItem.fromAnimeDataItem(item),
                                         )
                                         .toList();
-                                    // var fields = [ExportAnimeField.title, ExportAnimeField.mean];
-                                    // exportList.controller.exportRedditTable(fields: fields, items: items);
                                     var fields = await selectFrom(
                                       context,
                                       source: ExportAnimeField.values,
@@ -163,7 +161,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   height: sy(32),
                                   width: sy(32),
                                   radius: 100,
-                                  enabled: !animeTop.loadingYearlyRankings,
+                                  enabled: !animeTop.loadingYearlyRankings && !animeTop.yearlyFailedToLoad,
                                   child: Icon(
                                     Icons.chevron_left,
                                     size: sy(16),
@@ -174,7 +172,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    if (animeTop.loadingYearlyRankings) return;
+                                    if (animeTop.loadingYearlyRankings || animeTop.yearlyFailedToLoad) return;
                                     var picker = Dialog(
                                       // ignore: deprecated_member_use
                                       child: YearPicker(
@@ -201,7 +199,7 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   height: sy(32),
                                   width: sy(32),
                                   radius: 100,
-                                  enabled: !animeTop.loadingYearlyRankings,
+                                  enabled: !animeTop.loadingYearlyRankings && !animeTop.yearlyFailedToLoad,
                                   child: Icon(
                                     Icons.chevron_right,
                                     size: sy(16),
@@ -264,6 +262,25 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                       child: MomentumBuilder(
                         controllers: [AnimeTopController],
                         builder: (context, snapshot) {
+                          if (animeTop.yearlyFailedToLoad && !animeTop.loadingYearlyRankings) {
+                            return Center(
+                              child: SizedButton(
+                                height: sy(32),
+                                width: sy(72),
+                                radius: 5,
+                                color: AppTheme.of(context).primary,
+                                child: Text(
+                                  'RELOAD',
+                                  style: TextStyle(
+                                    fontSize: sy(10),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  animeTop.controller.loadYearRankings();
+                                },
+                              ),
+                            );
+                          }
                           return AnimeTopYearlyView(
                             leadBuilder: buildAnimeIndexNumber,
                             trailBuilder: _buildTrailWidget,

@@ -16,6 +16,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     }
     return AnimeTopModel(
       this,
+      yearlyFailedToLoad: false,
       selectedYear: DateTime.now().year,
       loadingYearlyRankings: false,
       fullscreen: false,
@@ -548,43 +549,66 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
   Future<void> loadYearRankings() async {
     if (model.loadingYearlyRankings) return;
-    model.update(loadingYearlyRankings: true);
     var year = model.selectedYear;
+    var now = DateTime.now();
+    var sameYear = now.year == year;
+
+    model.update(loadingYearlyRankings: true);
     var winter = await api.animeSeason(
       accessToken: accessToken,
-      timeout: 30000,
+      timeout: 10000,
       year: year,
       season: 'winter',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year winter": ${winter?.list?.length ?? 0} entries');
+    if (winter == null) {
+      model.update(loadingYearlyRankings: false, yearlyFailedToLoad: true);
+      sendEvent(AnimeTopErrorEvent('Failed to load "Winter - $year".'));
+      return;
+    }
 
     var spring = await api.animeSeason(
       accessToken: accessToken,
-      timeout: 30000,
+      timeout: 10000,
       year: year,
       season: 'spring',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year spring": ${spring?.list?.length ?? 0} entries');
+    if (spring == null) {
+      model.update(loadingYearlyRankings: false, yearlyFailedToLoad: true);
+      sendEvent(AnimeTopErrorEvent('Failed to load "Spring - $year".'));
+      return;
+    }
 
     var summer = await api.animeSeason(
       accessToken: accessToken,
-      timeout: 30000,
+      timeout: 10000,
       year: year,
       season: 'summer',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year summer": ${summer?.list?.length ?? 0} entries');
+    if (summer == null) {
+      model.update(loadingYearlyRankings: false, yearlyFailedToLoad: true);
+      sendEvent(AnimeTopErrorEvent('Failed to load "Summer - $year".'));
+      return;
+    }
 
     var fall = await api.animeSeason(
       accessToken: accessToken,
-      timeout: 30000,
+      timeout: 10000,
       year: year,
       season: 'fall',
       fields: allAnimeListParams(type: 'my_list_status', omit: omitList1),
     );
     print('"$year fall": ${fall?.list?.length ?? 0} entries');
+    if (fall == null && !sameYear) {
+      model.update(loadingYearlyRankings: false, yearlyFailedToLoad: true);
+      sendEvent(AnimeTopErrorEvent('Failed to load "Fall - $year".'));
+      return;
+    }
 
     var combined = <AnimeDetails>[];
     combined.addAll(winter?.list ?? []);
@@ -603,8 +627,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
 
     model.update(
       loadingYearlyRankings: false,
-      // filteredYearlyRankings: result.data,
-      // selectedYearRankings: result.data,
+      yearlyFailedToLoad: false,
       yearlyRankingsCache: yearlyRankingsCache,
     );
     validateAndSortYearlyRankings();
