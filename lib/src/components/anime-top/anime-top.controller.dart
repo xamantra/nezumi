@@ -221,8 +221,9 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     for (var anime in list) {
       var score = anime.mean;
       var votes = anime.numScoringUsers;
-      if (score != 0 && votes != 0) {
-        var weight = votes.toDouble();
+      var totalDuration = anime.totalDurationSeconds;
+      if (score != 0 && votes != 0 && totalDuration != 0) {
+        var weight = votes.toDouble() + totalDuration;
         scores.add(ScoreData(score: score, weight: weight));
       } else {
         print('');

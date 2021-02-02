@@ -403,6 +403,18 @@ class AnimeDetails {
     var avgD = averageEpisodeDuration ?? 0;
     return eps * avgD;
   }
+
+  double get totalDurationMinutes {
+    var eps = numEpisodes ?? 0;
+    var avgD = averageEpisodeDuration ?? 0;
+    return (eps * avgD) / 60;
+  }
+
+  double get totalDurationHours {
+    var eps = numEpisodes ?? 0;
+    var avgD = averageEpisodeDuration ?? 0;
+    return ((eps * avgD) / 60) / 60;
+  }
   /* Getters */
 
   /* Logic */
