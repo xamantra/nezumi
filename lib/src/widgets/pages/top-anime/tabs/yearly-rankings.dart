@@ -73,15 +73,24 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                               ? SizedBox()
                               : ToolbarAction(
                                   icon: Icons.import_export_outlined,
-                                  onPressed: () {
-                                    var list = animeTop.getRankingByYear(animeTop.selectedYear);
-                                    var items = list
-                                        .map<ExportAnimeItem>(
-                                          (item) => ExportAnimeItem.fromAnimeDataItem(item),
-                                        )
-                                        .toList();
-                                    var fields = [ExportAnimeField.title, ExportAnimeField.mean];
-                                    exportList.controller.exportRedditTable(fields: fields, items: items);
+                                  onPressed: () async {
+                                    // var list = animeTop.getRankingByYear(animeTop.selectedYear);
+                                    // var items = list
+                                    //     .map<ExportAnimeItem>(
+                                    //       (item) => ExportAnimeItem.fromAnimeDataItem(item),
+                                    //     )
+                                    //     .toList();
+                                    // var fields = [ExportAnimeField.title, ExportAnimeField.mean];
+                                    // exportList.controller.exportRedditTable(fields: fields, items: items);
+                                    var selected = await selectFrom(
+                                      context,
+                                      source: ExportAnimeField.values,
+                                      defaults: [ExportAnimeField.title, ExportAnimeField.mean],
+                                      label: toLabelExportAnimeField,
+                                    );
+                                    if (selected != null) {
+                                      print(selected);
+                                    }
                                   },
                                 ),
                           ToolbarAction(

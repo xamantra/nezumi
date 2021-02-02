@@ -13,6 +13,7 @@ export 'loader.dart';
 export 'my-list.tab_item.dart';
 export 'page-adapter.dart';
 export 'paginator.dart';
+export 'promp-select.dart';
 export 'reorderable.separator.dart';
 export 'ripple.dart';
 export 'row.separator.dart';
