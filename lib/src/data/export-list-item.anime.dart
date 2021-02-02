@@ -56,6 +56,34 @@ class ExportAnimeItem {
       totalDuration: totalDuration,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'mean': mean,
+      'userVotes': userVotes,
+      'popularity': popularity,
+      'episodes': episodes,
+      'duration': duration,
+      'totalDuration': totalDuration,
+    };
+  }
+
+  factory ExportAnimeItem.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+
+    return ExportAnimeItem(
+      id: json['id'],
+      title: json['title'],
+      mean: json['mean'],
+      userVotes: json['userVotes'],
+      popularity: json['popularity'],
+      episodes: json['episodes'],
+      duration: json['duration'],
+      totalDuration: json['totalDuration'],
+    );
+  }
 }
 
 enum ExportAnimeField {
@@ -85,7 +113,7 @@ ExportAnimeField toExportAnimeField(String label) {
       return ExportAnimeField.episodes;
     case 'Duration':
       return ExportAnimeField.duration;
-    case 'Total Duration':
+    case 'Total Duration (mins)':
       return ExportAnimeField.totalDuration;
   }
   return null;
@@ -108,7 +136,37 @@ String toLabelExportAnimeField(ExportAnimeField field) {
     case ExportAnimeField.duration:
       return 'Duration';
     case ExportAnimeField.totalDuration:
-      return 'Total Duration';
+      return 'Total Duration (mins)';
+  }
+  return null;
+}
+
+enum ExportAnimeType {
+  markdownTable,
+  json,
+  jsonForCsvExport,
+}
+
+ExportAnimeType toExportAnimeType(String label) {
+  switch (label) {
+    case 'Markdown Table':
+      return ExportAnimeType.markdownTable;
+    case 'JSON':
+      return ExportAnimeType.json;
+    case 'JSON for CSV Export':
+      return ExportAnimeType.jsonForCsvExport;
+  }
+  return null;
+}
+
+String toLabelExportAnimeType(ExportAnimeType type) {
+  switch (type) {
+    case ExportAnimeType.markdownTable:
+      return 'Markdown Table';
+    case ExportAnimeType.json:
+      return 'JSON';
+    case ExportAnimeType.jsonForCsvExport:
+      return 'JSON for CSV Export';
   }
   return null;
 }

@@ -74,23 +74,48 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                               : ToolbarAction(
                                   icon: Icons.import_export_outlined,
                                   onPressed: () async {
-                                    // var list = animeTop.getRankingByYear(animeTop.selectedYear);
-                                    // var items = list
-                                    //     .map<ExportAnimeItem>(
-                                    //       (item) => ExportAnimeItem.fromAnimeDataItem(item),
-                                    //     )
-                                    //     .toList();
+                                    var list = animeTop.getRankingByYear(animeTop.selectedYear);
+                                    var items = list
+                                        .map<ExportAnimeItem>(
+                                          (item) => ExportAnimeItem.fromAnimeDataItem(item),
+                                        )
+                                        .toList();
                                     // var fields = [ExportAnimeField.title, ExportAnimeField.mean];
                                     // exportList.controller.exportRedditTable(fields: fields, items: items);
-                                    var selected = await selectFrom(
+                                    var fields = await selectFrom(
                                       context,
                                       source: ExportAnimeField.values,
-                                      defaults: [ExportAnimeField.title, ExportAnimeField.mean],
+                                      defaults: [
+                                        ExportAnimeField.title,
+                                        ExportAnimeField.mean,
+                                        ExportAnimeField.userVotes,
+                                        ExportAnimeField.totalDuration,
+                                      ],
                                       label: toLabelExportAnimeField,
                                     );
-                                    if (selected != null) {
-                                      print(selected);
+                                    if (fields != null) {
+                                      print(fields);
+                                    } else {
+                                      return;
                                     }
+
+                                    var types = await selectFrom(
+                                      context,
+                                      source: ExportAnimeType.values,
+                                      defaults: [ExportAnimeType.jsonForCsvExport],
+                                      label: toLabelExportAnimeType,
+                                    );
+                                    if (types != null) {
+                                      print(types);
+                                    } else {
+                                      return;
+                                    }
+                                    exportList.controller.exportList(
+                                      types: types,
+                                      fields: fields,
+                                      items: items,
+                                      label: '${animeTop.selectedYear}',
+                                    );
                                   },
                                 ),
                           ToolbarAction(
