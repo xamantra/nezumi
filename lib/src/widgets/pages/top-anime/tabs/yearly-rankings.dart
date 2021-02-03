@@ -117,9 +117,9 @@ class _YearlyAnimeRankingPageState extends MomentumState<YearlyAnimeRankingPage>
                                   },
                                 ),
                           ToolbarAction(
-                            icon: Icons.more_vert,
+                            icon: Icons.filter_list,
                             onPressed: () {
-                              dialog(context, YearlyRankingAnimeTypesDialog());
+                              dialog(context, FilterPrompt());
                             },
                           ),
                         ],

@@ -69,7 +69,7 @@ class _AnimeTopYearlyViewState extends State<AnimeTopYearlyView> with CoreStateM
                               title: 'Average',
                               icon: Icons.timeline,
                               value: animeTop.controller.getMeanScore(),
-                              label: 'filtered entries',
+                              label: 'weighted mean',
                               color: Colors.pink,
                             ),
                             SizedBox(width: sy(8)),

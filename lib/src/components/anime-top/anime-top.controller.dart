@@ -24,6 +24,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       yearlyRankingsCache: [],
       excludedAnimeIDs: [],
       selectedAnimeIDs: [],
+      showOnlyAnimeSeason: seasons,
       showOnlyAnimeTypes: showOnlyAnimeTypes,
       malRankings: {
         0: null,
@@ -195,11 +196,20 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
+    var filterSeason = <AnimeDetails>[];
+    for (var item in filterMediaTypes) {
+      var season = item?.startSeason?.season?.toLowerCase();
+      var matched = model.showOnlyAnimeSeason.any((x) => x.toLowerCase() == season);
+      if (matched) {
+        filterSeason.add(item);
+      }
+    }
+
     var yearlyRankingsCache = List<YearlyAnimeRankingsCache>.from(model.yearlyRankingsCache);
     var cache = YearlyAnimeRankingsCache(
       year: year,
       allYearEntries: original,
-      rankings: filterMediaTypes,
+      rankings: filterSeason,
     );
     yearlyRankingsCache.removeWhere((x) => x.year == year);
     yearlyRankingsCache.add(cache);
@@ -478,6 +488,18 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
     var currentState = map[typeKey];
     map[typeKey] = !currentState;
     model.update(showOnlyAnimeTypes: map);
+    validateAndSortYearlyRankings();
+  }
+
+  toggleCheckAnimeSeasonFilter(String season) {
+    var list = List<String>.from(model.showOnlyAnimeSeason);
+    var finder = (String s) => s.toLowerCase() == season.toLowerCase();
+    if (list.any(finder)) {
+      list.removeWhere(finder);
+    } else {
+      list.add(season);
+    }
+    model.update(showOnlyAnimeSeason: list);
     validateAndSortYearlyRankings();
   }
 

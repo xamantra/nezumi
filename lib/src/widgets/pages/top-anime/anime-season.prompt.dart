@@ -4,16 +4,17 @@ import 'package:relative_scale/relative_scale.dart';
 
 import '../../../components/anime-top/index.dart';
 import '../../../mixins/index.dart';
+import '../../../utils/index.dart';
 import '../../index.dart';
 
-class YearlyRankingAnimeTypesDialog extends StatefulWidget {
-  const YearlyRankingAnimeTypesDialog({Key key}) : super(key: key);
+class YearlyRankingAnimeSeasonDialog extends StatefulWidget {
+  const YearlyRankingAnimeSeasonDialog({Key key}) : super(key: key);
 
   @override
-  _YearlyRankingAnimeTypesDialogState createState() => _YearlyRankingAnimeTypesDialogState();
+  _YearlyRankingAnimeSeasonDialogState createState() => _YearlyRankingAnimeSeasonDialogState();
 }
 
-class _YearlyRankingAnimeTypesDialogState extends State<YearlyRankingAnimeTypesDialog> with CoreStateMixin {
+class _YearlyRankingAnimeSeasonDialogState extends State<YearlyRankingAnimeSeasonDialog> with CoreStateMixin {
   @override
   Widget build(BuildContext context) {
     return RelativeBuilder(
@@ -22,21 +23,21 @@ class _YearlyRankingAnimeTypesDialogState extends State<YearlyRankingAnimeTypesD
           controllers: [AnimeTopController],
           builder: (context, snapshot) {
             var widgets = <Widget>[];
-            for (var key in animeTop.showOnlyAnimeTypes.keys) {
-              var checked = animeTop.showOnlyAnimeTypes[key];
+            for (var season in seasons) {
+              var checked = animeTop.showOnlyAnimeSeason.any((x) => x == season);
               widgets.add(Ripple(
                 onPressed: () {
-                  animeTop.controller.toggleCheckAnimeTypeFilter(key);
+                  animeTop.controller.toggleCheckAnimeSeasonFilter(season);
                 },
                 child: ListTile(
                   title: Text(
-                    key,
+                    season,
                   ),
                   trailing: Checkbox(
                     value: checked,
                     activeColor: AppTheme.of(context).primary,
                     onChanged: (value) {
-                      animeTop.controller.toggleCheckAnimeTypeFilter(key);
+                      animeTop.controller.toggleCheckAnimeSeasonFilter(season);
                     },
                   ),
                 ),
