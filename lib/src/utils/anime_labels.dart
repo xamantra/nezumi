@@ -48,5 +48,3 @@ const malRankingTabs = [
   'By Popularity',
   'Favorite',
 ];
-
-const seasons = ['Winter', 'Spring', 'Summer', 'Fall'];

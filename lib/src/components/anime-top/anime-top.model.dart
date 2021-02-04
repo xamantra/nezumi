@@ -17,6 +17,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     this.excludedAnimeIDs,
     this.selectedAnimeIDs,
     this.showOnlyAnimeSeason,
+    this.showOnlyAnimeAirStatus,
     this.showOnlyAnimeTypes,
     this.currentPages,
   }) : super(controller);
@@ -47,6 +48,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
 
   // filters
   final List<String> showOnlyAnimeSeason;
+  final List<String> showOnlyAnimeAirStatus;
   final Map<String, bool> showOnlyAnimeTypes;
   final List<int> excludedAnimeIDs;
   bool isAnimeExcluded(int id) {
@@ -114,6 +116,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
     List<int> excludedAnimeIDs,
     List<int> selectedAnimeIDs,
     List<String> showOnlyAnimeSeason,
+    List<String> showOnlyAnimeAirStatus,
     Map<String, bool> showOnlyAnimeTypes,
     Map<int, int> currentPages,
   }) {
@@ -130,6 +133,7 @@ class AnimeTopModel extends MomentumModel<AnimeTopController> {
       excludedAnimeIDs: excludedAnimeIDs ?? this.excludedAnimeIDs,
       selectedAnimeIDs: selectedAnimeIDs ?? this.selectedAnimeIDs,
       showOnlyAnimeSeason: showOnlyAnimeSeason ?? this.showOnlyAnimeSeason,
+      showOnlyAnimeAirStatus: showOnlyAnimeAirStatus ?? this.showOnlyAnimeAirStatus,
       showOnlyAnimeTypes: showOnlyAnimeTypes ?? this.showOnlyAnimeTypes,
       currentPages: currentPages ?? this.currentPages,
     ).updateMomentum();

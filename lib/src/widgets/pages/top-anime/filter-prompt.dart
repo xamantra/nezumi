@@ -18,7 +18,7 @@ class _FilterPromptState extends State<FilterPrompt> with SingleTickerProviderSt
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = TabController(initialIndex: 0, length: 2, vsync: this);
+    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
     currentTab = tabController.index;
     tabController.addListener(() {
       var i = tabController.index;
@@ -35,6 +35,19 @@ class _FilterPromptState extends State<FilterPrompt> with SingleTickerProviderSt
     return Dialog(
       child: RelativeBuilder(
         builder: (context, height, width, sy, sx) {
+          Widget tab = SizedBox();
+          switch (currentTab) {
+            case 0:
+              tab = YearlyRankingAnimeTypesDialog();
+              break;
+            case 1:
+              tab = YearlyRankingAnimeSeasonDialog();
+              break;
+            case 2:
+              tab = YearlyRankingAnimeAirStatusDialog();
+              break;
+            default:
+          }
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -49,13 +62,10 @@ class _FilterPromptState extends State<FilterPrompt> with SingleTickerProviderSt
                 tabs: [
                   MyListTabItem(label: 'Format', active: currentTab == 0, count: 0),
                   MyListTabItem(label: 'Season', active: currentTab == 1, count: 0),
+                  MyListTabItem(label: 'Airing Status', active: currentTab == 2, count: 0),
                 ],
               ),
-              currentTab == 0
-                  ? YearlyRankingAnimeTypesDialog()
-                  : currentTab == 1
-                      ? YearlyRankingAnimeSeasonDialog()
-                      : SizedBox(),
+              tab,
             ],
           );
         },

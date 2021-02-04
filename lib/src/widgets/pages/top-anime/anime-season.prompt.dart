@@ -23,7 +23,7 @@ class _YearlyRankingAnimeSeasonDialogState extends State<YearlyRankingAnimeSeaso
           controllers: [AnimeTopController],
           builder: (context, snapshot) {
             var widgets = <Widget>[];
-            for (var season in seasons) {
+            for (var season in allAnimeSeasonNames) {
               var checked = animeTop.showOnlyAnimeSeason.any((x) => x == season);
               widgets.add(Ripple(
                 onPressed: () {
