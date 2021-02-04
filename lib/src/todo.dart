@@ -1,5 +1,4 @@
 // TODO: Anime Filters mean score.
-// TODO: Yearly Anime Rankings -> implement genre, season, list status, and airing status filters.
 // TODO: decimal scoring system.
 // TODO: delete anime from list.
 // TODO: export list
