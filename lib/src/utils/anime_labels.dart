@@ -6,6 +6,15 @@ const allAnimeStatusList = [
   'dropped',
 ];
 
+const allAnimeStatusListExtra = [
+  'completed',
+  'watching',
+  'on_hold',
+  'plan_to_watch',
+  'dropped',
+  'not_in_my_list',
+];
+
 const allAnimeAiringStatusList = [
   'currently_airing',
   'finished_airing',

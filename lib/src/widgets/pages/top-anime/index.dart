@@ -1,4 +1,5 @@
 export 'anime-air_status.prompt.dart';
+export 'anime-list_status.prompt.dart';
 export 'anime-season.prompt.dart';
 export 'anime-types.prompt.dart';
 export 'filter-prompt.dart';

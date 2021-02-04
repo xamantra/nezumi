@@ -26,6 +26,7 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       selectedAnimeIDs: [],
       showOnlyAnimeSeason: allAnimeSeasonNames,
       showOnlyAnimeAirStatus: allAnimeAiringStatusList,
+      showOnlyAnimeListStatus: allAnimeStatusListExtra,
       showOnlyAnimeTypes: showOnlyAnimeTypes,
       malRankings: {
         0: null,
@@ -215,11 +216,28 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       }
     }
 
+    var filterListStatus = <AnimeDetails>[];
+    for (var item in filterAirStatus) {
+      var status = item?.myListStatus?.status;
+      var matched = model.showOnlyAnimeListStatus.any(
+        (x) {
+          if (status == null && x == 'not_in_my_list') {
+            return true;
+          } else {
+            return x == status;
+          }
+        },
+      );
+      if (matched) {
+        filterListStatus.add(item);
+      }
+    }
+
     var yearlyRankingsCache = List<YearlyAnimeRankingsCache>.from(model.yearlyRankingsCache);
     var cache = YearlyAnimeRankingsCache(
       year: year,
       allYearEntries: original,
-      rankings: filterAirStatus,
+      rankings: filterListStatus,
     );
     yearlyRankingsCache.removeWhere((x) => x.year == year);
     yearlyRankingsCache.add(cache);
@@ -522,6 +540,18 @@ class AnimeTopController extends MomentumController<AnimeTopModel> with AuthMixi
       list.add(status);
     }
     model.update(showOnlyAnimeAirStatus: list);
+    validateAndSortYearlyRankings();
+  }
+
+  toggleCheckAnimeListStatusFilter(String status) {
+    var list = List<String>.from(model.showOnlyAnimeListStatus);
+    var finder = (String s) => s == status;
+    if (list.any(finder)) {
+      list.removeWhere(finder);
+    } else {
+      list.add(status);
+    }
+    model.update(showOnlyAnimeListStatus: list);
     validateAndSortYearlyRankings();
   }
 

@@ -18,7 +18,7 @@ class _FilterPromptState extends State<FilterPrompt> with SingleTickerProviderSt
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = TabController(initialIndex: 0, length: 3, vsync: this);
+    tabController = TabController(initialIndex: 0, length: 4, vsync: this);
     currentTab = tabController.index;
     tabController.addListener(() {
       var i = tabController.index;
@@ -46,24 +46,31 @@ class _FilterPromptState extends State<FilterPrompt> with SingleTickerProviderSt
             case 2:
               tab = YearlyRankingAnimeAirStatusDialog();
               break;
+            case 3:
+              tab = YearlyRankingAnimeListStatusDialog();
+              break;
             default:
           }
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TabBar(
-                controller: tabController,
-                isScrollable: true,
-                labelColor: Colors.white,
-                labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
-                indicatorPadding: EdgeInsets.zero,
-                indicatorColor: Colors.transparent,
-                physics: BouncingScrollPhysics(),
-                tabs: [
-                  MyListTabItem(label: 'Format', active: currentTab == 0, count: 0),
-                  MyListTabItem(label: 'Season', active: currentTab == 1, count: 0),
-                  MyListTabItem(label: 'Airing Status', active: currentTab == 2, count: 0),
-                ],
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: sy(8)),
+                child: TabBar(
+                  controller: tabController,
+                  isScrollable: true,
+                  labelColor: Colors.white,
+                  labelPadding: EdgeInsets.symmetric(horizontal: sy(8)),
+                  indicatorPadding: EdgeInsets.zero,
+                  indicatorColor: Colors.transparent,
+                  physics: BouncingScrollPhysics(),
+                  tabs: [
+                    MyListTabItem(label: 'Format', active: currentTab == 0, count: 0),
+                    MyListTabItem(label: 'Season', active: currentTab == 1, count: 0),
+                    MyListTabItem(label: 'Airing Status', active: currentTab == 2, count: 0),
+                    MyListTabItem(label: 'List Status', active: currentTab == 3, count: 0),
+                  ],
+                ),
               ),
               tab,
             ],
