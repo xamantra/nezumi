@@ -11,6 +11,7 @@
 // TODO: change title preference.
 // TODO: weighted mean (profile)
 // TODO: logout function.
+// TODO: move all menu to sidebar from bottom tabs with multi-level menu
 
 // vs code doesn't highlight todo items in an empty file. so had to put this.
 void main() {}
