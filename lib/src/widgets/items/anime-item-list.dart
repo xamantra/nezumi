@@ -41,6 +41,7 @@ class AnimeItemList extends StatelessWidget {
       builder: (context, height, width, sy, sx) {
         var actions = [_AnimeEditButton(editMode: editMode, anime: anime)];
         return Slidable(
+          key: Key('[anime_slider_key]${anime.id}'),
           actionPane: SlidableStrechActionPane(),
           actionExtentRatio: 0.25,
           child: Container(
