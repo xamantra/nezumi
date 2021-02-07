@@ -16,7 +16,7 @@ class _PageAdapter<T extends Widget> extends PageRouteBuilder {
             Animation<double> animation,
             Animation<double> secondaryAnimation,
           ) =>
-              _PageAdapterScaffold(page: page),
+              PageScaffold(page: page),
           transitionsBuilder: (
             BuildContext context,
             Animation<double> animation,
@@ -32,8 +32,8 @@ class _PageAdapter<T extends Widget> extends PageRouteBuilder {
   final T page;
 }
 
-class _PageAdapterScaffold extends StatelessWidget {
-  const _PageAdapterScaffold({Key key, this.page}) : super(key: key);
+class PageScaffold extends StatelessWidget {
+  const PageScaffold({Key key, this.page}) : super(key: key);
 
   final Widget page;
 

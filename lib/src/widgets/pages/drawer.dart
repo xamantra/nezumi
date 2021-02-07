@@ -4,10 +4,9 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../mixins/index.dart';
 import '../app-theme.dart';
 import '../index.dart';
-import 'anime-list/index.dart';
+import 'anime-list/tabs/index.dart';
 import 'history/index.dart';
 import 'settings/index.dart';
-import 'top-anime/index.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key key}) : super(key: key);
@@ -85,40 +84,20 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           DividerSectionHeader(text: 'Anime'),
-                          DrawerItem(
-                            icon: CustomIcons.th,
-                            text: 'Anime List',
-                            onPressed: () {
-                              Navigator.pop(context);
-                              gotoPage(context, AnimeListPage());
-                            },
-                          ),
-                          DrawerItem(
-                            icon: CustomIcons.award,
-                            text: 'Top Anime',
-                            onPressed: () {
-                              Navigator.pop(context);
-                              gotoPage(context, TopAnimePage());
-                            },
-                          ),
-                          DrawerItem(
-                            icon: CustomIcons.history,
-                            text: 'History',
-                            onPressed: () {
-                              Navigator.pop(context);
-                              gotoPage(context, History());
-                            },
-                          ),
-                          DrawerItem(icon: Icons.account_tree, text: 'Seasonals'),
-                          DrawerItem(icon: Icons.error, text: 'List Errors'),
-                          DrawerItem(icon: CustomIcons.tags, text: 'Recommendations'),
+                          DrawerItem(text: 'My List', page: MyListTabPage()),
+                          DrawerItem(text: 'Search', page: AnimeSearchTabPage()),
+                          DrawerItem(text: 'Filter', page: AnimeFilterTab()),
+                          DrawerItem(text: 'History', page: History()),
+                          DrawerItem(text: 'Seasonals'),
+                          DrawerItem(text: 'List Errors'),
+                          DrawerItem(text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
                           DividerSectionHeader(text: 'Manga'),
-                          DrawerItem(icon: CustomIcons.book, text: 'Manga List'),
-                          DrawerItem(icon: CustomIcons.award, text: 'Top Manga'),
-                          DrawerItem(icon: CustomIcons.history_1, text: 'History'),
-                          DrawerItem(icon: Icons.error, text: 'List Errors'),
-                          DrawerItem(icon: CustomIcons.tag_empty, text: 'Recommendations'),
+                          DrawerItem(text: 'Manga List'),
+                          DrawerItem(text: 'Top Manga'),
+                          DrawerItem(text: 'History'),
+                          DrawerItem(text: 'List Errors'),
+                          DrawerItem(text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
                         ],
                       ),
@@ -164,14 +143,12 @@ class DividerSectionHeader extends StatelessWidget {
 class DrawerItem extends StatelessWidget {
   const DrawerItem({
     Key key,
-    @required this.icon,
     @required this.text,
-    this.onPressed,
+    this.page,
   }) : super(key: key);
 
-  final IconData icon;
   final String text;
-  final void Function() onPressed;
+  final Widget page;
 
   @override
   Widget build(BuildContext context) {
@@ -180,17 +157,16 @@ class DrawerItem extends StatelessWidget {
         return SizedButton(
           height: sy(36),
           width: width,
-          onPressed: onPressed ?? () {},
+          onPressed: () {
+            if (page != null) {
+              Navigator.pop(context);
+              gotoPage(context, page);
+            }
+          },
           child: Container(
             padding: EdgeInsets.all(sy(12)),
             child: Row(
               children: [
-                Icon(
-                  icon,
-                  size: sy(10),
-                  color: AppTheme.of(context).text2,
-                ),
-                SizedBox(width: sy(16)),
                 Text(
                   text,
                   style: TextStyle(
@@ -198,7 +174,9 @@ class DrawerItem extends StatelessWidget {
                     color: AppTheme.of(context).text2,
                     fontWeight: FontWeight.w500,
                   ),
+                  textAlign: TextAlign.start,
                 ),
+                Spacer(),
               ],
             ),
           ),
