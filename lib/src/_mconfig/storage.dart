@@ -6,6 +6,9 @@ import 'package:path_provider/path_provider.dart';
 
 import '../utils/index.dart';
 
+Box<String> _miscBox;
+Box<String> get miscBox => _miscBox;
+
 Box<String> _persistedStateBox;
 Box<String> get persistedStateBox => _persistedStateBox;
 
@@ -21,6 +24,7 @@ Future<void> initStorage() async {
   List<int> bytes = utf8.encode(encryptionKey);
   var key = base64Url.decode(base64UrlEncode(bytes));
 
+  _miscBox = await _openBox('misc_box', key);
   _persistedStateBox = await _openBox('nezumi_box', key);
   _animeCacheBox = await _openBox('nezumi_anime_cache_box', key);
   _animeHistoryCacheBox = await _openBox('nezumi_anime_history_cache_box', key);

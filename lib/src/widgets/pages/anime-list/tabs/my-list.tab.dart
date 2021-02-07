@@ -5,8 +5,10 @@ import 'package:relative_scale/relative_scale.dart';
 import '../../../../components/app/index.dart';
 import '../../../../components/list-sort/index.dart';
 import '../../../../components/my_anime_list/index.dart';
+import '../../../../components/session/index.dart';
 import '../../../../data/types/index.dart';
 import '../../../../mixins/index.dart';
+import '../../../../utils/index.dart';
 import '../../../index.dart';
 import '../index.dart';
 
@@ -34,6 +36,7 @@ class _MyListTabPageState extends State<MyListTabPage> with TickerProviderStateM
       }
     });
     mal?.controller?.initializeAnimeList();
+    ctrl<SessionController>(context);
   }
 
   @override

@@ -1,7 +1,9 @@
 import 'package:momentum/momentum.dart';
 
+import '../../_mconfig/index.dart';
 import '../../data/index.dart';
 import '../../mixins/index.dart';
+import '../../utils/index.dart';
 import 'index.dart';
 
 class SessionController extends MomentumController<SessionModel> with CoreMixin {
@@ -18,6 +20,13 @@ class SessionController extends MomentumController<SessionModel> with CoreMixin 
   }
 
   Future<void> refreshToken() async {
+    var last_refresh = trycatch(() => DateTime.fromMillisecondsSinceEpoch(int.parse(miscBox.get('last_refresh'))));
+    if (last_refresh != null) {
+      var diff = DateTime.now().difference(last_refresh).abs();
+      if (diff.inHours < 12) {
+        return;
+      }
+    }
     print('Refreshing token...');
     if (login.activeAccountUsername == null) {
       print('Not logged in.');
@@ -41,6 +50,7 @@ class SessionController extends MomentumController<SessionModel> with CoreMixin 
       accounts.removeWhere((x) => x.profile.id == account.profile.id);
       accounts.add(account);
       login.update(accounts: accounts);
+      await miscBox.put('last_refresh', DateTime.now().millisecondsSinceEpoch.toString());
       print('Token refreshed!');
     }
   }
