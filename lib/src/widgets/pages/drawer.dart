@@ -7,6 +7,7 @@ import '../index.dart';
 import 'anime-list/tabs/index.dart';
 import 'history/index.dart';
 import 'settings/index.dart';
+import 'top-anime/tabs/index.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key key}) : super(key: key);
@@ -87,6 +88,8 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                           DrawerItem(text: 'My List', page: MyListTabPage()),
                           DrawerItem(text: 'Search', page: AnimeSearchTabPage()),
                           DrawerItem(text: 'Filter', page: AnimeFilterTab()),
+                          DrawerItem(text: 'Rankings', page: MalAnimeRankingPage()),
+                          DrawerItem(text: 'Yearly', page: YearlyAnimeRankingPage()),
                           DrawerItem(text: 'History', page: History()),
                           DrawerItem(text: 'Seasonals'),
                           DrawerItem(text: 'List Errors'),
