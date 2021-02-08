@@ -10,7 +10,6 @@
 // TODO: full unit testing before moving on to manga pages.
 // TODO: change title preference.
 // TODO: weighted mean (profile)
-// TODO: logout function.
 // TODO: anime stats page (MAL default stats, by year, by season, by genre)
 
 // vs code doesn't highlight todo items in an empty file. so had to put this.

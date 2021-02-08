@@ -42,7 +42,7 @@ class MyAnimeListModel extends MomentumModel<MyAnimeListController> {
   }
 
   void rebuild() {
-    update(rebuilds: (_rebuilds >> 0) + 1);
+    update(rebuilds: (_rebuilds ?? 0) + 1);
   }
 
   Map<String, dynamic> toJson() {

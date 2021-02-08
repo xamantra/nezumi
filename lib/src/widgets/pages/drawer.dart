@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../main.dart';
+import '../../_mconfig/index.dart';
 import '../../mixins/index.dart';
 import '../app-theme.dart';
 import '../index.dart';
@@ -102,6 +105,14 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                           DrawerItem(text: 'List Errors'),
                           DrawerItem(text: 'Recommendations'),
                           Divider(height: 24, color: Colors.white.withOpacity(0.15)),
+                          DrawerItem(
+                            text: 'Logout',
+                            color: Colors.red,
+                            customAction: () async {
+                              await clearStorage();
+                              Momentum.restart(context, momentum());
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -148,10 +159,14 @@ class DrawerItem extends StatelessWidget {
     Key key,
     @required this.text,
     this.page,
+    this.color,
+    this.customAction,
   }) : super(key: key);
 
   final String text;
   final Widget page;
+  final Color color;
+  final void Function() customAction;
 
   @override
   Widget build(BuildContext context) {
@@ -160,12 +175,13 @@ class DrawerItem extends StatelessWidget {
         return SizedButton(
           height: sy(36),
           width: width,
-          onPressed: () {
-            if (page != null) {
-              Navigator.pop(context);
-              gotoPage(context, page);
-            }
-          },
+          onPressed: customAction ??
+              () {
+                if (page != null) {
+                  Navigator.pop(context);
+                  gotoPage(context, page);
+                }
+              },
           child: Container(
             padding: EdgeInsets.all(sy(12)),
             child: Row(
@@ -174,7 +190,7 @@ class DrawerItem extends StatelessWidget {
                   text,
                   style: TextStyle(
                     fontSize: sy(10),
-                    color: AppTheme.of(context).text2,
+                    color: color ?? AppTheme.of(context).text2,
                     fontWeight: FontWeight.w500,
                   ),
                   textAlign: TextAlign.start,

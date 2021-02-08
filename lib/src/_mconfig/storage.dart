@@ -40,3 +40,10 @@ Future<void> _initHive() async {
   var appDocPath = appDocDir.path;
   Hive.init(appDocPath);
 }
+
+Future<void> clearStorage() async {
+  await miscBox.clear();
+  await persistedStateBox.clear();
+  await animeCacheBox.clear();
+  await animeHistoryCacheBox.clear();
+}
