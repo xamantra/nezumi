@@ -21,9 +21,10 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   bool get userListInitialized => animeCache.isInitialized();
 
   bool _animeListInitialized = false;
-  void initializeAnimeList() {
+  void initializeAnimeList() async {
     if (!_animeListInitialized) {
       _animeListInitialized = true;
+      await animeCache.retrieveAnimeCache();
       if (!userListInitialized) {
         loadAnimeList();
       } else {
@@ -64,12 +65,6 @@ class MyAnimeListController extends MomentumController<MyAnimeListModel> with Co
   Future<void> loadAnimeList() async {
     try {
       model.update(loadingAnimeList: true);
-      await animeCache.retrieveAnimeCache();
-      if (userListInitialized) {
-        model.update(loadingAnimeList: false);
-        sortAnimeList();
-        return;
-      }
       var result = await api.getUserAnimeList(
         accessToken: accessToken,
         customFields: allAnimeListParams(omit: omitList1),

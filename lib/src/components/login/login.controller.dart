@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:momentum/momentum.dart';
 import 'package:random_string/random_string.dart';
 
+import '../../_mconfig/index.dart';
 import '../../data/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
@@ -87,6 +88,7 @@ class LoginController extends MomentumController<LoginModel> with CoreMixin {
     var account = Account(token: token, profile: profile);
     accounts.add(account);
     model.update(loadingProfile: false, accounts: accounts, activeAccountUsername: profile?.name);
+    await miscBox.put('last_refresh', DateTime.now().millisecondsSinceEpoch.toString());
     sendEvent(LoginEvent.loggedIn);
   }
 
