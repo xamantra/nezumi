@@ -40,7 +40,7 @@ class GenreStatItem extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          _StatDataPair(value: data.weightedMean.toStringAsFixed(2), label: 'mean'),
+                          _StatDataPair(value: data.mean == 0 ? 'N/A' : data.mean.toStringAsFixed(2), label: 'mean'),
                           _StatDataPair(value: data.entries.length, label: 'entries'),
                           _StatDataPair(value: data.totalEpisodes, label: 'episodes'),
                           _StatDataPair(value: data.totalHours.toStringAsFixed(2), label: 'hours'),

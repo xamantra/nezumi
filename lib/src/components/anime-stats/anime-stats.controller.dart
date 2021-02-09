@@ -37,6 +37,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
           );
         }
       });
+      var notEnoughEntries = grouped.length < 10;
       var weight = WeightScores(scores);
       result.add(
         AnimeGenreStatData(
@@ -44,7 +45,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
           entries: grouped,
           totalEpisodes: totalEpisodes,
           totalHours: totalHours,
-          weightedMean: weight.getWeightedMean(2),
+          mean: notEnoughEntries ? 0 : weight.getWeightedMean(2),
         ),
       );
     }
