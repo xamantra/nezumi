@@ -10,6 +10,7 @@ import '../index.dart';
 import 'anime-list/tabs/index.dart';
 import 'history/index.dart';
 import 'settings/index.dart';
+import 'stats/index.dart';
 import 'top-anime/tabs/index.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -93,6 +94,7 @@ class _AppDrawerState extends State<AppDrawer> with CoreStateMixin {
                           DrawerItem(text: 'Filter', page: AnimeFilterTab()),
                           DrawerItem(text: 'Rankings', page: MalAnimeRankingPage()),
                           DrawerItem(text: 'Yearly', page: YearlyAnimeRankingPage()),
+                          DrawerItem(text: 'Statistics', page: AnimeStatistics()),
                           DrawerItem(text: 'History', page: History()),
                           DrawerItem(text: 'Seasonals'),
                           DrawerItem(text: 'List Errors'),

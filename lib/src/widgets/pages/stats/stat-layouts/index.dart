@@ -1,0 +1,1 @@
+export 'genre-item.dart';

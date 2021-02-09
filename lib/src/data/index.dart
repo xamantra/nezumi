@@ -1,7 +1,9 @@
 export 'account.dart';
+export 'anime-genre-stat.dart';
 export 'app_cache.yearly_anime_rankings.dart';
 export 'export-list-item.anime.dart';
 export 'history_group.dart';
+export 'index.dart';
 export 'myanimelist.alt_titles.dart';
 export 'myanimelist.anime_data.dart';
 export 'myanimelist.anime_details.dart';
