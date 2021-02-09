@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
 import '../../../../data/index.dart';
+import '../../../../data/types/index.dart';
 import '../../../app-theme.dart';
 import '../../../index.dart';
 
@@ -9,9 +10,11 @@ class GenreStatItem extends StatelessWidget {
   const GenreStatItem({
     Key key,
     @required this.data,
+    @required this.sortBy,
   }) : super(key: key);
 
-  final AnimeGenreStatData data;
+  final AnimeSummaryStatData data;
+  final AnimeStatSort sortBy;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class GenreStatItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        data.genre,
+                        data.name,
                         style: TextStyle(
                           fontSize: sy(12),
                           fontWeight: FontWeight.w600,
@@ -49,12 +52,7 @@ class GenreStatItem extends StatelessWidget {
                     ],
                   ),
                   Spacer(),
-                  Badge(
-                    color: AppTheme.of(context).primary,
-                    textColor: AppTheme.of(context).text1,
-                    text: data.entries.length.toString(),
-                    fontSize: sy(9),
-                  ),
+                  _SortByBadge(data: data, sortBy: sortBy),
                 ],
               ),
             ),
@@ -103,6 +101,57 @@ class _StatDataPair<T> extends StatelessWidget {
             ],
           ),
         );
+      },
+    );
+  }
+}
+
+class _SortByBadge extends StatelessWidget {
+  const _SortByBadge({
+    Key key,
+    @required this.data,
+    @required this.sortBy,
+  }) : super(key: key);
+
+  final AnimeSummaryStatData data;
+  final AnimeStatSort sortBy;
+
+  @override
+  Widget build(BuildContext context) {
+    return RelativeBuilder(
+      builder: (context, height, width, sy, sx) {
+        switch (sortBy) {
+          case AnimeStatSort.mean:
+            return Badge(
+              color: AppTheme.of(context).primary,
+              textColor: AppTheme.of(context).text1,
+              text: data.mean == 0 ? 'N/A' : data.mean.toStringAsFixed(2),
+              fontSize: sy(9),
+            );
+          case AnimeStatSort.entryCount:
+            return Badge(
+              color: AppTheme.of(context).primary,
+              textColor: AppTheme.of(context).text1,
+              text: data.entries.length.toString(),
+              fontSize: sy(9),
+            );
+          case AnimeStatSort.episodeCount:
+          case AnimeStatSort.entryCount:
+            return Badge(
+              color: AppTheme.of(context).primary,
+              textColor: AppTheme.of(context).text1,
+              text: data.totalEpisodes.toString(),
+              fontSize: sy(9),
+            );
+          case AnimeStatSort.hoursWatched:
+            return Badge(
+              color: AppTheme.of(context).primary,
+              textColor: AppTheme.of(context).text1,
+              text: data.totalHours.toStringAsFixed(2),
+              fontSize: sy(9),
+            );
+        }
+        return SizedBox();
       },
     );
   }

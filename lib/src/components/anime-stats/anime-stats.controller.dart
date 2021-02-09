@@ -1,6 +1,7 @@
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
+import '../../data/types/index.dart';
 import '../../mixins/index.dart';
 import '../../utils/index.dart';
 import 'index.dart';
@@ -10,13 +11,15 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
   AnimeStatsModel init() {
     return AnimeStatsModel(
       this,
+      orderBy: OrderBy.descending,
+      sortBy: AnimeStatSort.mean,
     );
   }
 
-  List<AnimeGenreStatData> getGenreStatItems() {
+  List<AnimeSummaryStatData> getGenreStatItems() {
     var entries = animeCache?.rendered_user_list ?? [];
     var genreList = getAllGenre(entries);
-    var result = <AnimeGenreStatData>[];
+    var result = <AnimeSummaryStatData>[];
     for (var genre in genreList) {
       var grouped = entries.where((x) => x.genres.any((g) => g.name == genre) && mustCountOnStats(x)).toList();
       var totalEpisodes = 0;
@@ -40,8 +43,8 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       var notEnoughEntries = grouped.length < 10;
       var weight = WeightScores(scores);
       result.add(
-        AnimeGenreStatData(
-          genre: genre,
+        AnimeSummaryStatData(
+          name: genre,
           entries: grouped,
           totalEpisodes: totalEpisodes,
           totalHours: totalHours,
@@ -49,7 +52,20 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
         ),
       );
     }
-    result.sort((a, b) => b.entries.length.compareTo(a.entries.length));
+    switch (model.sortBy) {
+      case AnimeStatSort.mean:
+        result.sort(sorter(compareStatMean));
+        break;
+      case AnimeStatSort.entryCount:
+        result.sort(sorter(compareStatEntryCount));
+        break;
+      case AnimeStatSort.episodeCount:
+        result.sort(sorter(compareStatEpisodesWatched));
+        break;
+      case AnimeStatSort.hoursWatched:
+        result.sort(sorter(compareStatHoursWatched));
+        break;
+    }
     return result;
   }
 
@@ -62,5 +78,26 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     }
     result.sort((a, b) => a.compareTo(b));
     return result;
+  }
+
+  void toggleAnimeStatOrderBy() {
+    switch (model.orderBy) {
+      case OrderBy.ascending:
+        model.update(orderBy: OrderBy.descending);
+        break;
+      case OrderBy.descending:
+        model.update(orderBy: OrderBy.ascending);
+        break;
+    }
+  }
+
+  void changeAnimeStatSortBy(AnimeStatSort sortBy) {
+    model.update(sortBy: sortBy);
+  }
+
+  int Function(AnimeSummaryStatData, AnimeSummaryStatData) sorter(int Function(OrderBy, AnimeSummaryStatData, AnimeSummaryStatData) s) {
+    return (a, b) {
+      return s(model.orderBy, a, b);
+    };
   }
 }

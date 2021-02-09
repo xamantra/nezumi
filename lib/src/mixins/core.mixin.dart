@@ -3,6 +3,7 @@ import 'package:momentum/momentum.dart';
 
 import '../components/anime-filter/index.dart';
 import '../components/anime-search/index.dart';
+import '../components/anime-stats/index.dart';
 import '../components/anime-top/index.dart';
 import '../components/anime-update/index.dart';
 import '../components/app/index.dart';
@@ -183,5 +184,13 @@ mixin CoreStateMixin<T extends StatefulWidget> on State<T> {
       _listSortCtrl = ctrl<ListSortController>(context);
     }
     return _listSortCtrl?.model;
+  }
+
+  AnimeStatsController _animeStatsCtrl;
+  AnimeStatsModel get animeStats {
+    if (_animeStatsCtrl == null) {
+      _animeStatsCtrl = ctrl<AnimeStatsController>(context);
+    }
+    return _animeStatsCtrl?.model;
   }
 }

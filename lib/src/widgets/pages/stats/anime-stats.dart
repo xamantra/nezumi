@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:momentum/momentum.dart';
 import 'package:relative_scale/relative_scale.dart';
 
+import '../../../components/anime-stats/index.dart';
 import '../../../components/app/index.dart';
+import '../../../data/types/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
+import 'index.dart';
 import 'stat-pages/genre.dart';
 
 class AnimeStatistics extends StatefulWidget {
@@ -42,13 +45,51 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
           child: SafeArea(
             child: Column(
               children: [
-                Toolbar(
-                  height: sy(42),
-                  leadingIcon: Icons.menu,
-                  title: 'Anime Statistics',
-                  actions: [],
-                  leadingAction: () {
-                    Scaffold.of(context).openDrawer();
+                MomentumBuilder(
+                  controllers: [AnimeStatsController],
+                  builder: (context, snapshot) {
+                    IconData orderByIcon;
+                    IconData sortByIcon;
+                    String orderBy;
+                    switch (animeStats.orderBy) {
+                      case OrderBy.ascending:
+                        orderByIcon = Icons.arrow_upward;
+                        sortByIcon = CustomIcons.sort_amount_up;
+                        orderBy = 'Ascending';
+                        break;
+                      case OrderBy.descending:
+                        orderByIcon = Icons.arrow_downward;
+                        sortByIcon = CustomIcons.sort_amount_down;
+                        orderBy = 'Descending';
+                        break;
+                    }
+                    return Toolbar(
+                      height: sy(42),
+                      leadingIcon: Icons.menu,
+                      title: 'Anime Statistics',
+                      actions: [
+                        ToolbarAction(
+                          icon: orderByIcon,
+                          size: sy(32),
+                          iconSize: sy(13),
+                          tooltip: orderBy,
+                          onPressed: () {
+                            animeStats.controller.toggleAnimeStatOrderBy();
+                          },
+                        ),
+                        AnimeStatSortMenu(
+                          value: animeStats.sortBy,
+                          iconSize: sy(10),
+                          orderByIcon: sortByIcon,
+                          onChanged: (sortBy) {
+                            animeStats.controller.changeAnimeStatSortBy(sortBy);
+                          },
+                        ),
+                      ],
+                      leadingAction: () {
+                        Scaffold.of(context).openDrawer();
+                      },
+                    );
                   },
                 ),
                 Container(

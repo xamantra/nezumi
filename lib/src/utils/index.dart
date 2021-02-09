@@ -4,6 +4,7 @@ export 'anime_api_params.dart';
 export 'anime_compare.dart';
 export 'anime_constant.dart';
 export 'anime_labels.dart';
+export 'anime_stat_compare.dart';
 export 'app-theme.data.dart';
 export 'async.dart';
 export 'comments.parser.dart';
