@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:momentum/momentum.dart';
 
 import '../../data/index.dart';
@@ -16,12 +17,14 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     );
   }
 
-  List<AnimeSummaryStatData> getGenreStatItems() {
-    var entries = animeCache?.rendered_user_list ?? [];
-    var genreList = getAllGenre(entries);
+  List<AnimeSummaryStatData> _getAnimeStatList<T>({
+    @required List<T> source,
+    @required List<AnimeDetails> Function(T) iterator,
+    @required String Function(T) labeler,
+  }) {
     var result = <AnimeSummaryStatData>[];
-    for (var genre in genreList) {
-      var grouped = entries.where((x) => x.genres.any((g) => g.name == genre) && mustCountOnStats(x)).toList();
+    for (var item in source) {
+      var grouped = iterator(item);
       var totalEpisodes = 0;
       var totalHours = 0.0;
       var scores = <ScoreData>[];
@@ -44,7 +47,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       var weight = WeightScores(scores);
       result.add(
         AnimeSummaryStatData(
-          name: genre,
+          name: labeler(item),
           entries: grouped,
           totalEpisodes: totalEpisodes,
           totalHours: totalHours,
@@ -69,56 +72,29 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     return result;
   }
 
+  List<AnimeSummaryStatData> getGenreStatItems() {
+    var entries = animeCache?.rendered_user_list ?? [];
+    var genreList = getAllGenre(entries);
+    var result = _getAnimeStatList(
+      source: genreList,
+      iterator: (genre) {
+        return entries.where((x) => x.genres.any((g) => g.name == genre) && mustCountOnStats(x)).toList();
+      },
+      labeler: (_) => _,
+    );
+    return result;
+  }
+
   List<AnimeSummaryStatData> getSourceMaterialStatItems() {
     var entries = animeCache?.rendered_user_list ?? [];
     var sourceMaterials = getAllSourceMaterials(entries);
-    var result = <AnimeSummaryStatData>[];
-    for (var sourceMaterial in sourceMaterials) {
-      var grouped = entries.where((x) => x.source == sourceMaterial).toList();
-      var totalEpisodes = 0;
-      var totalHours = 0.0;
-      var scores = <ScoreData>[];
-      grouped.forEach((anime) {
-        var score = anime.myListStatus?.score?.toDouble() ?? 0.0;
-        var episodes = anime.myListStatus?.numEpisodesWatched ?? 0;
-        var duration = (((anime.averageEpisodeDuration ?? 0.0) / 60)) / 60;
-        totalEpisodes += episodes;
-        totalHours += duration * episodes;
-        if (score > 0) {
-          scores.add(
-            ScoreData(
-              score: anime.myListStatus?.score?.toDouble() ?? 0.0,
-              weight: totalHours * 60, // weighted by total minutes watched.
-            ),
-          );
-        }
-      });
-      var notEnoughEntries = grouped.length < 10;
-      var weight = WeightScores(scores);
-      result.add(
-        AnimeSummaryStatData(
-          name: sourceMaterial,
-          entries: grouped,
-          totalEpisodes: totalEpisodes,
-          totalHours: totalHours,
-          mean: notEnoughEntries ? 0 : weight.getWeightedMean(2),
-        ),
-      );
-    }
-    switch (model.sortBy) {
-      case AnimeStatSort.mean:
-        result.sort(sorter(compareStatMean));
-        break;
-      case AnimeStatSort.entryCount:
-        result.sort(sorter(compareStatEntryCount));
-        break;
-      case AnimeStatSort.episodeCount:
-        result.sort(sorter(compareStatEpisodesWatched));
-        break;
-      case AnimeStatSort.hoursWatched:
-        result.sort(sorter(compareStatHoursWatched));
-        break;
-    }
+    var result = _getAnimeStatList(
+      source: sourceMaterials,
+      iterator: (sourceMaterial) {
+        return entries.where((x) => x.source == sourceMaterial).toList();
+      },
+      labeler: (_) => _,
+    );
     return result;
   }
 

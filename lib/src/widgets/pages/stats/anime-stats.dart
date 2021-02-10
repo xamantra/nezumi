@@ -8,7 +8,6 @@ import '../../../data/types/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
 import 'index.dart';
-import 'stat-pages/index.dart';
 
 class AnimeStatistics extends StatefulWidget {
   const AnimeStatistics({Key key}) : super(key: key);
@@ -36,6 +35,7 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
 
   @override
   Widget build(BuildContext context) {
+    var c = animeStats.controller;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Container(
@@ -123,16 +123,27 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                 Expanded(
                   child: Container(
                     color: AppTheme.of(context).primaryBackground,
-                    child: TabBarView(
-                      controller: tabController,
-                      children: [
-                        SizedBox(),
-                        AnimeStatGenre(),
-                        AnimeStatSourceMaterial(),
-                        SizedBox(),
-                        SizedBox(),
-                        SizedBox(),
-                      ],
+                    child: MomentumBuilder(
+                      controllers: [AnimeStatsController],
+                      builder: (context, snapshot) {
+                        return TabBarView(
+                          controller: tabController,
+                          children: [
+                            SizedBox(),
+                            AnimeStatPage(
+                              statList: c.getGenreStatItems(),
+                              sortBy: animeStats.sortBy,
+                            ),
+                            AnimeStatPage(
+                              statList: c.getSourceMaterialStatItems(),
+                              sortBy: animeStats.sortBy,
+                            ),
+                            SizedBox(),
+                            SizedBox(),
+                            SizedBox(),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
