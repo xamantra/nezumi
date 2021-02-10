@@ -45,15 +45,17 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       });
       var notEnoughEntries = grouped.length < 10;
       var weight = WeightScores(scores);
-      result.add(
-        AnimeSummaryStatData(
-          name: labeler(item),
-          entries: grouped,
-          totalEpisodes: totalEpisodes,
-          totalHours: totalHours,
-          mean: notEnoughEntries ? 0 : weight.getWeightedMean(2),
-        ),
-      );
+      if (grouped.isNotEmpty) {
+        result.add(
+          AnimeSummaryStatData(
+            name: labeler(item),
+            entries: grouped,
+            totalEpisodes: totalEpisodes,
+            totalHours: totalHours,
+            mean: notEnoughEntries ? 0 : weight.getWeightedMean(2),
+          ),
+        );
+      }
     }
     switch (model.sortBy) {
       case AnimeStatSort.mean:
@@ -78,7 +80,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     var result = _getAnimeStatList(
       source: genreList,
       iterator: (genre) {
-        return entries.where((x) => x.genres.any((g) => g.name == genre) && mustCountOnStats(x)).toList();
+        return entries.where((x) => (x.genres ?? []).any((g) => g.name == genre) && mustCountOnStats(x)).toList();
       },
       labeler: (_) => _,
     );
@@ -91,7 +93,20 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     var result = _getAnimeStatList(
       source: sourceMaterials,
       iterator: (sourceMaterial) {
-        return entries.where((x) => x.source == sourceMaterial).toList();
+        return entries.where((x) => x.source == sourceMaterial && mustCountOnStats(x)).toList();
+      },
+      labeler: (_) => _,
+    );
+    return result;
+  }
+
+  List<AnimeSummaryStatData> getStudioStatItems() {
+    var entries = animeCache?.rendered_user_list ?? [];
+    var studios = getAllStudio(entries);
+    var result = _getAnimeStatList(
+      source: studios,
+      iterator: (studio) {
+        return entries.where((x) => (x.studios ?? []).any((s) => s.name == studio) && mustCountOnStats(x)).toList();
       },
       labeler: (_) => _,
     );
@@ -114,6 +129,19 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     for (var anime in from) {
       if (anime.source != null) {
         result.add(anime.source);
+        result = result.toSet().toList();
+      }
+    }
+    result.sort((a, b) => a.compareTo(b));
+    return result;
+  }
+
+  List<String> getAllStudio(List<AnimeDetails> entries) {
+    var result = <String>[];
+    for (var anime in entries) {
+      var studios = anime?.studios ?? [];
+      if (studios.isNotEmpty) {
+        result.addAll(studios.map((x) => x.name));
         result = result.toSet().toList();
       }
     }

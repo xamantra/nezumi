@@ -12,10 +12,12 @@ class AnimeSummaryStatWidget extends StatelessWidget {
     Key key,
     @required this.data,
     @required this.sortBy,
+    @required this.normalizeLabel,
   }) : super(key: key);
 
   final AnimeSummaryStatData data;
   final AnimeStatSort sortBy;
+  final bool normalizeLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class AnimeSummaryStatWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        normalizeSlug(data.name),
+                        !normalizeLabel ? data.name : normalizeSlug(data.name),
                         style: TextStyle(
                           fontSize: sy(12),
                           fontWeight: FontWeight.w600,

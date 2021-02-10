@@ -11,10 +11,12 @@ class AnimeStatPage extends StatelessWidget {
     Key key,
     @required this.statList,
     @required this.sortBy,
+    this.normalizeLabel = true,
   }) : super(key: key);
 
   final List<AnimeSummaryStatData> statList;
   final AnimeStatSort sortBy;
+  final bool normalizeLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,11 @@ class AnimeStatPage extends StatelessWidget {
             itemCount: statList.length,
             itemBuilder: (_, index) {
               var data = statList[index];
-              return AnimeSummaryStatWidget(data: data, sortBy: sortBy);
+              return AnimeSummaryStatWidget(
+                data: data,
+                sortBy: sortBy,
+                normalizeLabel: normalizeLabel,
+              );
             },
           ),
         );
