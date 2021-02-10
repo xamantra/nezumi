@@ -143,7 +143,10 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                               sortBy: animeStats.sortBy,
                               normalizeLabel: false,
                             ),
-                            SizedBox(),
+                            AnimeStatPage(
+                              statList: c.getYearStatItems(),
+                              sortBy: animeStats.sortBy,
+                            ),
                             SizedBox(),
                           ],
                         );

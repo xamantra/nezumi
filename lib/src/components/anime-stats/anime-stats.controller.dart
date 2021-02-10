@@ -113,6 +113,22 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     return result;
   }
 
+  List<AnimeSummaryStatData> getYearStatItems() {
+    var entries = animeCache?.rendered_user_list ?? [];
+    var years = getAllYears(entries);
+    var result = _getAnimeStatList(
+      source: years,
+      iterator: (year) {
+        return entries.where((x) {
+          var y = x.startSeason?.year ?? parseDate(x.startDate)?.year;
+          return y == year && mustCountOnStats(x);
+        }).toList();
+      },
+      labeler: (_) => _.toString(),
+    );
+    return result;
+  }
+
   List<String> getAllGenre(List<AnimeDetails> from) {
     var result = <String>[];
     for (var anime in from) {
@@ -142,6 +158,19 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       var studios = anime?.studios ?? [];
       if (studios.isNotEmpty) {
         result.addAll(studios.map((x) => x.name));
+        result = result.toSet().toList();
+      }
+    }
+    result.sort((a, b) => a.compareTo(b));
+    return result;
+  }
+
+  List<int> getAllYears(List<AnimeDetails> from) {
+    var result = <int>[];
+    for (var anime in from) {
+      var year = anime.startSeason?.year ?? parseDate(anime.startDate)?.year;
+      if (year != null) {
+        result.add(year);
         result = result.toSet().toList();
       }
     }
