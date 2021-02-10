@@ -6,8 +6,8 @@ import '../../../../components/anime-stats/index.dart';
 import '../../../index.dart';
 import '../index.dart';
 
-class AnimeStatGenre extends StatelessWidget {
-  const AnimeStatGenre({Key key}) : super(key: key);
+class AnimeStatSourceMaterial extends StatelessWidget {
+  const AnimeStatSourceMaterial({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class AnimeStatGenre extends StatelessWidget {
             builder: (context, snapshot) {
               var model = snapshot<AnimeStatsModel>();
               var sortBy = model.sortBy;
-              var g = model.controller.getGenreStatItems();
+              var g = model.controller.getSourceMaterialStatItems();
               return ListView.builder(
                 itemCount: g.length,
                 itemBuilder: (_, index) {

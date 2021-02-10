@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:relative_scale/relative_scale.dart';
 
-import '../../../../data/index.dart';
-import '../../../../data/types/index.dart';
-import '../../../app-theme.dart';
-import '../../../index.dart';
+import '../../../data/index.dart';
+import '../../../data/types/index.dart';
+import '../../../utils/index.dart';
+import '../../app-theme.dart';
+import '../../index.dart';
 
-class GenreStatItem extends StatelessWidget {
-  const GenreStatItem({
+class AnimeSummaryStatWidget extends StatelessWidget {
+  const AnimeSummaryStatWidget({
     Key key,
     @required this.data,
     @required this.sortBy,
@@ -33,7 +34,7 @@ class GenreStatItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        data.name,
+                        normalizeSlug(data.name),
                         style: TextStyle(
                           fontSize: sy(12),
                           fontWeight: FontWeight.w600,

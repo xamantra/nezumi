@@ -8,7 +8,7 @@ import '../../../data/types/index.dart';
 import '../../../mixins/index.dart';
 import '../../index.dart';
 import 'index.dart';
-import 'stat-pages/genre.dart';
+import 'stat-pages/index.dart';
 
 class AnimeStatistics extends StatefulWidget {
   const AnimeStatistics({Key key}) : super(key: key);
@@ -111,7 +111,7 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                         tabs: [
                           MyListTabItem(label: 'Overall', active: currentTab == 0),
                           MyListTabItem(label: 'Genre', active: currentTab == 1),
-                          MyListTabItem(label: 'Specialized', active: currentTab == 2),
+                          MyListTabItem(label: 'Source Material', active: currentTab == 2),
                           MyListTabItem(label: 'Studio', active: currentTab == 3),
                           MyListTabItem(label: 'Year', active: currentTab == 4),
                           MyListTabItem(label: 'Season', active: currentTab == 5),
@@ -128,7 +128,7 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                       children: [
                         SizedBox(),
                         AnimeStatGenre(),
-                        SizedBox(),
+                        AnimeStatSourceMaterial(),
                         SizedBox(),
                         SizedBox(),
                         SizedBox(),

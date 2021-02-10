@@ -69,12 +69,77 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     return result;
   }
 
+  List<AnimeSummaryStatData> getSourceMaterialStatItems() {
+    var entries = animeCache?.rendered_user_list ?? [];
+    var sourceMaterials = getAllSourceMaterials(entries);
+    var result = <AnimeSummaryStatData>[];
+    for (var sourceMaterial in sourceMaterials) {
+      var grouped = entries.where((x) => x.source == sourceMaterial).toList();
+      var totalEpisodes = 0;
+      var totalHours = 0.0;
+      var scores = <ScoreData>[];
+      grouped.forEach((anime) {
+        var score = anime.myListStatus?.score?.toDouble() ?? 0.0;
+        var episodes = anime.myListStatus?.numEpisodesWatched ?? 0;
+        var duration = (((anime.averageEpisodeDuration ?? 0.0) / 60)) / 60;
+        totalEpisodes += episodes;
+        totalHours += duration * episodes;
+        if (score > 0) {
+          scores.add(
+            ScoreData(
+              score: anime.myListStatus?.score?.toDouble() ?? 0.0,
+              weight: totalHours * 60, // weighted by total minutes watched.
+            ),
+          );
+        }
+      });
+      var notEnoughEntries = grouped.length < 10;
+      var weight = WeightScores(scores);
+      result.add(
+        AnimeSummaryStatData(
+          name: sourceMaterial,
+          entries: grouped,
+          totalEpisodes: totalEpisodes,
+          totalHours: totalHours,
+          mean: notEnoughEntries ? 0 : weight.getWeightedMean(2),
+        ),
+      );
+    }
+    switch (model.sortBy) {
+      case AnimeStatSort.mean:
+        result.sort(sorter(compareStatMean));
+        break;
+      case AnimeStatSort.entryCount:
+        result.sort(sorter(compareStatEntryCount));
+        break;
+      case AnimeStatSort.episodeCount:
+        result.sort(sorter(compareStatEpisodesWatched));
+        break;
+      case AnimeStatSort.hoursWatched:
+        result.sort(sorter(compareStatHoursWatched));
+        break;
+    }
+    return result;
+  }
+
   List<String> getAllGenre(List<AnimeDetails> from) {
     var result = <String>[];
     for (var anime in from) {
       var genreList = anime?.genres ?? [];
       result.addAll(genreList.map((x) => x.name));
       result = result.toSet().toList();
+    }
+    result.sort((a, b) => a.compareTo(b));
+    return result;
+  }
+
+  List<String> getAllSourceMaterials(List<AnimeDetails> from) {
+    var result = <String>[];
+    for (var anime in from) {
+      if (anime.source != null) {
+        result.add(anime.source);
+        result = result.toSet().toList();
+      }
     }
     result.sort((a, b) => a.compareTo(b));
     return result;
