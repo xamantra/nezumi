@@ -31,11 +31,11 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
         app.triggerRebuild();
       }
     });
+    animeStats.controller.loadAllStats();
   }
 
   @override
   Widget build(BuildContext context) {
-    var c = animeStats.controller;
     return RelativeBuilder(
       builder: (context, height, width, sy, sx) {
         return Container(
@@ -126,29 +126,30 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                     child: MomentumBuilder(
                       controllers: [AnimeStatsController],
                       builder: (context, snapshot) {
+                        PageView();
                         return TabBarView(
                           controller: tabController,
                           children: [
                             SizedBox(),
                             AnimeStatPage(
-                              statList: c.getGenreStatItems(),
+                              statList: animeStats.genreStatItems,
                               sortBy: animeStats.sortBy,
                             ),
                             AnimeStatPage(
-                              statList: c.getSourceMaterialStatItems(),
+                              statList: animeStats.sourceMaterialStatItems,
                               sortBy: animeStats.sortBy,
                             ),
                             AnimeStatPage(
-                              statList: c.getStudioStatItems(),
+                              statList: animeStats.studioStatItems,
                               sortBy: animeStats.sortBy,
                               normalizeLabel: false,
                             ),
                             AnimeStatPage(
-                              statList: c.getYearStatItems(),
+                              statList: animeStats.yearStatItems,
                               sortBy: animeStats.sortBy,
                             ),
                             AnimeStatPage(
-                              statList: c.getSeasonStatItems(),
+                              statList: animeStats.seasonStatItems,
                               sortBy: animeStats.sortBy,
                             ),
                           ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:meta/meta.dart';
 import 'package:momentum/momentum.dart';
 
@@ -14,21 +16,26 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       this,
       orderBy: OrderBy.descending,
       sortBy: AnimeStatSort.mean,
+      genreStatItems: [],
+      sourceMaterialStatItems: [],
+      studioStatItems: [],
+      yearStatItems: [],
+      seasonStatItems: [],
     );
   }
 
-  List<AnimeSummaryStatData> _getAnimeStatList<T>({
+  Future<List<AnimeSummaryStatData>> _getAnimeStatListAsync<T>({
     @required List<T> source,
     @required List<AnimeDetails> Function(T) iterator,
     @required String Function(T) labeler,
-  }) {
+  }) async {
     var result = <AnimeSummaryStatData>[];
-    for (var item in source) {
+    await Future.forEach<T>(source, (item) async {
       var grouped = iterator(item);
       var totalEpisodes = 0;
       var totalHours = 0.0;
       var scores = <ScoreData>[];
-      grouped.forEach((anime) {
+      await Future.forEach(grouped, (anime) {
         var score = anime.myListStatus?.score?.toDouble() ?? 0.0;
         var episodes = anime.myListStatus?.numEpisodesWatched ?? 0;
         var duration = (((anime.averageEpisodeDuration ?? 0.0) / 60)) / 60;
@@ -56,7 +63,8 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
           ),
         );
       }
-    }
+    });
+
     switch (model.sortBy) {
       case AnimeStatSort.mean:
         result.sort(sorter(compareStatMean));
@@ -74,49 +82,59 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     return result;
   }
 
-  List<AnimeSummaryStatData> getGenreStatItems() {
+  /// Load all anime stats while avoiding ui freeze when opening anime stats page.
+  void loadAllStats() async {
+    await Future.delayed(Duration(milliseconds: 1500));
+    loadGenreStatItems();
+    loadSourceMaterialStatItems();
+    loadStudioStatItems();
+    loadYearStatItems();
+    loadSeasonStatItems();
+  }
+
+  void loadGenreStatItems() async {
     var entries = animeCache?.rendered_user_list ?? [];
-    var genreList = getAllGenre(entries);
-    var result = _getAnimeStatList(
+    var genreList = await getAllGenre(entries);
+    var result = await _getAnimeStatListAsync(
       source: genreList,
       iterator: (genre) {
         return entries.where((x) => (x.genres ?? []).any((g) => g.name == genre) && mustCountOnStats(x)).toList();
       },
       labeler: (_) => _,
     );
-    return result;
+    model.update(genreStatItems: result);
   }
 
-  List<AnimeSummaryStatData> getSourceMaterialStatItems() {
+  void loadSourceMaterialStatItems() async {
     var entries = animeCache?.rendered_user_list ?? [];
-    var sourceMaterials = getAllSourceMaterials(entries);
-    var result = _getAnimeStatList(
+    var sourceMaterials = await getAllSourceMaterials(entries);
+    var result = await _getAnimeStatListAsync(
       source: sourceMaterials,
       iterator: (sourceMaterial) {
         return entries.where((x) => x.source == sourceMaterial && mustCountOnStats(x)).toList();
       },
       labeler: (_) => _,
     );
-    return result;
+    model.update(sourceMaterialStatItems: result);
   }
 
-  List<AnimeSummaryStatData> getStudioStatItems() {
+  void loadStudioStatItems() async {
     var entries = animeCache?.rendered_user_list ?? [];
-    var studios = getAllStudio(entries);
-    var result = _getAnimeStatList(
+    var studios = await getAllStudio(entries);
+    var result = await _getAnimeStatListAsync(
       source: studios,
       iterator: (studio) {
         return entries.where((x) => (x.studios ?? []).any((s) => s.name == studio) && mustCountOnStats(x)).toList();
       },
       labeler: (_) => _,
     );
-    return result;
+    model.update(studioStatItems: result);
   }
 
-  List<AnimeSummaryStatData> getYearStatItems() {
+  void loadYearStatItems() async {
     var entries = animeCache?.rendered_user_list ?? [];
-    var years = getAllYears(entries);
-    var result = _getAnimeStatList(
+    var years = await getAllYears(entries);
+    var result = await _getAnimeStatListAsync(
       source: years,
       iterator: (year) {
         return entries.where((x) {
@@ -126,13 +144,13 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       },
       labeler: (_) => _.toString(),
     );
-    return result;
+    model.update(yearStatItems: result);
   }
 
-  List<AnimeSummaryStatData> getSeasonStatItems() {
+  void loadSeasonStatItems() async {
     var entries = animeCache?.rendered_user_list ?? [];
-    var seasons = getAllSeason(entries);
-    var result = _getAnimeStatList(
+    var seasons = await getAllSeason(entries);
+    var result = await _getAnimeStatListAsync(
       source: seasons,
       iterator: (season) {
         return entries.where(
@@ -148,69 +166,64 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       },
       labeler: (_) => _,
     );
-    return result;
+    model.update(seasonStatItems: result);
   }
 
-  List<String> getAllGenre(List<AnimeDetails> from) {
+  Future<List<String>> getAllGenre(List<AnimeDetails> from) async {
     var result = <String>[];
-    for (var anime in from) {
+    await Future.forEach<AnimeDetails>(from, (anime) {
       var genreList = anime?.genres ?? [];
       result.addAll(genreList.map((x) => x.name));
       result = result.toSet().toList();
-    }
-    result.sort((a, b) => a.compareTo(b));
+    });
     return result;
   }
 
-  List<String> getAllSourceMaterials(List<AnimeDetails> from) {
+  Future<List<String>> getAllSourceMaterials(List<AnimeDetails> from) async {
     var result = <String>[];
-    for (var anime in from) {
+    await Future.forEach<AnimeDetails>(from, (anime) {
       if (anime.source != null) {
         result.add(anime.source);
         result = result.toSet().toList();
       }
-    }
-    result.sort((a, b) => a.compareTo(b));
+    });
     return result;
   }
 
-  List<String> getAllStudio(List<AnimeDetails> entries) {
+  Future<List<String>> getAllStudio(List<AnimeDetails> from) async {
     var result = <String>[];
-    for (var anime in entries) {
+    await Future.forEach<AnimeDetails>(from, (anime) {
       var studios = anime?.studios ?? [];
       if (studios.isNotEmpty) {
         result.addAll(studios.map((x) => x.name));
         result = result.toSet().toList();
       }
-    }
-    result.sort((a, b) => a.compareTo(b));
+    });
     return result;
   }
 
-  List<int> getAllYears(List<AnimeDetails> from) {
+  Future<List<int>> getAllYears(List<AnimeDetails> from) async {
     var result = <int>[];
-    for (var anime in from) {
+    await Future.forEach<AnimeDetails>(from, (anime) {
       var year = anime.startSeason?.year ?? parseDate(anime.startDate)?.year;
       if (year != null) {
         result.add(year);
         result = result.toSet().toList();
       }
-    }
-    result.sort((a, b) => a.compareTo(b));
+    });
     return result;
   }
 
-  List<String> getAllSeason(List<AnimeDetails> entries) {
+  Future<List<String>> getAllSeason(List<AnimeDetails> from) async {
     var result = <String>[];
-    for (var anime in entries) {
+    await Future.forEach<AnimeDetails>(from, (anime) {
       var ss = anime?.startSeason;
       if (ss != null && ss.season != null && ss.year != null) {
         var season = '${ss.season} ${ss.year}';
         result.add(season);
         result = result.toSet().toList();
       }
-    }
-    result.sort((a, b) => a.compareTo(b));
+    });
     return result;
   }
 
