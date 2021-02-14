@@ -126,7 +126,6 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                     child: MomentumBuilder(
                       controllers: [AnimeStatsController],
                       builder: (context, snapshot) {
-                        PageView();
                         return TabBarView(
                           controller: tabController,
                           children: [
