@@ -22,6 +22,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       yearStatItems: [],
       seasonStatItems: [],
       formatItems: [],
+      ratingItems: [],
     );
   }
 
@@ -92,6 +93,7 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     loadYearStatItems();
     loadSeasonStatItems();
     loadFormatStatItems();
+    loadRatingStatItems();
   }
 
   void loadGenreStatItems() async {
@@ -184,6 +186,19 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
     model.update(formatItems: result);
   }
 
+  void loadRatingStatItems() async {
+    var entries = animeCache?.rendered_user_list ?? [];
+    var ratings = await getAllRating(entries);
+    var result = await _getAnimeStatListAsync(
+      source: ratings,
+      iterator: (rating) {
+        return entries.where((x) => x.rating == rating && mustCountOnStats(x)).toList();
+      },
+      labeler: (_) => _,
+    );
+    model.update(ratingItems: result);
+  }
+
   Future<List<String>> getAllGenre(List<AnimeDetails> from) async {
     var result = <String>[];
     await Future.forEach<AnimeDetails>(from, (anime) {
@@ -248,6 +263,18 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
       var mediaType = anime?.mediaType;
       if (mediaType != null && mediaType.isNotEmpty) {
         result.add(mediaType);
+        result = result.toSet().toList();
+      }
+    });
+    return result;
+  }
+
+  Future<List<String>> getAllRating(List<AnimeDetails> from) async {
+    var result = <String>[];
+    await Future.forEach<AnimeDetails>(from, (anime) {
+      var rating = anime?.rating;
+      if (rating != null && rating.isNotEmpty) {
+        result.add(rating);
         result = result.toSet().toList();
       }
     });

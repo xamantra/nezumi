@@ -23,7 +23,7 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    tabController = TabController(initialIndex: 0, length: 7, vsync: this);
+    tabController = TabController(initialIndex: 0, length: 8, vsync: this);
     currentTab = tabController.index;
     tabController.addListener(() {
       if (currentTab != tabController.index) {
@@ -116,6 +116,7 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                           MyListTabItem(label: 'Year', active: currentTab == 4),
                           MyListTabItem(label: 'Season', active: currentTab == 5),
                           MyListTabItem(label: 'Format', active: currentTab == 6),
+                          MyListTabItem(label: 'Content Rating', active: currentTab == 7),
                         ],
                       );
                     },
@@ -155,6 +156,12 @@ class _AnimeStatisticsState extends State<AnimeStatistics> with CoreStateMixin, 
                             AnimeStatPage(
                               statList: animeStats.formatItems,
                               sortBy: animeStats.sortBy,
+                              labeler: (_) => _.toUpperCase(),
+                            ),
+                            AnimeStatPage(
+                              statList: animeStats.ratingItems,
+                              sortBy: animeStats.sortBy,
+                              labeler: (_) => _.toUpperCase(),
                             ),
                           ],
                         );

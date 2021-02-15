@@ -12,11 +12,13 @@ class AnimeStatPage extends StatelessWidget {
     @required this.statList,
     @required this.sortBy,
     this.normalizeLabel = true,
+    this.labeler,
   }) : super(key: key);
 
   final List<AnimeSummaryStatData> statList;
   final AnimeStatSort sortBy;
   final bool normalizeLabel;
+  final String Function(String) labeler;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class AnimeStatPage extends StatelessWidget {
                 data: data,
                 sortBy: sortBy,
                 normalizeLabel: normalizeLabel,
+                labeler: labeler,
               );
             },
           ),
