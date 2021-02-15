@@ -14,6 +14,7 @@ class AnimeStatsModel extends MomentumModel<AnimeStatsController> {
     this.studioStatItems,
     this.yearStatItems,
     this.seasonStatItems,
+    this.formatItems,
   }) : super(controller);
 
   final OrderBy orderBy;
@@ -24,6 +25,7 @@ class AnimeStatsModel extends MomentumModel<AnimeStatsController> {
   final List<AnimeSummaryStatData> studioStatItems;
   final List<AnimeSummaryStatData> yearStatItems;
   final List<AnimeSummaryStatData> seasonStatItems;
+  final List<AnimeSummaryStatData> formatItems;
 
   @override
   void update({
@@ -34,6 +36,7 @@ class AnimeStatsModel extends MomentumModel<AnimeStatsController> {
     List<AnimeSummaryStatData> studioStatItems,
     List<AnimeSummaryStatData> yearStatItems,
     List<AnimeSummaryStatData> seasonStatItems,
+    List<AnimeSummaryStatData> formatItems,
   }) {
     AnimeStatsModel(
       controller,
@@ -44,6 +47,7 @@ class AnimeStatsModel extends MomentumModel<AnimeStatsController> {
       studioStatItems: studioStatItems ?? this.studioStatItems,
       yearStatItems: yearStatItems ?? this.yearStatItems,
       seasonStatItems: seasonStatItems ?? this.seasonStatItems,
+      formatItems: formatItems ?? this.formatItems,
     ).updateMomentum();
   }
 }
