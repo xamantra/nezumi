@@ -1,5 +1,6 @@
 // TODO: Anime Filters: mean score.
 // TODO: Anime Filters: source material.
+// TODO: Anime Filters: studio.
 // TODO: decimal scoring system.
 // TODO: delete anime from list.
 // TODO: export list
