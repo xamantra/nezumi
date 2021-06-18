@@ -85,8 +85,10 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
   }
 
   /// Load all anime stats while avoiding ui freeze when opening anime stats page.
-  void loadAllStats() async {
-    await Future.delayed(Duration(milliseconds: 1500));
+  void loadAllStats([bool delayed = true]) async {
+    if (delayed) {
+      await Future.delayed(Duration(milliseconds: 1500));
+    }
     loadGenreStatItems();
     loadSourceMaterialStatItems();
     loadStudioStatItems();
@@ -290,10 +292,12 @@ class AnimeStatsController extends MomentumController<AnimeStatsModel> with Core
         model.update(orderBy: OrderBy.ascending);
         break;
     }
+    loadAllStats(false);
   }
 
   void changeAnimeStatSortBy(AnimeStatSort sortBy) {
     model.update(sortBy: sortBy);
+    loadAllStats(false);
   }
 
   int Function(AnimeSummaryStatData, AnimeSummaryStatData) sorter(int Function(OrderBy, AnimeSummaryStatData, AnimeSummaryStatData) s) {
