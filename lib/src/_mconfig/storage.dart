@@ -21,8 +21,7 @@ Box<String> get animeHistoryCacheBox => _animeHistoryCacheBox;
 Future<void> initStorage() async {
   await _initHive(); // not needed in the web, comment out.
 
-  List<int> bytes = utf8.encode(encryptionKey);
-  var key = base64Url.decode(base64UrlEncode(bytes));
+  var key = base64Url.decode(encryptionKey);
 
   _miscBox = await _openBox('misc_box', key);
   _persistedStateBox = await _openBox('nezumi_box', key);
